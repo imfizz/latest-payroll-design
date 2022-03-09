@@ -6,8 +6,330 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to JTDV</title>
     <link rel="icon" href="./styles/css/img/icon.png">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="./styles/css/dashboard.css">
 </head>
 <body>
-    
+    <div class="main-container">
+        <div class="leftbar"></div>
+        <div class="centerbar">
+            <div class="header-info">
+                <h1>Dashboard</h1>
+            </div>
+            <div class="welcome-info">
+                <div class="welcome-box">
+                    <h2>Hello Francis!</h2>
+                    <p>You've assign new tasks to each of the 3 guards. To review all the tasks click the button below.</p>
+                    <button><a href="#">Review All</a></button>
+                </div>
+                <div class="welcome-svg">
+                    <object data="./styles/SVG_modified/dashboard.svg" type="image/svg+xml"></object>
+                </div>
+            </div>
+            <div class="statistics-info">
+                <div class="statistics-header">
+                    <h2>Statistics</h2>
+                </div>
+                <div class="statistics-cards">
+                    <div class="cards">
+                        <div>
+                            <h1>67</h1>
+                        </div>
+                        <div>
+                            <p>Officer in Charge</p>
+                            <p>Incharge in office</p>
+                        </div>
+                        <div>
+                            <div class="outstanding">
+                                <h3>47%</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cards">
+                        <div>
+                            <h1>31</h1>
+                        </div>
+                        <div>
+                            <p>Officer in Charge</p>
+                            <p>Incharge in office</p>
+                        </div>
+                        <div>
+                            <div class="bad">
+                                <h3>23%</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cards">
+                        <div>
+                            <h1>13</h1>
+                        </div>
+                        <div>
+                            <p>Security Guard</p>
+                            <p>Secured Guard</p>
+                        </div>
+                        <div>
+                            <div class="failed">
+                                <h3>08%</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cards">
+                        <div>
+                            <h1>92</h1>
+                        </div>
+                        <div>
+                            <p>Front Desk</p>
+                            <p>Infront of Desk</p>
+                        </div>
+                        <div>
+                            <div class="excellent">
+                                <h3>47%</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="activity-info">
+                <div class="activity-header">
+                    <h2>Recent Activity</h2>
+                    <button><a href="#">See All</a></button>
+                </div>
+                <div class="activity-table">
+                    <table cellspacing="0" cellpadding="0">
+                        <colgroup>
+                            <col span="1" style="width: 28%;"/>
+                            <col span="1" style="width: 47%;"/>
+                            <col span="1" style="width: 15%;"/>
+                            <col span="1" style="width: 10%;"/>
+                        </colgroup>
+
+                        <thead>
+                            <tr>
+                                <th>Company</th>
+                                <th>Location</th>
+                                <th>Guards</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Rebisco Corporation</td>
+                                <td>38/F Joy Nostalg Center No.17 ADB Avenue Ortigas Center, Pasig</td>
+                                <td>13</td>
+                                <td>
+                                    <div class="circle-with-text">
+                                        <div class="circle recent"></div>
+                                        <span>11/28/2021</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>SM Novaliches</td>
+                                <td>Quirino Highway, Brgy. San Bartolome, Novaliches, Quezon City</td>
+                                <td>21</td>
+                                <td>
+                                    <div class="circle-with-text">
+                                        <div class="circle late"></div>
+                                        <span>11/28/2021</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>SM Novaliches</td>
+                                <td>Quirino Highway, Brgy. San Bartolome, Novaliches, Quezon City</td>
+                                <td>21</td>
+                                <td>
+                                    <div class="circle-with-text">
+                                        <div class="circle old"></div>
+                                        <span>11/28/2021</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="rightbar">
+            <div class="profile-container">
+                <div class="profile-setter">
+                    <h3>Ilacad, Francis</h3>
+                    <a href=""><div class="image-container"></div></a>
+                </div>
+                
+            </div>
+            <div class="guards-container">
+                <div class="guards-header">
+                    <h1>New Guards</h1>
+                    <a href="#">see all</a>
+                </div>
+                <div class="guards-content">
+                    <div class="guard-row">
+                        <div class="guard-row-text">
+                            <p>Ilacad, Francis Albert S.</p>
+                            <span>Date added: <b>December 2, 2021</b></span>
+                        </div>
+                        <div class="guard-row-button">
+                            <div class="btn-edit">
+                                <a href="#" class="btn-edit-icon">
+                                    <span class="material-icons">edit</span>
+                                </a>
+                            </div>
+                            <div class="btn-delete">
+                                <a href="#" class="btn-delete-icon">
+                                    <span class="material-icons">delete</span>
+                                </a>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <div class="guard-row">
+                        <div class="guard-row-text">
+                            <p>Cruz, Juan Joseph B.</p>
+                            <span>Date added: <b>December 2, 2021</b></span>
+                        </div>
+                        <div class="guard-row-button">
+                            <div class="btn-edit">
+                                <a href="#" class="btn-edit-icon">
+                                    <span class="material-icons">edit</span>
+                                </a>
+                            </div>
+                            <div class="btn-delete">
+                                <a href="#" class="btn-delete-icon">
+                                    <span class="material-icons">delete</span>
+                                </a>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <div class="guard-row">
+                        <div class="guard-row-text">
+                            <p>Santos, Marie G.</p>
+                            <span>Date added: <b>December 2, 2021</b></span>
+                        </div>
+                        <div class="guard-row-button">
+                            <div class="btn-edit">
+                                <a href="#" class="btn-edit-icon">
+                                    <span class="material-icons">edit</span>
+                                </a>
+                            </div>
+                            <div class="btn-delete">
+                                <a href="#" class="btn-delete-icon">
+                                    <span class="material-icons">delete</span>
+                                </a>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <div class="guard-row">
+                        <div class="guard-row-text">
+                            <p>Gomez, Sanchez F.</p>
+                            <span>Date added: <b>December 2, 2021</b></span>
+                        </div>
+                        <div class="guard-row-button">
+                            <div class="btn-edit">
+                                <a href="#" class="btn-edit-icon">
+                                    <span class="material-icons">edit</span>
+                                </a>
+                            </div>
+                            <div class="btn-delete">
+                                <a href="#" class="btn-delete-icon">
+                                    <span class="material-icons">delete</span>
+                                </a>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="request-container">
+                <div class="request-header">
+                    <h1>Leave Requests</h1>
+                    <a href="#">see all</a>
+                </div>
+                <div class="request-content">
+                    <div class="request-row">
+                        <div class="request-row-text">
+                            <p>Ilacad, Francis Albert S.</p>
+                            <span>Position to <b>Officer in Charge</b></span>
+                        </div>
+                        <div class="request-row-button">
+                            <div class="btn-edit">
+                                <a href="#" class="btn-edit-icon">
+                                    <span class="material-icons">done</span>
+                                </a>
+                            </div>
+                            <div class="btn-delete">
+                                <a href="#" class="btn-delete-icon">
+                                    <span class="material-icons">close</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="request-row">
+                        <div class="request-row-text">
+                            <p>Santos, Marie G.</p>
+                            <span>Position to <b>Security Guard</b></span>
+                        </div>
+                        <div class="request-row-button">
+                            <div class="btn-edit">
+                                <a href="#" class="btn-edit-icon">
+                                    <span class="material-icons">done</span>
+                                </a>
+                            </div>
+                            <div class="btn-delete">
+                                <a href="#" class="btn-delete-icon">
+                                    <span class="material-icons">close</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="request-row">
+                        <div class="request-row-text">
+                            <p>Gomez, Sanchez F.</p>
+                            <span>Position to <b>Front Desk</b></span>
+                        </div>
+                        <div class="request-row-button">
+                            <div class="btn-edit">
+                                <a href="#" class="btn-edit-icon">
+                                    <span class="material-icons">done</span>
+                                </a>
+                            </div>
+                            <div class="btn-delete">
+                                <a href="#" class="btn-delete-icon">
+                                    <span class="material-icons">close</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="request-row">
+                        <div class="request-row-text">
+                            <p>Cruz, Juan Joseph B.</p>
+                            <span>Position to <b>Officer in Charge</b></span>
+                        </div>
+                        <div class="request-row-button">
+                            <div class="btn-edit">
+                                <a href="#" class="btn-edit-icon">
+                                    <span class="material-icons">done</span>
+                                </a>
+                            </div>
+                            <div class="btn-delete">
+                                <a href="#" class="btn-delete-icon">
+                                    <span class="material-icons">close</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
