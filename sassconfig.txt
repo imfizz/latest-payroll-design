@@ -1,0 +1,24 @@
+{
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.colorTheme": "Visual Studio Dark",
+    "files.associations": {
+        "*.scss": "scss"
+    },
+    "window.zoomLevel": 1,
+    "workbench.startupEditor": "none",
+    "liveSassCompile.settings.formats": [
+        {
+            "format": "expanded",
+            "extensionName": ".css",
+            "savePath": "/styles/css/"
+        },
+
+        {
+            "format": "compressed",
+            "extensionName": ".min.css",
+            "savePath": "/styles/mincss/"
+        }
+    ],
+    "liveSassCompile.settings.generateMap": false,
+    "explorer.confirmDelete": false,
+}
