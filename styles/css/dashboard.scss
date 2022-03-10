@@ -33,6 +33,250 @@
 
     & > .leftbar {
         width: 18%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 25px 0px 20px 30px;
+        box-sizing: border-box;
+
+        & > .logo-container {
+            height: 7%;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+
+            & > .logo {
+                height: 30px;
+                width: 30px;
+                background-image: url("../css/img/jtdvpng.png");
+                background-size: cover;
+                margin-right: 10px;
+            }
+
+            & > h1 {
+                font-size: 18px;
+                font-weight: $bold;
+                color: #774AB0;
+            }
+        }
+
+        & > .links-container {
+            height: 88%;
+            width: 100%;
+            position: relative;
+            box-sizing: border-box;
+            padding-left: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            & > ul {
+                list-style: none;
+
+                & > li {
+                    margin-bottom: 10px;
+                    padding: 5px 0;
+                    font-weight: $semibold;
+                    position: relative;
+                    color: #B7B7B7;
+                    transition: 200ms ease-in-out;
+
+                    & > a {
+                        text-decoration: none;
+                        color: #B7B7B7;
+                    }
+
+                    &:nth-child(2):hover {
+                        color: #000;
+
+                        &::before {
+                            content: url('https://api.iconify.design/fluent/task-list-square-rtl-24-regular.svg?color=%239747ff&height=25');
+                            position: absolute;
+                            top: 4%;
+                            left: -38px;
+                        }
+
+                        & > a {
+                            color: #000;
+                        }
+                    }
+
+                    &:nth-child(3):hover {
+                        color: #000;
+
+                        &::before {
+                            content: url('https://api.iconify.design/heroicons-outline/chart-square-bar.svg?color=%239747ff&height=25');
+                            position: absolute;
+                            top: 4%;
+                            left: -38px;
+                        }
+
+                        & > a {
+                            color: #000;
+                        }
+                    }
+
+                    &:nth-child(4):hover {
+
+                        &::before {
+                            content: url('https://api.iconify.design/mdi/text-box-search-outline.svg?color=%239747ff&height=25');
+                            position: absolute;
+                            top: 55%;
+                            left: -38px;
+                            transform: translateY(-45%);
+                        }
+
+                        & > a {
+                            color: #000;
+                        }
+                    }
+
+                    // dashboard
+                    &:nth-child(1)::before {
+                        content: url('https://api.iconify.design/ic/outline-space-dashboard.svg?color=%23B7B7B7&height=25');
+                        position: absolute;
+                        top: 56%;
+                        transform: translateY(-50%);
+                        left: -38px;
+                    }
+
+                    // records
+                    &:nth-child(2)::before {
+                        content: url('https://api.iconify.design/fluent/task-list-square-rtl-24-regular.svg?color=%23B7B7B7&height=25');
+                        position: absolute;
+                        top: 4%;
+                        left: -38px;
+                    }
+
+                    // manage report
+                    &:nth-child(3)::before {
+                        content: url('https://api.iconify.design/heroicons-outline/chart-square-bar.svg?color=%23B7B7B7&height=25');
+                        position: absolute;
+                        top: 4%;
+                        left: -38px;
+                    }
+
+                    // activities
+                    &:nth-child(4)::before {
+                        content: url('https://api.iconify.design/mdi/text-box-search-outline.svg?color=%23B7B7B7&height=25');
+                        position: absolute;
+                        top: 55%;
+                        transform: translateY(-45%);
+                        left: -38px;
+                    }
+
+                    &.active-parent {
+
+                        & > a {
+                            text-decoration: none;
+                            color: #000;
+                        }
+
+                        &::before {
+                            content: url('https://api.iconify.design/ic/outline-space-dashboard.svg?color=%239747ff&height=25');
+                            position: absolute;
+                            top: 56%;
+                            transform: translateY(-50%);
+                            left: -38px;
+                        }
+
+                        &::after {
+                            content: '';
+                            height: 100%;
+                            width: 4px;
+                            border-radius: 4px;
+                            background: #774AB0;
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+                        }
+                    }
+                    
+
+                    & > ul {
+                        list-style: none;
+                        padding-top: 12px;
+                        box-sizing: border-box;
+
+                        & > li {
+                            font-weight: $semibold;
+                            padding: 5px 0 5px 25px;
+                            border-left: 4px solid #8B69B6;
+
+                            & > a {
+                                text-decoration: none;
+                                color: #B7B7B7;
+                                transition: 200ms ease-in-out;
+                            }
+
+                            &:hover a {
+                                color: #000;
+                            }
+
+                            &:first-child {
+                                padding-top: 0px;
+                            }
+
+                            &:last-child {
+                                padding-bottom: 0px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // logout
+            & > div {
+                position: relative;
+                margin-bottom: 20px;
+
+                &::before {
+                    content: url('https://api.iconify.design/akar-icons/sign-out.svg?color=%23B7B7B7&height=25');
+                    position: absolute;
+                    top: 60%;
+                    transform: translateY(-50%);
+                    left: -38px;
+                    transition: 200ms ease-in-out;
+                }
+
+                &:focus-within {
+
+                    &::before {
+                        content: url('https://api.iconify.design/akar-icons/sign-out.svg?color=%239747ff&height=25');
+                        position: absolute;
+                        top: 60%;
+                        transform: translateY(-50%);
+                        left: -38px;
+                    }
+
+                    a {
+                        color: #000;
+                    }
+                }
+
+                &:hover {
+                    &::before {
+                        content: url('https://api.iconify.design/akar-icons/sign-out.svg?color=%239747ff&height=25');
+                        position: absolute;
+                        top: 60%;
+                        transform: translateY(-50%);
+                        left: -38px;
+                    }
+
+                    a {
+                        color: #000;
+                    }
+                }
+
+                & > a {
+                    text-decoration: none;
+                    color: #B7B7B7;
+                    font-weight: $semibold;
+                    transition: 200ms ease-in-out;
+                }
+            }
+        }
     }
 
     & > .centerbar {
@@ -99,6 +343,11 @@
                     border-radius: 5px;
                     border: none;
                     background-color: $btn-secondary;
+                    transition: 100ms ease-in-out;
+
+                    &:hover {
+                        background: lighten($btn-secondary, 3%);
+                    }
 
                     & > a {
                         text-decoration: none;
@@ -292,6 +541,11 @@
                     background: $btn-add;
                     border: none;
                     border-radius: 5px;
+                    transition: 100ms ease-in-out;
+
+                    &:hover {
+                        background-color: lighten($btn-add, 3%);
+                    }
 
                     & > a {
                         color: #fff;
@@ -428,6 +682,10 @@
                     color: #6B6B6B;
                     font-size: 12px;
                     font-weight: $semibold;
+
+                    &:hover {
+                        color: darken(#6B6B6B, 25%);
+                    }
                 }
             }
 
@@ -477,10 +735,18 @@
                             @include y-center;
                             margin-right: 5px;
 
+                            &:hover {
+                                background-color: lighten($bgi-edit, 5%);
+
+                                & > a > span {
+                                    color: lighten($i-edit, 12%);
+                                }
+                            }
+
                             & > a.btn-edit-icon {
                                 text-decoration: none;
                                 color: $i-edit;
-                                transform: translateY(2px);
+                                transform: translateY(0px);
                                 
                                 & > span {
                                     font-size: 17px;
@@ -496,6 +762,14 @@
                             width: 23px;
                             text-align: center;
                             @include y-center;
+
+                            &:hover {
+                                background-color: darken($bgi-delete, 5%);
+
+                                & > a > span {
+                                    color: darken($i-delete, 12%);
+                                }
+                            }
 
                             & > a.btn-delete-icon {
                                 text-decoration: none;
@@ -537,6 +811,10 @@
                     color: #6B6B6B;
                     font-size: 12px;
                     font-weight: $semibold;
+
+                    &:hover {
+                        color: darken(#6B6B6B, 25%);
+                    }
                 }
             }
 
@@ -586,6 +864,15 @@
                             @include y-center;
                             margin-right: 5px;
 
+                            &:hover {
+                                background-color: lighten($bgi-edit, 5%);
+
+                                & > a > span {
+                                    color: lighten($i-edit, 12%);
+                                }
+                            }
+
+
                             & > a.btn-edit-icon {
                                 text-decoration: none;
                                 color: $i-edit;
@@ -605,6 +892,14 @@
                             width: 23px;
                             text-align: center;
                             @include y-center;
+
+                            &:hover {
+                                background-color: darken($bgi-delete, 5%);
+
+                                & > a > span {
+                                    color: darken($i-delete, 12%);
+                                }
+                            }
 
                             & > a.btn-delete-icon {
                                 text-decoration: none;

@@ -46,6 +46,265 @@
 
 .main-container > .leftbar {
   width: 18%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 25px 0px 20px 30px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.main-container > .leftbar > .logo-container {
+  height: 7%;
+  width: 100%;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.main-container > .leftbar > .logo-container > .logo {
+  height: 30px;
+  width: 30px;
+  background-image: url("../css/img/jtdvpng.png");
+  background-size: cover;
+  margin-right: 10px;
+}
+
+.main-container > .leftbar > .logo-container > h1 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #774AB0;
+}
+
+.main-container > .leftbar > .links-container {
+  height: 88%;
+  width: 100%;
+  position: relative;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding-left: 40px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.main-container > .leftbar > .links-container > ul {
+  list-style: none;
+}
+
+.main-container > .leftbar > .links-container > ul > li {
+  margin-bottom: 10px;
+  padding: 5px 0;
+  font-weight: 600;
+  position: relative;
+  color: #B7B7B7;
+  -webkit-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
+}
+
+.main-container > .leftbar > .links-container > ul > li > a {
+  text-decoration: none;
+  color: #B7B7B7;
+}
+
+.main-container > .leftbar > .links-container > ul > li:nth-child(2):hover {
+  color: #000;
+}
+
+.main-container > .leftbar > .links-container > ul > li:nth-child(2):hover::before {
+  content: url("https://api.iconify.design/fluent/task-list-square-rtl-24-regular.svg?color=%239747ff&height=25");
+  position: absolute;
+  top: 4%;
+  left: -38px;
+}
+
+.main-container > .leftbar > .links-container > ul > li:nth-child(2):hover > a {
+  color: #000;
+}
+
+.main-container > .leftbar > .links-container > ul > li:nth-child(3):hover {
+  color: #000;
+}
+
+.main-container > .leftbar > .links-container > ul > li:nth-child(3):hover::before {
+  content: url("https://api.iconify.design/heroicons-outline/chart-square-bar.svg?color=%239747ff&height=25");
+  position: absolute;
+  top: 4%;
+  left: -38px;
+}
+
+.main-container > .leftbar > .links-container > ul > li:nth-child(3):hover > a {
+  color: #000;
+}
+
+.main-container > .leftbar > .links-container > ul > li:nth-child(4):hover::before {
+  content: url("https://api.iconify.design/mdi/text-box-search-outline.svg?color=%239747ff&height=25");
+  position: absolute;
+  top: 55%;
+  left: -38px;
+  -webkit-transform: translateY(-45%);
+          transform: translateY(-45%);
+}
+
+.main-container > .leftbar > .links-container > ul > li:nth-child(4):hover > a {
+  color: #000;
+}
+
+.main-container > .leftbar > .links-container > ul > li:nth-child(1)::before {
+  content: url("https://api.iconify.design/ic/outline-space-dashboard.svg?color=%23B7B7B7&height=25");
+  position: absolute;
+  top: 56%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  left: -38px;
+}
+
+.main-container > .leftbar > .links-container > ul > li:nth-child(2)::before {
+  content: url("https://api.iconify.design/fluent/task-list-square-rtl-24-regular.svg?color=%23B7B7B7&height=25");
+  position: absolute;
+  top: 4%;
+  left: -38px;
+}
+
+.main-container > .leftbar > .links-container > ul > li:nth-child(3)::before {
+  content: url("https://api.iconify.design/heroicons-outline/chart-square-bar.svg?color=%23B7B7B7&height=25");
+  position: absolute;
+  top: 4%;
+  left: -38px;
+}
+
+.main-container > .leftbar > .links-container > ul > li:nth-child(4)::before {
+  content: url("https://api.iconify.design/mdi/text-box-search-outline.svg?color=%23B7B7B7&height=25");
+  position: absolute;
+  top: 55%;
+  -webkit-transform: translateY(-45%);
+          transform: translateY(-45%);
+  left: -38px;
+}
+
+.main-container > .leftbar > .links-container > ul > li.active-parent > a {
+  text-decoration: none;
+  color: #000;
+}
+
+.main-container > .leftbar > .links-container > ul > li.active-parent::before {
+  content: url("https://api.iconify.design/ic/outline-space-dashboard.svg?color=%239747ff&height=25");
+  position: absolute;
+  top: 56%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  left: -38px;
+}
+
+.main-container > .leftbar > .links-container > ul > li.active-parent::after {
+  content: '';
+  height: 100%;
+  width: 4px;
+  border-radius: 4px;
+  background: #774AB0;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.main-container > .leftbar > .links-container > ul > li > ul {
+  list-style: none;
+  padding-top: 12px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.main-container > .leftbar > .links-container > ul > li > ul > li {
+  font-weight: 600;
+  padding: 5px 0 5px 25px;
+  border-left: 4px solid #8B69B6;
+}
+
+.main-container > .leftbar > .links-container > ul > li > ul > li > a {
+  text-decoration: none;
+  color: #B7B7B7;
+  -webkit-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
+}
+
+.main-container > .leftbar > .links-container > ul > li > ul > li:hover a {
+  color: #000;
+}
+
+.main-container > .leftbar > .links-container > ul > li > ul > li:first-child {
+  padding-top: 0px;
+}
+
+.main-container > .leftbar > .links-container > ul > li > ul > li:last-child {
+  padding-bottom: 0px;
+}
+
+.main-container > .leftbar > .links-container > div {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.main-container > .leftbar > .links-container > div::before {
+  content: url("https://api.iconify.design/akar-icons/sign-out.svg?color=%23B7B7B7&height=25");
+  position: absolute;
+  top: 60%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  left: -38px;
+  -webkit-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
+}
+
+.main-container > .leftbar > .links-container > div:focus-within::before {
+  content: url("https://api.iconify.design/akar-icons/sign-out.svg?color=%239747ff&height=25");
+  position: absolute;
+  top: 60%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  left: -38px;
+}
+
+.main-container > .leftbar > .links-container > div:focus-within a {
+  color: #000;
+}
+
+.main-container > .leftbar > .links-container > div:hover::before {
+  content: url("https://api.iconify.design/akar-icons/sign-out.svg?color=%239747ff&height=25");
+  position: absolute;
+  top: 60%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  left: -38px;
+}
+
+.main-container > .leftbar > .links-container > div:hover a {
+  color: #000;
+}
+
+.main-container > .leftbar > .links-container > div > a {
+  text-decoration: none;
+  color: #B7B7B7;
+  font-weight: 600;
+  -webkit-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
 }
 
 .main-container > .centerbar {
@@ -137,6 +396,12 @@
   border-radius: 5px;
   border: none;
   background-color: #FE7A30;
+  -webkit-transition: 100ms ease-in-out;
+  transition: 100ms ease-in-out;
+}
+
+.main-container > .centerbar > .welcome-info > .welcome-box > button:hover {
+  background: #fe843f;
 }
 
 .main-container > .centerbar > .welcome-info > .welcome-box > button > a {
@@ -401,6 +666,12 @@
   background: #4848FE;
   border: none;
   border-radius: 5px;
+  -webkit-transition: 100ms ease-in-out;
+  transition: 100ms ease-in-out;
+}
+
+.main-container > .centerbar > .activity-info > .activity-header > button:hover {
+  background-color: #5757fe;
 }
 
 .main-container > .centerbar > .activity-info > .activity-header > button > a {
@@ -567,6 +838,10 @@
   font-weight: 600;
 }
 
+.main-container > .rightbar > .guards-container > .guards-header > a:hover {
+  color: #2b2b2b;
+}
+
 .main-container > .rightbar > .guards-container > .guards-content {
   height: 90%;
   width: 100%;
@@ -643,11 +918,19 @@
   margin-right: 5px;
 }
 
+.main-container > .rightbar > .guards-container > .guards-content > .guard-row > .guard-row-button .btn-edit:hover {
+  background-color: #d8fcea;
+}
+
+.main-container > .rightbar > .guards-container > .guards-content > .guard-row > .guard-row-button .btn-edit:hover > a > span {
+  color: #37e692;
+}
+
 .main-container > .rightbar > .guards-container > .guards-content > .guard-row > .guard-row-button .btn-edit > a.btn-edit-icon {
   text-decoration: none;
   color: #19C773;
-  -webkit-transform: translateY(2px);
-          transform: translateY(2px);
+  -webkit-transform: translateY(0px);
+          transform: translateY(0px);
 }
 
 .main-container > .rightbar > .guards-container > .guards-content > .guard-row > .guard-row-button .btn-edit > a.btn-edit-icon > span {
@@ -673,6 +956,14 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+
+.main-container > .rightbar > .guards-container > .guards-content > .guard-row > .guard-row-button .btn-delete:hover {
+  background-color: #f8a8a8;
+}
+
+.main-container > .rightbar > .guards-container > .guards-content > .guard-row > .guard-row-button .btn-delete:hover > a > span {
+  color: #ff2f2f;
 }
 
 .main-container > .rightbar > .guards-container > .guards-content > .guard-row > .guard-row-button .btn-delete > a.btn-delete-icon {
@@ -718,6 +1009,10 @@
   color: #6B6B6B;
   font-size: 12px;
   font-weight: 600;
+}
+
+.main-container > .rightbar > .request-container > .request-header > a:hover {
+  color: #2b2b2b;
 }
 
 .main-container > .rightbar > .request-container > .request-content {
@@ -796,6 +1091,14 @@
   margin-right: 5px;
 }
 
+.main-container > .rightbar > .request-container > .request-content > .request-row > .request-row-button .btn-edit:hover {
+  background-color: #d8fcea;
+}
+
+.main-container > .rightbar > .request-container > .request-content > .request-row > .request-row-button .btn-edit:hover > a > span {
+  color: #37e692;
+}
+
 .main-container > .rightbar > .request-container > .request-content > .request-row > .request-row-button .btn-edit > a.btn-edit-icon {
   text-decoration: none;
   color: #19C773;
@@ -827,6 +1130,14 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+
+.main-container > .rightbar > .request-container > .request-content > .request-row > .request-row-button .btn-delete:hover {
+  background-color: #f8a8a8;
+}
+
+.main-container > .rightbar > .request-container > .request-content > .request-row > .request-row-button .btn-delete:hover > a > span {
+  color: #ff2f2f;
 }
 
 .main-container > .rightbar > .request-container > .request-content > .request-row > .request-row-button .btn-delete > a.btn-delete-icon {
