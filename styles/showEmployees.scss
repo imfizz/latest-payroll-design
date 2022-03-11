@@ -9,23 +9,7 @@
     display: flex;
     flex-direction: row;
     gap: 15px;
-    padding-right: 30px;
-
-    @media only screen and (min-width: 1050px) {
-        padding-right: 15px;
-	}
-
-    @media only screen and (min-width: 1300px) {
-        padding-right: 30px;
-	}
-
-    @media only screen and (min-width: 1500px) {
-        padding-right: 30px;
-	}
-
-    @media only screen and (min-width: 1700px) {
-        padding-right: 30px;
-	}
+    padding-right: 15px;
 
     // leftbar and others
     & > .leftbar, .centerbar, .rightbar {
@@ -680,30 +664,25 @@
             }
         }
     }
-    
+
     & > .centerbar {
-        width: 54%;
-        padding: 35px 0 20px 15px;
+        width: 82%;
+        padding: 35px 15px 30px 15px;
         background: transparent !important;
-        @include y-center;
         box-sizing: border-box;
-        overflow-y: scroll;
-
-        &::-webkit-scrollbar {
-            width: 0px;
-        }
-
-        & > div {
-            background: $front;
-            width: 100%;
-            border-radius: 5px;
-            position: relative;
-        }
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
 
         & > .header-info {
             height: 4%;
             background: transparent !important;
             border: none !important;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding-right: 30px;
 
             & > h1 {
                 font-size: 16px;
@@ -725,702 +704,227 @@
                     font-size: 19px;
                 }
             }
-        }
 
-        & > .availability-container {
-            display: flex;
-            flex-direction: row;
-            gap: 15px;
-            min-height: 360px;
-            width: 100%;
-            justify-content: space-between;
-            align-items: flex-end;
-            background: transparent;
-
-            & > div {
-                display: flex;
-                height: 90%;
-                width: 100%;
-                border-radius: 5px;
-                overflow: hidden;
-                position: relative;
-            }
-
-            & > .available, .unavailable {
-                width: 37.5%;
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-end;
-
-                & > .svg-info {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    height: 100%;
-                    width: 100%;
-                    // background-image: linear-gradient(to top right, rgba(0, 0, 0, 0.205), rgba(0, 0, 0, 0));
-                    padding: 25px 25px;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: flex-end;
-                    box-sizing: border-box;
-
-                    & > h1 {
-                        font-weight: $medium;
-                        color: #fff;
-                        font-size: 26px;
-                        line-height: 35px;
-                        margin-bottom: 15px;
-                    }
-
-                    & > button {
-                        border: none;
-                        width: 55%;
-                        padding: 7px 0;
-                        border-radius: 5px;
-                        background: #f29233;
-                        cursor: pointer;
-
-                        &:hover {
-                            background: darken(#f29233, 5%);
-                        }
-                        
-                        & > a {
-                            color: #fff;
-                            text-decoration: none;
-                            font-weight: $semibold;
-                            font-size: 14px;
-                        }
-                    }
-                }
-            }
-
-            & > .available {
-                // background: #FFB163;
-                // background: #bd966f;
-                // background: #8b7158;
-                background: blue;
-
-                & > object {
-                    height: 86%;
-                }
-            }
-
-            & > .unavailable {
-                background: #3F3D56;
-
-                & > object {
-                    height: 83%;
-                }
-            }
-
-            & > .next {
-                width: 25%;
-                background: #A294AC;
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-end;
-
-                & > object {
-                    height: 67%;
-                    transform: translateY(-25px);
-                }
-
-                & > .svg-info {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    height: 100%;
-                    width: 100%;
-                    background-image: linear-gradient(to top right, rgba(0, 0, 0, 0.405), rgba(0, 0, 0, 0));
-                    padding: 25px 25px;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: flex-end;
-                    box-sizing: border-box;
-
-                    & > h1 {
-                        font-weight: $medium;
-                        font-size: 26px;
-                        line-height: 35px;
-
-                        & > a {
-                            text-decoration: none;
-                            color: #fff;
-
-                            &:hover {
-                                color: darken(#fff, 15%);
-                            }
-                        }
-                    }
-                }
-            }
-
-        }
-
-        & > .employee-record {
-            min-height: 180px;
-            width: 100%;
-            // background: $front;
-            margin-top: 15px;
-            border-radius: 5px;
-
-            & > .employee-header {
+            & > .profile-container {
                 display: flex;
                 flex-direction: row;
-                justify-content: space-between;
+                justify-content: flex-end;
                 align-items: center;
-                background: $front;
-                padding: 0px 30px;
-                box-sizing: border-box;
-                height: 40%;
-                border-top-left-radius: 5px;
-                border-top-right-radius: 5px;
-
-                @media only screen and (min-width: 1050px) {
-                    padding: 0px 20px;
-                }
-
-                @media only screen and (min-width: 1300px) {
-                    padding: 0px 30px;
-                }
-
-                @media only screen and (min-width: 1500px) {
-                    padding: 0px 30px;
-                }
-
-                & > h2 {
-                    font-size: 16px;
-                    font-weight: $semibold;
-
-                    @media only screen and (min-width: 1050px) {
-                        font-size: 16px;
-                    }
-    
-                    @media only screen and (min-width: 1300px) {
-                        font-size: 16px;
-                    }
-    
-                    @media only screen and (min-width: 1500px) {
-                        font-size: 16px;
-                    }
-
-                    @media only screen and (min-width: 1700px) {
-                        font-size: 17px;
-                    }
-                }
-
-                & > form {
-                    
-                    & > div {
-                        width: 100px; 
-                        position: relative;
-
-                        & > input {
-                            width: 100%;
-                            padding: 2px 0;
-                            text-indent: 10px;
-                            border: 2px solid #cecece;
-                            border-radius: 5px;
-                            font-size: 11px;
-                            outline: none;
-                        }
-                    }
-
-                    & > button { display: none; }
-                }
-            }
-
-            & > .employee-content {
-                // height: 60%;
-                width: 100%;
-                position: relative;
-                padding-bottom: 21px;
-                border-bottom-left-radius: 5px;
-                border-bottom-right-radius: 5px;
-
-                &::-webkit-scrollbar {
-                    width: 0px;
-                }
-
-                & > table {
-                    padding: 0 30px;
-                    background: $front;
-                    border-collapse:separate;
-                    border-spacing:0 10px;
-
-                    @media only screen and (min-width: 1050px) {
-                        padding: 0px 20px;
-                    }
-
-                    @media only screen and (min-width: 1300px) {
-                        padding: 0px 30px;
-                    }
-
-                    @media only screen and (min-width: 1500px) {
-                        padding: 0px 30px;
-                    }
-
-                    & > thead {
-    
-                        & > tr > th {
-                            text-align: left;
-                            color: #ABABAB;
-                            font-weight: $semibold;
-                            font-size: 14px;
-
-                            @media only screen and (min-width: 1050px) {
-                                font-size: 14px;
-                            }
-            
-                            @media only screen and (min-width: 1300px) {
-                                font-size: 14px;
-                            }
-            
-                            @media only screen and (min-width: 1500px) {
-                                font-size: 14px;
-                            }
-        
-                            @media only screen and (min-width: 1700px) {
-                                font-size: 16px;
-                            }
-                        }
-                    }
-    
-                    & > tbody {
-                        
-                        & > tr > td {
-                            font-size: 13px;
-                            font-weight: $regular;
-                            vertical-align: top;
-
-                            @media only screen and (min-width: 1050px) {
-                                font-size: 13px;
-                            }
-            
-                            @media only screen and (min-width: 1300px) {
-                                font-size: 13px;
-                            }
-            
-                            @media only screen and (min-width: 1500px) {
-                                font-size: 13px;
-                            }
-        
-                            @media only screen and (min-width: 1700px) {
-                                font-size: 15px;
-                            }
-
-                            & > .circle-with-text {
-                                display: flex;
-                                flex-direction: row;
-                                align-items: center;
-
-                                & > .circle {
-                                    height: 7px;
-                                    width: 7px;
-                                    border-radius: 50%;
-                                    background: green;
-                                    float: left;
-                                    margin-right: 5px;
-
-                                    &.recent { background: #8EEE76; }
-                                    &.late { background: #EED476; }
-                                    &.old { background: #EA9683; }
-                                }
-                            }
-                            
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    & > .rightbar {
-        width: 28%;
-        padding-top: 30px;
-        background: transparent !important;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        box-sizing: border-box;
-        padding-bottom: 20px;
-        overflow-y: hidden;
-
-        & > .profile-container {
-            height: 10%;
-            display: flex;
-            justify-content: flex-end;
-            align-items: flex-start;
-            box-sizing: border-box;
-            padding-right: 30px;
-
-            & > .profile-setter {
-                display: flex;
-                align-items: center;
+                width: 92%;
+                transform: translateY(4px);
 
                 & > h3 {
                     font-size: 14px;
                     font-weight: $medium;
                     margin-right: 15px;
                 }
-    
-                & > a > .image-container {
-                    height: 33px;
-                    width: 33px;
-                    border-radius: 50%;
-                    background: rgb(102, 102, 102);
-                }
-            }
-
-            
-        }
-
-        & > .assignedguards-container {
-            height: 35%;
-            width: 100%;
-            background: $front;
-            border-radius: 5px;
-            box-sizing: border-box;
-            padding: 20px 23px 0px 23px;
-
-            & > .assignedguards-header {
-                display: flex;
-                align-items: flex-end;
-                height: 15%;
-    
-                & > h1 {
-                    font-size: 16px;
-                    font-weight: $semibold;
-
-                    @media only screen and (min-width: 1050px) {
-                        font-size: 16px;
-                    }
-    
-                    @media only screen and (min-width: 1300px) {
-                        font-size: 16px;
-                    }
-    
-                    @media only screen and (min-width: 1500px) {
-                        font-size: 18px;
-                    }
-
-                    @media only screen and (min-width: 1700px) {
-                        font-size: 20px;
-                    }
-                }
 
                 & > a {
-                    color: #6B6B6B;
-                    font-size: 12px;
-                    font-weight: $semibold;
 
-                    &:hover {
-                        color: darken(#6B6B6B, 25%);
-                    }
-
-                    @media only screen and (min-width: 1050px) {
-                        font-size: 12px;
-                    }
-    
-                    @media only screen and (min-width: 1300px) {
-                        font-size: 12px;
-                    }
-    
-                    @media only screen and (min-width: 1500px) {
-                        font-size: 12px;
-                    }
-
-                    @media only screen and (min-width: 1700px) {
-                        font-size: 15px;
+                    & > .image-container {
+                        height: 33px;
+                        width: 33px;
+                        border-radius: 50%;
+                        background: #666;
                     }
                 }
             }
 
-            & > .assignedguards-content {
-                height: 75%;
-                width: 100%;
-                padding-top: 25px;
-                box-sizing: border-box;
-                display: flex;
-                flex-direction: column;
-
-                @media only screen and (min-width: 1050px) {
-                    padding-top: 15px;
-                }
-
-                & > .assignedguard-row {
-                    margin-bottom: 15px;
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: space-between;
-                    line-height: 16px;
-
-                    @media only screen and (min-width: 1050px) {
-                        line-height: 16px;
-                    }
-    
-                    @media only screen and (min-width: 1300px) {
-                        line-height: 14px;
-                    }
-    
-                    @media only screen and (min-width: 1500px) {
-                        line-height: 20px;
-                    }
-
-                    @media only screen and (min-width: 1700px) {
-                        line-height: 28px;
-                    }
-
-                    & > .assignedguard-row-text {
-                        
-                        & > p {
-                            font-size: 14px;
-                            font-weight: $medium;
-                            color: #262626;
-
-                            @media only screen and (min-width: 1050px) {
-                                font-size: 14px;
-                            }
-            
-                            @media only screen and (min-width: 1300px) {
-                                font-size: 14px;
-                            }
-            
-                            @media only screen and (min-width: 1500px) {
-                                font-size: 16px;
-                            }
-
-                            @media only screen and (min-width: 1700px) {
-                                font-size: 18px;
-                            }
-                        }
-
-                        & > span {
-                            font-size: 10px;
-                            color: #7A7A7A;
-
-                            @media only screen and (min-width: 1050px) {
-                                font-size: 10px;
-                            }
-            
-                            @media only screen and (min-width: 1300px) {
-                                font-size: 11px;
-                            }
-            
-                            @media only screen and (min-width: 1500px) {
-                                font-size: 12px;
-                            }
-
-                            @media only screen and (min-width: 1700px) {
-                                font-size: 14px;
-                            }
-
-                            & > b {
-                                color: #626262;
-                                font-weight: $medium;
-                            }
-                        }
-                    }
-
-                    & > .assignedguard-row-button {
-                        display: flex;
-                        align-items: center;
-
-                        .btn-delete {
-                            background-color: $bgi-delete;
-                            border-radius: 50%;
-                            height: 21px;
-                            width: 21px;
-                            text-align: center;
-                            @include y-center;
-
-                            &:hover {
-                                background-color: darken($bgi-delete, 5%);
-
-                                & > a > span {
-                                    color: darken($i-delete, 12%);
-                                }
-                            }
-
-                            & > a.btn-delete-icon {
-                                text-decoration: none;
-                                color: $i-delete;
-                                transform: translateY(2px);
-                                
-                                & > span {
-                                    font-size: 15px;
-                                }
-                            }
-                        }            
-                    }
-                }
-            }
         }
 
-        & > .addemployee-container {
-            height: 55%;
-            width: 100%;
-            position: relative;
-            background: $front;
-            border-radius: 5px;
-            box-sizing: border-box;
-            padding: 20px 23px 15px 23px;
+        & > .table-info {
             display: flex;
             flex-direction: column;
+            padding-left: 20px;
+            height: 88%;
+            position: relative;
+            box-sizing: border-box;
 
-            & > .addemployee-header {
+            & > .table-header {
                 display: flex;
+                flex-direction: row;
                 justify-content: space-between;
-                align-items: flex-end;
                 height: 10%;
-                margin-bottom: 10px;
 
                 & > h1 {
-                    font-size: 16px;
+                    font-size: 18px;
                     font-weight: $semibold;
-
-                    @media only screen and (min-width: 1050px) {
-                        font-size: 16px;
-                    }
-    
-                    @media only screen and (min-width: 1300px) {
-                        font-size: 16px;
-                    }
-    
-                    @media only screen and (min-width: 1500px) {
-                        font-size: 18px;
-                    }
-
-                    @media only screen and (min-width: 1700px) {
-                        font-size: 20px;
-                    }
                 }
-
-                & > a {
-                    color: #6B6B6B;
-                    font-size: 12px;
-                    font-weight: $semibold;
-
-                    @media only screen and (min-width: 1050px) {
-                        font-size: 12px;
-                    }
-    
-                    @media only screen and (min-width: 1300px) {
-                        font-size: 12px;
-                    }
-    
-                    @media only screen and (min-width: 1500px) {
-                        font-size: 12px;
-                    }
-
-                    @media only screen and (min-width: 1700px) {
-                        font-size: 15px;
-                    }
-
-                    &:hover {
-                        color: darken(#6B6B6B, 25%);
-                    }
-                }
-            }
-
-            & > .addemployee-content {
-                height: 90%;
-                width: 100%;
-                box-sizing: border-box;
-                position: relative;
 
                 & > form {
-                    height: 93%;
-                    width: 100%;
-                    position: relative;
-                    box-sizing: border-box;
                     display: flex;
-                    flex-direction: column;
-                    margin-top: 10px;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
+                    margin-right: 20px;
 
-                    
-
-                    & > .form-holder {
-                        height: 84%;
-                        width: 100%;
-                        position: relative;
-                        overflow-y: scroll;
-                        margin-bottom: 20px;
-                        padding-right: 10px;
-
-                        /* width */
-                        &::-webkit-scrollbar {
-                            width: 5px;
-                        }
-                        
-                        /* Track */
-                        &::-webkit-scrollbar-track {
-                            background: #f1f1f1; 
-                        }
-                        
-                        /* Handle */
-                        &::-webkit-scrollbar-thumb {
-                            background: #888;
-                            border-radius: 8px;
-                        }
-                        
-                        /* Handle on hover */
-                        &::-webkit-scrollbar-thumb:hover {
-                            background: rgb(85, 85, 85); 
-                        }
-
-                        & > div {
-                            display: flex;
-                            flex-direction: column;
-                            margin-bottom: 15px;
-    
-                            & > label {
-                                font-weight: $semibold;
-                                font-size: 14px;
-                                color: #292929;
-                                margin-bottom: 5px;
-                            }
-    
-                            & > input {
-                                border: none;
-                                border-bottom: 1px solid #D9D9D9;
-                                outline: none;
-                            }
-                        }
+                    & > input {
+                        padding: 3px 0;
+                        text-indent: 10px;
+                        outline: none;
+                        border: 2px solid #cecece;
+                        border-radius: 5px;
+                        font-size: 13px;
                     }
 
                     & > button {
-                        width: 35%;
-                        border: none;
-                        background-color: $btn-add;
-                        @include x-center;
-                        align-items: center;
-                        padding: 8px 0;
-                        border-radius: 5px;
-                        color: #fff;
-                        font-weight: $semibold;
-                        cursor: pointer;
+                        display: none;
+                    }
+                    
+                }
+            }
 
-                        &:hover {
-                            background: darken($btn-add, 5%);
+            & > .table-content {
+                height: 84%;
+                background: #fff;
+                box-sizing: border-box;
+                padding: 20px 20px 10px 20px;
+                border-radius: 5px;
+                margin-bottom: 1%;
+                overflow-y: scroll;
+
+                /* width */
+                &::-webkit-scrollbar {
+                    width: 5px;
+                }
+                
+                /* Track */
+                &::-webkit-scrollbar-track {
+                    background: #f1f1f1; 
+                }
+                
+                /* Handle */
+                &::-webkit-scrollbar-thumb {
+                    background: #888;
+                    border-radius: 8px;
+                }
+                
+                /* Handle on hover */
+                &::-webkit-scrollbar-thumb:hover {
+                    background: rgb(85, 85, 85); 
+                }
+
+                & > table {
+                    border-collapse:separate;
+                    border-spacing:0 10px;
+
+                    & > thead > tr > th {
+                        text-align: left;
+                        font-weight: $semibold;
+                        color: #2B2B2B;
+                        font-size: 15px;
+                    }
+
+
+                    & > tbody > tr:nth-child(odd){
+                        background: #FAFAFA;
+                    }
+
+                    & > tbody > tr:nth-child(even){
+                        background: transparent;
+                    }
+
+                    & > tbody > tr > td {
+                        font-size: 13px;
+                        padding: 5px 0;
+
+                        & > .buttons {
+                            display: flex;
+                            justify-content: space-between;
+                            transform: translateY(2px);
+                            width: 40%;
+                            margin-right: 20px;
+
+                            & > .buttons-edit {
+                                height: 21px;
+                                width: 21px;
+                                border-radius: 50%;
+                                background-color: $bgi-edit;
+                                @include y-center;
+                                cursor: pointer;
+
+                                &:hover {
+                                    background-color: darken($bgi-edit, 5%);
+
+                                    & > span {
+                                        color: darken($i-edit, 5%);
+                                    }
+                                }
+
+                                & > span {
+                                    font-size: 16px;
+                                    color: $i-edit;
+                                }
+                            }
+
+                            & > .buttons-delete {
+                                height: 21px;
+                                width: 21px;
+                                border-radius: 50%;
+                                background-color: $bgi-delete;
+                                @include y-center;
+                                cursor: pointer;
+
+                                &:hover {
+                                    background-color: darken($bgi-delete, 5%);
+
+                                    & > span {
+                                        color: darken($i-delete, 5%);
+                                    }
+                                }
+
+                                & > span {
+                                    font-size: 16px;
+                                    color: $i-delete;
+                                }
+                            }
                         }
 
-                        & > span {
-                            color: #fff;
-                            font-size: 15px;
-                            margin-right: 5px;
+                        &:first-child {
+                            text-align: center;
+                            border-radius: 10px 0 0 10px;
+
+                            & > input {
+                                height: 20px;
+                                width: 20px;
+                                transform: translateY(2px);
+                            }
+                            
+                        }
+
+                        &:last-child {
+                            border-radius: 0 10px 10px 0;
+                            display: flex;
+                            justify-content: flex-end;
+                            align-items: center;
                         }
                     }
                 }
-                
+            }
+
+            & > .table-button {
+                height: 5%;
+
+                & > button {
+                    padding: 7px 20px;
+                    border: none;
+                    background-color: $btn-add;
+                    color: #fff;
+                    border-radius: 5px;
+                    font-weight: $semibold;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: darken($btn-add, 5%);
+                    } 
+                }
             }
         }
+        
     }
-    
 }
 
-.modal-addguard {
+.modal-editguard {
     height: 100vh;
     width: 100vw;
     position: absolute;
@@ -1438,7 +942,7 @@
         padding: 13px 0px;
         box-sizing: border-box;
 
-        & > .addguard-header {
+        & > .editguard-header {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -1460,32 +964,15 @@
             }
         }
 
-        & > .addguard-content {
+        & > .editguard-content {
             width: 100%;
             height: 93%;
             @include x-center;
             box-sizing: border-box;
             overflow-y: scroll;
 
-            /* width */
             &::-webkit-scrollbar {
-                width: 5px;
-            }
-            
-            /* Track */
-            &::-webkit-scrollbar-track {
-                background: #f1f1f1; 
-            }
-            
-            /* Handle */
-            &::-webkit-scrollbar-thumb {
-                background: #888;
-                border-radius: 8px;
-            }
-            
-            /* Handle on hover */
-            &::-webkit-scrollbar-thumb:hover {
-                background: rgb(85, 85, 85); 
+                width: 0px;
             }
 
             & > form {
@@ -1584,14 +1071,14 @@
                             padding: 7px 0;
                             width: 45%;
                             border: none;
-                            background: $btn-add;
+                            background: $btn-edit;
                             border-radius: 5px;
                             color: #fff;
                             font-weight: $semibold;
                             cursor: pointer;
 
                             &:hover {
-                                background-color: darken($btn-add, 5%);
+                                background-color: darken($btn-edit, 5%);
                             }
                         }
                     }
