@@ -813,6 +813,10 @@
                         font-weight: $semibold;
                         color: #2B2B2B;
                         font-size: 15px;
+
+                        &:nth-child(1){
+                            transform: translateX(18px);
+                        }
                     }
 
 
@@ -835,25 +839,25 @@
                             width: 40%;
                             margin-right: 20px;
 
-                            & > .buttons-edit {
+                            & > .buttons-view {
                                 height: 21px;
                                 width: 21px;
                                 border-radius: 50%;
-                                background-color: $bgi-edit;
+                                background-color: $bgi-view;
                                 @include y-center;
                                 cursor: pointer;
 
                                 &:hover {
-                                    background-color: darken($bgi-edit, 5%);
+                                    background-color: darken($bgi-view, 5%);
 
                                     & > span {
-                                        color: darken($i-edit, 5%);
+                                        color: darken($i-view, 5%);
                                     }
                                 }
 
                                 & > span {
                                     font-size: 16px;
-                                    color: $i-edit;
+                                    color: $i-view;
                                 }
                             }
 
@@ -902,34 +906,12 @@
                 }
             }
 
-            & > .table-button {
-                height: 5%;
-
-                & > button {
-                    padding: 7px 20px;
-                    border: none;
-                    background-color: $btn-add;
-                    
-                    border-radius: 5px;
-                    font-weight: $semibold;
-                    cursor: pointer;
-
-                    &:hover {
-                        background-color: darken($btn-add, 5%);
-                    } 
-
-                    & > a {
-                        color: #fff;
-                        text-decoration: none;
-                    }
-                }
-            }
         }
         
     }
 }
 
-.modal-editguard {
+.modal-viewguard {
     height: 100vh;
     width: 100vw;
     position: absolute;
@@ -947,7 +929,7 @@
         padding: 13px 0px;
         box-sizing: border-box;
 
-        & > .editguard-header {
+        & > .viewguard-header {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -969,7 +951,7 @@
             }
         }
 
-        & > .editguard-content {
+        & > .viewguard-content {
             width: 100%;
             height: 93%;
             @include x-center;
@@ -994,6 +976,24 @@
                     margin-bottom: 10px;
                     position: relative;
 
+                    // for duration
+                    & > h3 {
+                        font-size: 16px;
+                        font-weight: $semibold;
+                    }
+
+                    & > div {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+
+                        & > label {
+                            font-size: 15px;
+                            font-weight: $semibold;
+                        }
+                    }
+
+
                     & > label {
                         font-weight: $semibold;
                         font-size: 16px;
@@ -1007,6 +1007,7 @@
                         outline: none;
                         color: #464646;
                         font-weight: $regular;
+                        background: transparent;
                     }
 
                     // firstname, lastname
@@ -1019,8 +1020,62 @@
                         transition: 200ms ease-in-out;
                     }
 
-                    // address
+                    // company
                     &:nth-child(3)::before {
+                        content: url('https://api.iconify.design/bx/bx-building.svg?color=%239747ff&height=20');
+                        position: absolute;
+                        top: 2px;
+                        left: -38px;
+                        transition: 200ms ease-in-out;
+                    }
+
+                    // company location
+                    &:nth-child(4)::before {
+                        content: url('https://api.iconify.design/akar-icons/location.svg?color=%239747ff&height=20');
+                        position: absolute;
+                        top: 2px;
+                        left: -38px;
+                        transition: 200ms ease-in-out;
+                    }
+
+                    // duration
+                    &:nth-child(5)::before {
+                        content: url('https://api.iconify.design/bx/bx-time-five.svg?color=%239747ff&height=20');
+                        position: absolute;
+                        top: 2px;
+                        left: -38px;
+                        transition: 200ms ease-in-out;
+                    }
+
+                    // position
+                    &:nth-child(6)::before {
+                        content: url('https://api.iconify.design/icon-park/ranking.svg?color=%239747ff&height=20');
+                        position: absolute;
+                        top: 2px;
+                        left: -38px;
+                        transition: 200ms ease-in-out;
+                    }
+
+                    // price
+                    &:nth-child(7)::before {
+                        content: url('https://api.iconify.design/heroicons-outline/currency-dollar.svg?color=%239747ff&height=20');
+                        position: absolute;
+                        top: 2px;
+                        left: -38px;
+                        transition: 200ms ease-in-out;
+                    }
+
+                    // type
+                    &:nth-child(8)::before {
+                        content: url('https://api.iconify.design/gg/options.svg?color=%239747ff&height=20');
+                        position: absolute;
+                        top: 2px;
+                        left: -38px;
+                        transition: 200ms ease-in-out;
+                    }
+
+                    // employee address
+                    &:nth-child(9)::before {
                         content: url('https://api.iconify.design/akar-icons/location.svg?color=%239747ff&height=20');
                         position: absolute;
                         top: 2px;
@@ -1029,7 +1084,7 @@
                     }
 
                     // email
-                    &:nth-child(4)::before {
+                    &:nth-child(10)::before {
                         content: url('https://api.iconify.design/eva/email-outline.svg?color=%239747ff&height=20');
                         position: absolute;
                         top: 2px;
@@ -1037,56 +1092,15 @@
                         transition: 200ms ease-in-out;
                     }
 
-                    // contact number
-                    &:nth-child(5)::before {
-                        content: url('https://api.iconify.design/feather/phone-call.svg?color=%239747ff&height=19');
+                    // cpnumber
+                    &:nth-child(11)::before {
+                        content: url('https://api.iconify.design/feather/phone-call.svg?color=%239747ff&height=20');
                         position: absolute;
                         top: 2px;
                         left: -38px;
                         transition: 200ms ease-in-out;
                     }
 
-                    // browser, device fingerprint
-                    &:nth-child(6)::before,
-                    &:nth-child(7)::before {
-                        content: url('https://api.iconify.design/fluent/fingerprint-48-regular.svg?color=%239747ff&height=20');
-                        position: absolute;
-                        top: 2px;
-                        left: -38px;
-                        transition: 200ms ease-in-out;
-                    }
-
-                    // qrcode
-                    &:nth-child(8)::before {
-                        content: url('https://api.iconify.design/bx/qr.svg?color=%239747ff&height=20');
-                        position: absolute;
-                        top: 2px;
-                        left: -38px;
-                        transition: 200ms ease-in-out;
-                    }
-
-                    // button
-                    &:nth-child(9) {
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        padding: 10px 0;
-
-                        & > button {
-                            padding: 7px 0;
-                            width: 45%;
-                            border: none;
-                            background: $btn-edit;
-                            border-radius: 5px;
-                            color: #fff;
-                            font-weight: $semibold;
-                            cursor: pointer;
-
-                            &:hover {
-                                background-color: darken($btn-edit, 5%);
-                            }
-                        }
-                    }
                 }
             }
         }

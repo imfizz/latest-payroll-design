@@ -1064,6 +1064,11 @@
   font-size: 15px;
 }
 
+.main-container > .centerbar > .table-info > .table-content > table > thead > tr > th:nth-child(1) {
+  -webkit-transform: translateX(18px);
+          transform: translateX(18px);
+}
+
 .main-container > .centerbar > .table-info > .table-content > table > tbody > tr:nth-child(odd) {
   background: #FAFAFA;
 }
@@ -1090,11 +1095,11 @@
   margin-right: 20px;
 }
 
-.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-edit {
+.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-view {
   height: 21px;
   width: 21px;
   border-radius: 50%;
-  background-color: #C0FADE;
+  background-color: #C0DEFA;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1111,17 +1116,17 @@
   cursor: pointer;
 }
 
-.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-edit:hover {
-  background-color: #a8f8d2;
+.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-view:hover {
+  background-color: #a8d2f8;
 }
 
-.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-edit:hover > span {
-  color: #16b066;
+.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-view:hover > span {
+  color: #1c92ff;
 }
 
-.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-edit > span {
+.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-view > span {
   font-size: 16px;
-  color: #19C773;
+  color: #359EFF;
 }
 
 .main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-delete {
@@ -1183,29 +1188,7 @@
           align-items: center;
 }
 
-.main-container > .centerbar > .table-info > .table-button {
-  height: 5%;
-}
-
-.main-container > .centerbar > .table-info > .table-button > button {
-  padding: 7px 20px;
-  border: none;
-  background-color: #4848FE;
-  border-radius: 5px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.main-container > .centerbar > .table-info > .table-button > button:hover {
-  background-color: #2f2ffe;
-}
-
-.main-container > .centerbar > .table-info > .table-button > button > a {
-  color: #fff;
-  text-decoration: none;
-}
-
-.modal-editguard {
+.modal-viewguard {
   height: 100vh;
   width: 100vw;
   position: absolute;
@@ -1228,7 +1211,7 @@
   display: none;
 }
 
-.modal-editguard > .modal-holder {
+.modal-viewguard > .modal-holder {
   background: white;
   border-radius: 5px;
   width: 33%;
@@ -1239,7 +1222,7 @@
           box-sizing: border-box;
 }
 
-.modal-editguard > .modal-holder > .editguard-header {
+.modal-viewguard > .modal-holder > .viewguard-header {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1257,18 +1240,18 @@
           box-sizing: border-box;
 }
 
-.modal-editguard > .modal-holder > .editguard-header > h1 {
+.modal-viewguard > .modal-holder > .viewguard-header > h1 {
   font-size: 20px;
   font-weight: 500;
 }
 
-.modal-editguard > .modal-holder > .editguard-header > span {
+.modal-viewguard > .modal-holder > .viewguard-header > span {
   position: absolute;
   right: 20px;
   cursor: pointer;
 }
 
-.modal-editguard > .modal-holder > .editguard-content {
+.modal-viewguard > .modal-holder > .viewguard-content {
   width: 100%;
   height: 93%;
   display: -webkit-box;
@@ -1289,11 +1272,11 @@
   overflow-y: scroll;
 }
 
-.modal-editguard > .modal-holder > .editguard-content::-webkit-scrollbar {
+.modal-viewguard > .modal-holder > .viewguard-content::-webkit-scrollbar {
   width: 0px;
 }
 
-.modal-editguard > .modal-holder > .editguard-content > form {
+.modal-viewguard > .modal-holder > .viewguard-content > form {
   padding-top: 20px;
   height: 100%;
   min-width: 70%;
@@ -1308,7 +1291,7 @@
           box-sizing: border-box;
 }
 
-.modal-editguard > .modal-holder > .editguard-content > form > div {
+.modal-viewguard > .modal-holder > .viewguard-content > form > div {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1320,12 +1303,35 @@
   position: relative;
 }
 
-.modal-editguard > .modal-holder > .editguard-content > form > div > label {
+.modal-viewguard > .modal-holder > .viewguard-content > form > div > h3 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.modal-viewguard > .modal-holder > .viewguard-content > form > div > div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.modal-viewguard > .modal-holder > .viewguard-content > form > div > div > label {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.modal-viewguard > .modal-holder > .viewguard-content > form > div > label {
   font-weight: 600;
   font-size: 16px;
 }
 
-.modal-editguard > .modal-holder > .editguard-content > form > div > input {
+.modal-viewguard > .modal-holder > .viewguard-content > form > div > input {
   border: none;
   border-bottom: 1px solid #D9D9D9;
   margin-top: 5px;
@@ -1333,9 +1339,10 @@
   outline: none;
   color: #464646;
   font-weight: 400;
+  background: transparent;
 }
 
-.modal-editguard > .modal-holder > .editguard-content > form > div:nth-child(1)::before, .modal-editguard > .modal-holder > .editguard-content > form > div:nth-child(2)::before {
+.modal-viewguard > .modal-holder > .viewguard-content > form > div:nth-child(1)::before, .modal-viewguard > .modal-holder > .viewguard-content > form > div:nth-child(2)::before {
   content: url("https://api.iconify.design/akar-icons/person.svg?color=%239747ff&height=20");
   position: absolute;
   top: 2px;
@@ -1344,7 +1351,16 @@
   transition: 200ms ease-in-out;
 }
 
-.modal-editguard > .modal-holder > .editguard-content > form > div:nth-child(3)::before {
+.modal-viewguard > .modal-holder > .viewguard-content > form > div:nth-child(3)::before {
+  content: url("https://api.iconify.design/bx/bx-building.svg?color=%239747ff&height=20");
+  position: absolute;
+  top: 2px;
+  left: -38px;
+  -webkit-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
+}
+
+.modal-viewguard > .modal-holder > .viewguard-content > form > div:nth-child(4)::before {
   content: url("https://api.iconify.design/akar-icons/location.svg?color=%239747ff&height=20");
   position: absolute;
   top: 2px;
@@ -1353,7 +1369,52 @@
   transition: 200ms ease-in-out;
 }
 
-.modal-editguard > .modal-holder > .editguard-content > form > div:nth-child(4)::before {
+.modal-viewguard > .modal-holder > .viewguard-content > form > div:nth-child(5)::before {
+  content: url("https://api.iconify.design/bx/bx-time-five.svg?color=%239747ff&height=20");
+  position: absolute;
+  top: 2px;
+  left: -38px;
+  -webkit-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
+}
+
+.modal-viewguard > .modal-holder > .viewguard-content > form > div:nth-child(6)::before {
+  content: url("https://api.iconify.design/icon-park/ranking.svg?color=%239747ff&height=20");
+  position: absolute;
+  top: 2px;
+  left: -38px;
+  -webkit-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
+}
+
+.modal-viewguard > .modal-holder > .viewguard-content > form > div:nth-child(7)::before {
+  content: url("https://api.iconify.design/heroicons-outline/currency-dollar.svg?color=%239747ff&height=20");
+  position: absolute;
+  top: 2px;
+  left: -38px;
+  -webkit-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
+}
+
+.modal-viewguard > .modal-holder > .viewguard-content > form > div:nth-child(8)::before {
+  content: url("https://api.iconify.design/gg/options.svg?color=%239747ff&height=20");
+  position: absolute;
+  top: 2px;
+  left: -38px;
+  -webkit-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
+}
+
+.modal-viewguard > .modal-holder > .viewguard-content > form > div:nth-child(9)::before {
+  content: url("https://api.iconify.design/akar-icons/location.svg?color=%239747ff&height=20");
+  position: absolute;
+  top: 2px;
+  left: -38px;
+  -webkit-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
+}
+
+.modal-viewguard > .modal-holder > .viewguard-content > form > div:nth-child(10)::before {
   content: url("https://api.iconify.design/eva/email-outline.svg?color=%239747ff&height=20");
   position: absolute;
   top: 2px;
@@ -1362,59 +1423,13 @@
   transition: 200ms ease-in-out;
 }
 
-.modal-editguard > .modal-holder > .editguard-content > form > div:nth-child(5)::before {
-  content: url("https://api.iconify.design/feather/phone-call.svg?color=%239747ff&height=19");
+.modal-viewguard > .modal-holder > .viewguard-content > form > div:nth-child(11)::before {
+  content: url("https://api.iconify.design/feather/phone-call.svg?color=%239747ff&height=20");
   position: absolute;
   top: 2px;
   left: -38px;
   -webkit-transition: 200ms ease-in-out;
   transition: 200ms ease-in-out;
-}
-
-.modal-editguard > .modal-holder > .editguard-content > form > div:nth-child(6)::before, .modal-editguard > .modal-holder > .editguard-content > form > div:nth-child(7)::before {
-  content: url("https://api.iconify.design/fluent/fingerprint-48-regular.svg?color=%239747ff&height=20");
-  position: absolute;
-  top: 2px;
-  left: -38px;
-  -webkit-transition: 200ms ease-in-out;
-  transition: 200ms ease-in-out;
-}
-
-.modal-editguard > .modal-holder > .editguard-content > form > div:nth-child(8)::before {
-  content: url("https://api.iconify.design/bx/qr.svg?color=%239747ff&height=20");
-  position: absolute;
-  top: 2px;
-  left: -38px;
-  -webkit-transition: 200ms ease-in-out;
-  transition: 200ms ease-in-out;
-}
-
-.modal-editguard > .modal-holder > .editguard-content > form > div:nth-child(9) {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  padding: 10px 0;
-}
-
-.modal-editguard > .modal-holder > .editguard-content > form > div:nth-child(9) > button {
-  padding: 7px 0;
-  width: 45%;
-  border: none;
-  background: #19C773;
-  border-radius: 5px;
-  color: #fff;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.modal-editguard > .modal-holder > .editguard-content > form > div:nth-child(9) > button:hover {
-  background-color: #16b066;
 }
 
 .modal-deleteguard {

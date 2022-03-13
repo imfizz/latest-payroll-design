@@ -9,7 +9,6 @@
     display: flex;
     flex-direction: row;
     gap: 15px;
-    padding-right: 15px;
 
     // leftbar and others
     & > .leftbar, .centerbar, .rightbar {
@@ -477,14 +476,14 @@
                             border-radius: 4px;
                             background: #774AB0;
                             position: absolute;
-                            top: 27%;
+                            top: 52%;
                             right: 0;
                         }
                     }
                     
                     // employee highlight
                     
-                    &:nth-child(2) > ul > li:nth-child(1) > a {
+                    &:nth-child(2) > ul > li:nth-child(2) > a {
                         color: #000;
                     }
 
@@ -666,23 +665,30 @@
     }
 
     & > .centerbar {
-        width: 82%;
-        padding: 35px 15px 30px 15px;
+        width: 54%;
+        padding: 55px 10px 20px 10px;
         background: transparent !important;
+        @include y-center;
         box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+        overflow-y: scroll;
+
+        /* width */
+        &::-webkit-scrollbar {
+            width: 0px;
+        }
+
+        & > div {
+            background: $front;
+            width: 100%;
+            border: 1px solid black;
+            border-radius: 5px;
+            position: relative;
+        }
 
         & > .header-info {
             height: 4%;
             background: transparent !important;
             border: none !important;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: flex-end;
-            padding-right: 30px;
 
             & > h1 {
                 font-size: 16px;
@@ -704,239 +710,543 @@
                     font-size: 19px;
                 }
             }
-
-            & > .profile-container {
-                display: flex;
-                flex-direction: row;
-                justify-content: flex-end;
-                align-items: center;
-                width: 92%;
-                transform: translateY(4px);
-
-                & > h3 {
-                    font-size: 14px;
-                    font-weight: $medium;
-                    margin-right: 15px;
-                }
-
-                & > a {
-
-                    & > .image-container {
-                        height: 33px;
-                        width: 33px;
-                        border-radius: 50%;
-                        background: #666;
-                    }
-                }
-            }
-
         }
 
-        & > .table-info {
+        & > .welcome-info {
+            min-height: 185px;
+            background: transparent !important;
             display: flex;
             flex-direction: column;
-            padding-left: 20px;
-            height: 88%;
-            position: relative;
-            box-sizing: border-box;
+            justify-content: flex-end;
+            border: none !important;
 
-            & > .table-header {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                height: 10%;
+            & > .welcome-box {
+                height: 79%;
+                width: 100%;
+                background: $front;
+                border-radius: 5px;
+                box-sizing: border-box;
+                padding: 5px 0 8px 30px;
+                position: relative;
+                line-height: 40px;
 
-                & > h1 {
-                    font-size: 18px;
-                    font-weight: $semibold;
+                @media only screen and (min-width: 1050px) {
+                    line-height: 40px;
+                    padding: 5px 0 8px 30px;
                 }
 
-                & > form {
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: center;
-                    align-items: center;
-                    margin-right: 20px;
+                @media only screen and (min-width: 1300px) {
+                    line-height: 40px;
+                    padding: 5px 0 8px 30px;
+                }
 
-                    & > input {
-                        padding: 3px 0;
-                        text-indent: 10px;
-                        outline: none;
-                        border: 2px solid #cecece;
-                        border-radius: 5px;
-                        font-size: 13px;
+                @media only screen and (min-width: 1500px) {
+                    line-height: 50px;
+                    padding: 15px 0 8px 30px;
+                }
+
+                @media only screen and (min-width: 1700px) {
+                    line-height: 55px;
+                    padding: 15px 0 8px 30px;
+                }
+
+                & > h2 {
+                    font-size: 18px;
+                    font-weight: $medium;
+
+                    @media only screen and (min-width: 1050px) {
+                        font-size: 18px;
+                    }
+    
+                    @media only screen and (min-width: 1300px) {
+                        font-size: 18px;
+                    }
+    
+                    @media only screen and (min-width: 1500px) {
+                        font-size: 18px;
                     }
 
-                    & > button {
-                        display: none;
+                    @media only screen and (min-width: 1700px) {
+                        font-size: 21px;
                     }
-                    
+                }
+
+                & > p {
+                    width: 57%;
+                    line-height: 20px;
+                    margin-bottom: 6px;
+                    color: #50505B;
+                    font-size: 14px;
+
+                    @media only screen and (min-width: 1050px) {
+                        font-size: 12px;
+                        width: 57%;
+                        line-height: 20px;
+                    }
+
+                    @media only screen and (min-width: 1300px) {
+                        font-size: 14px;
+                        width: 48%;
+                        line-height: 20px;
+                    }
+
+                    @media only screen and (min-width: 1500px) {
+                        font-size: 15px;
+                        width: 54%;
+                        line-height: 20px;
+                    }
+
+                    @media only screen and (min-width: 1700px) {
+                        font-size: 17px;
+                        width: 52%;
+                        line-height: 28px;
+                    }
+                }
+
+                & > button {
+                    padding: 6px 18px;
+                    border-radius: 5px;
+                    border: none;
+                    background-color: $btn-secondary;
+                    transition: 100ms ease-in-out;
+
+                    @media only screen and (min-width: 1050px) {
+                        padding: 6px 18px;
+                    }
+
+                    @media only screen and (min-width: 1300px) {
+                        padding: 6px 18px;
+                    }
+
+                    @media only screen and (min-width: 1500px) {
+                        padding: 6px 18px;
+                    }
+
+                    @media only screen and (min-width: 1700px) {
+                        padding: 7px 26px;
+                    }
+
+                    &:hover {
+                        background: lighten($btn-secondary, 3%);
+                    }
+
+                    & > a {
+                        text-decoration: none;
+                        color: white;
+                        font-size: 12px;
+                        font-weight: $semibold;
+
+                        @media only screen and (min-width: 1050px) {
+                            font-size: 12px;
+                        }
+    
+                        @media only screen and (min-width: 1300px) {
+                            font-size: 12px;
+                        }
+    
+                        @media only screen and (min-width: 1500px) {
+                            font-size: 14px;
+                            width: 54%;
+                        }
+
+                        @media only screen and (min-width: 1700px) {
+                            font-size: 15px;
+                            width: 54%;
+                        }
+                    }
                 }
             }
 
-            & > .table-content {
-                height: 84%;
-                background: #fff;
-                box-sizing: border-box;
-                padding: 20px 20px 10px 20px;
-                border-radius: 5px;
-                margin-bottom: 1%;
-                overflow-y: scroll;
+            & > .welcome-svg {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                width: 61%;
+                height: 100%;
 
-                /* width */
-                &::-webkit-scrollbar {
-                    width: 5px;
+                & > object {
+                    height: 100%;
+                    width: 100%;
+                    transform: translateX(50px);
                 }
-                
-                /* Track */
-                &::-webkit-scrollbar-track {
-                    background: #f1f1f1; 
-                }
-                
-                /* Handle */
-                &::-webkit-scrollbar-thumb {
-                    background: #888;
-                    border-radius: 8px;
-                }
-                
-                /* Handle on hover */
-                &::-webkit-scrollbar-thumb:hover {
-                    background: rgb(85, 85, 85); 
-                }
+            }
+        }
 
-                & > table {
-                    border-collapse:separate;
-                    border-spacing:0 10px;
+        & > .newlyadded-info {
+            min-height: 200px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: transparent !important;
+            border: none !important;
+            padding-top: 20px;
 
-                    & > thead > tr > th {
-                        text-align: left;
+            & > .newlyadded-header {
+                height: 15%;
+                width: 100%;
+
+                & > h2 {
+                    font-size: 16px;
+                    font-weight: $semibold;
+                    color: #262626;
+
+                    @media only screen and (min-width: 1050px) {
+                        font-size: 16px;
+                    }
+    
+                    @media only screen and (min-width: 1300px) {
+                        font-size: 16px;
+                    }
+    
+                    @media only screen and (min-width: 1500px) {
+                        font-size: 16px;
+                    }
+    
+                    @media only screen and (min-width: 1700px) {
+                        font-size: 17px;
+                    }
+                }
+            }
+
+            & > .newlyadded-cards {
+                height: 85%;
+                width: 100%;
+                position: relative;
+                display: flex;
+                flex-direction: row;
+                gap: 20px;
+                
+                & > .cards {
+                    @include y-center;
+                    background: white;
+                    border-radius: 5px;
+                    padding: 15px 10px 10px 10px;
+
+                    & > .circle {
+                        height: 50px;
+                        width: 50px;
+                        border-radius: 50%;
+                        display: block;
+
+                        &.recent { background: #C0FADE; }
+                        &.late { background: #FAEDC0; }
+                        &.old { background: #FAC0C0; }
+                    }
+
+                    & > h3 {
                         font-weight: $semibold;
-                        color: #2B2B2B;
-                        font-size: 15px;
+                        font-size: 16px;
+                        margin: 10px 0;
                     }
 
+                    & > p {
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
 
-                    & > tbody > tr:nth-child(odd){
-                        background: #FAFAFA;
+        & > .companylist-container {
+            height: 30%;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0 0 0;
+            box-sizing: border-box;
+            border: none !important;
+            background: transparent !important;
+            
+            & > .companylist-header {
+                    margin-bottom: 20px;
+
+                & > h2 {
+                    font-size: 16px;
+                    font-weight: $semibold;
+                }
+            }
+
+            & > .table-container {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                position: relative;
+                background: $front;
+                padding: 20px 20px;
+                border-radius: 5px;
+                box-sizing: border-box;
+                
+                & > .table-header {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    width: 100%;
+                    position: relative;
+                    box-sizing: border-box;
+
+                    & > h2 {
+                        font-size: 16px;
+                        font-weight: $semibold;
+                        display: inline;
                     }
 
-                    & > tbody > tr:nth-child(even){
-                        background: transparent;
+                    & > form {
+                        width: 100px;
+                        position: relative;
+                        box-sizing: border-box;
+
+                        & > input {
+                            width: 100%;
+                            padding: 2px 0;
+                            text-indent: 10px;
+                            border: 2px solid #cecece;
+                            border-radius: 5px;
+                            font-size: 11px;
+                            outline: none;
+                        }
+
+                        & > button {
+                            display: none;
+                        }
                     }
+                }
 
-                    & > tbody > tr > td {
-                        font-size: 13px;
-                        padding: 5px 0;
+                & > .table-content {
+                    width: 100%;
+                    
+                    & > table {
+                        width: 100%;
+                        border-collapse: separate;
+                        border-spacing: 0 15px;
 
-                        & > .buttons {
-                            display: flex;
-                            justify-content: space-between;
-                            transform: translateY(2px);
-                            width: 40%;
-                            margin-right: 20px;
+                        & > thead > tr > th {
+                            text-align: left;
+                            font-size: 14px;
+                            font-weight: $semibold;
+                            color: #ABABAB;
+                        }
 
-                            & > .buttons-edit {
+                        & > tbody > tr > td {
+                            vertical-align: top;
+                            font-size: 13px;
+
+                            & > span {
+                                font-size: 16px;
                                 height: 21px;
                                 width: 21px;
                                 border-radius: 50%;
-                                background-color: $bgi-edit;
-                                @include y-center;
+                                text-align: center;
+                                line-height: 21px;
                                 cursor: pointer;
 
-                                &:hover {
-                                    background-color: darken($bgi-edit, 5%);
+                                // view
+                                &:nth-child(1){
+                                    background: $bgi-view;
+                                    color: $i-view;
 
-                                    & > span {
+                                    &:hover {
+                                        background: darken($bgi-view, 5%);
+                                        color: darken($i-view, 5%);
+                                    }
+                                }
+
+                                // edit
+                                &:nth-child(2){
+                                    background: $bgi-edit;
+                                    color: $i-edit;
+
+                                    &:hover {
+                                        background: darken($bgi-edit, 5%);
                                         color: darken($i-edit, 5%);
                                     }
                                 }
 
-                                & > span {
-                                    font-size: 16px;
-                                    color: $i-edit;
-                                }
-                            }
+                                // delete
+                                &:nth-child(3){
+                                    background: $bgi-delete;
+                                    color: $i-delete;
 
-                            & > .buttons-delete {
-                                height: 21px;
-                                width: 21px;
-                                border-radius: 50%;
-                                background-color: $bgi-delete;
-                                @include y-center;
-                                cursor: pointer;
-
-                                &:hover {
-                                    background-color: darken($bgi-delete, 5%);
-
-                                    & > span {
+                                    &:hover {
+                                        background: darken($bgi-delete, 5%);
                                         color: darken($i-delete, 5%);
                                     }
                                 }
-
-                                & > span {
-                                    font-size: 16px;
-                                    color: $i-delete;
-                                }
                             }
                         }
-
-                        &:first-child {
-                            text-align: center;
-                            border-radius: 10px 0 0 10px;
-
-                            & > input {
-                                height: 20px;
-                                width: 20px;
-                                transform: translateY(2px);
-                            }
-                            
-                        }
-
-                        &:last-child {
-                            border-radius: 0 10px 10px 0;
-                            display: flex;
-                            justify-content: flex-end;
-                            align-items: center;
-                        }
-                    }
-                }
-            }
-
-            & > .table-button {
-                height: 5%;
-
-                & > button {
-                    padding: 7px 20px;
-                    border: none;
-                    background-color: $btn-add;
-                    
-                    border-radius: 5px;
-                    font-weight: $semibold;
-                    cursor: pointer;
-
-                    &:hover {
-                        background-color: darken($btn-add, 5%);
-                    } 
-
-                    & > a {
-                        color: #fff;
-                        text-decoration: none;
                     }
                 }
             }
         }
-        
+    }
+
+    & > .rightbar {
+        width: 26%;
+        display: flex;
+        flex-direction: column;
+        padding: 20px 20px;
+        box-sizing: border-box;
+        position: relative;
+
+        & > .profile-container {
+            height: 10%;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
+
+            & > h4 {
+                font-size: 14px;
+                font-weight: $medium;
+                margin-right: 15px;
+            }
+
+            & > .profile-img {
+                border-radius: 50%;
+                height: 33px;
+                width: 33px;
+                background: #666;
+            }
+        }
+
+        & > .form-container {
+            height: 90%;
+            width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+
+            & > .form-header {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: flex-end;
+                height: 8%;
+                margin-bottom: 20px;
+
+                & > h2 {
+                    font-size: 18px;
+                    font-weight: $semibold;
+                }
+
+                & > a {
+                    font-size: 12px;
+                    color: #6B6B6B;
+                    font-weight: $semibold;
+                }
+            }
+
+            & > .form-contents {
+                width: 100%;
+                height: 92%;
+                position: relative;
+                overflow-y: scroll;
+
+                &::-webkit-scrollbar {
+                    width: 0px;
+                }
+
+                & > form {
+                    & > div {
+                        display: flex;
+                        flex-direction: column;
+                        margin-bottom: 15px;
+                        box-sizing: border-box;
+
+                        & > label {
+                            font-size: 14px;
+                            font-weight: $semibold;
+                            color: #292929;
+                            margin-bottom: 5px;
+                        }
+
+                        & > input {
+                            border: none;
+                            border-bottom: 1px solid #D9D9D9;
+                            outline: none;
+                        }
+
+                        // longitude and latitude map, boundary size
+                        & > .trace, #map_b {
+                            height: 250px;
+                            width: 100%;
+                            background: #D9D9D9;
+                            border-radius: 5px;
+                        }
+                        
+                        & > .distance-container { display: none; }
+
+                        & > select {
+                            padding: 4px 0 ;
+                            background: transparent;
+                            border: none;
+                            border-bottom: 1px solid #D9D9D9;
+                            outline: none;
+                        }
+
+                        & > .position-container {
+                            display: flex;
+                            justify-content: space-between;
+                            width: 100%;
+                            position: relative;
+                            gap: 10px;
+                            padding: 10px 0;
+
+                            & > input{
+                                border: none;
+                                border-bottom: 1px solid #D9D9D9;
+                                outline: none;
+                                
+                                &:nth-child(1){
+                                    width: 70%;
+                                }
+
+                                &:nth-child(2){
+                                    width: 30%;
+                                }
+                            }
+                        }
+
+                        &.addnew-container {
+                            width: 100%;
+                            position: relative;
+
+                            & > button {
+                                background: #C0FADE;
+                                color: #19C773;
+                                font-weight: $semibold;
+                                border: none;
+                                border-radius: 5px;
+                                width: 35%;
+                                padding: 4px 0;
+                                font-size: 13px;
+                            }
+                        }
+                    }
+
+                    & > button {
+                        margin: 10px 0;
+                        background: $btn-add;
+                        border-radius: 5px;
+                        padding: 6px 20px;
+                        font-weight: $semibold;
+                        color: #fff;
+                        border: none;
+                    }
+                }
+            }
+        }
     }
 }
 
-.modal-editguard {
+.modal-viewcompany {
     height: 100vh;
     width: 100vw;
     position: absolute;
     top: 0; left: 0;
     background: rgba(0,0,0,.37);
     @include y-center;
-    display: none;
+    // display: none;
 
     & > .modal-holder {
         background: white;
@@ -947,7 +1257,7 @@
         padding: 13px 0px;
         box-sizing: border-box;
 
-        & > .editguard-header {
+        & > .viewcompany-header {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -969,7 +1279,7 @@
             }
         }
 
-        & > .editguard-content {
+        & > .viewcompany-content {
             width: 100%;
             height: 93%;
             @include x-center;
@@ -983,10 +1293,11 @@
             & > form {
                 padding-top: 20px;
                 height: 100%;
-                min-width: 70%;
+                width: 72%;
                 display: flex;
                 flex-direction: column;
                 box-sizing: border-box;
+                position: relative;
 
                 & > div {
                     display: flex;
@@ -1009,19 +1320,28 @@
                         font-weight: $regular;
                     }
 
-                    // firstname, lastname
-                    &:nth-child(1)::before,
-                    &:nth-child(2)::before {
-                        content: url('https://api.iconify.design/akar-icons/person.svg?color=%239747ff&height=20');
+                    & > select {
+                        border: none;
+                        border-bottom: 1px solid #D9D9D9;
+                        outline: none;
+                        font-size: 14px;
+                        color: #464646;
+                        margin-top: 5px;
+                        width: 100%;
+                    }
+
+                    // company
+                    &:nth-child(1)::before {
+                        content: url('https://api.iconify.design/bx/bx-building.svg?color=%239747ff&height=20');
                         position: absolute;
                         top: 2px;
                         left: -38px;
                         transition: 200ms ease-in-out;
                     }
 
-                    // address
-                    &:nth-child(3)::before {
-                        content: url('https://api.iconify.design/akar-icons/location.svg?color=%239747ff&height=20');
+                    // cpnumber
+                    &:nth-child(2)::before {
+                        content: url('https://api.iconify.design/feather/phone-call.svg?color=%239747ff&height=20');
                         position: absolute;
                         top: 2px;
                         left: -38px;
@@ -1029,7 +1349,7 @@
                     }
 
                     // email
-                    &:nth-child(4)::before {
+                    &:nth-child(3)::before {
                         content: url('https://api.iconify.design/eva/email-outline.svg?color=%239747ff&height=20');
                         position: absolute;
                         top: 2px;
@@ -1037,36 +1357,151 @@
                         transition: 200ms ease-in-out;
                     }
 
-                    // contact number
+                    // trace location
+                    &:nth-child(4){
+
+                        & > .trace {
+                            width: 100%;
+                            height: 250px;
+                            background: #D9D9D9;
+                            border-radius: 5px;
+                        }
+
+                        &::before {
+                            content: url('https://api.iconify.design/akar-icons/map.svg?color=%239747ff&height=20');
+                            position: absolute;
+                            top: 2px;
+                            left: -38px;
+                            transition: 200ms ease-in-out;
+                        }
+                    }
+
+
+                    // address
                     &:nth-child(5)::before {
-                        content: url('https://api.iconify.design/feather/phone-call.svg?color=%239747ff&height=19');
+                        content: url('https://api.iconify.design/akar-icons/location.svg?color=%239747ff&height=20');
                         position: absolute;
                         top: 2px;
                         left: -38px;
                         transition: 200ms ease-in-out;
                     }
 
-                    // browser, device fingerprint
-                    &:nth-child(6)::before,
+                    // boundary
+                    &:nth-child(6){
+
+                        & > #map_b {
+                            width: 100%;
+                            height: 250px;
+                            background: #D9D9D9;
+                            border-radius: 5px;
+                        }
+
+                        &::before {
+                            content: url('https://api.iconify.design/ri/pin-distance-line.svg?color=%239747ff&height=20');
+                            position: absolute;
+                            top: 2px;
+                            left: -38px;
+                            transition: 200ms ease-in-out;
+                        }
+                    }
+
+                    // type
                     &:nth-child(7)::before {
-                        content: url('https://api.iconify.design/fluent/fingerprint-48-regular.svg?color=%239747ff&height=20');
+                        content: url('https://api.iconify.design/gg/options.svg?color=%239747ff&height=20');
                         position: absolute;
                         top: 2px;
                         left: -38px;
                         transition: 200ms ease-in-out;
                     }
 
-                    // qrcode
+                    // shift
                     &:nth-child(8)::before {
-                        content: url('https://api.iconify.design/bx/qr.svg?color=%239747ff&height=20');
+                        content: url('https://api.iconify.design/fluent/weather-partly-cloudy-day-16-regular.svg?color=%239747ff&height=20');
                         position: absolute;
                         top: 2px;
                         left: -38px;
                         transition: 200ms ease-in-out;
+                    }
+
+                    // shift span
+                    &:nth-child(9)::before {
+                        content: url('https://api.iconify.design/ic/outline-work-history.svg?color=%239747ff&height=20');
+                        position: absolute;
+                        top: 2px;
+                        left: -38px;
+                        transition: 200ms ease-in-out;
+                    }
+
+                    // day start
+                    &:nth-child(10)::before {
+                        content: url('https://api.iconify.design/bx/bx-time-five.svg?color=%239747ff&height=20');
+                        position: absolute;
+                        top: 2px;
+                        left: -38px;
+                        transition: 200ms ease-in-out;
+                    }
+
+                    // position
+                    &:nth-child(11){
+                        display: flex;
+                        flex-direction: column;
+                        width: 100%;
+                        position: relative;
+
+                        & > .position-container {
+                            display: flex;
+                            justify-content: space-between;
+                            gap: 10px;
+                            margin-bottom: 10px;
+
+                            & > input {
+                                border: none;
+                                border-bottom: 1px solid #D9D9D9;
+                                outline: none;
+                                margin-top: 5px;
+                                color: #464646;
+                                font-size: 14px;
+                            }
+
+                            & > input:first-child { width: 70%; }
+                            & > input:last-child { width: 30%; }
+                        }
+
+                        &::before {
+                            content: url('https://api.iconify.design/icon-park-outline/ranking.svg?color=%239747ff&height=20');
+                            position: absolute;
+                            top: 2px;
+                            left: -38px;
+                            transition: 200ms ease-in-out;
+                        }
+                    }
+
+                    // addnew-container button
+                    &:nth-child(12){
+                        width: 100%;
+                        position: relative;
+                        box-sizing: border-box;
+
+                        & > button {
+                            width: 35%;
+                            border: none;
+                            padding: 5px 0;
+                            border-radius: 5px;
+                            font-weight: $semibold;
+                            cursor: pointer;
+                            font-size: 13px;
+                            background: #C0FADE;
+                            color: #19C773;
+
+                            &:hover {
+                                background: darken(#C0FADE, 5%);
+                                color: darken(#19C773, 5%);
+                            }
+                        }
                     }
 
                     // button
-                    &:nth-child(9) {
+                    &:nth-child(13) {
                         display: flex;
                         justify-content: center;
                         align-items: center;
@@ -1076,99 +1511,16 @@
                             padding: 7px 0;
                             width: 45%;
                             border: none;
-                            background: $btn-edit;
+                            background: $btn-add;
                             border-radius: 5px;
                             color: #fff;
                             font-weight: $semibold;
                             cursor: pointer;
 
                             &:hover {
-                                background-color: darken($btn-edit, 5%);
+                                background-color: darken($btn-add, 5%);
                             }
                         }
-                    }
-                }
-            }
-        }
-    }
-}
-
-.modal-deleteguard {
-    height: 100vh;
-    width: 100vw;
-    position: absolute;
-    top: 0; left: 0;
-    background: rgba(0,0,0,.37);
-    display: flex;
-    justify-content: center;
-    display: none;
-    box-sizing: border-box;
-    padding-top: 70px;
-
-    & > .modal-holder {
-        background: white;
-        border-radius: 5px;
-        width: 33%;
-        max-height: 34%;
-        position: relative;
-        padding: 0px 0px 30px 0;
-        box-sizing: border-box;
-
-        & > .deleteguard-header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            border-bottom: 1px solid rgb(200, 200, 200);
-            height: 25%;
-            box-sizing: border-box;
-
-            & > h1 {
-                font-size: 20px;
-                font-weight: $medium;
-            }
-
-            & > span {
-                position: absolute;
-                right: 20px;
-                cursor: pointer;
-            }
-        }
-
-        & > .deleteguard-content {
-            width: 100%;
-            height: 75%;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            position: relative;
-
-            & > h1 {
-                font-size: 18px;
-                font-weight: $medium;
-                text-align: center;
-                width: 70%;
-                padding: 20px 0;
-            }
-
-            & > form {
-                width: 35%;
-                @include x-center;
-
-                & > button {
-                    width: 100%;
-                    padding: 7px 0;
-                    border-radius: 5px;
-                    background-color: $btn-delete;
-                    border: none;
-                    color: white;
-                    font-weight: $semibold;
-                    cursor: pointer;
-
-                    &:hover {
-                        background-color: darken($btn-delete, 5%);
                     }
                 }
             }
