@@ -237,7 +237,7 @@
                         &::before {
                             content: url('https://api.iconify.design/fluent/task-list-square-rtl-24-regular.svg?color=%239747ff&height=25');
                             position: absolute;
-                            top: 20px;
+                            top: 6px;
                             left: -38px;
 
                             @media only screen and (min-width: 1050px) {
@@ -272,7 +272,7 @@
                         &::before {
                             content: url('https://api.iconify.design/heroicons-outline/chart-square-bar.svg?color=%239747ff&height=25');
                             position: absolute;
-                            top: 4%;
+                            top: 18%;
                             left: -38px;
 
                             @media only screen and (min-width: 1050px) {
@@ -459,7 +459,7 @@
                         }
 
                         &::before {
-                            content: url('https://api.iconify.design/fluent/task-list-square-rtl-24-regular.svg?color=%239747ff&height=25');
+                            content: url('https://api.iconify.design/heroicons-outline/chart-square-bar.svg?color=%239747ff&height=25');
                             position: absolute;
                             top: 20px;
                             transform: translateY(-50%);
@@ -471,7 +471,7 @@
                             }
     
                             @media only screen and (min-width: 1300px) {
-                                content: url('https://api.iconify.design/fluent/task-list-square-rtl-24-regular.svg?color=%239747ff&height=25');
+                                content: url('https://api.iconify.design/heroicons-outline/chart-square-bar.svg?color=%239747ff&height=25');
                                 left: -38px;
                             }
     
@@ -493,13 +493,14 @@
                             border-radius: 4px;
                             background: #774AB0;
                             position: absolute;
-                            top: 77%;
+                            top: 40%;
                             right: 0;
                         }
                     }
                     
-                    // secretary highlight
-                    &:nth-child(2) > ul > li:nth-child(3) > a {
+                    // leave highlight
+                    
+                    &:nth-child(3) > ul > li:nth-child(1) > a {
                         color: #000;
                     }
 
@@ -681,408 +682,127 @@
     }
 
     & > .centerbar {
-        width: 58%;
-        padding: 35px 0 20px 15px;
-        background: transparent !important;
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
+        padding: 35px 10px 20px 15px;
         box-sizing: border-box;
-        position: relative;
         overflow-y: scroll;
+        width: 22%;
+        background-color: transparent !important;
 
-        /* width */
         &::-webkit-scrollbar {
             width: 0px;
         }
 
-        & > div {
-            background: $front;
-            width: 100%;
-            border-radius: 5px;
-            position: relative;
-        }
-
         & > .header-info {
-            height: 20px;
-            background: transparent !important;
-            border: none !important;
-            margin-bottom: 50px;
-
             & > h1 {
                 font-size: 16px;
                 font-weight: $semibold;
             }
         }
 
-        & > .recentaccount {
+        & > .recent-activity {
             display: flex;
             flex-direction: column;
+            position: relative;
             width: 100%;
-            height: 300px;
-            background: transparent;
-            box-sizing: border-box;
-            margin-bottom: 10px;
+            margin-top: 75%;
 
-            & > .recentaccount-header {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: flex-end;
-                height: 20px;
+            & > .recent-activitiy-header {
                 width: 100%;
-                background: transparent;
+                position: relative;
                 margin-bottom: 20px;
 
                 & > h1 {
                     font-size: 16px;
                     font-weight: $semibold;
-                    color: #262626;
-                }
-
-                & > a {
-                    color: #6B6B6B;
-                    font-size: 14px;
-                    font-weight: $semibold;
-
-                    &:hover {
-                        color: darken(#6B6B6B, 25%);
-                    }
                 }
             }
 
-            & > .recentacount-svg {
-                display: flex;
-                flex-direction: row;
-                gap: 15px;
-                width: 100%;
-                height: calc(100% - 20px);
-                position: relative;
-                box-sizing: border-box;
-
-                & > .left-svg {
-                    width: 70%;
-                    position: relative;
-                    background: white;
-                    border-radius: 5px;
-                    box-sizing: border-box;
-                    display: flex;
-                    justify-content: flex-end;
-
-                    & > .left-svg-headline {
-                        height: calc(100% - 40px);
-                        width: calc(100% - 20px);
-                        position: absolute;
-                        top: 20px; left: 20px;
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: space-between;
-                        box-sizing: border-box;
-
-                        & > .left-svg-top {
-                            display: flex;
-                            flex-direction: column;
-                            box-sizing: border-box;
-                            width: calc(100% - 20px);
-                            height: calc(50% - 20px);
-
-                            & > h2 {
-                                font-weight: $regular;
-                                font-size: 18px;
-                                width: 130px;
-                                margin-bottom: 30px;
-                            }
-
-                            & > button {
-                                border: none;
-                                border-radius: 5px;
-                                background: #F2F2F2;
-                                display: flex;
-                                flex-direction: row;
-                                align-items: center;
-                                padding: 5px 00px;
-                                width: 18%;
-                                box-sizing: border-box;
-                                font-weight: $semibold;
-                                color: #000;
-                                cursor: pointer;
-
-                                &:hover {
-                                    background: darken(#F2F2F2, 5%);
-
-                                    & > div {
-                                        background: darken(#D8D8D8, 5%);
-                                    }
-                                }
-
-                                & > div {
-                                    margin: 0 10px;
-                                    height: 15px;
-                                    width: 15px;
-                                    border-radius: 50%;
-                                    background: #D8D8D8;
-                                }
-                            }
-                        }
-
-                        & > .left-svg-bottom {
-                            display: flex;
-                            flex-direction: row;
-                            align-items: flex-end;
-                            width: calc(100% - 20px);
-                            height: calc(52% - 20px);
-                            position: relative;
-                            gap: 10px;
-                            box-sizing: border-box;
-
-                            & > .profile {
-                                height: 55%;
-                                width: 10%;
-                                background: #F16063;
-                                border-radius: 5px;
-                                position: relative;
-                                display: flex;
-                                justify-content: center;
-                                align-items: center;
-
-                                & > object {
-                                    height: 80%;
-                                }
-
-                            }
-
-                            & > .profile-text {
-                                width: 60%;
-
-                                & > h3 {
-                                    font-weight: $regular;
-                                    font-size: 14px;
-                                }
-
-                                & > p {
-                                    font-size: 13px;
-                                    color: #8C8C8C;
-                                }
-                            }
-                        }
-                    }
-
-                    & > .left-svg-image {
-                        display: flex;
-                        flex-direction: column;
-                        align-items: flex-end;
-                        justify-content: flex-end;
-                        box-sizing: border-box;
-                        padding: 15px 10px 15px 0;
-
-                        & > object {
-                            height: 220px;
-                        }
-                    }
-                }
-
-                & > .right-svg {
-                    width: 30%;
-                    background: $front;
-                    border-radius: 5px;
-                    box-sizing: border-box;
-                    padding: 20px 15px 18px 15px;
-
-                    & > .right-svg-headline {
-                        width: 100%;
-                        height: 100%;
-
-                        & > .right-svg-top {
-                            display: flex;
-                            flex-direction: column;
-                            box-sizing: border-box;
-
-                            & > h2 {
-                                font-weight: $regular;
-                                font-size: 18px;
-                                width: 130px;
-                                margin-bottom: 30px;
-                            }
-
-                            & > button {
-                                border: none;
-                                border-radius: 5px;
-                                background: #F2F2F2;
-                                display: flex;
-                                flex-direction: row;
-                                align-items: center;
-                                padding: 5px 00px;
-                                width: 44%;
-                                box-sizing: border-box;
-                                font-weight: $semibold;
-                                color: #000;
-                                cursor: pointer;
-
-                                &:hover {
-                                    background: darken(#F2F2F2, 5%);
-
-                                    & > div {
-                                        background: darken(#D8D8D8, 5%);
-                                    }
-                                }
-
-                                & > div {
-                                    margin: 0 10px;
-                                    height: 15px;
-                                    width: 15px;
-                                    border-radius: 50%;
-                                    background: #D8D8D8;
-                                }
-                            }
-                        }
-
-                        & > .right-svg-bottom {
-                            display: flex;
-                            flex-direction: row;
-                            align-items: flex-end;
-                            width: 100%;
-                            height: 52%;
-                            position: relative;
-                            gap: 10px;
-                            box-sizing: border-box;
-                            padding-bottom: 15px;
-
-                            & > .profile {
-                                height: 50%;
-                                width: 25%;
-                                background: #6F6FFB;
-                                border-radius: 5px;
-                                position: relative;
-                                display: flex;
-                                justify-content: center;
-                                align-items: center;
-
-                                & > object {
-                                    height: 80%;
-                                }
-                            }
-
-                            & > .profile-text {
-                                width: 60%;
-
-                                & > h3 {
-                                    font-weight: $regular;
-                                    font-size: 14px;
-                                }
-
-                                & > p {
-                                    font-size: 13px;
-                                    color: #8C8C8C;
-                                }
-                            }
-                        }
-                    }
-
-                    & > .right-svg-image {
-                        position: absolute;
-                        top: 50%;
-                        transform: translateY(-40%);
-                        right: -10px;
-
-                        & > object {
-                            width: 120px;
-                        }
-                    }
-                }
-            }
-        }
-
-        & > .activities {
-            display: flex;
-            flex-direction: column;
-            // padding-bottom: 10px;
-            background: transparent;
-            border-radius: 5px;
-            width: 85%;
-            position: relative;
-            box-sizing: border-box;
-
-            & > .activities-header {
-                width: 100%;
-                height: 20%;
-                display: flex;
-                align-items: center;
-                padding: 20px 0 20px 0;
-                box-sizing: border-box;
-
-                & > h1 {
-                    font-size: 16px;
-                    font-weight: $semibold;
-                }
-            }
-
-            & > .activities-content {
-                width: 100%;
-                position: relative;
-                padding-bottom: 10px;
+            & > .recent-activity-content {
                 border-radius: 5px;
-                background: $front;
                 display: flex;
                 flex-direction: column;
-                box-sizing: border-box;
+                gap: 20px;
 
-
-                &::-webkit-scrollbar {
-                    width: 0px;
-                }
-
-                & > .activities-content-header {
-                    display: flex;
-                    align-items: center;
-                    width: 100%;
-                    padding: 30px 0px 10px 20px;
-                    box-sizing: border-box;
-
-                    & > h2 {
-                        font-size: 16px;
-                        font-weight: $semibold;
-                    }
-                }
-
-                & > .activities-main-contents {
-                    width: 100%;
-                    padding-left: 20px;
+                & > .card {
+                    margin-bottom: 20px;
                     display: flex;
                     flex-direction: column;
+                    justify-content: space-between;
+                    padding: 20px 10px;
                     box-sizing: border-box;
+                    min-height: 150px;
+                    background: $front;
+                    border-radius: 5px;
 
-                    & > table {
-                        background: $front;
-                        border-collapse:separate;
-                        border-spacing: 0 10px;
-    
-                        & > thead {
-        
-                            & > tr > th {
-                                text-align: left;
-                                color: #ABABAB;
+                    & > .card-header {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        align-items: center;
+
+
+                        & > .card-status {
+                            display: flex;
+                            align-items: center;
+                            gap: 10px;
+
+                            & > .circle {
+                                height: 15px;
+                                width: 15px;
+                                border-radius: 50%;
+                                
+                                &.approve {
+                                    background: #ABFFB3;
+                                }
+
+                                &.reject {
+                                    background: #FFABAB;
+                                }
+                            }
+
+                            & > h2 {
+                                font-size: 18px;
                                 font-weight: $semibold;
-                                font-size: 14px;
                             }
                         }
-        
-                        & > tbody {
-                            
-                            & > tr > td {
-                                font-size: 13px;
-                                font-weight: $regular;
-                                vertical-align: top;
+
+                        & > span {
+                            cursor: pointer;
+                            font-size: 18px;
+                            font-weight: $semibold;
+                        }
+                    }
+
+                    & > .card-content {
+                        display: flex;
+                        flex-direction: column;
+                        padding-left: 25px;
+
+                        & > p {
+                            font-size: 16px;
+                            font-weight: $regular;
+                        }
+
+                        & > span {
+                            font-size: 12px;
+                            font-weight: $semibold;
+                            color: #7C7C7C;
+
+                            & > b {
+                                font-weight: $semibold;
                             }
                         }
                     }
                 }
-
-                
             }
         }
     }
 
     & > .rightbar {
-        width: 24%;
+        width: 60%;
         padding-top: 30px;
         padding-left: 50px;
         padding-bottom: 20px;
@@ -1124,95 +844,64 @@
 
             
         }
-
-        & > .sidenav {
-            width: 100%;
+        
+        & .leave-welcome {
             display: flex;
             flex-direction: column;
-            margin-bottom: 30px;
-            
-            & > .sidenav-header {
-                margin-top: 12px;
-                margin-bottom: 19px;
+            justify-content: flex-end;
+            align-self: flex-end;
+            width: 80%;
+            position: relative;
+            margin-bottom: 38px;
 
-                & > h1 {
-                    font-size: 16px;
-                    font-weight: $semibold;
-                    color: #262626;
+            & > .leave-box {
+                height: 130px;
+                background: $front;
+                border-radius: 5px;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-end;
+                width: 100%;
+                position: relative;
+
+                & > .svg-container {
+                    position: absolute;
+                    bottom: 0; left: 0;
+
+                    & > object {
+                        width: 250px;
+                    }
                 }
-            }
 
-            & > .sidenav-content {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                grid-template-rows: repeat(2, 120px);
-                grid-gap: 10px;
-                
-                & > div {
-                    background: white;
-                    border-radius: 5px;
+                & > .welcome-headline {
+                    width: 60%;
+                    height: 100%;
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
-                    align-items: center;
-                    text-align: center;
-                    box-sizing: border-box;
-                    padding: 10px;
-                    gap: 5px;
+                    padding: 0 20px;
+                    position: relative;
 
-                    &:nth-child(1){
-                        & > span::before {
-                            content: url('https://api.iconify.design/healthicons/security-worker-outline.svg?color=black&height=37');
-                            position: absolute;
-                            top: 0; left: 0;
-                        }
+                    & > h1 {
+                        font-size: 18px;
+                        font-weight: $medium;
                     }
 
-                    &:nth-child(2){
-                        background: #464646;
-                        
-                        & > span::before {
-                            content: url('https://api.iconify.design/healthicons/security-worker.svg?color=white&height=37');
-                            position: absolute;
-                            top: 0; left: 0;
-                        }
-
-                        & > a {
-                            color: #fff;
-                        }
-                    }
-
-                    &:nth-child(3){
-                        & > span::before {
-                            content: url('https://api.iconify.design/bx/bx-building.svg?color=black&height=37');
-                            position: absolute;
-                            top: 0; left: 0;
-                        }
-                    }
-
-                    & > span{
-                        position: relative;
-                        height: 37px;
-                        width: 37px;
-                    }
-                    
-
-                    & > a {
-                        text-decoration: none;
-                        font-weight: $semibold;
-                        font-size: 14px;
-                        text-align: center;
-                        color: #000;
+                    & > p {
+                        width: 89%;
                     }
                 }
             }
         }
 
-        & > .add-account {
+        & > .employee-request {
             display: flex;
             flex-direction: column;
+            position: relative;
+            width: 100%;
 
-            & > .add-account-header {
+            & > .employee-request-header {
+                width: 100%;
                 margin-bottom: 20px;
 
                 & > h1 {
@@ -1221,73 +910,126 @@
                 }
             }
 
-            & > .add-account-container {
+            & > .table-container {
                 display: flex;
                 flex-direction: column;
-                padding: 20px 10px;
-                background-color: $front;
-                box-sizing: border-box;
+                background: $front;
                 border-radius: 5px;
+                padding: 30px 20px;
 
-                & > .add-account-container-header {
-                    margin-bottom: 30px;
+                & > .table-header {
+                    width: 100%;
+                    margin-bottom: 20px;
 
-                    & > h2 {
+                    & > h1 {
                         font-size: 16px;
                         font-weight: $semibold;
                     }
                 }
 
-                & > .add-account-container-form {
-                    width: 100%;
-                    position: relative;
-                    display: flex;
-                    flex-direction: column;
+                & > .table-content {
 
-                    & > form {
-                        display: flex;
-                        flex-direction: column;
+                    & > table {
                         width: 100%;
+                        position: relative;
+                        border-collapse: separate;
+                        border-spacing: 0 20px;
 
-
-                        & > div {
-                            display: flex;
-                            flex-direction: column;
-                            margin-bottom: 10px;
-
-                            & > label {
-                                font-size: 14px;
-                                font-weight: $semibold;
-                            }
-
-                            & > input {
-                                border: none;
-                                border-bottom: 1px solid #D9D9D9;
-                                outline: none;
-                                margin-top: 10px;
-                            }
-
-                            & > select {
-                                border: none;
-                                border-bottom: 1px solid #D9D9D9;
-                            }
+                        & > thead > tr > th {
+                            text-align: left;
+                            color: #ABABAB;
+                            font-weight: $semibold;
+                            font-size: 14px;
                         }
 
-                        & > button {
-                            border: none;
-                            outline: none;
-                            border-radius: 5px;
-                            background-color: $btn-add;
-                            color: white;
-                            font-weight: $semibold;
-                            padding: 7px 0px;
-                            cursor: pointer;
+                        & > tbody > tr > td {
+                            font-size: 13px;
+                            font-weight: $regular;
 
-                            &:hover {
-                                background-color: darken($btn-add, 5%);
+                            & > .buttons {
+                                display: flex;
+                                flex-direction: row;
+                                justify-content: flex-start;
+                                gap: 5px;
+
+                                & > a {
+                                    height: 21px;
+                                    width: 21px;
+                                    border-radius: 50%;
+                                    text-align: center;
+                                    text-decoration: none;
+
+                                    &:nth-child(1){
+                                        background: $bgi-view;
+                                        display: flex;
+                                        flex-direction: column;
+                                        justify-content: center;
+                                        align-items: center;
+
+                                        &:hover {
+                                            background: darken($bgi-view, 5%);
+
+                                            & > span {
+                                                color: darken($i-view, 5%);
+                                            }
+                                        }
+
+                                        & > span {
+                                            color: $i-view;
+                                            font-size: 15px;
+                                            transform: translateY(0px);
+                                        }
+                                    }
+
+                                    &:nth-child(2){
+                                        background: $bgi-edit;
+                                        display: flex;
+                                        flex-direction: column;
+                                        justify-content: center;
+                                        align-items: center;
+
+                                        &:hover {
+                                            background: darken($bgi-edit, 5%);
+
+                                            & > span {
+                                                color: darken($i-edit, 5%);
+                                            }
+                                        }
+
+                                        & > span {
+                                            color: $i-edit;
+                                            font-size: 15px;
+                                            transform: translateY(0px);
+                                        }
+                                    }
+
+
+                                    &:nth-child(3){
+                                        background: $bgi-delete;
+                                        display: flex;
+                                        flex-direction: column;
+                                        justify-content: center;
+                                        align-items: center;
+
+                                        &:hover {
+                                            background: darken($bgi-delete, 5%);
+
+                                            & > span {
+                                                color: darken($i-delete, 5%);
+                                            }
+                                        }
+
+                                        & > span {
+                                            color: $i-delete;
+                                            font-size: 15px;
+                                            transform: translateY(0px);
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
+
                 }
             }
         }

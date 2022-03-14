@@ -714,395 +714,188 @@
             }
         }
 
-        & > .recentaccount {
+        & > .table-container {
             display: flex;
             flex-direction: column;
-            width: 100%;
-            height: 300px;
             background: transparent;
+            width: 100%;
             box-sizing: border-box;
-            margin-bottom: 10px;
 
-            & > .recentaccount-header {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: flex-end;
-                height: 20px;
+            & > .table-header {
                 width: 100%;
-                background: transparent;
+                box-sizing: border-box;
                 margin-bottom: 20px;
 
                 & > h1 {
-                    font-size: 16px;
-                    font-weight: $semibold;
-                    color: #262626;
-                }
-
-                & > a {
-                    color: #6B6B6B;
-                    font-size: 14px;
-                    font-weight: $semibold;
-
-                    &:hover {
-                        color: darken(#6B6B6B, 25%);
-                    }
-                }
-            }
-
-            & > .recentacount-svg {
-                display: flex;
-                flex-direction: row;
-                gap: 15px;
-                width: 100%;
-                height: calc(100% - 20px);
-                position: relative;
-                box-sizing: border-box;
-
-                & > .left-svg {
-                    width: 70%;
-                    position: relative;
-                    background: white;
-                    border-radius: 5px;
-                    box-sizing: border-box;
-                    display: flex;
-                    justify-content: flex-end;
-
-                    & > .left-svg-headline {
-                        height: calc(100% - 40px);
-                        width: calc(100% - 20px);
-                        position: absolute;
-                        top: 20px; left: 20px;
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: space-between;
-                        box-sizing: border-box;
-
-                        & > .left-svg-top {
-                            display: flex;
-                            flex-direction: column;
-                            box-sizing: border-box;
-                            width: calc(100% - 20px);
-                            height: calc(50% - 20px);
-
-                            & > h2 {
-                                font-weight: $regular;
-                                font-size: 18px;
-                                width: 130px;
-                                margin-bottom: 30px;
-                            }
-
-                            & > button {
-                                border: none;
-                                border-radius: 5px;
-                                background: #F2F2F2;
-                                display: flex;
-                                flex-direction: row;
-                                align-items: center;
-                                padding: 5px 00px;
-                                width: 18%;
-                                box-sizing: border-box;
-                                font-weight: $semibold;
-                                color: #000;
-                                cursor: pointer;
-
-                                &:hover {
-                                    background: darken(#F2F2F2, 5%);
-
-                                    & > div {
-                                        background: darken(#D8D8D8, 5%);
-                                    }
-                                }
-
-                                & > div {
-                                    margin: 0 10px;
-                                    height: 15px;
-                                    width: 15px;
-                                    border-radius: 50%;
-                                    background: #D8D8D8;
-                                }
-                            }
-                        }
-
-                        & > .left-svg-bottom {
-                            display: flex;
-                            flex-direction: row;
-                            align-items: flex-end;
-                            width: calc(100% - 20px);
-                            height: calc(52% - 20px);
-                            position: relative;
-                            gap: 10px;
-                            box-sizing: border-box;
-
-                            & > .profile {
-                                height: 55%;
-                                width: 10%;
-                                background: #F16063;
-                                border-radius: 5px;
-                                position: relative;
-                                display: flex;
-                                justify-content: center;
-                                align-items: center;
-
-                                & > object {
-                                    height: 80%;
-                                }
-
-                            }
-
-                            & > .profile-text {
-                                width: 60%;
-
-                                & > h3 {
-                                    font-weight: $regular;
-                                    font-size: 14px;
-                                }
-
-                                & > p {
-                                    font-size: 13px;
-                                    color: #8C8C8C;
-                                }
-                            }
-                        }
-                    }
-
-                    & > .left-svg-image {
-                        display: flex;
-                        flex-direction: column;
-                        align-items: flex-end;
-                        justify-content: flex-end;
-                        box-sizing: border-box;
-                        padding: 15px 10px 15px 0;
-
-                        & > object {
-                            height: 220px;
-                        }
-                    }
-                }
-
-                & > .right-svg {
-                    width: 30%;
-                    background: $front;
-                    border-radius: 5px;
-                    box-sizing: border-box;
-                    padding: 20px 15px 18px 15px;
-
-                    & > .right-svg-headline {
-                        width: 100%;
-                        height: 100%;
-
-                        & > .right-svg-top {
-                            display: flex;
-                            flex-direction: column;
-                            box-sizing: border-box;
-
-                            & > h2 {
-                                font-weight: $regular;
-                                font-size: 18px;
-                                width: 130px;
-                                margin-bottom: 30px;
-                            }
-
-                            & > button {
-                                border: none;
-                                border-radius: 5px;
-                                background: #F2F2F2;
-                                display: flex;
-                                flex-direction: row;
-                                align-items: center;
-                                padding: 5px 00px;
-                                width: 44%;
-                                box-sizing: border-box;
-                                font-weight: $semibold;
-                                color: #000;
-                                cursor: pointer;
-
-                                &:hover {
-                                    background: darken(#F2F2F2, 5%);
-
-                                    & > div {
-                                        background: darken(#D8D8D8, 5%);
-                                    }
-                                }
-
-                                & > div {
-                                    margin: 0 10px;
-                                    height: 15px;
-                                    width: 15px;
-                                    border-radius: 50%;
-                                    background: #D8D8D8;
-                                }
-                            }
-                        }
-
-                        & > .right-svg-bottom {
-                            display: flex;
-                            flex-direction: row;
-                            align-items: flex-end;
-                            width: 100%;
-                            height: 52%;
-                            position: relative;
-                            gap: 10px;
-                            box-sizing: border-box;
-                            padding-bottom: 15px;
-
-                            & > .profile {
-                                height: 50%;
-                                width: 25%;
-                                background: #6F6FFB;
-                                border-radius: 5px;
-                                position: relative;
-                                display: flex;
-                                justify-content: center;
-                                align-items: center;
-
-                                & > object {
-                                    height: 80%;
-                                }
-                            }
-
-                            & > .profile-text {
-                                width: 60%;
-
-                                & > h3 {
-                                    font-weight: $regular;
-                                    font-size: 14px;
-                                }
-
-                                & > p {
-                                    font-size: 13px;
-                                    color: #8C8C8C;
-                                }
-                            }
-                        }
-                    }
-
-                    & > .right-svg-image {
-                        position: absolute;
-                        top: 50%;
-                        transform: translateY(-40%);
-                        right: -10px;
-
-                        & > object {
-                            width: 120px;
-                        }
-                    }
-                }
-            }
-        }
-
-        & > .activities {
-            display: flex;
-            flex-direction: column;
-            // padding-bottom: 10px;
-            background: transparent;
-            border-radius: 5px;
-            width: 85%;
-            position: relative;
-            box-sizing: border-box;
-
-            & > .activities-header {
-                width: 100%;
-                height: 20%;
-                display: flex;
-                align-items: center;
-                padding: 20px 0 20px 0;
-                box-sizing: border-box;
-
-                & > h1 {
-                    font-size: 16px;
+                    font-size: 18px;
                     font-weight: $semibold;
                 }
             }
 
-            & > .activities-content {
-                width: 100%;
-                position: relative;
-                padding-bottom: 10px;
-                border-radius: 5px;
-                background: $front;
+            & > .table-content {
                 display: flex;
                 flex-direction: column;
+                width: 100%;
                 box-sizing: border-box;
+                background: $front;
+                border-radius: 5px;
+                padding: 30px 20px 20px 20px;
 
-
-                &::-webkit-scrollbar {
-                    width: 0px;
-                }
-
-                & > .activities-content-header {
+                & > .table-content-header {
                     display: flex;
-                    align-items: center;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    box-sizing: border-box;
                     width: 100%;
-                    padding: 30px 0px 10px 20px;
                     box-sizing: border-box;
 
-                    & > h2 {
+                    & > h1 {
                         font-size: 16px;
                         font-weight: $semibold;
                     }
-                }
 
-                & > .activities-main-contents {
-                    width: 100%;
-                    padding-left: 20px;
-                    display: flex;
-                    flex-direction: column;
-                    box-sizing: border-box;
+                    & > form {
+                        width: 120px;
+                        position: relative;
+                        box-sizing: border-box;
 
-                    & > table {
-                        background: $front;
-                        border-collapse:separate;
-                        border-spacing: 0 10px;
-    
-                        & > thead {
-        
-                            & > tr > th {
-                                text-align: left;
-                                color: #ABABAB;
-                                font-weight: $semibold;
-                                font-size: 14px;
-                            }
-                        }
-        
-                        & > tbody {
-                            
-                            & > tr > td {
-                                font-size: 13px;
-                                font-weight: $regular;
-                                vertical-align: top;
-                            }
+                        & > input {
+                            border-radius: 5px;
+                            padding: 0px 0;
+                            border: 2px solid #ABABAB;
+                            width: 100%;
+                            text-indent: 5px;
+                            outline: none;
+                            font-size: 12px;
+                            padding: 3px 0;
                         }
                     }
                 }
 
-                
+                & > .table-content-form {
+                    width: 100%;
+                    position: relative;
+
+                    & > table {
+                        width: 100%;
+
+                        border-collapse: separate;
+
+                        & > thead > tr > th {
+                            text-align: left;
+                            font-weight: $semibold;
+                            color: #2B2B2B;
+                            font-size: 15px;
+                        }
+
+                        & > tbody > tr > td {
+                            font-size: 13px;
+                            padding: 5px 0;
+                            border-spacing: 35px 0px;
+                        
+                            & > .buttons {
+                                display: flex;
+                                flex-direction: row;
+                                justify-content: flex-start;
+                                gap: 10px;
+
+                                & > a {
+                                    text-decoration: none;
+
+                                    &:nth-child(1){
+                                        height: 21px;
+                                        width: 21px;
+                                        border-radius: 50%;
+                                        background: $bgi-view;
+                                        text-align: center;
+                                        line-height: 21px;
+
+                                        &:hover {
+                                            background: darken($bgi-view, 5%);
+
+                                            & > span {
+                                                color: darken($i-view, 5%);
+                                            }
+                                        }
+
+                                        & > span {
+                                            font-size: 13px;
+                                            color: $i-view;
+                                            transform: translateY(2px);
+                                        }
+                                    }
+
+                                    &:nth-child(2){
+                                        height: 21px;
+                                        width: 21px;
+                                        border-radius: 50%;
+                                        background: $bgi-edit;
+                                        text-align: center;
+                                        line-height: 21px;
+
+                                        &:hover {
+                                            background: darken($bgi-edit, 5%);
+
+                                            & > span {
+                                                color: darken($i-edit, 5%);
+                                            }
+                                        }
+
+                                        & > span {
+                                            font-size: 13px;
+                                            color: $i-edit;
+                                            transform: translateY(2px);
+                                        }
+                                    }
+
+                                    &:nth-child(3){
+                                        height: 21px;
+                                        width: 21px;
+                                        border-radius: 50%;
+                                        background: $bgi-delete;
+                                        text-align: center;
+                                        line-height: 21px;
+
+                                        &:hover {
+                                            background: darken($bgi-delete, 5%);
+
+                                            & > span {
+                                                color: darken($i-delete, 5%);
+                                            }
+                                        }
+
+                                        & > span {
+                                            font-size: 13px;
+                                            color: $i-delete;
+                                            transform: translateY(2px);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
 
     & > .rightbar {
-        width: 24%;
-        padding-top: 30px;
-        padding-left: 50px;
-        padding-bottom: 20px;
+        width: 28%;
+        padding-top: 35px;
         background: transparent !important;
         display: flex;
         flex-direction: column;
-        overflow-y: scroll;
-
-        /* width */
-        &::-webkit-scrollbar {
-            width: 5px;
-        }
+        gap: 10px;
+        box-sizing: border-box;
+        padding-bottom: 20px;
 
         & > .profile-container {
+            height: 9%;
             display: flex;
-            flex-direction: row;
             justify-content: flex-end;
+            align-items: flex-start;
             box-sizing: border-box;
             padding-right: 30px;
-            margin-bottom: 26px;
 
             & > .profile-setter {
                 display: flex;
@@ -1118,175 +911,146 @@
                     height: 33px;
                     width: 33px;
                     border-radius: 50%;
-                    background: rgb(102, 102, 102);
+                    background: #333;
                 }
             }
 
             
         }
 
-        & > .sidenav {
-            width: 100%;
+        & > .relative-links {
             display: flex;
             flex-direction: column;
-            margin-bottom: 30px;
-            
-            & > .sidenav-header {
-                margin-top: 12px;
-                margin-bottom: 19px;
+            width: 100%;
+            position: relative;
+           
+
+            & > .relative-links-header {
+                margin-bottom: 20px;
+                padding-top: 10px;
 
                 & > h1 {
                     font-size: 16px;
                     font-weight: $semibold;
-                    color: #262626;
                 }
             }
 
-            & > .sidenav-content {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                grid-template-rows: repeat(2, 120px);
-                grid-gap: 10px;
-                
+            & > .top {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+                margin-bottom: 10px;
+
                 & > div {
-                    background: white;
-                    border-radius: 5px;
+                    height: 120px;
+                }
+
+                & > div:first-child {
+                    width: 30%;
+                    background: #393939;
+                    border-top-left-radius: 5px;
+                    border-bottom-left-radius: 5px;
                     display: flex;
                     flex-direction: column;
-                    justify-content: center;
                     align-items: center;
-                    text-align: center;
-                    box-sizing: border-box;
-                    padding: 10px;
-                    gap: 5px;
+                    justify-content: center;
 
-                    &:nth-child(1){
-                        & > span::before {
-                            content: url('https://api.iconify.design/healthicons/security-worker-outline.svg?color=black&height=37');
+                    & > span {
+                        height: 50px;
+                        width: 50px;
+                        position: relative;
+
+                        &::before {
+                            content: url('https://api.iconify.design/healthicons/security-worker.svg?color=%23f8f8f8&height=50');
                             position: absolute;
                             top: 0; left: 0;
+                        }
+                    }
+                }
+
+                & > div:last-child {
+                    width: 70%;
+                    background: #464646;
+                    border-top-right-radius: 5px;
+                    border-bottom-right-radius: 5px;
+                    display: flex;
+                    align-items: center;
+                    padding-left: 30px;
+                    box-sizing: border-box;
+
+                    & > a {
+                        text-decoration: none;
+                        color: #fff;
+                        font-weight: $medium;
+                        width: 100px;
+                        font-size: 18px;
+                    }
+                }
+            }
+            
+            & > .bottom {
+                display: flex;
+                flex-direction: row;
+                gap: 30px;
+                width: 100%;
+                position: relative;
+                box-sizing: border-box;
+
+                & > div {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 20px;
+                    width: 100%;
+
+                    &:nth-child(1){
+                        & > div { 
+                            background: #FFB163; 
+
+                            & > span {
+                                height: 45px;
+                                width: 45px;
+                                position: relative;
+
+                                &:before {
+                                    content: url('https://api.iconify.design/healthicons/security-worker.svg?color=%23f8f8f8&height=45');
+                                    position: absolute;
+                                    top: 0; left: 0;
+                                }
+                            }
                         }
                     }
 
                     &:nth-child(2){
-                        background: #464646;
-                        
-                        & > span::before {
-                            content: url('https://api.iconify.design/healthicons/security-worker.svg?color=white&height=37');
-                            position: absolute;
-                            top: 0; left: 0;
-                        }
+                        & > div { 
+                            background: $front; 
 
-                        & > a {
-                            color: #fff;
-                        }
-                    }
+                            & > span {
+                                height: 45px;
+                                width: 45px;
+                                position: relative;
 
-                    &:nth-child(3){
-                        & > span::before {
-                            content: url('https://api.iconify.design/bx/bx-building.svg?color=black&height=37');
-                            position: absolute;
-                            top: 0; left: 0;
+                                &:before {
+                                    content: url('https://api.iconify.design/bx/bx-building.svg?color=black&height=45');
+                                    position: absolute;
+                                    top: 0; left: 0;
+                                }
+                            }
                         }
                     }
 
-                    & > span{
-                        position: relative;
-                        height: 37px;
-                        width: 37px;
-                    }
-                    
-
-                    & > a {
-                        text-decoration: none;
-                        font-weight: $semibold;
+                    & > p {
                         font-size: 14px;
-                        text-align: center;
-                        color: #000;
-                    }
-                }
-            }
-        }
-
-        & > .add-account {
-            display: flex;
-            flex-direction: column;
-
-            & > .add-account-header {
-                margin-bottom: 20px;
-
-                & > h1 {
-                    font-size: 16px;
-                    font-weight: $semibold;
-                }
-            }
-
-            & > .add-account-container {
-                display: flex;
-                flex-direction: column;
-                padding: 20px 10px;
-                background-color: $front;
-                box-sizing: border-box;
-                border-radius: 5px;
-
-                & > .add-account-container-header {
-                    margin-bottom: 30px;
-
-                    & > h2 {
-                        font-size: 16px;
                         font-weight: $semibold;
                     }
-                }
 
-                & > .add-account-container-form {
-                    width: 100%;
-                    position: relative;
-                    display: flex;
-                    flex-direction: column;
-
-                    & > form {
+                    & > div {
+                        height: 120px;
+                        width: 100%;
+                        border-radius: 5px;
                         display: flex;
                         flex-direction: column;
-                        width: 100%;
-
-
-                        & > div {
-                            display: flex;
-                            flex-direction: column;
-                            margin-bottom: 10px;
-
-                            & > label {
-                                font-size: 14px;
-                                font-weight: $semibold;
-                            }
-
-                            & > input {
-                                border: none;
-                                border-bottom: 1px solid #D9D9D9;
-                                outline: none;
-                                margin-top: 10px;
-                            }
-
-                            & > select {
-                                border: none;
-                                border-bottom: 1px solid #D9D9D9;
-                            }
-                        }
-
-                        & > button {
-                            border: none;
-                            outline: none;
-                            border-radius: 5px;
-                            background-color: $btn-add;
-                            color: white;
-                            font-weight: $semibold;
-                            padding: 7px 0px;
-                            cursor: pointer;
-
-                            &:hover {
-                                background-color: darken($btn-add, 5%);
-                            }
-                        }
+                        align-items: center;
+                        justify-content: center;
                     }
                 }
             }

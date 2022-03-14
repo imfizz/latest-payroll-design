@@ -342,7 +342,7 @@
 .main-container > .leftbar > .links-container > ul > li:nth-child(2):hover::before {
   content: url("https://api.iconify.design/fluent/task-list-square-rtl-24-regular.svg?color=%239747ff&height=25");
   position: absolute;
-  top: 20px;
+  top: 6px;
   left: -38px;
 }
 
@@ -385,7 +385,7 @@
 .main-container > .leftbar > .links-container > ul > li:nth-child(3):hover::before {
   content: url("https://api.iconify.design/heroicons-outline/chart-square-bar.svg?color=%239747ff&height=25");
   position: absolute;
-  top: 4%;
+  top: 18%;
   left: -38px;
 }
 
@@ -616,7 +616,7 @@
 }
 
 .main-container > .leftbar > .links-container > ul > li.active-parent::before {
-  content: url("https://api.iconify.design/fluent/task-list-square-rtl-24-regular.svg?color=%239747ff&height=25");
+  content: url("https://api.iconify.design/heroicons-outline/chart-square-bar.svg?color=%239747ff&height=25");
   position: absolute;
   top: 20px;
   -webkit-transform: translateY(-50%);
@@ -633,7 +633,7 @@
 
 @media only screen and (min-width: 1300px) {
   .main-container > .leftbar > .links-container > ul > li.active-parent::before {
-    content: url("https://api.iconify.design/fluent/task-list-square-rtl-24-regular.svg?color=%239747ff&height=25");
+    content: url("https://api.iconify.design/heroicons-outline/chart-square-bar.svg?color=%239747ff&height=25");
     left: -38px;
   }
 }
@@ -659,11 +659,11 @@
   border-radius: 4px;
   background: #774AB0;
   position: absolute;
-  top: 77%;
+  top: 40%;
   right: 0;
 }
 
-.main-container > .leftbar > .links-container > ul > li:nth-child(2) > ul > li:nth-child(3) > a {
+.main-container > .leftbar > .links-container > ul > li:nth-child(3) > ul > li:nth-child(1) > a {
   color: #000;
 }
 
@@ -882,9 +882,6 @@
 }
 
 .main-container > .centerbar {
-  width: 58%;
-  padding: 35px 0 20px 15px;
-  background: transparent !important;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -892,29 +889,19 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 35px 10px 20px 15px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  position: relative;
   overflow-y: scroll;
-  /* width */
+  width: 22%;
+  background-color: transparent !important;
 }
 
 .main-container > .centerbar::-webkit-scrollbar {
   width: 0px;
-}
-
-.main-container > .centerbar > div {
-  background: #FFFFFF;
-  width: 100%;
-  border-radius: 5px;
-  position: relative;
-}
-
-.main-container > .centerbar > .header-info {
-  height: 20px;
-  background: transparent !important;
-  border: none !important;
-  margin-bottom: 50px;
 }
 
 .main-container > .centerbar > .header-info > h1 {
@@ -922,7 +909,7 @@
   font-weight: 600;
 }
 
-.main-container > .centerbar > .recentaccount {
+.main-container > .centerbar > .recent-activity {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -930,87 +917,36 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  position: relative;
   width: 100%;
-  height: 300px;
-  background: transparent;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  margin-bottom: 10px;
+  margin-top: 75%;
 }
 
-.main-container > .centerbar > .recentaccount > .recentaccount-header {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: end;
-      -ms-flex-align: end;
-          align-items: flex-end;
-  height: 20px;
+.main-container > .centerbar > .recent-activity > .recent-activitiy-header {
   width: 100%;
-  background: transparent;
+  position: relative;
   margin-bottom: 20px;
 }
 
-.main-container > .centerbar > .recentaccount > .recentaccount-header > h1 {
+.main-container > .centerbar > .recent-activity > .recent-activitiy-header > h1 {
   font-size: 16px;
   font-weight: 600;
-  color: #262626;
 }
 
-.main-container > .centerbar > .recentaccount > .recentaccount-header > a {
-  color: #6B6B6B;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.main-container > .centerbar > .recentaccount > .recentaccount-header > a:hover {
-  color: #2b2b2b;
-}
-
-.main-container > .centerbar > .recentaccount > .recentacount-svg {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  gap: 15px;
-  width: 100%;
-  height: calc(100% - 20px);
-  position: relative;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-}
-
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .left-svg {
-  width: 70%;
-  position: relative;
-  background: white;
+.main-container > .centerbar > .recent-activity > .recent-activity-content {
   border-radius: 5px;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 20px;
 }
 
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .left-svg > .left-svg-headline {
-  height: calc(100% - 40px);
-  width: calc(100% - 20px);
-  position: absolute;
-  top: 20px;
-  left: 20px;
+.main-container > .centerbar > .recent-activity > .recent-activity-content > .card {
+  margin-bottom: 20px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1021,35 +957,15 @@
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  padding: 20px 10px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-}
-
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .left-svg > .left-svg-headline > .left-svg-top {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  width: calc(100% - 20px);
-  height: calc(50% - 20px);
-}
-
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .left-svg > .left-svg-headline > .left-svg-top > h2 {
-  font-weight: 400;
-  font-size: 18px;
-  width: 130px;
-  margin-bottom: 30px;
-}
-
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .left-svg > .left-svg-headline > .left-svg-top > button {
-  border: none;
+  min-height: 150px;
+  background: #FFFFFF;
   border-radius: 5px;
-  background: #F2F2F2;
+}
+
+.main-container > .centerbar > .recent-activity > .recent-activity-content > .card > .card-header {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1057,251 +973,50 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  padding: 5px 00px;
-  width: 18%;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  font-weight: 600;
-  color: #000;
-  cursor: pointer;
 }
 
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .left-svg > .left-svg-headline > .left-svg-top > button:hover {
-  background: #e5e5e5;
+.main-container > .centerbar > .recent-activity > .recent-activity-content > .card > .card-header > .card-status {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 10px;
 }
 
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .left-svg > .left-svg-headline > .left-svg-top > button:hover > div {
-  background: #cbcbcb;
-}
-
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .left-svg > .left-svg-headline > .left-svg-top > button > div {
-  margin: 0 10px;
+.main-container > .centerbar > .recent-activity > .recent-activity-content > .card > .card-header > .card-status > .circle {
   height: 15px;
   width: 15px;
   border-radius: 50%;
-  background: #D8D8D8;
 }
 
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .left-svg > .left-svg-headline > .left-svg-bottom {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-align: end;
-      -ms-flex-align: end;
-          align-items: flex-end;
-  width: calc(100% - 20px);
-  height: calc(52% - 20px);
-  position: relative;
-  gap: 10px;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+.main-container > .centerbar > .recent-activity > .recent-activity-content > .card > .card-header > .card-status > .circle.approve {
+  background: #ABFFB3;
 }
 
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .left-svg > .left-svg-headline > .left-svg-bottom > .profile {
-  height: 55%;
-  width: 10%;
-  background: #F16063;
-  border-radius: 5px;
-  position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+.main-container > .centerbar > .recent-activity > .recent-activity-content > .card > .card-header > .card-status > .circle.reject {
+  background: #FFABAB;
 }
 
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .left-svg > .left-svg-headline > .left-svg-bottom > .profile > object {
-  height: 80%;
-}
-
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .left-svg > .left-svg-headline > .left-svg-bottom > .profile-text {
-  width: 60%;
-}
-
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .left-svg > .left-svg-headline > .left-svg-bottom > .profile-text > h3 {
-  font-weight: 400;
-  font-size: 14px;
-}
-
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .left-svg > .left-svg-headline > .left-svg-bottom > .profile-text > p {
-  font-size: 13px;
-  color: #8C8C8C;
-}
-
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .left-svg > .left-svg-image {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: end;
-      -ms-flex-align: end;
-          align-items: flex-end;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  padding: 15px 10px 15px 0;
-}
-
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .left-svg > .left-svg-image > object {
-  height: 220px;
-}
-
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .right-svg {
-  width: 30%;
-  background: #FFFFFF;
-  border-radius: 5px;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  padding: 20px 15px 18px 15px;
-}
-
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .right-svg > .right-svg-headline {
-  width: 100%;
-  height: 100%;
-}
-
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .right-svg > .right-svg-headline > .right-svg-top {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-}
-
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .right-svg > .right-svg-headline > .right-svg-top > h2 {
-  font-weight: 400;
+.main-container > .centerbar > .recent-activity > .recent-activity-content > .card > .card-header > .card-status > h2 {
   font-size: 18px;
-  width: 130px;
-  margin-bottom: 30px;
+  font-weight: 600;
 }
 
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .right-svg > .right-svg-headline > .right-svg-top > button {
-  border: none;
-  border-radius: 5px;
-  background: #F2F2F2;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  padding: 5px 00px;
-  width: 44%;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  font-weight: 600;
-  color: #000;
+.main-container > .centerbar > .recent-activity > .recent-activity-content > .card > .card-header > span {
   cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
 }
 
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .right-svg > .right-svg-headline > .right-svg-top > button:hover {
-  background: #e5e5e5;
-}
-
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .right-svg > .right-svg-headline > .right-svg-top > button:hover > div {
-  background: #cbcbcb;
-}
-
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .right-svg > .right-svg-headline > .right-svg-top > button > div {
-  margin: 0 10px;
-  height: 15px;
-  width: 15px;
-  border-radius: 50%;
-  background: #D8D8D8;
-}
-
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .right-svg > .right-svg-headline > .right-svg-bottom {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-align: end;
-      -ms-flex-align: end;
-          align-items: flex-end;
-  width: 100%;
-  height: 52%;
-  position: relative;
-  gap: 10px;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  padding-bottom: 15px;
-}
-
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .right-svg > .right-svg-headline > .right-svg-bottom > .profile {
-  height: 50%;
-  width: 25%;
-  background: #6F6FFB;
-  border-radius: 5px;
-  position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .right-svg > .right-svg-headline > .right-svg-bottom > .profile > object {
-  height: 80%;
-}
-
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .right-svg > .right-svg-headline > .right-svg-bottom > .profile-text {
-  width: 60%;
-}
-
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .right-svg > .right-svg-headline > .right-svg-bottom > .profile-text > h3 {
-  font-weight: 400;
-  font-size: 14px;
-}
-
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .right-svg > .right-svg-headline > .right-svg-bottom > .profile-text > p {
-  font-size: 13px;
-  color: #8C8C8C;
-}
-
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .right-svg > .right-svg-image {
-  position: absolute;
-  top: 50%;
-  -webkit-transform: translateY(-40%);
-          transform: translateY(-40%);
-  right: -10px;
-}
-
-.main-container > .centerbar > .recentaccount > .recentacount-svg > .right-svg > .right-svg-image > object {
-  width: 120px;
-}
-
-.main-container > .centerbar > .activities {
+.main-container > .centerbar > .recent-activity > .recent-activity-content > .card > .card-content {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1309,107 +1024,26 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  background: transparent;
-  border-radius: 5px;
-  width: 85%;
-  position: relative;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  padding-left: 25px;
 }
 
-.main-container > .centerbar > .activities > .activities-header {
-  width: 100%;
-  height: 20%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  padding: 20px 0 20px 0;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-}
-
-.main-container > .centerbar > .activities > .activities-header > h1 {
+.main-container > .centerbar > .recent-activity > .recent-activity-content > .card > .card-content > p {
   font-size: 16px;
-  font-weight: 600;
-}
-
-.main-container > .centerbar > .activities > .activities-content {
-  width: 100%;
-  position: relative;
-  padding-bottom: 10px;
-  border-radius: 5px;
-  background: #FFFFFF;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-}
-
-.main-container > .centerbar > .activities > .activities-content::-webkit-scrollbar {
-  width: 0px;
-}
-
-.main-container > .centerbar > .activities > .activities-content > .activities-content-header {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 100%;
-  padding: 30px 0px 10px 20px;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-}
-
-.main-container > .centerbar > .activities > .activities-content > .activities-content-header > h2 {
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.main-container > .centerbar > .activities > .activities-content > .activities-main-contents {
-  width: 100%;
-  padding-left: 20px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-}
-
-.main-container > .centerbar > .activities > .activities-content > .activities-main-contents > table {
-  background: #FFFFFF;
-  border-collapse: separate;
-  border-spacing: 0 10px;
-}
-
-.main-container > .centerbar > .activities > .activities-content > .activities-main-contents > table > thead > tr > th {
-  text-align: left;
-  color: #ABABAB;
-  font-weight: 600;
-  font-size: 14px;
-}
-
-.main-container > .centerbar > .activities > .activities-content > .activities-main-contents > table > tbody > tr > td {
-  font-size: 13px;
   font-weight: 400;
-  vertical-align: top;
+}
+
+.main-container > .centerbar > .recent-activity > .recent-activity-content > .card > .card-content > span {
+  font-size: 12px;
+  font-weight: 600;
+  color: #7C7C7C;
+}
+
+.main-container > .centerbar > .recent-activity > .recent-activity-content > .card > .card-content > span > b {
+  font-weight: 600;
 }
 
 .main-container > .rightbar {
-  width: 24%;
+  width: 60%;
   padding-top: 30px;
   padding-left: 50px;
   padding-bottom: 20px;
@@ -1468,8 +1102,7 @@
   background: #666666;
 }
 
-.main-container > .rightbar > .sidenav {
-  width: 100%;
+.main-container > .rightbar .leave-welcome {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1477,33 +1110,158 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  margin-bottom: 30px;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -ms-flex-item-align: end;
+      align-self: flex-end;
+  width: 80%;
+  position: relative;
+  margin-bottom: 38px;
 }
 
-.main-container > .rightbar > .sidenav > .sidenav-header {
-  margin-top: 12px;
-  margin-bottom: 19px;
+.main-container > .rightbar .leave-welcome > .leave-box {
+  height: 130px;
+  background: #FFFFFF;
+  border-radius: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  width: 100%;
+  position: relative;
 }
 
-.main-container > .rightbar > .sidenav > .sidenav-header > h1 {
+.main-container > .rightbar .leave-welcome > .leave-box > .svg-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.main-container > .rightbar .leave-welcome > .leave-box > .svg-container > object {
+  width: 250px;
+}
+
+.main-container > .rightbar .leave-welcome > .leave-box > .welcome-headline {
+  width: 60%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 0 20px;
+  position: relative;
+}
+
+.main-container > .rightbar .leave-welcome > .leave-box > .welcome-headline > h1 {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.main-container > .rightbar .leave-welcome > .leave-box > .welcome-headline > p {
+  width: 89%;
+}
+
+.main-container > .rightbar > .employee-request {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  position: relative;
+  width: 100%;
+}
+
+.main-container > .rightbar > .employee-request > .employee-request-header {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.main-container > .rightbar > .employee-request > .employee-request-header > h1 {
   font-size: 16px;
   font-weight: 600;
-  color: #262626;
 }
 
-.main-container > .rightbar > .sidenav > .sidenav-content {
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: (1fr)[2];
-      grid-template-columns: repeat(2, 1fr);
-  -ms-grid-rows: (120px)[2];
-      grid-template-rows: repeat(2, 120px);
-  grid-gap: 10px;
-}
-
-.main-container > .rightbar > .sidenav > .sidenav-content > div {
-  background: white;
+.main-container > .rightbar > .employee-request > .table-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  background: #FFFFFF;
   border-radius: 5px;
+  padding: 30px 20px;
+}
+
+.main-container > .rightbar > .employee-request > .table-container > .table-header {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.main-container > .rightbar > .employee-request > .table-container > .table-header > h1 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.main-container > .rightbar > .employee-request > .table-container > .table-content > table {
+  width: 100%;
+  position: relative;
+  border-collapse: separate;
+  border-spacing: 0 20px;
+}
+
+.main-container > .rightbar > .employee-request > .table-container > .table-content > table > thead > tr > th {
+  text-align: left;
+  color: #ABABAB;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.main-container > .rightbar > .employee-request > .table-container > .table-content > table > tbody > tr > td {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.main-container > .rightbar > .employee-request > .table-container > .table-content > table > tbody > tr > td > .buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  gap: 5px;
+}
+
+.main-container > .rightbar > .employee-request > .table-container > .table-content > table > tbody > tr > td > .buttons > a {
+  height: 21px;
+  width: 21px;
+  border-radius: 50%;
+  text-align: center;
+  text-decoration: none;
+}
+
+.main-container > .rightbar > .employee-request > .table-container > .table-content > table > tbody > tr > td > .buttons > a:nth-child(1) {
+  background: #C0DEFA;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1517,57 +1275,25 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  text-align: center;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  padding: 10px;
-  gap: 5px;
 }
 
-.main-container > .rightbar > .sidenav > .sidenav-content > div:nth-child(1) > span::before {
-  content: url("https://api.iconify.design/healthicons/security-worker-outline.svg?color=black&height=37");
-  position: absolute;
-  top: 0;
-  left: 0;
+.main-container > .rightbar > .employee-request > .table-container > .table-content > table > tbody > tr > td > .buttons > a:nth-child(1):hover {
+  background: #a8d2f8;
 }
 
-.main-container > .rightbar > .sidenav > .sidenav-content > div:nth-child(2) {
-  background: #464646;
+.main-container > .rightbar > .employee-request > .table-container > .table-content > table > tbody > tr > td > .buttons > a:nth-child(1):hover > span {
+  color: #1c92ff;
 }
 
-.main-container > .rightbar > .sidenav > .sidenav-content > div:nth-child(2) > span::before {
-  content: url("https://api.iconify.design/healthicons/security-worker.svg?color=white&height=37");
-  position: absolute;
-  top: 0;
-  left: 0;
+.main-container > .rightbar > .employee-request > .table-container > .table-content > table > tbody > tr > td > .buttons > a:nth-child(1) > span {
+  color: #359EFF;
+  font-size: 15px;
+  -webkit-transform: translateY(0px);
+          transform: translateY(0px);
 }
 
-.main-container > .rightbar > .sidenav > .sidenav-content > div:nth-child(2) > a {
-  color: #fff;
-}
-
-.main-container > .rightbar > .sidenav > .sidenav-content > div:nth-child(3) > span::before {
-  content: url("https://api.iconify.design/bx/bx-building.svg?color=black&height=37");
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.main-container > .rightbar > .sidenav > .sidenav-content > div > span {
-  position: relative;
-  height: 37px;
-  width: 37px;
-}
-
-.main-container > .rightbar > .sidenav > .sidenav-content > div > a {
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 14px;
-  text-align: center;
-  color: #000;
-}
-
-.main-container > .rightbar > .add-account {
+.main-container > .rightbar > .employee-request > .table-container > .table-content > table > tbody > tr > td > .buttons > a:nth-child(2) {
+  background: #C0FADE;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1575,18 +1301,31 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
-.main-container > .rightbar > .add-account > .add-account-header {
-  margin-bottom: 20px;
+.main-container > .rightbar > .employee-request > .table-container > .table-content > table > tbody > tr > td > .buttons > a:nth-child(2):hover {
+  background: #a8f8d2;
 }
 
-.main-container > .rightbar > .add-account > .add-account-header > h1 {
-  font-size: 16px;
-  font-weight: 600;
+.main-container > .rightbar > .employee-request > .table-container > .table-content > table > tbody > tr > td > .buttons > a:nth-child(2):hover > span {
+  color: #16b066;
 }
 
-.main-container > .rightbar > .add-account > .add-account-container {
+.main-container > .rightbar > .employee-request > .table-container > .table-content > table > tbody > tr > td > .buttons > a:nth-child(2) > span {
+  color: #19C773;
+  font-size: 15px;
+  -webkit-transform: translateY(0px);
+          transform: translateY(0px);
+}
+
+.main-container > .rightbar > .employee-request > .table-container > .table-content > table > tbody > tr > td > .buttons > a:nth-child(3) {
+  background: #FAC0C0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1594,84 +1333,25 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  padding: 20px 10px;
-  background-color: #FFFFFF;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  border-radius: 5px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
-.main-container > .rightbar > .add-account > .add-account-container > .add-account-container-header {
-  margin-bottom: 30px;
+.main-container > .rightbar > .employee-request > .table-container > .table-content > table > tbody > tr > td > .buttons > a:nth-child(3):hover {
+  background: #f8a8a8;
 }
 
-.main-container > .rightbar > .add-account > .add-account-container > .add-account-container-header > h2 {
-  font-size: 16px;
-  font-weight: 600;
+.main-container > .rightbar > .employee-request > .table-container > .table-content > table > tbody > tr > td > .buttons > a:nth-child(3):hover > span {
+  color: #ff5353;
 }
 
-.main-container > .rightbar > .add-account > .add-account-container > .add-account-container-form {
-  width: 100%;
-  position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-}
-
-.main-container > .rightbar > .add-account > .add-account-container > .add-account-container-form > form {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  width: 100%;
-}
-
-.main-container > .rightbar > .add-account > .add-account-container > .add-account-container-form > form > div {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  margin-bottom: 10px;
-}
-
-.main-container > .rightbar > .add-account > .add-account-container > .add-account-container-form > form > div > label {
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.main-container > .rightbar > .add-account > .add-account-container > .add-account-container-form > form > div > input {
-  border: none;
-  border-bottom: 1px solid #D9D9D9;
-  outline: none;
-  margin-top: 10px;
-}
-
-.main-container > .rightbar > .add-account > .add-account-container > .add-account-container-form > form > div > select {
-  border: none;
-  border-bottom: 1px solid #D9D9D9;
-}
-
-.main-container > .rightbar > .add-account > .add-account-container > .add-account-container-form > form > button {
-  border: none;
-  outline: none;
-  border-radius: 5px;
-  background-color: #4848FE;
-  color: white;
-  font-weight: 600;
-  padding: 7px 0px;
-  cursor: pointer;
-}
-
-.main-container > .rightbar > .add-account > .add-account-container > .add-account-container-form > form > button:hover {
-  background-color: #2f2ffe;
+.main-container > .rightbar > .employee-request > .table-container > .table-content > table > tbody > tr > td > .buttons > a:nth-child(3) > span {
+  color: #FF6C6C;
+  font-size: 15px;
+  -webkit-transform: translateY(0px);
+          transform: translateY(0px);
 }
