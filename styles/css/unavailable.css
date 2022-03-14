@@ -1064,11 +1064,6 @@
   font-size: 15px;
 }
 
-.main-container > .centerbar > .table-info > .table-content > table > thead > tr > th:nth-child(1) {
-  -webkit-transform: translateX(18px);
-          transform: translateX(18px);
-}
-
 .main-container > .centerbar > .table-info > .table-content > table > tbody > tr:nth-child(odd) {
   background: #FAFAFA;
 }
@@ -1124,11 +1119,13 @@
   color: #1c92ff;
 }
 
-.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-view > a > {
+.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-view > a {
   text-decoration: none;
+  -webkit-transform: translateY(2px);
+          transform: translateY(2px);
 }
 
-.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-view > a > > span {
+.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-view > a > span {
   font-size: 16px;
   color: #359EFF;
 }
@@ -1162,11 +1159,13 @@
   color: #ff5353;
 }
 
-.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-delete > a > {
+.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-delete > a {
   text-decoration: none;
+  -webkit-transform: translateY(2px);
+          transform: translateY(2px);
 }
 
-.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-delete > a > > span {
+.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-delete > a > span {
   font-size: 16px;
   color: #FF6C6C;
 }
@@ -1204,10 +1203,36 @@
   border-radius: 5px;
   width: 33%;
   max-height: 80%;
-  position: relative;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
   padding: 13px 0px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  overflow-y: scroll;
+  /* width */
+  /* Track */
+  /* Handle */
+  /* Handle on hover */
+}
+
+.modal-viewguard > .modal-holder::-webkit-scrollbar {
+  width: 5px;
+}
+
+.modal-viewguard > .modal-holder::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.modal-viewguard > .modal-holder::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 8px;
+}
+
+.modal-viewguard > .modal-holder::-webkit-scrollbar-thumb:hover {
+  background: #555555;
 }
 
 .modal-viewguard > .modal-holder > .viewguard-header {
@@ -1257,7 +1282,6 @@
           align-items: center;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  overflow-y: scroll;
 }
 
 .modal-viewguard > .modal-holder > .viewguard-content::-webkit-scrollbar {

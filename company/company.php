@@ -1,3 +1,11 @@
+<?php
+require_once('../class.php');
+$sessionData = $payroll->getSessionData();
+$payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
+$payroll->addCompany();
+$payroll->addCompany2(); // for modal
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -63,26 +71,7 @@
                     <h2>Newly Added</h2>
                 </div>
                 <div class="newlyadded-cards">
-                    <div class="cards">
-                        <div class="circle recent"></div>
-                        <h3>Unilab</h3>
-                        <p>December 2, 2021</p>
-                    </div>
-                    <div class="cards">
-                        <div class="circle late"></div>
-                        <h3>Diesel</h3>
-                        <p>November 15, 2021</p>
-                    </div>
-                    <div class="cards">
-                        <div class="circle old"></div>
-                        <h3>Diesel</h3>
-                        <p>November 15, 2021</p>
-                    </div>
-                    <div class="cards">
-                        <div class="circle recent"></div>
-                        <h3>Diesel</h3>
-                        <p>November 15, 2021</p>
-                    </div>
+                    <?= $payroll->companyNewlyAdded(); ?>
                 </div>
             </div>
             <div class="companylist-container">
@@ -109,116 +98,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Rebisco Corporation</td>
-                                    <td>19 guards</td>
-                                    <td>Automatic</td>
-                                    <td>12/01/2021</td>
-                                    <td>
-                                        <span class="material-icons">visibility</span>
-                                        <span class="material-icons">edit</span>
-                                        <span class="material-icons">delete</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Rebisco Corporation</td>
-                                    <td>19 guards</td>
-                                    <td>Automatic</td>
-                                    <td>12/01/2021</td>
-                                    <td>
-                                        <span class="material-icons">visibility</span>
-                                        <span class="material-icons">edit</span>
-                                        <span class="material-icons">delete</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Rebisco Corporation</td>
-                                    <td>19 guards</td>
-                                    <td>Automatic</td>
-                                    <td>12/01/2021</td>
-                                    <td>
-                                        <span class="material-icons">visibility</span>
-                                        <span class="material-icons">edit</span>
-                                        <span class="material-icons">delete</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Rebisco Corporation</td>
-                                    <td>19 guards</td>
-                                    <td>Automatic</td>
-                                    <td>12/01/2021</td>
-                                    <td>
-                                        <span class="material-icons">visibility</span>
-                                        <span class="material-icons">edit</span>
-                                        <span class="material-icons">delete</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Rebisco Corporation</td>
-                                    <td>19 guards</td>
-                                    <td>Automatic</td>
-                                    <td>12/01/2021</td>
-                                    <td>
-                                        <span class="material-icons">visibility</span>
-                                        <span class="material-icons">edit</span>
-                                        <span class="material-icons">delete</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Rebisco Corporation</td>
-                                    <td>19 guards</td>
-                                    <td>Automatic</td>
-                                    <td>12/01/2021</td>
-                                    <td>
-                                        <span class="material-icons">visibility</span>
-                                        <span class="material-icons">edit</span>
-                                        <span class="material-icons">delete</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Rebisco Corporation</td>
-                                    <td>19 guards</td>
-                                    <td>Automatic</td>
-                                    <td>12/01/2021</td>
-                                    <td>
-                                        <span class="material-icons">visibility</span>
-                                        <span class="material-icons">edit</span>
-                                        <span class="material-icons">delete</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Rebisco Corporation</td>
-                                    <td>19 guards</td>
-                                    <td>Automatic</td>
-                                    <td>12/01/2021</td>
-                                    <td>
-                                        <span class="material-icons">visibility</span>
-                                        <span class="material-icons">edit</span>
-                                        <span class="material-icons">delete</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Rebisco Corporation</td>
-                                    <td>19 guards</td>
-                                    <td>Automatic</td>
-                                    <td>12/01/2021</td>
-                                    <td>
-                                        <span class="material-icons">visibility</span>
-                                        <span class="material-icons">edit</span>
-                                        <span class="material-icons">delete</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Rebisco Corporation</td>
-                                    <td>19 guards</td>
-                                    <td>Automatic</td>
-                                    <td>12/01/2021</td>
-                                    <td>
-                                        <span class="material-icons">visibility</span>
-                                        <span class="material-icons">edit</span>
-                                        <span class="material-icons">delete</span>
-                                    </td>
-                                </tr>
+                                <?= $payroll->listofcompany(); ?>
                             </tbody>
                         </table>
                     </div>
@@ -233,7 +113,7 @@
             <div class="form-container">
                 <div class="form-header">
                     <h2>Add Company</h2>
-                    <a href="#">modal</a>
+                    <a id='addmodal-show'>modal</a>
                 </div>
                 <div class="form-contents">
                     <form id="myForm" method="post">
@@ -262,7 +142,6 @@
                         <div>
                             <label for="">Set Boundary</label>
                             <div id="map_b"></div>
-                            <div id="distance" class="distance-container"></div>
                             <input type="hidden" name="boundary_size" placeholder="Boundary size" class="map_b_size" required/>
                         </div>
                         <div>
@@ -319,97 +198,97 @@
         </div>
     </div>
 
-    <div class="modal-viewcompany">
-        <div class="modal-holder">
-            <div class="viewcompany-header">
-                <h1>Add Employee</h1>
-                <span id="exit-modal-viewcompany" class="material-icons">close</span>
-            </div>
-            <div class="viewcompany-content">
-                <form id="myForm" method="post">
-                    <div>
-                        <label for="company_name">Company</label>
-                        <input type="text" name="company_name" autocomplete="off" required/>
+
+<div class="modal-viewcompany">
+    <div class="modal-holder">
+        <div class="viewcompany-header">
+            <h1>Add Employee</h1>
+            <span id="exit-modal-viewcompany" class="material-icons">close</span>
+        </div>
+        <div class="viewcompany-content">
+            <form id="myForm" method="post">
+                <div>
+                    <label for="company_name">Company</label>
+                    <input type="text" name="company_name" autocomplete="off" required/>
+                </div>
+                <div>
+                    <label for="cpnumber">Contact Number</label>
+                    <input type="text" name="cpnumber" autocomplete="off"/>
+                </div>
+                <div>
+                    <label for="email">Email</label>
+                    <input type="email" name="email" autocomplete="off" required/>
+                </div>
+                <div>
+                    <label for="">Trace Location</label>
+                    <div id="map-addmodal" class="trace-addmodal"></div>
+                </div>
+                <div>
+                    <label for="location_name">Address</label>
+                    <input type="text" id="location_name" name="comp_location" required/>
+                    <input type="hidden" id="longitude-addmodal" name="longitude" placeholder="Longitude" required/>
+                    <input type="hidden" id="latitude-addmodal" name="latitude" placeholder="Latitude" required/>
+                </div>
+                <div>
+                    <label for="">Set Boundary</label>
+                    <div id="map_b-addmodal"></div>
+                    <input type="hidden" name="boundary_size" placeholder="Boundary size" class="map_b_size-addmodal" required/>
+                </div>
+                <div>
+                    <label for="">Type</label>
+                    <select name="type" required>
+                        <option value="">Select type</option>
+                        <option value="manual">Manual</option>
+                        <option value="automatic">Automatic</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="">Shift</label>
+                    <select name="shift" required>
+                        <option value="">Select shift</option>
+                        <option value="day">Day</option>
+                        <option value="night">Night</option>
+                        <option value="both">Both</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="">Shift Span</label>
+                    <select name="shift_span" required>
+                        <option value="">Select span</option>
+                        <option value="8">8 hrs</option>
+                        <option value="12">12 hrs</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="">Day Start</label>
+                    <select name="day_start" required>
+                        <option value="">Select day start</option>
+                    
+                        <!-- day 8hrs -->
+                                <option value="6:00 am">6:00 AM</option>
+                        <option value="7:00 am">7:00 AM</option>
+        
+                    </select>
+                </div>
+                <div id="addhere2">
+                    <label for="">Position</label>
+                    
+                    <div class="position-container">
+                        <input type="text" class="name-modal" name="name0" autocomplete="off" placeholder="name"/>
+                        <input type="text" class="price-modal" name="price0" autocomplete="off" placeholder="00.00"/>
+                        <input type="number" class="length2" style="display:none;" value="1" name="length"/>
                     </div>
-                    <div>
-                        <label for="cpnumber">Contact Number</label>
-                        <input type="text" name="cpnumber" autocomplete="off"/>
-                    </div>
-                    <div>
-                        <label for="email">Email</label>
-                        <input type="email" name="email" autocomplete="off" required/>
-                    </div>
-                    <div>
-                        <label for="">Trace Location</label>
-                        <div id="map" class="trace"></div>
-                    </div>
-                    <div>
-                        <label for="location_name">Address</label>
-                        <input type="text" id="location_name" name="comp_location" required/>
-                        <input type="hidden" id="longitude" name="longitude" placeholder="Longitude" required/>
-                        <input type="hidden" id="latitude" name="latitude" placeholder="Latitude" required/>
-                    </div>
-                    <div>
-                        <label for="">Set Boundary</label>
-                        <div id="map_b"></div>
-                        <div id="distance" class="distance-container"></div>
-                        <input type="hidden" name="boundary_size" placeholder="Boundary size" class="map_b_size" required/>
-                    </div>
-                    <div>
-                        <label for="">Type</label>
-                        <select name="type" required>
-                            <option value="">Select type</option>
-                            <option value="manual">Manual</option>
-                            <option value="automatic">Automatic</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="">Shift</label>
-                        <select name="shift" required>
-                            <option value="">Select shift</option>
-                            <option value="day">Day</option>
-                            <option value="night">Night</option>
-                            <option value="both">Both</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="">Shift Span</label>
-                        <select name="shift_span" required>
-                            <option value="">Select span</option>
-                            <option value="8">8 hrs</option>
-                            <option value="12">12 hrs</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="">Day Start</label>
-                        <select name="day_start" required>
-                            <option value="">Select day start</option>
-                
-                            <!-- day 8hrs -->
-                            <option value="6:00 am">6:00 AM</option>
-                            <option value="7:00 am">7:00 AM</option>
-    
-                        </select>
-                    </div>
-                    <div id="addhere2">
-                        <label for="">Position</label>
-                        <input type="number"  class="length2" value="1" name="length"/>
-                        <div class="position-container">
-                            <input type="text" class="name" name="name0" autocomplete="off" placeholder="name"/>
-                            <input type="text" class="price" name="price0" autocomplete="off" placeholder="00.00"/>
-                        </div>
-                    </div>
-                    <div class="addnew-container">
-                        <button type="button" class="addnew2">+ Add new</button>
-                    </div>
-                    <div>
-                        <button type="submit" name="addcompany">Add Company</button>
-                    </div>
-                </form>
-            </div>
+                </div>
+                <div class="addnew-container">
+                    <button type="button" class="addnew2">+ Add new</button>
+                </div>
+                <div>
+                    <button type="submit" name="addcompany2">Add Company</button>
+                </div>
+            </form>
         </div>
     </div>
-
+</div>
     <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
     <script src="../scripts/company.js"></script>
 </body>

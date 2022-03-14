@@ -1208,7 +1208,7 @@ Class Payroll
 
                 echo "<script>
                          let viewModal = document.querySelector('.modal-viewguard');
-                         viewModal.style.display = 'block';
+                         viewModal.style.display = 'flex';
 
                          let firstname = document.querySelector('#firstname').value = '$user->firstname';
                          let lastname = document.querySelector('#lastname').value = '$user->lastname';
@@ -1456,7 +1456,6 @@ Class Payroll
                       </td>
                   </tr>";
         }
-
     }
 
 
@@ -2178,6 +2177,99 @@ Class Payroll
     }
 
 
+    // add company modal
+    // company
+    public function addCompany2()
+    {
+        if(isset($_POST['addcompany2'])){
+            $length = $_POST['length'];
+
+            $company_name = $_POST['company_name'];
+            $cpnumber = $_POST['cpnumber'];
+            $email = $_POST['email'];
+            $comp_location = $_POST['comp_location'];
+            $longitude = $_POST['longitude'];
+            $latitude = $_POST['latitude'];
+            $boundary_size = $_POST['boundary_size'];
+            $type = $_POST['type'];
+            $shift = $_POST['shift'];
+            $shift_span = $_POST['shift_span'];
+            $day_start = $_POST['day_start'];
+
+            // set timezone and get date and time
+            $datetime = $this->getDateTime();
+            $date = $datetime['date'];
+        
+            if($length > 0){
+                
+                for($i = 0; $i < (int)$length; $i++){
+                    $names = "name".$i; // name1
+                    $prices = "price".$i; // price1
+        
+                    if($i === 0){
+                        $sqlAddRow = "INSERT INTO company(company_name,
+                                                          cpnumber,
+                                                          email,
+                                                          comp_location,
+                                                          longitude,
+                                                          latitude,
+                                                          boundary_size,
+                                                          watType,
+                                                          shifts,
+                                                          shift_span,
+                                                          day_start,
+                                                          date
+                                                         )
+                                      VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                                      ";
+                        $stmtRow = $this->con()->prepare($sqlAddRow);
+                        $stmtRow->execute([$company_name,
+                                           $cpnumber,
+                                           $email,
+                                           $comp_location,
+                                           $longitude,
+                                           $latitude,
+                                           $boundary_size,
+                                           $type,
+                                           $shift,
+                                           $shift_span,
+                                           $day_start,
+                                           $date
+                                          ]);
+                        $usersRow = $stmtRow->fetch();
+                        $countRowRow = $stmtRow->rowCount();
+
+                        if($countRowRow > 0){
+                            echo "A new data was added";
+                        } else {
+                            echo "There's something wrong in our codes";
+                        }
+                    }
+        
+                    if($i > 0){
+                        $sql = "ALTER TABLE company ADD position".$i." VARCHAR(100) NULL, 
+                                                    ADD price".$i." VARCHAR(100) NULL";
+                        $stmt = $this->con()->prepare($sql);
+                        $stmt->execute();
+                    }
+        
+                    if(!empty($_POST[$names]) && !empty($_POST[$prices])){
+                        $sqlAddPosition = "UPDATE company 
+                                           SET position$i = '$_POST[$names]',
+                                               price$i = '$_POST[$prices]'
+                                           WHERE company_name = '$company_name';";
+                        $stmtPosition = $this->con()->prepare($sqlAddPosition);
+                        $stmtPosition->execute();
+                    } else {
+                        echo 'Position and price are required to fill up';
+                    }
+                    
+                }
+            }
+        }
+    }
+
+
     public function companyNewlyAdded()
     {
         $sql = "SELECT * FROM company ORDER BY id DESC LIMIT 4";
@@ -2225,9 +2317,15 @@ Class Payroll
                     <td>$row->watType</td>
                     <td>$row->date</td>
                     <td>
-                        <a href='company.php?id=$row->id&act=view'>View</a>
-                        <a href='company.php?id=$row->id&act=edit'>Edit</a>
-                        <a href='company.php?id=$row->id&act=delete'>Delete</a>
+                        <a href='company.php?id=$row->id&act=view'>
+                            <span class='material-icons'>visibility</span>
+                        </a>
+                        <a href='company.php?id=$row->id&act=edit'>
+                            <span class='material-icons'>edit</span>
+                        </a>
+                        <a href='company.php?id=$row->id&act=delete'>
+                            <span class='material-icons'>delete</span>
+                        </a>
                     </td>
                   </tr>";
         }

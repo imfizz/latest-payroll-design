@@ -666,7 +666,7 @@
 
     & > .centerbar {
         width: 54%;
-        padding: 55px 10px 20px 10px;
+        padding: 0px 10px 20px 10px;
         background: transparent !important;
         @include y-center;
         box-sizing: border-box;
@@ -922,6 +922,7 @@
                     background: white;
                     border-radius: 5px;
                     padding: 15px 10px 10px 10px;
+                    width: 120px;
 
                     & > .circle {
                         height: 50px;
@@ -938,6 +939,8 @@
                         font-weight: $semibold;
                         font-size: 16px;
                         margin: 10px 0;
+                        word-break: normal;
+                        text-align: center;
                     }
 
                     & > p {
@@ -1029,17 +1032,20 @@
                             vertical-align: top;
                             font-size: 13px;
 
-                            & > span {
-                                font-size: 16px;
-                                height: 21px;
-                                width: 21px;
-                                border-radius: 50%;
-                                text-align: center;
-                                line-height: 21px;
-                                cursor: pointer;
+                            & > a {
+                                text-decoration: none; 
 
-                                // view
-                                &:nth-child(1){
+                                & > span {
+                                    font-size: 16px;
+                                    height: 21px;
+                                    width: 21px;
+                                    border-radius: 50%;
+                                    text-align: center;
+                                    line-height: 21px;
+                                    cursor: pointer;
+                                }
+
+                                &:nth-child(1) > span{
                                     background: $bgi-view;
                                     color: $i-view;
 
@@ -1049,8 +1055,7 @@
                                     }
                                 }
 
-                                // edit
-                                &:nth-child(2){
+                                &:nth-child(2) > span{
                                     background: $bgi-edit;
                                     color: $i-edit;
 
@@ -1060,8 +1065,7 @@
                                     }
                                 }
 
-                                // delete
-                                &:nth-child(3){
+                                &:nth-child(3) > span{
                                     background: $bgi-delete;
                                     color: $i-delete;
 
@@ -1070,6 +1074,7 @@
                                         color: darken($i-delete, 5%);
                                     }
                                 }
+                                
                             }
                         }
                     }
@@ -1133,6 +1138,12 @@
                     font-size: 12px;
                     color: #6B6B6B;
                     font-weight: $semibold;
+                    text-decoration: underline;
+                    cursor: pointer;
+
+                    &:hover {
+                        color: darken(#6B6B6B, 5%);
+                    }
                 }
             }
 
@@ -1220,6 +1231,12 @@
                                 width: 35%;
                                 padding: 4px 0;
                                 font-size: 13px;
+                                cursor: pointer;
+
+                                &:hover {
+                                    background: darken(#C0FADE, 5%);
+                                    color: darken(#19C773, 5%);
+                                }
                             }
                         }
                     }
@@ -1232,6 +1249,11 @@
                         font-weight: $semibold;
                         color: #fff;
                         border: none;
+                        cursor: pointer;
+
+                        &:hover {
+                            background: darken($btn-add, 5%);
+                        }
                     }
                 }
             }
@@ -1246,7 +1268,8 @@
     top: 0; left: 0;
     background: rgba(0,0,0,.37);
     @include y-center;
-    // display: none;
+    display: none;
+    z-index: 99;
 
     & > .modal-holder {
         background: white;
@@ -1360,11 +1383,12 @@
                     // trace location
                     &:nth-child(4){
 
-                        & > .trace {
+                        & > .trace-addmodal {
                             width: 100%;
                             height: 250px;
                             background: #D9D9D9;
                             border-radius: 5px;
+                            margin-top: 10px;
                         }
 
                         &::before {
@@ -1389,11 +1413,12 @@
                     // boundary
                     &:nth-child(6){
 
-                        & > #map_b {
+                        & > #map_b-addmodal {
                             width: 100%;
                             height: 250px;
                             background: #D9D9D9;
                             border-radius: 5px;
+                            margin-top: 10px;
                         }
 
                         &::before {
@@ -1453,6 +1478,8 @@
                             justify-content: space-between;
                             gap: 10px;
                             margin-bottom: 10px;
+                            position: relative;
+                            width: 100%;
 
                             & > input {
                                 border: none;
@@ -1464,7 +1491,7 @@
                             }
 
                             & > input:first-child { width: 70%; }
-                            & > input:last-child { width: 30%; }
+                            & > input:nth-child(2) { width: 30%; }
                         }
 
                         &::before {
