@@ -1119,7 +1119,13 @@
   color: #16b066;
 }
 
-.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-edit > span {
+.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-edit > a {
+  text-decoration: none;
+  -webkit-transform: translateY(2px);
+          transform: translateY(2px);
+}
+
+.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-edit > a > span {
   font-size: 16px;
   color: #19C773;
 }
@@ -1153,7 +1159,13 @@
   color: #ff5353;
 }
 
-.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-delete > span {
+.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-delete > a {
+  text-decoration: none;
+  -webkit-transform: translateY(2px);
+          transform: translateY(2px);
+}
+
+.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-delete > a > span {
   font-size: 16px;
   color: #FF6C6C;
 }
@@ -1187,22 +1199,19 @@
   height: 5%;
 }
 
-.main-container > .centerbar > .table-info > .table-button > button {
+.main-container > .centerbar > .table-info > .table-button > form > button {
   padding: 7px 20px;
   border: none;
   background-color: #4848FE;
   border-radius: 5px;
   font-weight: 600;
   cursor: pointer;
-}
-
-.main-container > .centerbar > .table-info > .table-button > button:hover {
-  background-color: #2f2ffe;
-}
-
-.main-container > .centerbar > .table-info > .table-button > button > a {
   color: #fff;
   text-decoration: none;
+}
+
+.main-container > .centerbar > .table-info > .table-button > form > button:hover {
+  background-color: #2f2ffe;
 }
 
 .modal-editguard {
@@ -1225,7 +1234,6 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  display: none;
 }
 
 .modal-editguard > .modal-holder {
@@ -1430,7 +1438,6 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  display: none;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   padding-top: 70px;

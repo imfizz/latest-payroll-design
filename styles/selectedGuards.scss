@@ -866,8 +866,13 @@
                             color: white;
                             font-weight: $semibold;
                             padding: 7px 20px;
-                            transform: translateX(-20px);
+                            transform: translate(0px, -25px);
                             font-size: 12px;
+                            cursor: pointer;
+
+                            &:hover {
+                                background: darken($btn-add, 5%);
+                            }
                         }
                     }
 
@@ -1008,6 +1013,7 @@
     @include y-center;
     position: absolute;
     top: 0; left: 0;
+    display: none;
     
     & > .modal-holder {
         width: 63%;
@@ -1015,6 +1021,10 @@
         background: white;
         padding: 30px 20px;
         border-radius: 5px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         display: flex;
         flex-direction: column;
         position: relative;
@@ -1052,6 +1062,27 @@
                 overflow-y: scroll;
                 max-height: 83%;
                 margin-bottom: 2%;
+
+                /* width */
+                &::-webkit-scrollbar {
+                    width: 5px;
+                }
+                
+                /* Track */
+                &::-webkit-scrollbar-track {
+                    background: #f1f1f1; 
+                }
+                
+                /* Handle */
+                &::-webkit-scrollbar-thumb {
+                    background: #888;
+                    border-radius: 8px;
+                }
+                
+                /* Handle on hover */
+                &::-webkit-scrollbar-thumb:hover {
+                    background: rgb(85, 85, 85); 
+                }
 
                 & > table {
                     border-collapse: separate;

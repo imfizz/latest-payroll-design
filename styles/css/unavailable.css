@@ -1120,11 +1120,15 @@
   background-color: #a8d2f8;
 }
 
-.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-view:hover > span {
+.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-view:hover > a > span {
   color: #1c92ff;
 }
 
-.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-view > span {
+.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-view > a > {
+  text-decoration: none;
+}
+
+.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-view > a > > span {
   font-size: 16px;
   color: #359EFF;
 }
@@ -1154,25 +1158,22 @@
   background-color: #f8a8a8;
 }
 
-.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-delete:hover > span {
+.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-delete:hover > a > span {
   color: #ff5353;
 }
 
-.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-delete > span {
+.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-delete > a > {
+  text-decoration: none;
+}
+
+.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-delete > a > > span {
   font-size: 16px;
   color: #FF6C6C;
 }
 
 .main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td:first-child {
-  text-align: center;
+  text-align: left;
   border-radius: 10px 0 0 10px;
-}
-
-.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td:first-child > input {
-  height: 20px;
-  width: 20px;
-  -webkit-transform: translateY(2px);
-          transform: translateY(2px);
 }
 
 .main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td:last-child {
@@ -1195,19 +1196,6 @@
   top: 0;
   left: 0;
   background: rgba(0, 0, 0, 0.37);
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
   display: none;
 }
 
@@ -1436,16 +1424,15 @@
   height: 100vh;
   width: 100vw;
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
   background: rgba(0, 0, 0, 0.37);
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  display: none;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  display: none;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   padding-top: 70px;

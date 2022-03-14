@@ -23,21 +23,21 @@
             </div>
             <div class="links-container">
                 <ul>
-                    <li><a href="../dashboard.html">Dashboard</a></li>
+                    <li><a href="../dashboard.php">Dashboard</a></li>
                     <li class="active-parent">Records
                         <ul>
-                            <li><a href="./employee.html">Employee</a></li>
-                            <li><a href="../company/company.html">Company</a></li>
-                            <li><a href="../secretary/secretary.html">Secretary</a></li>
+                            <li><a href="./employee.php">Employee</a></li>
+                            <li><a href="../company/company.php">Company</a></li>
+                            <li><a href="../secretary/secretary.php">Secretary</a></li>
                         </ul>
                     </li>
                     <li>Manage Report
                         <ul>
-                            <li><a href="../leave/leave.html">Leave</a></li>
-                            <li><a href="../remarks/remarks.html">Remarks</a></li>
+                            <li><a href="../leave/leave.php">Leave</a></li>
+                            <li><a href="../remarks/remarks.php">Remarks</a></li>
                         </ul>
                     </li>
-                    <li><a href="../activity/activity.html">Activities</a></li>
+                    <li><a href="../activity/activity.php">Activities</a></li>
                 </ul>
                 <div>
                     <a href="#">Logout</a>

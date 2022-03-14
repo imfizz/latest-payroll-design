@@ -851,9 +851,14 @@
                                     }
                                 }
 
-                                & > span {
-                                    font-size: 16px;
-                                    color: $i-edit;
+                                & > a {
+                                    text-decoration: none;
+                                    transform: translateY(2px);
+
+                                    & > span {
+                                        font-size: 16px;
+                                        color: $i-edit;
+                                    }
                                 }
                             }
 
@@ -873,9 +878,14 @@
                                     }
                                 }
 
-                                & > span {
-                                    font-size: 16px;
-                                    color: $i-delete;
+                                & > a {
+                                    text-decoration: none;
+                                    transform: translateY(2px);
+
+                                    & > span {
+                                        font-size: 16px;
+                                        color: $i-delete;
+                                    }
                                 }
                             }
                         }
@@ -905,22 +915,21 @@
             & > .table-button {
                 height: 5%;
 
-                & > button {
-                    padding: 7px 20px;
-                    border: none;
-                    background-color: $btn-add;
-                    
-                    border-radius: 5px;
-                    font-weight: $semibold;
-                    cursor: pointer;
-
-                    &:hover {
-                        background-color: darken($btn-add, 5%);
-                    } 
-
-                    & > a {
+                & > form {
+                    & > button {
+                        padding: 7px 20px;
+                        border: none;
+                        background-color: $btn-add;
+                        border-radius: 5px;
+                        font-weight: $semibold;
+                        cursor: pointer;
                         color: #fff;
                         text-decoration: none;
+    
+                        &:hover {
+                            background-color: darken($btn-add, 5%);
+                        } 
+    
                     }
                 }
             }
@@ -936,7 +945,6 @@
     top: 0; left: 0;
     background: rgba(0,0,0,.37);
     @include y-center;
-    display: none;
 
     & > .modal-holder {
         background: white;
@@ -1101,7 +1109,6 @@
     background: rgba(0,0,0,.37);
     display: flex;
     justify-content: center;
-    display: none;
     box-sizing: border-box;
     padding-top: 70px;
 

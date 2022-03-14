@@ -1886,7 +1886,6 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  display: none;
 }
 
 .modal-addguard > .modal-holder {
@@ -2108,7 +2107,6 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  display: none;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   padding-top: 70px;

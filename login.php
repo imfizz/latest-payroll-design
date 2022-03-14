@@ -1,3 +1,13 @@
+<?php
+require_once('class.php');
+$payroll->login();
+
+// if not allowed to login get the message
+if(isset($_GET['message'])){
+    echo $_GET['message'];
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

@@ -1,13 +1,10 @@
-// addguard modal exit btn
-let exitModalAddGuard = document.querySelector("#exit-modal-addguard")
-exitModalAddGuard.addEventListener('click', e => {
-    let addguardModal = document.querySelector('.modal-addguard');
-    addguardModal.style.display = "none";
-})
+function generatePassword(inp) {
+    var length = 8,
+        charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+        retVal = "";
+    for (var i = 0, n = charset.length; i < length; ++i) {
+        retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
 
-// deleteguard modal exit btn
-let exitModalDeleteGuard = document.querySelector("#exit-modal-deleteguard")
-exitModalDeleteGuard.addEventListener('click', e => {
-    let deleteguardModal = document.querySelector('.modal-deleteguard');
-    deleteguardModal.style.display = "none";
-})
+    inp.parentElement.children[1].value = retVal; // input
+}

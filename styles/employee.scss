@@ -1427,7 +1427,6 @@
     top: 0; left: 0;
     background: rgba(0,0,0,.37);
     @include y-center;
-    display: none;
 
     & > .modal-holder {
         background: white;
@@ -1609,7 +1608,6 @@
     background: rgba(0,0,0,.37);
     display: flex;
     justify-content: center;
-    display: none;
     box-sizing: border-box;
     padding-top: 70px;
 
