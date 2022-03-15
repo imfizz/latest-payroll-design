@@ -1971,7 +1971,7 @@
   background-color: #2f2ffe;
 }
 
-.modal-triplecompany {
+.modal-triple {
   height: 100vh;
   width: 100vw;
   position: absolute;
@@ -1991,10 +1991,11 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  display: none;
   z-index: 99;
 }
 
-.modal-triplecompany > .modal-holder {
+.modal-triple > .modal-holder {
   background: white;
   border-radius: 5px;
   width: 33%;
@@ -2005,7 +2006,7 @@
           box-sizing: border-box;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-header {
+.modal-triple > .modal-holder > .triplecompany-header {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2023,18 +2024,18 @@
           box-sizing: border-box;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-header > h1 {
+.modal-triple > .modal-holder > .triplecompany-header > h1 {
   font-size: 20px;
   font-weight: 500;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-header > span {
+.modal-triple > .modal-holder > .triplecompany-header > span {
   position: absolute;
   right: 20px;
   cursor: pointer;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content {
+.modal-triple > .modal-holder > .triplecompany-content {
   width: 100%;
   height: 93%;
   display: -webkit-box;
@@ -2055,11 +2056,11 @@
   overflow-y: scroll;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content::-webkit-scrollbar {
+.modal-triple > .modal-holder > .triplecompany-content::-webkit-scrollbar {
   width: 0px;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form {
+.modal-triple > .modal-holder > .triplecompany-content > form {
   padding-top: 20px;
   height: 100%;
   width: 72%;
@@ -2075,7 +2076,7 @@
   position: relative;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form > div {
+.modal-triple > .modal-holder > .triplecompany-content > form > div {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2087,12 +2088,12 @@
   position: relative;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form > div > label {
+.modal-triple > .modal-holder > .triplecompany-content > form > div > label {
   font-weight: 600;
   font-size: 16px;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form > div > input {
+.modal-triple > .modal-holder > .triplecompany-content > form > div > input {
   border: none;
   border-bottom: 1px solid #D9D9D9;
   margin-top: 5px;
@@ -2102,7 +2103,7 @@
   font-weight: 400;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form > div > select {
+.modal-triple > .modal-holder > .triplecompany-content > form > div > select {
   border: none;
   border-bottom: 1px solid #D9D9D9;
   outline: none;
@@ -2112,7 +2113,7 @@
   width: 100%;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form > div:nth-child(1)::before {
+.modal-triple > .modal-holder > .triplecompany-content > form > div:nth-child(1)::before {
   content: url("https://api.iconify.design/bx/bx-building.svg?color=%239747ff&height=20");
   position: absolute;
   top: 2px;
@@ -2121,7 +2122,7 @@
   transition: 200ms ease-in-out;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form > div:nth-child(2)::before {
+.modal-triple > .modal-holder > .triplecompany-content > form > div:nth-child(2)::before {
   content: url("https://api.iconify.design/feather/phone-call.svg?color=%239747ff&height=20");
   position: absolute;
   top: 2px;
@@ -2130,7 +2131,7 @@
   transition: 200ms ease-in-out;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form > div:nth-child(3)::before {
+.modal-triple > .modal-holder > .triplecompany-content > form > div:nth-child(3)::before {
   content: url("https://api.iconify.design/eva/email-outline.svg?color=%239747ff&height=20");
   position: absolute;
   top: 2px;
@@ -2139,7 +2140,7 @@
   transition: 200ms ease-in-out;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form > div:nth-child(4) > .trace-addmodal {
+.modal-triple > .modal-holder > .triplecompany-content > form > div:nth-child(4) > .trace-triplemodal {
   width: 100%;
   height: 250px;
   background: #D9D9D9;
@@ -2147,7 +2148,7 @@
   margin-top: 10px;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form > div:nth-child(4)::before {
+.modal-triple > .modal-holder > .triplecompany-content > form > div:nth-child(4)::before {
   content: url("https://api.iconify.design/akar-icons/map.svg?color=%239747ff&height=20");
   position: absolute;
   top: 2px;
@@ -2156,7 +2157,7 @@
   transition: 200ms ease-in-out;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form > div:nth-child(5)::before {
+.modal-triple > .modal-holder > .triplecompany-content > form > div:nth-child(5)::before {
   content: url("https://api.iconify.design/akar-icons/location.svg?color=%239747ff&height=20");
   position: absolute;
   top: 2px;
@@ -2165,7 +2166,7 @@
   transition: 200ms ease-in-out;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form > div:nth-child(6) > #map_b-addmodal {
+.modal-triple > .modal-holder > .triplecompany-content > form > div:nth-child(6) > #map_b_m {
   width: 100%;
   height: 250px;
   background: #D9D9D9;
@@ -2173,7 +2174,7 @@
   margin-top: 10px;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form > div:nth-child(6)::before {
+.modal-triple > .modal-holder > .triplecompany-content > form > div:nth-child(6)::before {
   content: url("https://api.iconify.design/ri/pin-distance-line.svg?color=%239747ff&height=20");
   position: absolute;
   top: 2px;
@@ -2182,7 +2183,7 @@
   transition: 200ms ease-in-out;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form > div:nth-child(7)::before {
+.modal-triple > .modal-holder > .triplecompany-content > form > div:nth-child(7)::before {
   content: url("https://api.iconify.design/gg/options.svg?color=%239747ff&height=20");
   position: absolute;
   top: 2px;
@@ -2191,7 +2192,7 @@
   transition: 200ms ease-in-out;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form > div:nth-child(8)::before {
+.modal-triple > .modal-holder > .triplecompany-content > form > div:nth-child(8)::before {
   content: url("https://api.iconify.design/fluent/weather-partly-cloudy-day-16-regular.svg?color=%239747ff&height=20");
   position: absolute;
   top: 2px;
@@ -2200,7 +2201,7 @@
   transition: 200ms ease-in-out;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form > div:nth-child(9)::before {
+.modal-triple > .modal-holder > .triplecompany-content > form > div:nth-child(9)::before {
   content: url("https://api.iconify.design/ic/outline-work-history.svg?color=%239747ff&height=20");
   position: absolute;
   top: 2px;
@@ -2209,7 +2210,7 @@
   transition: 200ms ease-in-out;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form > div:nth-child(10)::before {
+.modal-triple > .modal-holder > .triplecompany-content > form > div:nth-child(10)::before {
   content: url("https://api.iconify.design/bx/bx-time-five.svg?color=%239747ff&height=20");
   position: absolute;
   top: 2px;
@@ -2218,7 +2219,7 @@
   transition: 200ms ease-in-out;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form > div:nth-child(11) {
+.modal-triple > .modal-holder > .triplecompany-content > form > div:nth-child(11) {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2230,7 +2231,7 @@
   position: relative;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form > div:nth-child(11) > .position-container {
+.modal-triple > .modal-holder > .triplecompany-content > form > div:nth-child(11) > .position-container {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2243,7 +2244,7 @@
   width: 100%;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form > div:nth-child(11) > .position-container > input {
+.modal-triple > .modal-holder > .triplecompany-content > form > div:nth-child(11) > .position-container > input {
   border: none;
   border-bottom: 1px solid #D9D9D9;
   outline: none;
@@ -2252,15 +2253,15 @@
   font-size: 14px;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form > div:nth-child(11) > .position-container > input:first-child {
+.modal-triple > .modal-holder > .triplecompany-content > form > div:nth-child(11) > .position-container > input:first-child {
   width: 70%;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form > div:nth-child(11) > .position-container > input:nth-child(2) {
+.modal-triple > .modal-holder > .triplecompany-content > form > div:nth-child(11) > .position-container > input:nth-child(2) {
   width: 30%;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form > div:nth-child(11)::before {
+.modal-triple > .modal-holder > .triplecompany-content > form > div:nth-child(11)::before {
   content: url("https://api.iconify.design/icon-park-outline/ranking.svg?color=%239747ff&height=20");
   position: absolute;
   top: 2px;
@@ -2269,14 +2270,14 @@
   transition: 200ms ease-in-out;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form > div:nth-child(12) {
+.modal-triple > .modal-holder > .triplecompany-content > form > div:nth-child(12) {
   width: 100%;
   position: relative;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form > div:nth-child(12) > button {
+.modal-triple > .modal-holder > .triplecompany-content > form > div:nth-child(12) > button {
   width: 35%;
   border: none;
   padding: 5px 0;
@@ -2288,12 +2289,12 @@
   color: #19C773;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form > div:nth-child(12) > button:hover {
+.modal-triple > .modal-holder > .triplecompany-content > form > div:nth-child(12) > button:hover {
   background: #a8f8d2;
   color: #16b066;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form > div:nth-child(13) {
+.modal-triple > .modal-holder > .triplecompany-content > form > div:nth-child(13) {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2306,7 +2307,7 @@
   padding: 10px 0;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form > div:nth-child(13) > button {
+.modal-triple > .modal-holder > .triplecompany-content > form > div:nth-child(13) > button {
   padding: 7px 0;
   width: 45%;
   border: none;
@@ -2317,6 +2318,6 @@
   cursor: pointer;
 }
 
-.modal-triplecompany > .modal-holder > .triplecompany-content > form > div:nth-child(13) > button:hover {
+.modal-triple > .modal-holder > .triplecompany-content > form > div:nth-child(13) > button:hover {
   background-color: #2f2ffe;
 }

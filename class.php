@@ -587,7 +587,7 @@ Class Payroll
     // show only 2 record of secretary
     public function show2Secretary()
     {
-        $sql = "SELECT fullname, access, gender FROM secretary LIMIT 2";
+        $sql = "SELECT fullname, access, gender FROM secretary ORDER BY id DESC LIMIT 2";
         $stmt = $this->con()->query($sql);
         $total = 0;
         while($row = $stmt->fetch()){
@@ -2404,8 +2404,10 @@ Class Payroll
 
         // added
         echo "<script>
-                let modalForm = document.querySelector('#modalform');
-                modalForm.style.display = 'block';
+                let modalForm = document.querySelector('.modal-triple');
+                modalForm.style.display = 'flex';
+                let modalH1 = document.querySelector('#modal-h1');
+                modalH1.innerText = 'View Company';
               </script>";
 
         if($countRow > 0){
@@ -2566,8 +2568,8 @@ Class Payroll
 
         // added
         echo "<script>
-                let modalForm = document.querySelector('#modalform');
-                modalForm.style.display = 'block';
+                let modalForm = document.querySelector('.modal-triple');
+                modalForm.style.display = 'flex';
               </script>";
 
         if($countRow > 0){
@@ -3561,17 +3563,21 @@ Class Payroll
     {
         
         echo "<script>
-                let modalForm = document.querySelector('#modalform'); // added
-                modalForm.style.display = 'block';
+                let modalForm = document.querySelector('.modal-triple'); // added
+                modalForm.style.display = 'flex';
                 document.querySelector('#modal-h1').innerText = 'Delete Company';
                 document.querySelector('#company_name_m').parentElement.remove();
                 document.querySelector('#contact_number_m').parentElement.remove();
                 document.querySelector('#email_m').parentElement.remove();
-                document.querySelector('#map2').remove();
+                document.querySelector('#map2').parentElement.remove();
                 document.querySelector('#comp_location_m').parentElement.remove();
                 document.querySelector('#boundary_size_m').parentElement.remove();
+                document.querySelector('#type_m').parentElement.remove();
+                document.querySelector('#shift_m').parentElement.remove();
+                document.querySelector('#shift_span_m').parentElement.remove();
+                document.querySelector('#day_start_m').parentElement.remove();
                 document.querySelector('#addhere').remove(); // position0, price1
-                document.querySelector('#addnewmodal').remove();
+                document.querySelector('#addnewmodal').parentElement.remove();
                 document.querySelector('#editcompany').remove();
               </script>";
         if(isset($_POST['deletecompany']))

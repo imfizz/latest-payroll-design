@@ -22,7 +22,8 @@ $payroll->addCompany2(); // for modal
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css" type="text/css" />
     <link rel="stylesheet" href="../styles/mincss/company.min.css">
     <style>
-        #modalform {display: none;}
+        #lengthInput { display: none }
+        #lengthInputOriginal { display: none }
     </style>
 </head>
 <body>
@@ -276,7 +277,7 @@ $payroll->addCompany2(); // for modal
                 <div id="addhere-addmodal">
                     <label for="">Position</label>
                     
-                    <div class="position-container">
+                    <div>
                         <input type="text" class="name-modal" name="name0" autocomplete="off" placeholder="name"/>
                         <input type="text" class="price-modal" name="price0" autocomplete="off" placeholder="00.00"/>
                         <input type="number" class="length2" style="display:none;" value="1" name="length"/>
@@ -296,7 +297,7 @@ $payroll->addCompany2(); // for modal
 <div class="modal-triple">
     <div class="modal-holder">
         <div class="triplecompany-header">
-            <h1 id="modal-h1">Edit</h1>
+            <h1 id="modal-h1">Edit Company</h1>
             <span id="exit-modal-triplecompany" class="material-icons">close</span>
         </div>
         <div class="triplecompany-content">
@@ -367,7 +368,7 @@ $payroll->addCompany2(); // for modal
 
                 <div id="addhere">
                     <label for="">Position</label>
-                    <div class="position-container">
+                    <div>
                         <input type="text" id="position0_m"/>
                         <input type="text" name="price0" id="price0_m"/>
                     </div>

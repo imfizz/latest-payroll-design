@@ -7,62 +7,71 @@
 // })
 
 
-// for company without location
-let addhereContainer = document.querySelector('#addhere');
-let addnew = document.querySelector('#addnewmodal');
+// // for company without location
+// let addhereContainer = document.querySelector('#addhere');
+// let addnew = document.querySelector('#addnewmodal');
 
-// create input fields
-addnew.addEventListener('click', (e)=>{
+// // create input fields
+// addnew.addEventListener('click', (e)=>{
 
-    // input name="name"
-    let inputName = document.createElement('input');
-    inputName.setAttribute('type', 'text');
-    inputName.className = "name";
-    inputName.setAttribute('placeholder', 'name');
-    inputName.setAttribute('onchange', 'computeTotal(this)');
-    inputName.setAttribute('autocomplete', 'off');
+//     // input name="name"
+//     let inputName = document.createElement('input');
+//     inputName.setAttribute('type', 'text');
+//     inputName.className = "name";
+//     inputName.setAttribute('placeholder', 'name');
+//     inputName.setAttribute('onchange', 'computeTotal(this)');
+//     inputName.setAttribute('autocomplete', 'off');
 
-    // input name="price"
-    let inputPrice = document.createElement('input');
-    inputPrice.setAttribute('type', 'text');
-    inputPrice.className = "price";
-    inputPrice.setAttribute('placeholder', '00.00');
-    inputPrice.setAttribute('autocomplete', 'off');
+//     // input name="price"
+//     let inputPrice = document.createElement('input');
+//     inputPrice.setAttribute('type', 'text');
+//     inputPrice.className = "price";
+//     inputPrice.setAttribute('placeholder', '00.00');
+//     inputPrice.setAttribute('autocomplete', 'off');
     
-    let createDiv = document.createElement('div');
-    createDiv.classList.add('position-container');
+//     let createDiv = document.createElement('div');
+//     // createDiv.classList.add('position-container');
 
-    // append in div first
-    createDiv.appendChild(inputName);
-    createDiv.appendChild(inputPrice);
+//     // append in div first
+//     createDiv.appendChild(inputName);
+//     createDiv.appendChild(inputPrice);
 
-    // append created elements
-    addhereContainer.appendChild(createDiv);
-    addhereContainer.appendChild(createDiv);
+//     // append created elements
+//     addhereContainer.appendChild(createDiv);
+//     addhereContainer.appendChild(createDiv);
 
-    let names = document.querySelectorAll('.name');
-    let prices = document.querySelectorAll('.price');
+//     let names = document.querySelectorAll('.name');
+//     let prices = document.querySelectorAll('.price');
 
-    for(let i = 0; i < names.length; i++){
-        if(i > 0){
-            names[i].setAttribute('name', `name${i}`);
-            prices[i].setAttribute('name', `price${i}`);
-        }
-    }
+//     for(let i = 0; i < names.length; i++){
+//         if(i > 0){
+//             names[i].setAttribute('name', `name${i}`);
+//             prices[i].setAttribute('name', `price${i}`);
+//         }
+//     }
     
+// });
+
+
+// let inputLength = document.querySelector('.length');
+// function computeTotal(x){
+//    if(x.value !== ""){
+//       if(!x.classList.contains("blocked")){
+//         let total = parseInt(inputLength.value) + parseInt(1);
+//         inputLength.value = total;
+//         x.classList.add('blocked');
+//       }
+//    }
+// }
+
+
+// close modal
+
+let exitModalTripleCompany = document.querySelector("#exit-modal-triplecompany");
+exitModalTripleCompany.addEventListener('click', e => {
+    let tripleModal = document.querySelector('.modal-triple');
+    tripleModal.style.display = "none";
 });
-
-
-let inputLength = document.querySelector('.length');
-function computeTotal(x){
-   if(x.value !== ""){
-      if(!x.classList.contains("blocked")){
-        let total = parseInt(inputLength.value) + parseInt(1);
-        inputLength.value = total;
-        x.classList.add('blocked');
-      }
-   }
-}
 
 // detect location
 let currPosition = [];
