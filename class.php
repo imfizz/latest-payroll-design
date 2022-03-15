@@ -587,11 +587,69 @@ Class Payroll
     // show only 2 record of secretary
     public function show2Secretary()
     {
-        $sql = "SELECT fullname, access FROM secretary LIMIT 2";
+        $sql = "SELECT fullname, access, gender FROM secretary LIMIT 2";
         $stmt = $this->con()->query($sql);
+        $total = 0;
         while($row = $stmt->fetch()){
-            echo "<h1>$row->fullname</h1><br/>
-                  <h4>$row->access</h4><br/>";
+            // echo "<h1>$row->fullname</h1><br/>
+            //       <h4>$row->access</h4><br/>";
+            
+            
+            $gender = "";
+            if($row->gender == 'Male'){
+                $gender = "<object data='../styles/SVG_modified/malesec.svg' type='image/svg+xml'></object>";
+            } else {
+                $gender = "<object data='../styles/SVG_modified/femalesec.svg' type='image/svg+xml'></object>";
+            }
+            
+            
+            $total = $total + 1;
+            if($total == 1){
+                echo "<div class='left-svg'>
+                        <div class='left-svg-headline'>
+                            <div class='left-svg-top'>
+                                <h2>Position of Head Finance</h2>
+                                <button><div class='circle'></div> View</button>
+                            </div>
+                            <di class='left-svg-bottom'>
+                                <div class='profile'>
+                                    $gender
+                                </div>
+                                <div class='profile-text'>
+                                    <h3>$row->fullname</h3>
+                                    <p>$row->access</p>
+                                </div>
+                            </di>
+                        </div>
+                        <div class='left-svg-image'>
+                            <object data='../styles/SVG_modified/leftsecretary.svg' type='image/svg+xml'></object>
+                        </div>
+                      </div>";
+            }
+
+            if($total == 2){
+                echo "<div class='right-svg'>
+                        <div class='right-svg-headline'>
+                            <div class='right-svg-top'>
+                                <h2>Position of Head Finance</h2>
+                                <button><div class='circle'></div> View</button>
+                            </div>
+                            <div class='right-svg-bottom'>
+                                <div class='profile'>
+                                    $gender
+                                </div>
+                                <div class='profile-text'>
+                                    <h3>$row->fullname</h3>
+                                    <p>$row->access</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='right-svg-image'>
+                            <object data='../styles/SVG_modified/rightsecretary.svg' type='image/svg+xml'></object>
+                        </div>
+                      </div>";
+            }
+
         }
     }
 
@@ -606,9 +664,11 @@ Class Payroll
                     <td>$row->gender</td>
                     <td>$row->email</td>
                     <td>
-                        <a href='showAll.php?secId=$row->id'>view</a>
-                        <a href='showAll.php?secId=$row->id&email=$row->email'>edit</a>
-                        <a href='showAll.php?secIdDelete=$row->id'>delete</a>
+                        <div class='buttons'>
+                            <a href='showAll.php?secId=$row->id'><span class='material-icons'>visibility</span></a>
+                            <a href='showAll.php?secId=$row->id&email=$row->email'><span class='material-icons'>edit</span></a>
+                            <a href='showAll.php?secIdDelete=$row->id'><span class='material-icons'>delete</span></a>
+                        </div>
                     </td>
                   </tr>";
         }
@@ -2342,6 +2402,12 @@ Class Payroll
         $users = $stmt->fetch(PDO::FETCH_ASSOC);
         $countRow = $stmt->rowCount();
 
+        // added
+        echo "<script>
+                let modalForm = document.querySelector('#modalform');
+                modalForm.style.display = 'block';
+              </script>";
+
         if($countRow > 0){
 
             $createInput = "<script>";
@@ -2497,6 +2563,12 @@ Class Payroll
         $stmt->execute([$id]);
         $users = $stmt->fetch(PDO::FETCH_ASSOC);
         $countRow = $stmt->rowCount();
+
+        // added
+        echo "<script>
+                let modalForm = document.querySelector('#modalform');
+                modalForm.style.display = 'block';
+              </script>";
 
         if($countRow > 0){
 
@@ -3487,7 +3559,10 @@ Class Payroll
 
     public function deletecompany($id)
     {
+        
         echo "<script>
+                let modalForm = document.querySelector('#modalform'); // added
+                modalForm.style.display = 'block';
                 document.querySelector('#modal-h1').innerText = 'Delete Company';
                 document.querySelector('#company_name_m').parentElement.remove();
                 document.querySelector('#contact_number_m').parentElement.remove();
@@ -3535,21 +3610,21 @@ Class Payroll
         while($row = $stmt->fetch()){
             $fullname = $row->lastname . ", " . $row->firstname;
 
-            echo "<div>
-                    <div class'headline'>
-                        <div class='title'>
-                            <div class='$row->status'></div>
+            echo "<div class='card'>
+                    <div class='card-header'>
+                        <div class='card-status'>
+                            <div class='circle $row->status'></div>
                             <h2>$row->status</h2>
                         </div>
                         <form method='post' class='removeRecent'>
-                            <input type='text' name='removeDate' value='$row->date_admin' required/>
-                            <input type='text' name='removeId' value='$row->id' required/>
-                            <button type='submit' name='removeRecentBtn'>X</button>
-                        </form>
+                            <input type='hidden' name='removeDate' value='$row->date_admin' required/>
+                            <input type='hidden' name='removeId' value='$row->id' required/>
+                            <button type='submit' name='removeRecentBtn'><span class='material-icons'>close</span></button>
+                        </form>  
                     </div>
-                    <div class='content'>
-                        <h3>$fullname</h3>
-                        <p>$row->date_admin</p>
+                    <div class='card-content'>
+                        <p>$fullname</p>
+                        <span>Date: <b>$row->date_admin</b></span>
                     </div>
                   </div>";
         }
@@ -3600,9 +3675,11 @@ Class Payroll
                     <td>$row->leave_start</td>
                     <td>$row->leave_end</td>
                     <td>
-                        <a href='leave.php?id=$row->id&act=viewing'>View</a>
-                        <a href='leave.php?id=$row->id&act=approve'>Approve</a>
-                        <a href='leave.php?id=$row->id&act=reject'>Reject</a>
+                        <div class='buttons'>
+                            <a href='leave.php?id=$row->id&act=viewing'><span class='material-icons'>visibility</span></a>
+                            <a href='leave.php?id=$row->id&act=approve'><span class='material-icons'>done</span></a>
+                            <a href='leave.php?id=$row->id&act=reject'><span class='material-icons'>close</span></a>
+                        </div>
                     </td>
                   </tr>";
         }

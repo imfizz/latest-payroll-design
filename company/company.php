@@ -21,6 +21,9 @@ $payroll->addCompany2(); // for modal
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css" type="text/css" />
     <link rel="stylesheet" href="../styles/mincss/company.min.css">
+    <style>
+        #modalform {display: none;}
+    </style>
 </head>
 <body>
     <div class="main-container">
@@ -34,8 +37,8 @@ $payroll->addCompany2(); // for modal
                     <li><a href="../dashboard.php">Dashboard</a></li>
                     <li class="active-parent">Records
                         <ul>
-                            <li><a href="./employee.php">Employee</a></li>
-                            <li><a href="../company/company.php">Company</a></li>
+                            <li><a href="../employee/employee.php">Employee</a></li>
+                            <li><a href="./company.php">Company</a></li>
                             <li><a href="../secretary/secretary.php">Secretary</a></li>
                         </ul>
                     </li>
@@ -180,16 +183,16 @@ $payroll->addCompany2(); // for modal
         
                             </select>
                         </div>
-                        <div id="addhere">
+                        <div id="addhere-main">
                             <label for="">Position</label>
-                            <input type="number" style="display:none;" class="length" value="1" name="length"/>
+                            <input type="number" style="display:none;" class="length-main" value="1" name="length"/>
                             <div class="position-container">
                                 <input type="text" class="name" name="name0" autocomplete="off" placeholder="name"/>
                                 <input type="text" class="price" name="price0" autocomplete="off" placeholder="00.00"/>
                             </div>
                         </div>
                         <div class="addnew-container">
-                            <button type="button" class="addnew">+ Add new</button>
+                            <button type="button" class="addnew-main">+ Add new</button>
                         </div>
                         <button type="submit" name="addcompany">Add Company</button><br/>
                     </form>
@@ -270,7 +273,7 @@ $payroll->addCompany2(); // for modal
         
                     </select>
                 </div>
-                <div id="addhere2">
+                <div id="addhere-addmodal">
                     <label for="">Position</label>
                     
                     <div class="position-container">
@@ -289,7 +292,112 @@ $payroll->addCompany2(); // for modal
         </div>
     </div>
 </div>
-    <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
-    <script src="../scripts/company.js"></script>
+
+<div class="modal-triple">
+    <div class="modal-holder">
+        <div class="triplecompany-header">
+            <h1 id="modal-h1">Edit</h1>
+            <span id="exit-modal-triplecompany" class="material-icons">close</span>
+        </div>
+        <div class="triplecompany-content">
+            <form method="post" id="modalform">
+                <div>
+                    <label for="company_name_m">Name</label>
+                    <input type="text" name="company_name_m" id="company_name_m" required/>
+                </div>
+
+                <div>
+                    <label for="contact_number_m">Contact Number</label>
+                    <input type="text" name="contact_number_m" id="contact_number_m" required/>
+                </div>
+
+                <div>
+                    <label for="email_m">Email</label>
+                    <input type="email" name="email_m" id="email_m" required/>
+                </div>
+                <div>
+                    <label for="">Trace Location</label>
+                    <!-- this will be a google map -->
+                    <div id="map2" class="trace-triplemodal"></div>
+                </div>
+                
+
+                <div>
+                    <label for="comp_location_m">Address</label>
+                    <input type="text" name="comp_location_m" id="comp_location_m" required/>
+                    <input type="hidden" name="longitude_m" id="longitude_m" placeholder="longitude" required/>
+                    <input type="hidden" name="latitude_m" id="latitude_m" placeholder="latitude" required/>
+                </div>
+                
+                <div>
+                    <label for="">Set Boundary</label>
+                    <div id="map_b_m"></div>
+                    <input type="hidden" name="boundary_size_m" id="boundary_size_m" class="map_b_size_m" required/>
+                </div>
+                <div>
+                    <label for="type_m">Type</label>
+                    <select name="type_m" id="type_m" required>
+                        <option value="manual">Manual</option>
+                        <option value="automatic">Automatic</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="">Shift</label>
+                    <select name="shift_m" id="shift_m" required>
+                        <option value="day">Day</option>
+                        <option value="night">Night</option>
+                        <option value="both">Both</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="">Shift Span</label>
+                    <select name="shift_span_m" id="shift_span_m" required>
+                        <option value="8">8 hrs</option>
+                        <option value="12">12 hrs</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="">Day Start</label>
+                    <select name="day_start_m" id="day_start_m" required>
+                        <option value="6:00 am">6:00 AM</option>
+                        <option value="7:00 am">7:00 AM</option>
+        
+                    </select>
+                </div>
+
+                <div id="addhere">
+                    <label for="">Position</label>
+                    <div class="position-container">
+                        <input type="text" id="position0_m"/>
+                        <input type="text" name="price0" id="price0_m"/>
+                    </div>
+                </div>
+
+                <div class="addnew-container">
+                    <button type="button" id="addnewmodal">Add New</button>
+                </div>
+                <div>
+                    <button type="submit" name="editcompany" id="editcompany">Edit</button>
+                    <button type="submit" name="deletecompany" id="deletecompany">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+</div>
+<script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+<script src="../scripts/company2.js"></script>
+
+<?php
+
+if(isset($_GET['id']) && isset($_GET['act']) && $_GET['act'] == 'view'){
+    $payroll->viewcompany($_GET['id']);
+} elseif(isset($_GET['id']) && isset($_GET['act']) && $_GET['act'] == 'edit'){
+    $payroll->editcompany($_GET['id']);
+} elseif(isset($_GET['id']) && isset($_GET['act']) && $_GET['act'] == 'delete'){
+    $payroll->deletecompany($_GET['id']);
+}
+
+?>
 </body>
 </html>

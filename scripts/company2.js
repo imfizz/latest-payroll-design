@@ -9,7 +9,7 @@
 
 // for company without location
 let addhereContainer = document.querySelector('#addhere');
-let addnew = document.querySelector('.addnew');
+let addnew = document.querySelector('#addnewmodal');
 
 // create input fields
 addnew.addEventListener('click', (e)=>{
@@ -63,7 +63,6 @@ function computeTotal(x){
       }
    }
 }
-
 
 // detect location
 let currPosition = [];
@@ -355,8 +354,89 @@ exitModalViewCompany.addEventListener('click', e => {
 });
 
 
+
+
+
+
+
+// for company without location
+let addhereMain = document.querySelector('#addhere-main');
+let addnewMain = document.querySelector('.addnew-main');
+
+// create input fields
+addnewMain.addEventListener('click', (e)=>{
+
+    // input name="name"
+    let inputName = document.createElement('input');
+    inputName.setAttribute('type', 'text');
+    inputName.className = "name";
+    inputName.setAttribute('placeholder', 'name');
+    inputName.setAttribute('onchange', 'computeTotalMain(this)');
+    inputName.setAttribute('autocomplete', 'off');
+
+    // input name="price"
+    let inputPrice = document.createElement('input');
+    inputPrice.setAttribute('type', 'text');
+    inputPrice.className = "price";
+    inputPrice.setAttribute('placeholder', '00.00');
+    inputPrice.setAttribute('autocomplete', 'off');
+    
+    let createDiv = document.createElement('div');
+    createDiv.classList.add('position-container');
+
+    // append in div first
+    createDiv.appendChild(inputName);
+    createDiv.appendChild(inputPrice);
+
+    // append created elements
+    addhereMain.appendChild(createDiv);
+    addhereMain.appendChild(createDiv);
+
+    let names = document.querySelectorAll('.name');
+    let prices = document.querySelectorAll('.price');
+
+    for(let i = 0; i < names.length; i++){
+        if(i > 0){
+            names[i].setAttribute('name', `name${i}`);
+            prices[i].setAttribute('name', `price${i}`);
+        }
+    }
+    
+});
+
+
+let inputLengthMain = document.querySelector('.length-main');
+function computeTotalMain(x){
+   if(x.value !== ""){
+      if(!x.classList.contains("blocked")){
+        let totalMain = parseInt(inputLengthMain.value) + parseInt(1);
+        inputLengthMain.value = totalMain;
+        x.classList.add('blocked');
+      }
+   }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // create input fields in view modal
-let addhereContainer2 = document.querySelector('#addhere2');
+let addhereContainer2 = document.querySelector('#addhere-addmodal');
 let addnew2 = document.querySelector('.addnew2');
 
 addnew2.addEventListener('click', (e)=>{
@@ -415,6 +495,21 @@ addModalShow.addEventListener('click', (e) => {
     let modalViewCompany = document.querySelector('.modal-viewcompany');
     modalViewCompany.style.display = 'flex';
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

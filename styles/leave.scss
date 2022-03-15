@@ -696,6 +696,8 @@
         }
 
         & > .header-info {
+            margin-bottom: 75%;
+
             & > h1 {
                 font-size: 16px;
                 font-weight: $semibold;
@@ -707,7 +709,6 @@
             flex-direction: column;
             position: relative;
             width: 100%;
-            margin-top: 75%;
 
             & > .recent-activitiy-header {
                 width: 100%;
@@ -754,7 +755,7 @@
                                 width: 15px;
                                 border-radius: 50%;
                                 
-                                &.approve {
+                                &.approved {
                                     background: #ABFFB3;
                                 }
 
@@ -769,10 +770,18 @@
                             }
                         }
 
-                        & > span {
-                            cursor: pointer;
-                            font-size: 18px;
-                            font-weight: $semibold;
+                        & > form {
+
+                            & > button {
+                                border: none;
+                                background: transparent;
+
+                                & > span {
+                                    cursor: pointer;
+                                    font-size: 18px;
+                                    font-weight: $semibold;
+                                }
+                            }
                         }
                     }
 
@@ -1031,6 +1040,454 @@
                     }
 
                 }
+            }
+        }
+    }
+}
+
+.modal-approverequest {
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0; left: 0;
+    background: rgba(0,0,0,.37);
+    @include y-center;
+    // display: none;
+
+    & > .modal-holder {
+        background: white;
+        border-radius: 5px;
+        width: 33%;
+        max-height: 80%;
+        position: relative;
+        padding: 13px 0px;
+        box-sizing: border-box;
+
+        & > .approverequest-header {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgb(200, 200, 200);
+            height: 7%;
+            box-sizing: border-box;
+
+            & > h1 {
+                font-size: 20px;
+                font-weight: $medium;
+            }
+
+            & > span {
+                position: absolute;
+                right: 20px;
+                cursor: pointer;
+            }
+        }
+
+        & > .approverequest-content {
+            width: 100%;
+            height: 93%;
+            @include x-center;
+            align-self: center;
+            box-sizing: border-box;
+            overflow-y: scroll;
+
+            &::-webkit-scrollbar {
+                width: 0px;
+            }
+
+            & > form {
+                padding-top: 20px;
+                height: 100%;
+                min-width: 75%;
+                display: flex;
+                flex-direction: column;
+                box-sizing: border-box;
+
+                & > div {
+                    display: flex;
+                    flex-direction: column;
+                    margin-bottom: 10px;
+                    position: relative;
+
+                    & > label {
+                        font-weight: $semibold;
+                        font-size: 16px;
+                    }
+
+                    & > input {
+                        border: none;
+                        border-bottom: 1px solid #D9D9D9;
+                        margin-top: 5px;
+                        font-size: 14px;
+                        outline: none;
+                        color: #B9B9B9;
+                        font-weight: $regular;
+                        background: transparent;
+                    }
+
+                    & > select {
+                        padding: 3px 0;
+                        outline: 0;
+                        border: none;
+                        border-bottom: 1px solid #D9D9D9;
+                        font-size: 14px;
+                        font-weight: $medium;
+                        color: #464646;
+                    }
+
+                    // substitute, name
+                    &:nth-child(1)::before,
+                    &:nth-child(2)::before {
+                        content: url('https://api.iconify.design/akar-icons/person.svg?color=%239747ff&height=20');
+                        position: absolute;
+                        top: 2px;
+                        left: -32px;
+                        transition: 200ms ease-in-out;
+                    }
+
+                    // email
+                    &:nth-child(3)::before {
+                        content: url('https://api.iconify.design/eva/email-outline.svg?color=%239747ff&height=20');
+                        position: absolute;
+                        top: 2px;
+                        left: -32px;
+                        transition: 200ms ease-in-out;
+                    }
+
+                    // days leave, datestart, dateend
+                    &:nth-child(4){
+                        display: flex;
+                        flex-direction: column;
+
+                        &::before {
+                            content: url('https://api.iconify.design/fluent/weather-partly-cloudy-day-16-regular.svg?color=%239747ff&height=20');
+                            position: absolute;
+                            top: 2px;
+                            left: -32px;
+                            transition: 200ms ease-in-out;
+                        }
+
+                        & > .daysleave-info {
+                            display: flex;
+                            flex-direction: row;
+                            padding-top: 10px;
+                            width: 100%;
+
+                            & > div > select {
+                                margin-right: 10px;
+                            }
+
+                            & > div > span {
+                                font-size: 14px;
+                                font-weight: $semibold;
+                                display: flex;
+                                flex-direction: row;
+                                width: 100%;
+
+                                &:first-child {
+                                    margin-bottom: 15px;
+                                }
+
+                                &:last-child {
+                                    transform: translateX(20px);
+                                }
+
+                                & > input {
+                                    border: none;
+                                    border-bottom: 1px solid #D9D9D9;
+                                    margin-left: 10px;
+                                    width: 100%;
+                                    background: transparent;
+                                    font-weight: $medium;
+                                    color: #B9B9B9;
+
+                                    &:last-child {
+                                        width: 70%;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // type
+                    &:nth-child(5)::before {
+                        content: url('https://api.iconify.design/gg/options.svg?color=%239747ff&height=20');
+                        position: absolute;
+                        top: 2px;
+                        left: -32px;
+                        transition: 200ms ease-in-out;
+                    }
+
+                    // reason
+                    &:nth-child(6)::before {
+                        content: url('https://api.iconify.design/ic/outline-description.svg?color=%239747ff&height=20');
+                        position: absolute;
+                        top: 2px;
+                        left: -32px;
+                        transition: 200ms ease-in-out;
+                    }
+
+                    // button
+                    &:nth-child(7){
+                        width: 100%;
+                        @include x-center;
+                        position: relative;
+
+                        & > button {
+                            border: none;
+                            padding: 10px 0;
+                            color: #fff;
+                            font-weight: $semibold;
+                            width: 45%;
+                            border-radius: 5px;
+                            cursor: pointer;
+                        }
+
+                        & > button:first-child {
+                            background: $btn-edit;
+
+                            &:hover {
+                                background: darken($btn-edit, 5%)
+                            }
+                        }
+
+                        & > button:last-child {
+                            background: $btn-delete;
+
+                            &:hover {
+                                background: darken($btn-delete, 5%)
+                            }
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+}
+
+.modal-rejectrequest {
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0; left: 0;
+    background: rgba(0,0,0,.37);
+    @include y-center;
+    // display: none;
+
+    & > .modal-holder {
+        background: white;
+        border-radius: 5px;
+        width: 33%;
+        max-height: 80%;
+        position: relative;
+        padding: 13px 0px;
+        box-sizing: border-box;
+
+        & > .rejectrequest-header {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgb(200, 200, 200);
+            height: 7%;
+            box-sizing: border-box;
+
+            & > h1 {
+                font-size: 20px;
+                font-weight: $medium;
+            }
+
+            & > span {
+                position: absolute;
+                right: 20px;
+                cursor: pointer;
+            }
+        }
+
+        & > .rejectrequest-content {
+            width: 100%;
+            height: 93%;
+            @include x-center;
+            align-self: center;
+            box-sizing: border-box;
+            overflow-y: scroll;
+
+            &::-webkit-scrollbar {
+                width: 0px;
+            }
+
+            & > form {
+                padding-top: 20px;
+                height: 100%;
+                min-width: 75%;
+                display: flex;
+                flex-direction: column;
+                box-sizing: border-box;
+
+                & > div {
+                    display: flex;
+                    flex-direction: column;
+                    margin-bottom: 10px;
+                    position: relative;
+
+                    & > label {
+                        font-weight: $semibold;
+                        font-size: 16px;
+                    }
+
+                    & > input {
+                        border: none;
+                        border-bottom: 1px solid #D9D9D9;
+                        margin-top: 5px;
+                        font-size: 14px;
+                        outline: none;
+                        color: #B9B9B9;
+                        font-weight: $regular;
+                        background: transparent;
+                    }
+
+                    & > select {
+                        padding: 3px 0;
+                        outline: 0;
+                        border: none;
+                        border-bottom: 1px solid #D9D9D9;
+                        font-size: 14px;
+                        font-weight: $medium;
+                        color: #464646;
+                    }
+
+                    // substitute, name
+                    &:nth-child(1)::before,
+                    &:nth-child(2)::before {
+                        content: url('https://api.iconify.design/akar-icons/person.svg?color=%239747ff&height=20');
+                        position: absolute;
+                        top: 2px;
+                        left: -32px;
+                        transition: 200ms ease-in-out;
+                    }
+
+                    // email
+                    &:nth-child(3)::before {
+                        content: url('https://api.iconify.design/eva/email-outline.svg?color=%239747ff&height=20');
+                        position: absolute;
+                        top: 2px;
+                        left: -32px;
+                        transition: 200ms ease-in-out;
+                    }
+
+                    // days leave, datestart, dateend
+                    &:nth-child(4){
+                        display: flex;
+                        flex-direction: column;
+
+                        &::before {
+                            content: url('https://api.iconify.design/fluent/weather-partly-cloudy-day-16-regular.svg?color=%239747ff&height=20');
+                            position: absolute;
+                            top: 2px;
+                            left: -32px;
+                            transition: 200ms ease-in-out;
+                        }
+
+                        & > .daysleave-info {
+                            display: flex;
+                            flex-direction: row;
+                            padding-top: 10px;
+                            width: 100%;
+
+                            & > div > select {
+                                margin-right: 10px;
+                            }
+
+                            & > div > span {
+                                font-size: 14px;
+                                font-weight: $semibold;
+                                display: flex;
+                                flex-direction: row;
+                                width: 100%;
+
+                                &:first-child {
+                                    margin-bottom: 15px;
+                                }
+
+                                &:last-child {
+                                    transform: translateX(20px);
+                                }
+
+                                & > input {
+                                    border: none;
+                                    border-bottom: 1px solid #D9D9D9;
+                                    margin-left: 10px;
+                                    width: 100%;
+                                    background: transparent;
+                                    font-weight: $medium;
+                                    color: #B9B9B9;
+
+                                    &:last-child {
+                                        width: 70%;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // type
+                    &:nth-child(5)::before {
+                        content: url('https://api.iconify.design/gg/options.svg?color=%239747ff&height=20');
+                        position: absolute;
+                        top: 2px;
+                        left: -32px;
+                        transition: 200ms ease-in-out;
+                    }
+
+                    // reason
+                    &:nth-child(6)::before {
+                        content: url('https://api.iconify.design/ic/outline-description.svg?color=%239747ff&height=20');
+                        position: absolute;
+                        top: 2px;
+                        left: -32px;
+                        transition: 200ms ease-in-out;
+                    }
+
+                    // button
+                    &:nth-child(7){
+                        width: 100%;
+                        @include x-center;
+                        position: relative;
+
+                        & > button {
+                            border: none;
+                            padding: 10px 0;
+                            color: #fff;
+                            font-weight: $semibold;
+                            width: 45%;
+                            border-radius: 5px;
+                            cursor: pointer;
+                        }
+
+                        & > button:first-child {
+                            background: $btn-edit;
+
+                            &:hover {
+                                background: darken($btn-edit, 5%)
+                            }
+                        }
+
+                        & > button:last-child {
+                            background: $btn-delete;
+
+                            &:hover {
+                                background: darken($btn-delete, 5%)
+                            }
+                        }
+                    }
+                }
+                
             }
         }
     }

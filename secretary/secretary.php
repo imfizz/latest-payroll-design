@@ -1,3 +1,10 @@
+<?php
+require_once('../class.php');
+$sessionData = $payroll->getSessionData();
+$payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
+$payroll->addSecretary($sessionData['id'], $sessionData['fullname']);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,49 +54,10 @@
             <div class="recentaccount">
                 <div class="recentaccount-header">
                     <h1>Recent Account Added</h1>
-                    <a href="./showAll.html">view all</a>
+                    <a href="./showAll.php">view all</a>
                 </div>
                 <div class="recentacount-svg">
-                    <div class="left-svg">
-                        <div class="left-svg-headline">
-                            <div class="left-svg-top">
-                                <h2>Position of Head Finance</h2>
-                                <button><div class="circle"></div> View</button>
-                            </div>
-                            <di class="left-svg-bottom">
-                                <div class="profile">
-                                    <object data="../styles/SVG_modified/femalesec.svg" type="image/svg+xml"></object>
-                                </div>
-                                <div class="profile-text">
-                                    <h3>Marianne Herrera</h3>
-                                    <p>Secretary</p>
-                                </div>
-                            </di>
-                        </div>
-                        <div class="left-svg-image">
-                            <object data="../styles/SVG_modified/leftsecretary.svg" type="image/svg+xml"></object>
-                        </div>
-                    </div>
-                    <div class="right-svg">
-                        <div class="right-svg-headline">
-                            <div class="right-svg-top">
-                                <h2>Position of Head Finance</h2>
-                                <button><div class="circle"></div> View</button>
-                            </div>
-                            <div class="right-svg-bottom">
-                                <div class="profile">
-                                    <object data="../styles/SVG_modified/malesec.svg" type="image/svg+xml"></object>
-                                </div>
-                                <div class="profile-text">
-                                    <h3>Francis Albert</h3>
-                                    <p>Secretary</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="right-svg-image">
-                            <object data="../styles/SVG_modified/rightsecretary.svg" type="image/svg+xml"></object>
-                        </div>
-                    </div>
+                    <?= $payroll->show2Secretary(); ?>
                 </div>
             </div>
             <div class="activities">
