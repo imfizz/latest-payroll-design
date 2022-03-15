@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 14, 2022 at 12:17 PM
+-- Generation Time: Mar 15, 2022 at 02:15 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.3.29
 
@@ -58,7 +58,13 @@ INSERT INTO `admin_log` (`id`, `name`, `action`, `table_name`, `time`, `date`) V
 (177, 'Rizza Janes Pachecos', 'login', NULL, '03:04:24pm', '2022/03/11'),
 (178, 'Rizza Janes Pachecos', 'login', NULL, '12:27:20pm', '2022/03/14'),
 (179, 'Rizza Janes Pachecos', 'login', NULL, '01:17:27pm', '2022/03/14'),
-(180, 'Rizza Janes Pachecos', 'login', NULL, '04:22:57pm', '2022/03/14');
+(180, 'Rizza Janes Pachecos', 'login', NULL, '04:22:57pm', '2022/03/14'),
+(181, 'Rizza Janes Pachecos', 'login', NULL, '05:49:30am', '2022/03/15'),
+(182, 'Rizza Janes Pachecos', 'login', NULL, '05:49:55am', '2022/03/15'),
+(183, 'Rizza Janes Pachecos', 'Add Secretary', NULL, '06:24:34am', '2022/03/15'),
+(184, 'Rizza Janes Pachecos', 'login', NULL, '08:04:08am', '2022/03/15'),
+(185, 'Rizza Janes Pachecos', 'login', NULL, '08:31:25am', '2022/03/15'),
+(186, 'Rizza Janes Pachecos', 'Add Secretary', NULL, '08:50:15am', '2022/03/15');
 
 -- --------------------------------------------------------
 
@@ -116,9 +122,9 @@ CREATE TABLE `company` (
 --
 
 INSERT INTO `company` (`id`, `company_name`, `hired_guards`, `cpnumber`, `email`, `comp_location`, `longitude`, `latitude`, `boundary_size`, `watType`, `shifts`, `shift_span`, `day_start`, `date`, `position0`, `price0`, `position1`, `price1`, `position2`, `price2`, `position3`, `price3`) VALUES
-(12, 'Unilab', '3', '09087156214', 'francis.albert.sarcaoga.ilacad@gmail.com', 'Unilab Warehouse, East Main Avenue, Cabuyao', '121.07461991685045', '14.2838209210218', '0.103km', 'automatic', 'day', '12', '6:00 am', '2022/03/05', 'Officer in Charge', '54.00', 'Security Guard', '50.00', 'Staff', '34.00', NULL, NULL),
+(12, 'Unilab', '4', '09087156214', 'francis.albert.sarcaoga.ilacad@gmail.com', 'Unilab Warehouse, East Main Avenue, Cabuyao', '121.07461991685045', '14.2838209210218', '0.103km', 'automatic', 'day', '12', '6:00 am', '2022/03/05', 'Officer in Charge', '54.00', 'Security Guard', '50.00', 'Staff', '34.00', NULL, NULL),
 (13, 'Davies Paint', '1', '09541478532', 'sicnarfarerreh@gmail.com', 'San Miguel, Pasig City, Pasig, 1600, Philippines', '121.09252011005725', '14.566912538889369', '0.123km', 'automatic', 'day', '12', '6:00 am', '2022/03/06', 'Officer in Charge', '54.00', 'Security Guard', '55.00', NULL, NULL, NULL, NULL),
-(14, 'Lucky Me', '0', '09521475182', 'francis.albert.sarcaoga.ilacad@gmail.com', 'Blk 3 Lot 7 Noodle Factory, Sta Rosa, Laguna, Santa Rosa, Laguna 4026, Philippines', '121.10085664088581', '14.29160184859559', '0.256km', 'automatic', 'day', '12', '6:00 am', '2022/03/11', 'Officer in Charge', '54.00', 'Security Guard', '50.00', 'Head Finance', '52.00', NULL, NULL);
+(20, 'sample company2', '1', '09060766219', 'filacad22@gmail.com', 'sample address2', '120.95451395637537', '14.734818539576466', '0.264km', 'automatic', 'day', '8', '7:00 am', '2022/03/15', 'officer in charge', '50', 'security guard1', '51', 'staff1', '52', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -157,7 +163,8 @@ INSERT INTO `employee` (`id`, `empId`, `firstname`, `lastname`, `cpnumber`, `add
 (28, '2022-27', 'Salvador', 'Macaraeg', '09584721564', '1556 Doroteo Jose 1000, Manila City', 'Officer in Charge', '54.00', 'automatic', 'ghiladam3@gmail.com', '9c47969e9aa85a8df1696d3d77f59880', '40b7ae5755b58c4aecb46d507a7f1836', '2bb0be0149934105cf31c8b8614cea43', 'peUtTtEm', 'employee', 'Unavailable', NULL, '05:18:29pm', '2022/03/05'),
 (29, '2022-28', 'Louie', 'Agao', '09574788921', '11-A Miller Avenue, Barangay Bungad, Quezon City', 'Security Guard', '46.00', 'automatic', 'agaolouie5@gmail.com', '6b4bcb19b08382d6d1375bad164b1d29', '57dc0a332c3288500def00cdfd5c9937', '6b02d642d661a6d7b343439f8a6348c1', 'MpEURrlg', 'employee', 'Unavailable', NULL, '05:19:58pm', '2022/03/05'),
 (30, '2022-29', 'Emerson', 'Discipulo', '09895478213', '1 Carlos Drive Corner 2nd Avenue, Taguig City', 'Officer in Charge', '50.00', 'automatic', 'discipuloEmerson@gmail.com', '95a000ac1a1c54a12b6ea798a09e1dec', '6d2655e5caed0649b57c59e6539c64a8', 'deba317bb118fb3e21d8a84d9473c18d', 'tacTDHd6', 'employee', 'Unavailable', NULL, '11:48:08pm', '2022/03/06'),
-(34, '2022-30', 'Albert', 'Ortinez', '09060766219', '6/F One Corporation Plaza845 A. Arnaiz Avenue, Makati City', NULL, NULL, NULL, 'albertortinez5@gmail.com ', '6e9bc58cae76b35d49ab43d82bd263bb', '755c2691bd361d1cc3d38d1572c442fd', '2bb0be0149934105cf31c8b8614cea43', 'cFZFoBCB', 'employee', 'Available', NULL, '09:06:31am', '2022/03/11');
+(34, '2022-30', 'Albert', 'Ortinez', '09060766219', '6/F One Corporation Plaza845 A. Arnaiz Avenue, Makati City', 'security guard', '3132', 'automatic', 'albertortinez5@gmail.com ', '6e9bc58cae76b35d49ab43d82bd263bb', '755c2691bd361d1cc3d38d1572c442fd', '2bb0be0149934105cf31c8b8614cea43', 'cFZFoBCB', 'employee', 'Unavailable', NULL, '09:06:31am', '2022/03/11'),
+(36, '2022-34', 'Francis', 'Ilacad', '564961132', 'sadfsdf', 'Officer in Charge', '54.00', 'automatic', 'filacad22@gmail.com', '2e550aa6104a3c1a8081b85401b9e3ad', 'sadasdas', 'asdasd', 'SkrQ3qrK', 'employee', 'Unavailable', NULL, '08:42:54am', '2022/03/15');
 
 -- --------------------------------------------------------
 
@@ -232,7 +239,9 @@ INSERT INTO `schedule` (`id`, `empId`, `company`, `scheduleTimeIn`, `scheduleTim
 (115, '2022-0', 'Unilab', '6:00 am', '06:00 pm', 'day', 12, '2023-05-16', '2022-03-08'),
 (124, '2022-27', 'Davies Paint', '6:00 am', '06:00 pm', 'day', 12, '2024-03-07', '2022-03-08'),
 (125, '2022-28', 'Unilab', NULL, NULL, NULL, NULL, '2024-03-07', '2022-03-08'),
-(132, '2022-29', 'Unilab', '6:00 am', '06:00 pm', 'day', 12, '2024-03-11', '2022-03-11');
+(132, '2022-29', 'Unilab', '6:00 am', '06:00 pm', 'day', 12, '2024-03-11', '2022-03-11'),
+(138, '2022-34', 'Unilab', '6:00 am', '06:00 pm', 'day', 12, '2024-03-15', '2022-03-15'),
+(139, '2022-30', 'sample company2', NULL, NULL, NULL, NULL, '2024-03-15', '2022-03-15');
 
 -- --------------------------------------------------------
 
@@ -259,7 +268,9 @@ CREATE TABLE `secretary` (
 --
 
 INSERT INTO `secretary` (`id`, `fullname`, `gender`, `cpnumber`, `address`, `email`, `password`, `timer`, `admin_id`, `access`, `isDeleted`) VALUES
-(11, 'Julie Manalos', 'Female', '099514247898', '890-As Eusebio Avenue, Pasig City, Metro Manila', 'jm.julie.manalo@gmail.com', 'dcb068a7964657ae4e4d0797770ce96c', NULL, 4, 'secretary', 1);
+(11, 'Julie Manalos', 'Female', '099514247898', '890-As Eusebio Avenue, Pasig City, Metro Manila', 'jm.julie.manalo@gmail.com', 'dcb068a7964657ae4e4d0797770ce96c', NULL, 4, 'secretary', 1),
+(12, 'sample sec', 'Female', '04465468548', 'asdasdasd', 'filacad22@gmail.com', '93bdfdbb9717031be11434872899be8e', NULL, 4, 'secretary', 0),
+(13, 'sample secretary', 'Male', '15165461', 'asdadasd', 'sicnarfarerreh@gmail.com', '675c3c359d21780d4df3af0749624a16', NULL, 4, 'secretary', 0);
 
 -- --------------------------------------------------------
 
@@ -316,7 +327,8 @@ INSERT INTO `secret_diarye` (`id`, `e_id`, `secret_key`) VALUES
 (7, 'ghiladam3@gmail.com', 'wt+li^_%'),
 (8, 'agaolouie5@gmail.com', 'g&feq0h@'),
 (9, 'discipuloEmerson@gmail.com', 'v_dxjp+k'),
-(13, 'albertortinez5@gmail.com ', 'z)&^wvl5');
+(13, 'albertortinez5@gmail.com ', 'z)&^wvl5'),
+(15, 'filacad22@gmail.com', 'ac#n65i_');
 
 -- --------------------------------------------------------
 
@@ -335,7 +347,9 @@ CREATE TABLE `secret_diarys` (
 --
 
 INSERT INTO `secret_diarys` (`id`, `se_id`, `secret_key`) VALUES
-(2, 'jm.julie.manalo@gmail.com', 'v5mbl97t');
+(2, 'jm.julie.manalo@gmail.com', 'v5mbl97t'),
+(3, 'filacad22@gmail.com', 'l$)@(v2+'),
+(4, 'sicnarfarerreh@gmail.com', 'd^j9mxqc');
 
 -- --------------------------------------------------------
 
@@ -490,7 +504,7 @@ ALTER TABLE `violationsandremarks`
 -- AUTO_INCREMENT for table `admin_log`
 --
 ALTER TABLE `admin_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=181;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=187;
 
 --
 -- AUTO_INCREMENT for table `admin_profile`
@@ -502,13 +516,13 @@ ALTER TABLE `admin_profile`
 -- AUTO_INCREMENT for table `company`
 --
 ALTER TABLE `company`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `emp_attendance`
@@ -526,13 +540,13 @@ ALTER TABLE `leave_request`
 -- AUTO_INCREMENT for table `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
 
 --
 -- AUTO_INCREMENT for table `secretary`
 --
 ALTER TABLE `secretary`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `secretary_log`
@@ -550,13 +564,13 @@ ALTER TABLE `secret_diary`
 -- AUTO_INCREMENT for table `secret_diarye`
 --
 ALTER TABLE `secret_diarye`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `secret_diarys`
 --
 ALTER TABLE `secret_diarys`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `super_admin`
