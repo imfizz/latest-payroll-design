@@ -42,7 +42,7 @@ $payroll->viewApproveReject();
                     <li><a href="./activity/activity.html">Activities</a></li>
                 </ul>
                 <div>
-                    <a href="#">Logout</a>
+                    <a href="./logout.php">Logout</a>
                 </div>
             </div>
         </div>

@@ -5,6 +5,36 @@
   font-family: 'Poppins', 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
+.error {
+  background: #ff000075;
+  padding: 10px;
+  border-radius: 5px;
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  z-index: 99;
+  color: #ffffff;
+}
+
+.success {
+  background: #38b80e75;
+  padding: 10px;
+  border-radius: 5px;
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  z-index: 99;
+  color: #ffffff;
+}
+
+.success-email {
+  top: 100px;
+}
+
+.error-email {
+  top: 100px;
+}
+
 .main-container {
   height: 100vh;
   width: 100vw;

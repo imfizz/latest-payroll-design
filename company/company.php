@@ -52,7 +52,7 @@ $payroll->addCompany2(); // for modal
                     <li><a href="../activity/activity.php">Activities</a></li>
                 </ul>
                 <div>
-                    <a href="#">Logout</a>
+                    <a href="../logout.php">Logout</a>
                 </div>
             </div>
         </div>
@@ -188,7 +188,7 @@ $payroll->addCompany2(); // for modal
                             <label for="">Position</label>
                             <input type="number" style="display:none;" class="length-main" value="1" name="length"/>
                             <div class="position-container">
-                                <input type="text" class="name" name="name0" autocomplete="off" placeholder="name"/>
+                                <input type="text" class="name" value="Officer in charge" name="name0" autocomplete="off" readonly/>
                                 <input type="text" class="price" name="price0" autocomplete="off" placeholder="00.00"/>
                             </div>
                         </div>

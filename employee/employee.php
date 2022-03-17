@@ -2,7 +2,6 @@
 require_once('../class.php');
 $sessionData = $payroll->getSessionData();
 $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
-$payroll->addEmployee();
 $payroll->deleteRecentGuard();
 ?>
 <!DOCTYPE html>
@@ -18,6 +17,7 @@ $payroll->deleteRecentGuard();
     <link rel="stylesheet" href="../styles/mincss/employee.min.css">
 </head>
 <body>
+    <?php $payroll->addEmployee(); ?>
     <div class="main-container">
         <div class="leftbar">
             <div class="logo-container">
@@ -43,7 +43,7 @@ $payroll->deleteRecentGuard();
                     <li><a href="../activity/activity.php">Activities</a></li>
                 </ul>
                 <div>
-                    <a href="#">Logout</a>
+                    <a href="../logout.php">Logout</a>
                 </div>
             </div>
         </div>
@@ -163,7 +163,7 @@ $payroll->deleteRecentGuard();
                             <div>
                                 <label for="qrcode">Qr Code</label>
                                 <input type="text" name="qrcode" id="qrcode" required/>
-                                <div style="background:red;width:fit-content;color:white;" onclick="generatePassword(this)">Generate Qr</div>
+                                <div onclick="generatePassword(this)">Generate Qr</div>
                             </div>
                         </div>
                         <button type="submit" name="addemployee" class="btn_primary">

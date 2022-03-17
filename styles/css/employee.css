@@ -5,6 +5,36 @@
   font-family: 'Poppins', 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
+.error {
+  background: #ff000075;
+  padding: 10px;
+  border-radius: 5px;
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  z-index: 99;
+  color: #ffffff;
+}
+
+.success {
+  background: #38b80e75;
+  padding: 10px;
+  border-radius: 5px;
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  z-index: 99;
+  color: #ffffff;
+}
+
+.success-email {
+  top: 100px;
+}
+
+.error-email {
+  top: 100px;
+}
+
 .main-container {
   height: 100vh;
   width: 100vw;
@@ -1044,7 +1074,7 @@
 }
 
 .main-container > .centerbar > .availability-container > .available {
-  background: blue;
+  background: #5454a9;
 }
 
 .main-container > .centerbar > .availability-container > .available > object {
@@ -1816,6 +1846,7 @@
       -ms-flex-direction: column;
           flex-direction: column;
   margin-bottom: 15px;
+  position: relative;
 }
 
 .main-container > .rightbar > .addemployee-container > .addemployee-content > form > .form-holder > div > label {
@@ -1829,6 +1860,26 @@
   border: none;
   border-bottom: 1px solid #D9D9D9;
   outline: none;
+}
+
+.main-container > .rightbar > .addemployee-container > .addemployee-content > form > .form-holder > div > div {
+  background: #774ab09e;
+  border-radius: 5px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 2px 10px;
+  font-size: 12px;
+  color: white;
+  font-weight: medium;
+  position: absolute;
+  top: 0;
+  left: 69px;
+  cursor: pointer;
+}
+
+.main-container > .rightbar > .addemployee-container > .addemployee-content > form > .form-holder > div > div:hover {
+  background: #6a429e;
 }
 
 .main-container > .rightbar > .addemployee-container > .addemployee-content > form > button {

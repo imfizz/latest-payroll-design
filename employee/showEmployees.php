@@ -52,7 +52,7 @@ $payroll->selectguards();
                     <li><a href="../activity/activity.php">Activities</a></li>
                 </ul>
                 <div>
-                    <a href="#">Logout</a>
+                    <a href="../logout.php">Logout</a>
                 </div>
             </div>
         </div>

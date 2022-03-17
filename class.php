@@ -396,13 +396,11 @@ Class Payroll
             $mail->Body = $body;                        // textarea
 
             if($mail->send()){
-                // $status = "success";
-                $response = "Your credentials has been sent to your email";
-                echo '<br/>'.$response;
+                $response = "Credentials has been sent to the email";
+                echo '<div class="success success-email">'.$response."</div>";
             } else {
-                $status = "failed";
                 $response = "Something is wrong: <br/>". $mail->ErrorInfo;
-                echo '<br/>'.$status."<br/>".$response;
+                echo '<div class="error error-email">'.$response."</div>";
             }
         } 
     }
@@ -899,23 +897,41 @@ Class Payroll
                 ORDER BY date DESC
                 LIMIT 3";
         $stmt = $this->con()->query($sql);
-        while($users = $stmt->fetch()){
-            $fullname = $users->lastname.", ".$users->firstname;
+        $countRow = $stmt->rowCount();
+
+        if($countRow == 0){
             echo "<div class='assignedguard-row'>
-                      <div class='assignedguard-row-text'>
-                          <p>$fullname</p>
-                          <span>Position to <b>$users->position</b></span>
-                      </div>
-                      <div class='assignedguard-row-button'>
-                          <div class='btn-delete'>
-                              <a href='./employee.php?idDelete=$users->empId' class='btn-delete-icon'>
-                                  <span class='material-icons'>delete</span>
-                              </a>
-                          </div>
-                            
-                      </div>
+                    <div class='assignedguard-row-text'>
+                        <p>No Data Found</p>
+                        <span><b></b></span>
+                    </div>
+                    <div class='assignedguard-row-button'>
+                        <div>
+                            <a><span class='material-icons'></span></a>
+                        </div>
+                    </div>
                   </div>";
+        } else {
+            while($users = $stmt->fetch()){
+                $fullname = $users->lastname.", ".$users->firstname;
+                echo "<div class='assignedguard-row'>
+                          <div class='assignedguard-row-text'>
+                              <p>$fullname</p>
+                              <span>Position to <b>$users->position</b></span>
+                          </div>
+                          <div class='assignedguard-row-button'>
+                              <div class='btn-delete'>
+                                  <a href='./employee.php?idDelete=$users->empId' class='btn-delete-icon'>
+                                      <span class='material-icons'>delete</span>
+                                  </a>
+                              </div>
+                                
+                          </div>
+                      </div>";
+            }
         }
+
+        
 
     }
 
@@ -1064,11 +1080,11 @@ Class Payroll
                empty($access) &&
                empty($availability)
             ){
-                echo 'All input fields are required!';
+                echo "<div class='error'>All input fields are required!</div>";
             } else {
 
                 if($this->checkEmpEmailExist($email)){
-                    echo 'Your email is already exists!';
+                    echo "<div class='error'>Your email is already exists!</div>";
                 } else {
 
                     // set timezone and get date and time
@@ -1097,7 +1113,7 @@ Class Payroll
                     $countRow = $stmt->rowCount();
 
                     if($countRow > 0){
-                        echo 'A new data was added';
+                        echo "<div class='success'>New data was added</div>";
 
                         // gagamitin pang login sa employee dashboard
                         $sqlSecretKeyEmployee = "INSERT INTO secret_diarye(e_id, secret_key)
@@ -1108,7 +1124,7 @@ Class Payroll
                         $this->sendEmail($email, $realPassword);
 
                     } else {
-                        echo 'No data was added. There was something wrong in our codes';
+                        echo "<div class='error'>No data was added. Please try again!<div>";
                     }
                 }
 
@@ -1133,17 +1149,30 @@ Class Payroll
     public function showAllEmp(){
         $sql = "SELECT * FROM employee";
         $stmt = $this->con()->query($sql);
+        $countRow = $stmt->rowCount();
 
-        while($row = $stmt->fetch()){
-            $type = $row->watType == NULL ? 'None' : $row->watType;
+        if($countRow == 0){
             echo "<tr>
-                    <td>$row->lastname, "."$row->firstname</td>
-                    <td>$row->cpnumber</td>
-                    <td>$row->availability</td>
-                    <td>$type</td>
-                    <td>$row->date</td>
+                    <td>No data found</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                   </tr>";
+        } else {
+            while($row = $stmt->fetch()){
+                $type = $row->watType == NULL ? 'None' : $row->watType;
+                echo "<tr>
+                        <td>$row->lastname, "."$row->firstname</td>
+                        <td>$row->cpnumber</td>
+                        <td>$row->availability</td>
+                        <td>$type</td>
+                        <td>$row->date</td>
+                      </tr>";
+            }
         }
+
+        
     }
 
 
@@ -1151,6 +1180,17 @@ Class Payroll
     public function showAllEmpActions(){
         $sql = "SELECT * FROM employee WHERE availability = 'Available'";
         $stmt = $this->con()->query($sql);
+        $countRow = $stmt->rowCount();
+
+        if($countRow == 0){
+            echo "<tr>
+                    <td></td>
+                    <td style='width:100px;'>No Data Found</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>";
+        }
 
         while($row = $stmt->fetch()){
             $type = $row->watType == NULL ? 'None' : $row->watType;
@@ -1199,28 +1239,38 @@ Class Payroll
                 INNER JOIN company c
                 ON s.company = c.company_name";
         $stmt = $this->con()->query($sql);
-        
-        while($row = $stmt->fetch()){
-            $fullname = $row->lastname.", ".$row->firstname;
-            echo "<tr>
-                     <td>$fullname</td>
-                     <td>$row->companyname</td>
-                     <td>$row->location</td>
-                     <td>
-                        <div class='buttons'>
-                            <div class='buttons-view'>
-                                <a href='unavailable.php?sid=$row->id'>
-                                    <span class='material-icons'>visibility</span>
-                                </a>
+        $countRow = $stmt->rowCount();
+
+        if($countRow == 0){
+             echo "<tr>
+                    <td style='width:200px;'>No Data Found</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                   </tr>";
+        } else {
+            while($row = $stmt->fetch()){
+                $fullname = $row->lastname.", ".$row->firstname;
+                echo "<tr>
+                         <td>$fullname</td>
+                         <td>$row->companyname</td>
+                         <td>$row->location</td>
+                         <td>
+                            <div class='buttons'>
+                                <div class='buttons-view'>
+                                    <a href='unavailable.php?sid=$row->id'>
+                                        <span class='material-icons'>visibility</span>
+                                    </a>
+                                </div>
+                                <div class='buttons-delete'>
+                                    <a href='unavailable.php?sidDelete=$row->id'>
+                                        <span class='material-icons'>delete</span>
+                                    </a>
+                                </div>
                             </div>
-                            <div class='buttons-delete'>
-                                <a href='unavailable.php?sidDelete=$row->id'>
-                                    <span class='material-icons'>delete</span>
-                                </a>
-                            </div>
-                        </div>
-                    </td>
-                  </tr>";
+                        </td>
+                      </tr>";
+            }
         }
     }
 
@@ -1492,7 +1542,7 @@ Class Payroll
             $user = $stmt->fetch();
             
 
-            if($user->firstname == '' && 
+            if($user->firstname == ''&& 
                $user->firstname == NULL &&
                $user->lastname == '' &&
                $user->lastname == NULL){
@@ -2334,30 +2384,41 @@ Class Payroll
     {
         $sql = "SELECT * FROM company ORDER BY id DESC LIMIT 4";
         $stmt = $this->con()->query($sql);
+        $countRow = $stmt->rowCount();
         // set timezone and get date and time
         $datetime = $this->getDateTime();
         $date = $datetime['date'];
 
-        while($row = $stmt->fetch()){
-            
-            $status = '';
-            
-            if(strtotime($row->date) <= strtotime($date) && 
-               strtotime($row->date) >= strtotime($date.'-15 day')){
-                $status = 'recent';
-            } elseif(strtotime($row->date) >= strtotime($date.'-30 day') && 
-                     strtotime($row->date) <= strtotime($date.'-15 day')){
-                $status = 'late';
-            } else {
-                $status = 'old';
-            }
-
+        if($countRow == 0){
             echo "<div class='cards'>
-                    <div class='circle $status'></div>
-                    <h3>$row->company_name</h3>
-                    <p>$row->date</p>
+                    <div class='circle' style='background: #d2d2d2;'></div>
+                    <h3>No <br/>Data Found</h3>
+                    <p></p>
                   </div>";
+        } else {
+            while($row = $stmt->fetch()){
+            
+                $status = '';
+                
+                if(strtotime($row->date) <= strtotime($date) && 
+                   strtotime($row->date) >= strtotime($date.'-15 day')){
+                    $status = 'recent';
+                } elseif(strtotime($row->date) >= strtotime($date.'-30 day') && 
+                         strtotime($row->date) <= strtotime($date.'-15 day')){
+                    $status = 'late';
+                } else {
+                    $status = 'old';
+                }
+    
+                echo "<div class='cards'>
+                        <div class='circle $status'></div>
+                        <h3>$row->company_name</h3>
+                        <p>$row->date</p>
+                      </div>";
+            }
         }
+
+        
     }
 
 
@@ -2367,28 +2428,41 @@ Class Payroll
     {
         $sql = "SELECT * FROM company";
         $stmt = $this->con()->query($sql);
+        $countRow = $stmt->rowCount();
 
-        while($row = $stmt->fetch()){
-            $hiredGuards = $row->hired_guards != '' ? $row->hired_guards : 0;
-
+        if($countRow == 0){
             echo "<tr>
-                    <td>$row->company_name</td>
-                    <td>$hiredGuards</td>
-                    <td>$row->watType</td>
-                    <td>$row->date</td>
-                    <td>
-                        <a href='company.php?id=$row->id&act=view'>
-                            <span class='material-icons'>visibility</span>
-                        </a>
-                        <a href='company.php?id=$row->id&act=edit'>
-                            <span class='material-icons'>edit</span>
-                        </a>
-                        <a href='company.php?id=$row->id&act=delete'>
-                            <span class='material-icons'>delete</span>
-                        </a>
-                    </td>
+                    <td style='width: 200px;'>No Data Found</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                   </tr>";
+        } else {
+            while($row = $stmt->fetch()){
+                $hiredGuards = $row->hired_guards != '' ? $row->hired_guards : 0;
+    
+                echo "<tr>
+                        <td>$row->company_name</td>
+                        <td>$hiredGuards</td>
+                        <td>$row->watType</td>
+                        <td>$row->date</td>
+                        <td>
+                            <a href='company.php?id=$row->id&act=view'>
+                                <span class='material-icons'>visibility</span>
+                            </a>
+                            <a href='company.php?id=$row->id&act=edit'>
+                                <span class='material-icons'>edit</span>
+                            </a>
+                            <a href='company.php?id=$row->id&act=delete'>
+                                <span class='material-icons'>delete</span>
+                            </a>
+                        </td>
+                      </tr>";
+            }
         }
+
+        
     }
 
 
@@ -4266,7 +4340,7 @@ Class Payroll
         } else {
             echo "<h2>Welcome $name!</h2>
                   <p>You've assign no task to each of the total guards.</p>
-                  <button disabled><a style='background-color:gray' href='#'>Review All</a></button>
+                  <button style='background-color:gray' disabled><a>Review All</a></button>
                   ";
         }
     }
@@ -4330,9 +4404,6 @@ Class Payroll
                 $posName = $usersCountEmp->position;
                 $posTotal = $usersCountEmp->positions;
                 $posPercentage = $usersCountEmp->percentage . "%";
-                // $getTotal = $posTotal / $totalEmployees; // 0.33
-                // $decToPercentage = round((float)$getTotal * 100 ) . '%'; // 33%
-
                 echo "<div class='cards'>
                         <div>
                             <h1>$posTotal</h1>
@@ -4349,6 +4420,17 @@ Class Payroll
                       </div>";
             }
 
+            
+
+        } else {
+            echo "<div class='cards'>
+                    <div>
+                      <h1>0</h1>
+                    </div>
+                    <div>
+                      <p>No Data Found</p>
+                    </div>
+                  </div>";
         }
     }
 
@@ -4387,6 +4469,12 @@ Class Payroll
                       </tr>";
             }
 
+        } else {
+            echo "<tr>
+                    <td>0</td>
+                    <td>No data found</td>
+                    <td>0%</td>
+                  </tr>";
         }
     }
 
@@ -4394,43 +4482,67 @@ Class Payroll
     {
         $sql = "SELECT * FROM company";
         $stmt = $this->con()->query($sql);
+        $countRow = $stmt->rowCount();
 
         // set timezone and get date and time
         $datetime = $this->getDateTime();
         $date = $datetime['date'];
 
-        while($users = $stmt->fetch()){
-            $findColor = $users->date;
-            $status = '';
-            
-            if(strtotime($users->date) <= strtotime($date) && 
-               strtotime($users->date) >= strtotime($date.'-15 day')){
-                $status = 'recent';
-
-                echo "<tr>
-                        <td>$users->company_name</td>
-                        <td>$users->comp_location</td>
-                        <td>$users->hired_guards</td>
-                        <td>
-                            <div class='circle-with-text'>
-                                <div class='circle $status'></div>
-                                <span>$users->date</span>
-                            </div>
-                        </td>
-                      </tr>";
-            } 
-            
+        // if no data found
+        if($countRow == 0){
+            echo "<tr>
+                    <td style='width: 200px;'>No data found</td>
+                    <td style='width: 200px;'></td>
+                    <td></td>
+                    <td></td>
+                  </tr>";
+        } else {
+            while($users = $stmt->fetch()){
+                $findColor = $users->date;
+                $status = '';
+                
+                if(strtotime($users->date) <= strtotime($date) && 
+                   strtotime($users->date) >= strtotime($date.'-15 day')){
+                    $status = 'recent';
+    
+                    echo "<tr>
+                            <td>$users->company_name</td>
+                            <td>$users->comp_location</td>
+                            <td>$users->hired_guards</td>
+                            <td>
+                                <div class='circle-with-text'>
+                                    <div class='circle $status'></div>
+                                    <span>$users->date</span>
+                                </div>
+                            </td>
+                          </tr>";
+                } 
+                
+            }
         }
+
+        
     }
 
     public function dashboardRecentActivityAll()
     {
         $sql = "SELECT * FROM company";
         $stmt = $this->con()->query($sql);
+        $countRow = $stmt->rowCount();
 
         // set timezone and get date and time
         $datetime = $this->getDateTime();
         $date = $datetime['date'];
+
+        // if no company found
+        if($countRow == 0){
+            echo "<tr>
+                    <td>No user found</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>";
+        }
 
         while($users = $stmt->fetch()){
             $findColor = $users->date;
@@ -4459,29 +4571,50 @@ Class Payroll
     {
         $sql = "SELECT * FROM employee ORDER BY date DESC LIMIT 4";
         $stmt = $this->con()->query($sql);
-        while($users = $stmt->fetch()){
-            $fullname = $users->lastname.", ".$users->firstname;
+        $countRow = $stmt->rowCount();
 
+        if($countRow == 0){
             echo "<div class='guard-row'>
-                        <div class='guard-row-text'>
-                            <p>$fullname</p>
-                            <span>Date added: <b>$users->date</b></span>
+                    <div class='guard-row-text'>
+                        <p>No Data Found</p>
+                        <span> <b></b></span>
+                    </div>
+                    <div class='guard-row-button'>
+                        <div class=''>
+                            <a><span class='material-icons'></span></a>
                         </div>
-                        <div class='guard-row-button'>
-                            <div class='btn-edit'>
-                                <a href='./dashboard.php?guardId=$users->id&editGuard=true&email=$users->email' class='btn-edit-icon'>
-                                    <span class='material-icons'>edit</span>
-                                </a>
-                            </div>
-                            <div class='btn-delete'>
-                                <a href='./dashboard.php?guardId=$users->id&deleteGuard=true' class='btn-delete-icon'>
-                                    <span class='material-icons'>delete</span>
-                                </a>
-                            </div>
-                            
+                        <div class=''>
+                            <a><span class='material-icons'></span></a>
                         </div>
-                    </div>";
+                    </div>
+                  </div>";
+        } else {
+            while($users = $stmt->fetch()){
+                $fullname = $users->lastname.", ".$users->firstname;
+    
+                echo "<div class='guard-row'>
+                            <div class='guard-row-text'>
+                                <p>$fullname</p>
+                                <span>Date added: <b>$users->date</b></span>
+                            </div>
+                            <div class='guard-row-button'>
+                                <div class='btn-edit'>
+                                    <a href='./dashboard.php?guardId=$users->id&editGuard=true&email=$users->email' class='btn-edit-icon'>
+                                        <span class='material-icons'>edit</span>
+                                    </a>
+                                </div>
+                                <div class='btn-delete'>
+                                    <a href='./dashboard.php?guardId=$users->id&deleteGuard=true' class='btn-delete-icon'>
+                                        <span class='material-icons'>delete</span>
+                                    </a>
+                                </div>
+                                
+                            </div>
+                      </div>";
+            }
         }
+
+        
     }
 
     // modal only
@@ -4692,27 +4825,48 @@ Class Payroll
                 ORDER BY id DESC
                 LIMIT 4";
         $stmt = $this->con()->query($sql);
-        while($row = $stmt->fetch()){
-            $fullname = $row->firstname ." ".$row->lastname;
+        $countRow = $stmt->rowCount();
+
+        if($countRow == 0){
             echo "<div class='request-row'>
-                        <div class='request-row-text'>
-                            <p>$fullname</p>
-                            <span>Position to <b>$row->position</b></span>
+                    <div class='request-row-text'>
+                        <p>No Data Found</p>
+                        <span><b></b></span>
+                    </div>
+                    <div class='request-row-button'>
+                        <div>
+                            <a><span class='material-icons'></span></a>
                         </div>
-                        <div class='request-row-button'>
-                            <div class='btn-edit'>
-                                <a href='./dashboard.php?id=$row->finalId&act=approve' class='btn-edit-icon'>
-                                    <span class='material-icons'>done</span>
-                                </a>
-                            </div>
-                            <div class='btn-delete'>
-                                <a href='./dashboard.php?id=$row->finalId&act=reject' class='btn-delete-icon'>
-                                    <span class='material-icons'>close</span>
-                                </a>
-                            </div>
+                        <div>
+                            <a><span class='material-icons'></span></a>
                         </div>
-                    </div>";
+                    </div>
+                  </div>";
+        } else {
+            while($row = $stmt->fetch()){
+                $fullname = $row->firstname ." ".$row->lastname;
+                echo "<div class='request-row'>
+                            <div class='request-row-text'>
+                                <p>$fullname</p>
+                                <span>Position to <b>$row->position</b></span>
+                            </div>
+                            <div class='request-row-button'>
+                                <div class='btn-edit'>
+                                    <a href='./dashboard.php?id=$row->finalId&act=approve' class='btn-edit-icon'>
+                                        <span class='material-icons'>done</span>
+                                    </a>
+                                </div>
+                                <div class='btn-delete'>
+                                    <a href='./dashboard.php?id=$row->finalId&act=reject' class='btn-delete-icon'>
+                                        <span class='material-icons'>close</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>";
+            }
         }
+
+        
 
     }
 
