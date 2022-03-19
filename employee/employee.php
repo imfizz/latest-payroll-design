@@ -163,7 +163,7 @@ $payroll->deleteRecentGuard();
                             <div>
                                 <label for="qrcode">Qr Code</label>
                                 <input type="text" name="qrcode" id="qrcode" required/>
-                                <div onclick="generatePassword(this)">Generate Qr</div>
+                                <div onclick="generatePassword(this)">Generate</div>
                             </div>
                         </div>
                         <button type="submit" name="addemployee" class="btn_primary">

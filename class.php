@@ -397,10 +397,22 @@ Class Payroll
 
             if($mail->send()){
                 $response = "Credentials has been sent to the email";
-                echo '<div class="success success-email">'.$response."</div>";
+                echo '<div class="success-email">'.$response."</div>
+                      <script>
+                        let successEmail = document.querySelector('.success-email');
+                        setTimeOut(() => {
+                            successEmail.remove();
+                        }, 5000);
+                      </script>";
             } else {
                 $response = "Something is wrong: <br/>". $mail->ErrorInfo;
-                echo '<div class="error error-email">'.$response."</div>";
+                echo '<div class="error-email">'.$response."</div>
+                      <script>
+                        let errorEmail = document.querySelector('.error-email');
+                        setTimeOut(() => {
+                            errorEmail.remove();
+                        }, 5000);
+                      </script>";
             }
         } 
     }
@@ -482,13 +494,11 @@ Class Payroll
                empty($dbPassword) &&
                empty($isDeleted)
             ){
-                echo 'All input fields are required!';
+                echo "<div class='error'>All input fields are required!</div>";
             } else {
-
-                // check email if existing
                 
                 if($this->checkSecEmailExist($email)){
-                    echo 'Email is already exist!';
+                    echo "<div class='error'>Email is already exist!</div>";
                 } else {
 
                     // set timezone and get date and time
@@ -514,7 +524,14 @@ Class Payroll
                     $countRow = $stmt->rowCount();
 
                     if($countRow > 0){
-                        echo 'A new date was added';
+                        echo "<div class='success'>A new date was added</div>
+                              <script> 
+                                let success = document.querySelector('.success');
+                                setTimeout(() => {
+                                    success.remove();
+                                }, 5000);
+                              </script>
+                             ";
 
                         // gagamitin pang login sa employee dashboard
                         $sqlSecretKeySecretary = "INSERT INTO secret_diarys(se_id, secret_key)
@@ -532,14 +549,14 @@ Class Payroll
                         $stmtAdminLog->execute([$fullnameAdmin, $action, $time, $date]);
                         $countRowAdminLog = $stmtAdminLog->rowCount();
 
-                        if($countRowAdminLog > 0){
-                            echo 'pumasok na sa act log';
-                        } else {
-                            echo 'di pumasok sa act log';
-                        }
+                        // if($countRowAdminLog > 0){
+                        //     echo 'pumasok na sa act log';
+                        // } else {
+                        //     echo 'di pumasok sa act log';
+                        // }
 
                     } else {
-                        echo 'Error in adding secretary!';
+                        echo "<div class='error'>Error in adding secretary!</div>";
                     }
                 }
 
@@ -587,7 +604,33 @@ Class Payroll
     {
         $sql = "SELECT fullname, access, gender FROM secretary ORDER BY id DESC LIMIT 2";
         $stmt = $this->con()->query($sql);
+        $countRow = $stmt->rowCount();
+
         $total = 0;
+
+        if($countRow == 0){
+            echo "<div class='left-svg'>
+                    <div class='left-svg-headline'>
+                        <div class='left-svg-top'>
+                            <h2 style='width:170px;'>0 Data in Secretary Account</h2>
+                            <button><div class='circle'></div></button>
+                        </div>
+                        <di class='left-svg-bottom'>
+                            <div class='profile'>
+                                <object data='../styles/SVG_modified/nosec.svg' type='image/svg+xml'></object>
+                            </div>
+                            <div class='profile-text'>
+                                <h3>No data found</h3>
+                                <p>Secretary</p>
+                            </div>
+                        </di>
+                    </div>
+                    <div class='left-svg-image'>
+                        <object data='../styles/SVG_modified/leftsecretary.svg' type='image/svg+xml'></object>
+                    </div>
+                  </div>";
+        }
+
         while($row = $stmt->fetch()){
             // echo "<h1>$row->fullname</h1><br/>
             //       <h4>$row->access</h4><br/>";
@@ -2189,1488 +2232,6 @@ Class Payroll
 
 
 
-
-
-
-
-    
-
-    // company
-    public function addCompany()
-    {
-        if(isset($_POST['addcompany'])){
-            $length = $_POST['length'];
-
-            $company_name = $_POST['company_name'];
-            $cpnumber = $_POST['cpnumber'];
-            $email = $_POST['email'];
-            $comp_location = $_POST['comp_location'];
-            $longitude = $_POST['longitude'];
-            $latitude = $_POST['latitude'];
-            $boundary_size = $_POST['boundary_size'];
-            $type = $_POST['type'];
-            $shift = $_POST['shift'];
-            $shift_span = $_POST['shift_span'];
-            $day_start = $_POST['day_start'];
-
-            // set timezone and get date and time
-            $datetime = $this->getDateTime();
-            $date = $datetime['date'];
-        
-            if($length > 0){
-                
-                for($i = 0; $i < (int)$length; $i++){
-                    $names = "name".$i; // name1
-                    $prices = "price".$i; // price1
-        
-                    if($i === 0){
-                        $sqlAddRow = "INSERT INTO company(company_name,
-                                                          cpnumber,
-                                                          email,
-                                                          comp_location,
-                                                          longitude,
-                                                          latitude,
-                                                          boundary_size,
-                                                          watType,
-                                                          shifts,
-                                                          shift_span,
-                                                          day_start,
-                                                          date
-                                                         )
-                                      VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                                      ";
-                        $stmtRow = $this->con()->prepare($sqlAddRow);
-                        $stmtRow->execute([$company_name,
-                                           $cpnumber,
-                                           $email,
-                                           $comp_location,
-                                           $longitude,
-                                           $latitude,
-                                           $boundary_size,
-                                           $type,
-                                           $shift,
-                                           $shift_span,
-                                           $day_start,
-                                           $date
-                                          ]);
-                        $usersRow = $stmtRow->fetch();
-                        $countRowRow = $stmtRow->rowCount();
-
-                        if($countRowRow > 0){
-                            echo "A new data was added";
-                        } else {
-                            echo "There's something wrong in our codes";
-                        }
-                    }
-        
-                    if($i > 0){
-                        $sql = "ALTER TABLE company ADD position".$i." VARCHAR(100) NULL, 
-                                                    ADD price".$i." VARCHAR(100) NULL";
-                        $stmt = $this->con()->prepare($sql);
-                        $stmt->execute();
-                    }
-        
-                    if(!empty($_POST[$names]) && !empty($_POST[$prices])){
-                        $sqlAddPosition = "UPDATE company 
-                                           SET position$i = '$_POST[$names]',
-                                               price$i = '$_POST[$prices]'
-                                           WHERE company_name = '$company_name';";
-                        $stmtPosition = $this->con()->prepare($sqlAddPosition);
-                        $stmtPosition->execute();
-                    } else {
-                        echo 'Position and price are required to fill up';
-                    }
-                    
-                }
-            }
-        }
-    }
-
-
-    // add company modal
-    // company
-    public function addCompany2()
-    {
-        if(isset($_POST['addcompany2'])){
-            $length = $_POST['length'];
-
-            $company_name = $_POST['company_name'];
-            $cpnumber = $_POST['cpnumber'];
-            $email = $_POST['email'];
-            $comp_location = $_POST['comp_location'];
-            $longitude = $_POST['longitude'];
-            $latitude = $_POST['latitude'];
-            $boundary_size = $_POST['boundary_size'];
-            $type = $_POST['type'];
-            $shift = $_POST['shift'];
-            $shift_span = $_POST['shift_span'];
-            $day_start = $_POST['day_start'];
-
-            // set timezone and get date and time
-            $datetime = $this->getDateTime();
-            $date = $datetime['date'];
-        
-            if($length > 0){
-                
-                for($i = 0; $i < (int)$length; $i++){
-                    $names = "name".$i; // name1
-                    $prices = "price".$i; // price1
-        
-                    if($i === 0){
-                        $sqlAddRow = "INSERT INTO company(company_name,
-                                                          cpnumber,
-                                                          email,
-                                                          comp_location,
-                                                          longitude,
-                                                          latitude,
-                                                          boundary_size,
-                                                          watType,
-                                                          shifts,
-                                                          shift_span,
-                                                          day_start,
-                                                          date
-                                                         )
-                                      VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                                      ";
-                        $stmtRow = $this->con()->prepare($sqlAddRow);
-                        $stmtRow->execute([$company_name,
-                                           $cpnumber,
-                                           $email,
-                                           $comp_location,
-                                           $longitude,
-                                           $latitude,
-                                           $boundary_size,
-                                           $type,
-                                           $shift,
-                                           $shift_span,
-                                           $day_start,
-                                           $date
-                                          ]);
-                        $usersRow = $stmtRow->fetch();
-                        $countRowRow = $stmtRow->rowCount();
-
-                        if($countRowRow > 0){
-                            echo "A new data was added";
-                        } else {
-                            echo "There's something wrong in our codes";
-                        }
-                    }
-        
-                    if($i > 0){
-                        $sql = "ALTER TABLE company ADD position".$i." VARCHAR(100) NULL, 
-                                                    ADD price".$i." VARCHAR(100) NULL";
-                        $stmt = $this->con()->prepare($sql);
-                        $stmt->execute();
-                    }
-        
-                    if(!empty($_POST[$names]) && !empty($_POST[$prices])){
-                        $sqlAddPosition = "UPDATE company 
-                                           SET position$i = '$_POST[$names]',
-                                               price$i = '$_POST[$prices]'
-                                           WHERE company_name = '$company_name';";
-                        $stmtPosition = $this->con()->prepare($sqlAddPosition);
-                        $stmtPosition->execute();
-                    } else {
-                        echo 'Position and price are required to fill up';
-                    }
-                    
-                }
-            }
-        }
-    }
-
-
-    public function companyNewlyAdded()
-    {
-        $sql = "SELECT * FROM company ORDER BY id DESC LIMIT 4";
-        $stmt = $this->con()->query($sql);
-        $countRow = $stmt->rowCount();
-        // set timezone and get date and time
-        $datetime = $this->getDateTime();
-        $date = $datetime['date'];
-
-        if($countRow == 0){
-            echo "<div class='cards'>
-                    <div class='circle' style='background: #d2d2d2;'></div>
-                    <h3>No <br/>Data Found</h3>
-                    <p></p>
-                  </div>";
-        } else {
-            while($row = $stmt->fetch()){
-            
-                $status = '';
-                
-                if(strtotime($row->date) <= strtotime($date) && 
-                   strtotime($row->date) >= strtotime($date.'-15 day')){
-                    $status = 'recent';
-                } elseif(strtotime($row->date) >= strtotime($date.'-30 day') && 
-                         strtotime($row->date) <= strtotime($date.'-15 day')){
-                    $status = 'late';
-                } else {
-                    $status = 'old';
-                }
-    
-                echo "<div class='cards'>
-                        <div class='circle $status'></div>
-                        <h3>$row->company_name</h3>
-                        <p>$row->date</p>
-                      </div>";
-            }
-        }
-
-        
-    }
-
-
-
-    // show all list of companies
-    public function listofcompany()
-    {
-        $sql = "SELECT * FROM company";
-        $stmt = $this->con()->query($sql);
-        $countRow = $stmt->rowCount();
-
-        if($countRow == 0){
-            echo "<tr>
-                    <td style='width: 200px;'>No Data Found</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>";
-        } else {
-            while($row = $stmt->fetch()){
-                $hiredGuards = $row->hired_guards != '' ? $row->hired_guards : 0;
-    
-                echo "<tr>
-                        <td>$row->company_name</td>
-                        <td>$hiredGuards</td>
-                        <td>$row->watType</td>
-                        <td>$row->date</td>
-                        <td>
-                            <a href='company.php?id=$row->id&act=view'>
-                                <span class='material-icons'>visibility</span>
-                            </a>
-                            <a href='company.php?id=$row->id&act=edit'>
-                                <span class='material-icons'>edit</span>
-                            </a>
-                            <a href='company.php?id=$row->id&act=delete'>
-                                <span class='material-icons'>delete</span>
-                            </a>
-                        </td>
-                      </tr>";
-            }
-        }
-
-        
-    }
-
-
-
-
-    public function viewcompany($id)
-    {
-        $sql = "SELECT * FROM company WHERE id = ?";
-        $stmt = $this->con()->prepare($sql);
-        $stmt->execute([$id]);
-        $users = $stmt->fetch(PDO::FETCH_ASSOC);
-        $countRow = $stmt->rowCount();
-
-        // added
-        echo "<script>
-                let modalForm = document.querySelector('.modal-triple');
-                modalForm.style.display = 'flex';
-                let modalH1 = document.querySelector('#modal-h1');
-                modalH1.innerText = 'View Company';
-              </script>";
-
-        if($countRow > 0){
-
-            $createInput = "<script>";
-            $inputLength = 0;
-
-            for($i = 0; $i < 10; $i++){
-                
-                if(isset($users["position$i"])){
-                    if($users["position$i"] != '' && $users["position$i"] != NULL){
-                        $myValue = $users["position$i"];
-                        $myValue2 = $users["price$i"];
-                        $createInput .= "
-                            let myPosition$i = document.createElement('input');
-                            myPosition$i.setAttribute('type', 'text');
-                            myPosition$i.setAttribute('name', 'position$i');
-                            myPosition$i.setAttribute('class', 'added_input');
-                            myPosition$i.setAttribute('readonly', 'readonly');
-                            myPosition$i.value = '$myValue';
-
-                            let myPrice$i = document.createElement('input');
-                            myPrice$i.setAttribute('type', 'text');
-                            myPrice$i.setAttribute('name', 'price$i');
-                            myPrice$i.setAttribute('class', 'added_input');
-                            myPrice$i.setAttribute('readonly', 'readonly');
-                            myPrice$i.value = '$myValue2';
-                        ";
-                        $inputLength++;
-                    }
-                } else {
-                    $createInput .= "
-                        let addhere = document.querySelector('#addhere');
-                        
-                        for(let j = 0; j < $inputLength; j++){
-                            let myPos = 'myPosition' + j;
-                            let callMe;
-                            
-                            let myPri = 'myPrice' + j;
-                            let callMe2;
-
-                            addhere.append(eval(callMe+'='+myPos));
-                            addhere.append(eval(callMe2+'='+myPri));
-                        }
-                    </script>";
-                    break;
-                }
-                
-            }
-
-
-            $company_name = $users['company_name'];
-            $contact_number = $users['cpnumber'];
-            $email = $users['email'];
-            $comp_location = $users['comp_location'];
-            $longitude = $users['longitude'];
-            $latitude = $users['latitude'];
-            $boundary_size = $users['boundary_size'];
-            $watType = $users['watType'];
-            $shifts = $users['shifts'];
-            $shift_span = $users['shift_span'];
-            $day_start = $users['day_start'];
-            // date supposed to be here
-
-            echo "<script>
-
-                    let company_name_m = document.querySelector('#company_name_m');
-                    company_name_m.value = '$company_name';
-                    company_name_m.setAttribute('readonly', 'readonly');
-
-                    let contact_number_m = document.querySelector('#contact_number_m');
-                    contact_number_m.value = '$contact_number';
-                    contact_number_m.setAttribute('readonly', 'readonly');
-
-                    let email_m = document.querySelector('#email_m');
-                    email_m.value = '$email';
-                    email_m.setAttribute('readonly', 'readonly');
-
-                    let comp_location_m = document.querySelector('#comp_location_m');
-                    comp_location_m.value = '$comp_location';
-                    comp_location_m.setAttribute('readonly', 'readonly');
-
-                    let longitude_m = document.querySelector('#longitude_m');
-                    longitude_m.value = '$longitude';
-                    longitude_m.setAttribute('readonly', 'readonly');
-
-                    let latitude_m = document.querySelector('#latitude_m');
-                    latitude_m.value = '$latitude';
-                    latitude_m.setAttribute('readonly', 'readonly');
-
-                    let boundary_size_m = document.querySelector('#boundary_size_m');
-                    boundary_size_m.value = '$boundary_size';
-                    boundary_size_m.setAttribute('disabled', 'disabled');
-
-                    let type_m = document.querySelector('#type_m');
-                    type_m.value = '$watType';
-                    type_m.setAttribute('disabled', 'disabled');
-
-                    let shift_m = document.querySelector('#shift_m');
-                    shift_m.value = '$shifts';
-                    shift_m.setAttribute('disabled', 'disabled');
-
-                    let shift_span_m = document.querySelector('#shift_span_m');
-                    shift_span_m.value = '$shift_span';
-                    shift_span_m.setAttribute('disabled', 'disabled');
-
-                    let day_start_m = document.querySelector('#day_start_m');
-                    day_start_m.value = '$day_start';
-                    day_start_m.setAttribute('disabled', 'disabled');
-
-
-                    // detect location
-                        let currPosition2 = [];
-
-                        navigator.geolocation.getCurrentPosition((pos) => {
-                            currPosition2.push($longitude);
-                            currPosition2.push($latitude);
-                            
-                            let userLongitude2 = document.querySelector('#longitude_m');
-                            let userLatitude2 = document.querySelector('#latitude_m');
-
-                            mapboxgl.accessToken = 'pk.eyJ1IjoiamVsbHliZWFucy1zbHkiLCJhIjoiY2t4NmVnYXU5MnJkNjJ1cW92ZDN1b3hndiJ9.FgwIbfJQOkbfbc1OtJHv2Q';
-                            const map2 = new mapboxgl.Map({
-                                container: 'map2',
-                                style: 'mapbox://styles/mapbox/satellite-streets-v9',
-                                center: currPosition2,
-                                zoom: 18
-                            });
-
-                            const marker2 = new mapboxgl.Marker().setLngLat(currPosition2).addTo(map2); 
-
-                        });
-
-                        // disable button for viewing
-                        let addnewmodal = document.querySelector('#addnewmodal');
-                        let editcompany = document.querySelector('#editcompany');
-                        let deletecompany = document.querySelector('#deletecompany');
-
-                        addnewmodal.remove();
-                        editcompany.remove();
-                        deletecompany.remove();
-
-                  </script>";
-            echo $createInput;
-        }
-    }
-
-
-
-
-    public function editcompany($id)
-    {
-        $sql = "SELECT * FROM company WHERE id = ?";
-        $stmt = $this->con()->prepare($sql);
-        $stmt->execute([$id]);
-        $users = $stmt->fetch(PDO::FETCH_ASSOC);
-        $countRow = $stmt->rowCount();
-
-        // added
-        echo "<script>
-                let modalForm = document.querySelector('.modal-triple');
-                modalForm.style.display = 'flex';
-              </script>";
-
-        if($countRow > 0){
-
-            $createInput = "<script>";
-            $inputLength = 0;
-
-            // 50 position kaya idetect
-            for($i = 1; $i <= 50; $i++){
-                $j = $i + 1;
-
-                // if employee position exists in company positions
-
-                if(isset($users["position$i"])){
-                    $myValue = $users["position$i"];
-                    $myValue2 = $users["price$i"];
-
-                    if($users["position$i"] != '' && $users["position$i"] != NULL){
-
-                        $createInput .= "
-                            let myPosition$i = document.createElement('input');
-                            myPosition$i.setAttribute('type', 'text');
-                            myPosition$i.setAttribute('name', 'position$i');
-                            myPosition$i.setAttribute('class', 'added_input');
-                            myPosition$i.required = true;
-                            myPosition$i.removeAttribute('readonly');
-                            myPosition$i.value = '$myValue';
-
-                            let myPrice$i = document.createElement('input');
-                            myPrice$i.setAttribute('type', 'text');
-                            myPrice$i.setAttribute('name', 'price$i');
-                            myPrice$i.required = true;
-                            myPrice$i.removeAttribute('readonly');
-                            myPrice$i.value = '$myValue2';
-                        ";
-                        $inputLength++;                        
-                    }
-                } else {
-                    $createInput .= "
-                        let addhere = document.querySelector('#addhere'); // div
-                        let createdLength = 0;
-                        
-                        let lengthInput = document.createElement('input');
-                            lengthInput.setAttribute('type', 'number');
-                            lengthInput.setAttribute('name', 'lengthInput');
-                            lengthInput.setAttribute('id', 'lengthInput');
-
-                        let lengthInputOriginal = document.createElement('input');
-                            lengthInputOriginal.setAttribute('type', 'number');
-                            lengthInputOriginal.setAttribute('name', 'lengthInputOriginal');
-                            lengthInputOriginal.setAttribute('id', 'lengthInputOriginal');
-                            
-
-                        // add all created inputs to form
-                        for(let j = 1; j <= $inputLength; j++){
-                            let myPos = 'myPosition' + j; let callMe; 
-                            let myPri = 'myPrice' + j; let callMe2;
-
-                            let eks = document.createElement('span');
-                                eks.setAttribute('class', 'eks');
-                                eks.setAttribute('onclick', 'getParentElement(this)');
-
-                            let myDiv = document.createElement('div');
-
-                            myDiv.append(eval(callMe+'='+myPos));
-                            myDiv.append(eval(callMe2+'='+myPri));
-                            myDiv.append(eks);
-
-                            addhere.append(myDiv);
-
-                            createdLength += 1;
-                        }
-                        
-                        lengthInput.value = createdLength;
-                        lengthInputOriginal.value = createdLength;
-                        addhere.append(lengthInput);
-                        addhere.append(lengthInputOriginal);
-
-                        // for add new button
-                        let addnewmodal = document.querySelector('#addnewmodal');
-                        addnewmodal.addEventListener('click', ()=>{
-                            let addone = parseInt(lengthInput.value);
-                            lengthInput.value = parseInt(addone + 1);
-                            lengthInputOriginal.value = parseInt(addone + 1);
-
-                            // let decInput = parseInt(lengthInput.value) - parseInt(1);
-                            let decInput = parseInt(lengthInput.value);
-
-                            let newpos = document.createElement('input');
-                                newpos.setAttribute('type', 'text');
-                                newpos.setAttribute('name', 'position'+decInput);
-                                newpos.setAttribute('placeholder', 'name');
-                                newpos.required = true;
-                            
-                            let newpri = document.createElement('input');
-                                newpri.setAttribute('type', 'text');
-                                newpri.setAttribute('name', 'price'+decInput);
-                                newpri.setAttribute('placeholder', '00.00');
-                                newpri.required = true;
-
-                            let eks = document.createElement('span');
-                                eks.setAttribute('class', 'eks');
-                                eks.setAttribute('onclick', 'getParentElement(this)');
-                            
-                            let myDiv = document.createElement('div');
-                                
-                            myDiv.append(newpos);
-                            myDiv.append(newpri);
-                            myDiv.append(eks);
-
-                            addhere.append(myDiv);
-                        });
-
-                        
-                    </script>";
-                    break;
-                }
-
-
-
-            }
-
-            // data come from users->columnName();
-            $company_name = $users['company_name'];
-            $contact_number = $users['cpnumber'];
-            $email = $users['email'];
-            $comp_location = $users['comp_location'];
-            $longitude = $users['longitude'];
-            $latitude = $users['latitude'];
-            $boundary_size = $users['boundary_size'];
-            $watType = $users['watType'];
-            $shifts = $users['shifts'];
-            $shift_span = $users['shift_span'];
-            $day_start = $users['day_start'];
-            // date supposed to be here
-            $position0 = $users['position0'];
-            $price0 = $users['price0'];
-
-
-            // find employees in schedule table
-            $sqlFindEmployees = "SELECT * FROM schedule WHERE company = ?";
-            $stmtFindEmployees = $this->con()->prepare($sqlFindEmployees);
-            $stmtFindEmployees->execute([$company_name]);
-            $usersFindEmployees = $stmtFindEmployees->fetch();
-            $countRowFindEmployees = $stmtFindEmployees->rowCount();
-
-            $inputFieldsAttr = "<script>";
-            $editDropdown = false;
-
-            if($countRowFindEmployees > 0){
-
-                $editDropdown = false;
-                $inputFieldsAttr .= "
-                    let company_name_m = document.querySelector('#company_name_m');
-                    company_name_m.value = '$company_name';
-                    company_name_m.removeAttribute('readonly');
-
-                    let contact_number_m = document.querySelector('#contact_number_m');
-                    contact_number_m.value = '$contact_number';
-                    contact_number_m.removeAttribute('readonly');
-
-                    let email_m = document.querySelector('#email_m');
-                    email_m.value = '$email';
-                    email_m.removeAttribute('readonly');
-
-                    let comp_location_m = document.querySelector('#comp_location_m');
-                    comp_location_m.value = '$comp_location';
-                    comp_location_m.removeAttribute('readonly');
-
-                    let longitude_m = document.querySelector('#longitude_m');
-                    longitude_m.value = '$longitude';
-                    longitude_m.removeAttribute('readonly');
-
-                    let latitude_m = document.querySelector('#latitude_m');
-                    latitude_m.value = '$latitude';
-                    latitude_m.removeAttribute('readonly');
-
-                    let boundary_size_m = document.querySelector('#boundary_size_m');
-                    boundary_size_m.value = '$boundary_size';
-                    boundary_size_m.removeAttribute('disabled');
-
-                    let type_m = document.querySelector('#type_m');
-                    type_m.value = '$watType';
-                    type_m.disabled = true;
-
-                    let shift_m = document.querySelector('#shift_m');
-                    shift_m.value = '$shifts';
-                    shift_m.disabled = true;
-
-                    let shift_span_m = document.querySelector('#shift_span_m');
-                    shift_span_m.value = '$shift_span';
-                    shift_span_m.disabled = true;
-
-                    let day_start_m = document.querySelector('#day_start_m');
-                    day_start_m.value = '$day_start';
-                    day_start_m.disabled = true;
-                    
-                    let position0_m = document.querySelector('#position0_m');
-                    position0_m.value = '$position0';
-                    position0_m.disabled = true;
-
-                    let price0_m = document.querySelector('#price0_m');
-                    price0_m.value = '$price0';
-                    price0_m.removeAttribute('disabled');
-
-                    let currPosition2 = [];
-
-                    navigator.geolocation.getCurrentPosition((pos) => {
-                        currPosition2.push($longitude);
-                        currPosition2.push($latitude);
-                        
-                        let userLongitude2 = document.querySelector('#longitude_m');
-                        let userLatitude2 = document.querySelector('#latitude_m');
-
-                        mapboxgl.accessToken = 'pk.eyJ1IjoiamVsbHliZWFucy1zbHkiLCJhIjoiY2t4NmVnYXU5MnJkNjJ1cW92ZDN1b3hndiJ9.FgwIbfJQOkbfbc1OtJHv2Q';
-                        const map2 = new mapboxgl.Map({
-                            container: 'map2',
-                            style: 'mapbox://styles/mapbox/satellite-streets-v9',
-                            center: currPosition2,
-                            zoom: 18
-                        });
-
-                        const marker2 = new mapboxgl.Marker().setLngLat(currPosition2).addTo(map2); 
-
-                        function add_marker2(event){
-                            var coordinates = event.lngLat;
-                            userLongitude2.value = coordinates.lng;
-                            userLatitude2.value = coordinates.lat;
-                            marker2.setLngLat(coordinates).addTo(map2);
-                        }
-
-
-                        // for distance
-                        const map_b2 = new mapboxgl.Map({
-                            container: 'map_b_m',
-                            style: 'mapbox://styles/mapbox/satellite-streets-v9',
-                            center: [$longitude, $latitude],
-                            zoom: 18
-                        });
-
-
-                        const distanceContainer2 = document.getElementById('distance_m');
-                        const map_b_size2 = document.querySelector('.map_b_size_m');
-
-                        // GeoJSON object to hold our measurement features
-                        const geojson = {
-                            'type': 'FeatureCollection',
-                            'features': []
-                        };
-
-                        // Used to draw a line between points
-                        const linestring = {
-                            'type': 'Feature',
-                            'geometry': {
-                                'type': 'LineString',
-                                'coordinates': []
-                            }
-                        };
-
-                        map_b2.on('load', () => {
-                            map_b2.addSource('geojson', {
-                                'type': 'geojson',
-                                'data': geojson
-                            });
-            
-                            // Add styles to the map
-                            map_b2.addLayer({
-                                id: 'measure-points',
-                                type: 'circle',
-                                source: 'geojson',
-                                paint: {
-                                    'circle-radius': 5,
-                                    'circle-color': '#000'
-                                },
-                                filter: ['in', '\$type', 'Point']
-                            });
-            
-                            map_b2.addLayer({
-                                id: 'measure-lines',
-                                type: 'line',
-                                source: 'geojson',
-                                layout: {
-                                    'line-cap': 'round',
-                                    'line-join': 'round'
-                                },
-                                paint: {
-                                    'line-color': '#000',
-                                    'line-width': 2.5
-                                },
-                                filter: ['in', '\$type', 'LineString']
-                            });
-            
-                            map_b2.on('click', (e) => {
-                                const features = map_b2.queryRenderedFeatures(e.point, {
-                                    layers: ['measure-points']
-                                });
-            
-                                // Remove the linestring from the group
-                                // so we can redraw it based on the points collection.
-                                if (geojson.features.length > 1) geojson.features.pop();
-            
-                                // Clear the distance container to populate it with a new value.
-                                distanceContainer2.innerHTML = '';
-            
-                                // If a feature was clicked, remove it from the map.
-                                if (features.length) {
-                                    const id = features[0].properties.id;
-                                    geojson.features = geojson.features.filter(
-                                        (point) => point.properties.id !== id
-                                    );
-                                } else {
-                                    const point = {
-                                        'type': 'Feature',
-                                        'geometry': {
-                                            'type': 'Point',
-                                            'coordinates': [e.lngLat.lng, e.lngLat.lat]
-                                        },
-                                        'properties': {
-                                            'id': String(new Date().getTime())
-                                        }
-                                    };
-            
-                                    geojson.features.push(point);
-                                }
-            
-                                if (geojson.features.length > 1) {
-                                    linestring.geometry.coordinates = geojson.features.map(
-                                        (point) => point.geometry.coordinates
-                                    );
-            
-                                    geojson.features.push(linestring);
-            
-                                    // Populate the distanceContainer with total distance
-                                    const value2 = document.createElement('pre');
-                                    const distance2 = turf.length(linestring);
-                                    value2.textContent = `Total distance: \${distance2.toLocaleString()}km`;
-            
-                                    distanceContainer2.appendChild(value2);
-                                    map_b_size2.value = `\${distance2.toLocaleString()}km`;
-                                }
-            
-                                map_b2.getSource('geojson').setData(geojson);
-                            });
-                        });
-            
-                        // for distance
-                        map_b2.on('mousemove', (e) => {
-                            const features = map_b2.queryRenderedFeatures(e.point, {
-                                layers: ['measure-points']
-                            });
-                            // Change the cursor to a pointer when hovering over a point on the map.
-                            // Otherwise cursor is a crosshair.
-                            map_b2.getCanvas().style.cursor = features.length
-                                ? 'pointer'
-                                : 'crosshair';
-                        });
-
-                        map2.on('click', add_marker2);
-
-
-                        const geocoder2 = new MapboxGeocoder({
-                            accessToken: mapboxgl.accessToken, 
-                            mapboxgl: mapboxgl, 
-                            marker: false,
-                            zoom: 18
-                        });
-
-                        map2.addControl(geocoder2);
-                    });
-
-                    let deletecompany = document.querySelector('#deletecompany');
-                    deletecompany.remove();
-                </script>";
-
-                echo $inputFieldsAttr;
-
-            } else {
-                $editDropdown = true;
-                $inputFieldsAttr .= "
-                    let company_name_m = document.querySelector('#company_name_m');
-                    company_name_m.value = '$company_name';
-                    company_name_m.removeAttribute('readonly');
-
-                    let contact_number_m = document.querySelector('#contact_number_m');
-                    contact_number_m.value = '$contact_number';
-                    contact_number_m.removeAttribute('readonly');
-
-                    let email_m = document.querySelector('#email_m');
-                    email_m.value = '$email';
-                    email_m.removeAttribute('readonly');
-
-                    let comp_location_m = document.querySelector('#comp_location_m');
-                    comp_location_m.value = '$comp_location';
-                    comp_location_m.removeAttribute('readonly');
-
-                    let longitude_m = document.querySelector('#longitude_m');
-                    longitude_m.value = '$longitude';
-                    longitude_m.removeAttribute('readonly');
-
-                    let latitude_m = document.querySelector('#latitude_m');
-                    latitude_m.value = '$latitude';
-                    latitude_m.removeAttribute('readonly');
-
-                    let boundary_size_m = document.querySelector('#boundary_size_m');
-                    boundary_size_m.value = '$boundary_size';
-                    boundary_size_m.removeAttribute('disabled');
-
-                    let type_m = document.querySelector('#type_m');
-                    type_m.value = '$watType';
-                    type_m.removeAttribute('disabled');
-
-                    let shift_m = document.querySelector('#shift_m');
-                    shift_m.value = '$shifts';
-                    shift_m.removeAttribute('disabled');
-
-                    let shift_span_m = document.querySelector('#shift_span_m');
-                    shift_span_m.value = '$shift_span';
-                    shift_span_m.removeAttribute('disabled');
-
-                    let day_start_m = document.querySelector('#day_start_m');
-                    day_start_m.value = '$day_start';
-                    day_start_m.removeAttribute('disabled');
-                    
-                    let position0_m = document.querySelector('#position0_m');
-                    position0_m.value = '$position0';
-                    position0_m.disabled = true;
-
-                    let price0_m = document.querySelector('#price0_m');
-                    price0_m.value = '$price0';
-                    price0_m.removeAttribute('disabled');
-
-                    let currPosition2 = [];
-
-                    navigator.geolocation.getCurrentPosition((pos) => {
-                        currPosition2.push($longitude);
-                        currPosition2.push($latitude);
-                        
-                        let userLongitude2 = document.querySelector('#longitude_m');
-                        let userLatitude2 = document.querySelector('#latitude_m');
-
-                        mapboxgl.accessToken = 'pk.eyJ1IjoiamVsbHliZWFucy1zbHkiLCJhIjoiY2t4NmVnYXU5MnJkNjJ1cW92ZDN1b3hndiJ9.FgwIbfJQOkbfbc1OtJHv2Q';
-                        const map2 = new mapboxgl.Map({
-                            container: 'map2',
-                            style: 'mapbox://styles/mapbox/satellite-streets-v9',
-                            center: currPosition2,
-                            zoom: 18
-                        });
-
-                        const marker2 = new mapboxgl.Marker().setLngLat(currPosition2).addTo(map2); 
-
-                        function add_marker2(event){
-                            var coordinates = event.lngLat;
-                            userLongitude2.value = coordinates.lng;
-                            userLatitude2.value = coordinates.lat;
-                            marker2.setLngLat(coordinates).addTo(map2);
-                        }
-
-                        // for distance
-                        const map_b2 = new mapboxgl.Map({
-                            container: 'map_b_m',
-                            style: 'mapbox://styles/mapbox/satellite-streets-v9',
-                            center: [$longitude, $latitude],
-                            zoom: 18
-                        });
-
-
-                        const distanceContainer2 = document.getElementById('distance_m');
-                        const map_b_size2 = document.querySelector('.map_b_size_m');
-
-                        // GeoJSON object to hold our measurement features
-                        const geojson = {
-                            'type': 'FeatureCollection',
-                            'features': []
-                        };
-
-                        // Used to draw a line between points
-                        const linestring = {
-                            'type': 'Feature',
-                            'geometry': {
-                                'type': 'LineString',
-                                'coordinates': []
-                            }
-                        };
-
-                        map_b2.on('load', () => {
-                            map_b2.addSource('geojson', {
-                                'type': 'geojson',
-                                'data': geojson
-                            });
-            
-                            // Add styles to the map
-                            map_b2.addLayer({
-                                id: 'measure-points',
-                                type: 'circle',
-                                source: 'geojson',
-                                paint: {
-                                    'circle-radius': 5,
-                                    'circle-color': '#000'
-                                },
-                                filter: ['in', '\$type', 'Point']
-                            });
-            
-                            map_b2.addLayer({
-                                id: 'measure-lines',
-                                type: 'line',
-                                source: 'geojson',
-                                layout: {
-                                    'line-cap': 'round',
-                                    'line-join': 'round'
-                                },
-                                paint: {
-                                    'line-color': '#000',
-                                    'line-width': 2.5
-                                },
-                                filter: ['in', '\$type', 'LineString']
-                            });
-            
-                            map_b2.on('click', (e) => {
-                                const features = map_b2.queryRenderedFeatures(e.point, {
-                                    layers: ['measure-points']
-                                });
-            
-                                // Remove the linestring from the group
-                                // so we can redraw it based on the points collection.
-                                if (geojson.features.length > 1) geojson.features.pop();
-            
-                                // Clear the distance container to populate it with a new value.
-                                distanceContainer2.innerHTML = '';
-            
-                                // If a feature was clicked, remove it from the map.
-                                if (features.length) {
-                                    const id = features[0].properties.id;
-                                    geojson.features = geojson.features.filter(
-                                        (point) => point.properties.id !== id
-                                    );
-                                } else {
-                                    const point = {
-                                        'type': 'Feature',
-                                        'geometry': {
-                                            'type': 'Point',
-                                            'coordinates': [e.lngLat.lng, e.lngLat.lat]
-                                        },
-                                        'properties': {
-                                            'id': String(new Date().getTime())
-                                        }
-                                    };
-            
-                                    geojson.features.push(point);
-                                }
-            
-                                if (geojson.features.length > 1) {
-                                    linestring.geometry.coordinates = geojson.features.map(
-                                        (point) => point.geometry.coordinates
-                                    );
-            
-                                    geojson.features.push(linestring);
-            
-                                    // Populate the distanceContainer with total distance
-                                    const value2 = document.createElement('pre');
-                                    const distance2 = turf.length(linestring);
-                                    value2.textContent = `Total distance: \${distance2.toLocaleString()}km`;
-            
-                                    distanceContainer2.appendChild(value2);
-                                    map_b_size2.value = `\${distance2.toLocaleString()}km`;
-                                }
-            
-                                map_b2.getSource('geojson').setData(geojson);
-                            });
-                        });
-            
-                        // for distance
-                        map_b2.on('mousemove', (e) => {
-                            const features = map_b2.queryRenderedFeatures(e.point, {
-                                layers: ['measure-points']
-                            });
-                            // Change the cursor to a pointer when hovering over a point on the map.
-                            // Otherwise cursor is a crosshair.
-                            map_b2.getCanvas().style.cursor = features.length
-                                ? 'pointer'
-                                : 'crosshair';
-                        });
-
-                        map2.on('click', add_marker2);
-
-
-                        const geocoder2 = new MapboxGeocoder({
-                            accessToken: mapboxgl.accessToken, 
-                            mapboxgl: mapboxgl, 
-                            marker: false,
-                            zoom: 18
-                        });
-
-                        map2.addControl(geocoder2);
-                    });
-
-                    let deletecompany = document.querySelector('#deletecompany');
-                    deletecompany.remove();
-                </script>";
-
-                echo $inputFieldsAttr;
-            }
-
-            echo $createInput;
-
-            // update table data, bawal edit yung dropdown
-            if(isset($_POST['editcompany']) && $editDropdown == false){
-                $company_name_m = $_POST['company_name_m'];
-                $contact_number_m = $_POST['contact_number_m'];
-                $email_m = $_POST['email_m'];
-                $comp_location_m = $_POST['comp_location_m'];
-                $longitude_m = $_POST['longitude_m'];
-                $latitude_m = $_POST['latitude_m'];
-                $boundary_size_m = $_POST['boundary_size_m'];
-                $price0_m = $_POST['price0'];
-
-                $lengthInput = $_POST['lengthInput']; // use in for loop
-                $lengthInputOriginal = $_POST['lengthInputOriginal']; // use in for loop
-                
-                if($lengthInput != 0){
-                    // ineedit nya rin yung iba pang position1, price1
-                    
-                    $sqlNotDefault = "UPDATE company SET company_name = ?,
-                                                         cpnumber = ?,
-                                                         email = ?,
-                                                         comp_location = ?,
-                                                         longitude = ?,
-                                                         latitude = ?,
-                                                         boundary_size = ?,
-                                                         price0 = ?
-                                      WHERE id = ?";
-                    $stmtNotDefault = $this->con()->prepare($sqlNotDefault);
-                    $stmtNotDefault->execute([$company_name_m,
-                                           $contact_number_m,
-                                           $email_m,
-                                           $comp_location_m,
-                                           $longitude_m,
-                                           $latitude_m,
-                                           $boundary_size_m,
-                                           $price0_m,
-                                           $id     
-                                          ]);
-                    
-                    $storeMeSome = 0;
-
-                    // 0 1
-                    for($i = 1; $i <= $lengthInputOriginal; $i++){
-
-                        $position = $_POST["position$i"];
-                        $price = $_POST["price$i"];
-
-                        
-                        if($position == NULL && $position == ''){
-                            $position = NULL;
-                        }
-
-                        if($price == NULL && $price == ''){
-                            $price = NULL;
-                        }
-
-                        $sqlPosPri = "UPDATE company 
-                                      SET position$i = ?,
-                                          price$i = ?
-                                      WHERE id = ?
-                                      ";
-                        $stmtPosPri = $this->con()->prepare($sqlPosPri);
-                        $stmtPosPri->execute([$position, $price, $id]);
-                        $countRowPosPri = $stmtPosPri->rowCount();
-
-                        // pag di nag update
-                        if($countRowPosPri <= 0){
-                            $sqlPosPriNew = "ALTER TABLE company ADD position$i VARCHAR(100) NULL,
-                                                                 ADD price$i VARCHAR(100) NULL;
-                                             UPDATE company 
-                                             SET position$i = ?,
-                                                 price$i = ?
-                                             WHERE id = ?";
-                            $stmtPosPriNew = $this->con()->prepare($sqlPosPriNew);
-                            $stmtPosPriNew->execute([$position, $price, $id]);
-                            $storeMeSome++;
-                        } 
-                    }
-
-                    // inform employees here
-                    $sqlInformEmloyees = "SELECT
-                                                s.empId,
-                                                s.company,
-                                                e.empId,
-                                                e.email as empEmail,
-                                                c.*,
-                                                c.company_name,
-                                                c.cpnumber,
-                                                c.email,
-                                                c.comp_location,
-                                                c.longitude,
-                                                c.latitude,
-                                                c.boundary_size
-                                          FROM schedule s
-                                          INNER JOIN employee e
-                                          ON s.empId = e.empId 
-                                          
-                                          INNER JOIN company c
-                                          ON s.company = c.company_name
-                                          
-                                          WHERE c.id = $id";
-                    $stmtInformEmployees = $this->con()->query($sqlInformEmloyees);
-                    while($usersInformEmployees = $stmtInformEmployees->fetch(PDO::FETCH_ASSOC)){
-
-                        $secLoopLength = intval($storeMeSome) + intval($lengthInputOriginal);
-                        $informPositions = array();
-                        $informPrices = array();
-
-                        for($j = 0; $j <= $secLoopLength; $j++){
-                            
-                            // habang may nadedetect push lang ng push
-                            if(isset($usersInformEmployees["position$j"])){
-                                // kapag may laman
-                                if($usersInformEmployees["position$j"] != NULL ||
-                                    $usersInformEmployees["position$j"] != ''
-                                ){
-                                    // position
-                                    $currPosition = $usersInformEmployees["position$j"];
-                                    array_push($informPositions, $currPosition);
-
-                                    // price
-                                    $currPrice = $usersInformEmployees["price$j"];
-                                    array_push($informPrices, $currPrice);
-                                } else {
-                                    break;
-                                }
-                            } else {
-                                break;
-                            }
-                        }
-
-                        $empEmail = $usersInformEmployees["empEmail"];
-                        // company info
-                        $eCompanyName = $usersInformEmployees["company_name"];
-                        $eCpNumber = $usersInformEmployees["cpnumber"];
-                        $eEmail = $usersInformEmployees["email"];
-                        $eCompLocation = $usersInformEmployees["comp_location"];
-                        $eLongitude = $usersInformEmployees["longitude"];
-                        $eLatitude = $usersInformEmployees["latitude"];
-                        $eBoundarySize = $usersInformEmployees["boundary_size"];
-                        
-                        $this->informEmployeeInComp($empEmail, $eCompanyName, $eCpNumber, $eEmail, $eCompLocation, $eLongitude, $eLatitude, $eBoundarySize, $informPositions, $informPrices);
-                    }
-
-                    echo "<script>window.location.assign('company.php');</script>";
-
-                } else {
-                    // update company that has 1 position, 1 price
-                    $sqlDefault = "UPDATE company SET company_name = ?,
-                                                      cpnumber = ?,
-                                                      email = ?,
-                                                      comp_location = ?,
-                                                      longitude = ?,
-                                                      latitude = ?,
-                                                      boundary_size = ?,
-                                                      price0 = ?
-                                   WHERE id = ?";
-                    $stmtDefault = $this->con()->prepare($sqlDefault);
-                    $stmtDefault->execute([$company_name_m,
-                                           $contact_number_m,
-                                           $email_m,
-                                           $comp_location_m,
-                                           $longitude_m,
-                                           $latitude_m,
-                                           $boundary_size_m,
-                                           $price0_m,
-                                           $id     
-                                          ]);
-                    $countRowDefault = $stmtDefault->rowCount();
-                    if($countRowDefault > 0){
-                        echo "<script>window.location.assign('company.php');</script>";
-                    } else {
-                        echo "Data was not updated";
-                    }
-                }
-            } 
-            
-
-
-
-            // no employee found in company, pwede edit dropdown
-            if(isset($_POST['editcompany']) && $editDropdown == true){
-                
-                $company_name_m = $_POST['company_name_m'];
-                $contact_number_m = $_POST['contact_number_m'];
-                $email_m = $_POST['email_m'];
-                $comp_location_m = $_POST['comp_location_m'];
-                $longitude_m = $_POST['longitude_m'];
-                $latitude_m = $_POST['latitude_m'];
-                $boundary_size_m = $_POST['boundary_size_m'];
-                $type_m = $_POST['type_m'];
-                $shifts_m = $_POST['shift_m'];
-                $shifts_span_m = $_POST['shift_span_m'];
-                $day_start_m = $_POST['day_start_m'];
-                $price0_m = $_POST['price0'];
-
-                $lengthInput = $_POST['lengthInput']; // use in for loop
-                $lengthInputOriginal = $_POST['lengthInputOriginal']; // use in for loop
-                
-                if($lengthInput != 0){
-                    // ineedit nya rin yung iba pang position1, price1
-                    
-                    $sqlNotDefault = "UPDATE company SET company_name = ?,
-                                                         cpnumber = ?,
-                                                         email = ?,
-                                                         comp_location = ?,
-                                                         longitude = ?,
-                                                         latitude = ?,
-                                                         boundary_size = ?,
-                                                         watType = ?,
-                                                         shifts = ?,
-                                                         shift_span = ?,
-                                                         day_start = ?,
-                                                         price0 = ?
-                                      WHERE id = ?";
-                    $stmtNotDefault = $this->con()->prepare($sqlNotDefault);
-                    $stmtNotDefault->execute([$company_name_m,
-                                           $contact_number_m,
-                                           $email_m,
-                                           $comp_location_m,
-                                           $longitude_m,
-                                           $latitude_m,
-                                           $boundary_size_m,
-                                           $type_m,
-                                           $shifts_m,
-                                           $shifts_span_m,
-                                           $day_start_m,
-                                           $price0_m,
-                                           $id     
-                                          ]);
-                    
-                    
-                    
-                    for($i = 1; $i <= $lengthInputOriginal; $i++){
-
-                        $position = $_POST["position$i"];
-                        $price = $_POST["price$i"];
-
-                        
-                        if($position == NULL && $position == ''){
-                            $position = NULL;
-                        }
-
-                        if($price == NULL && $price == ''){
-                            $price = NULL;
-                        }
-
-                        $sqlPosPri = "UPDATE company 
-                                      SET position$i = ?,
-                                          price$i = ?
-                                      WHERE id = ?
-                                      ";
-                        $stmtPosPri = $this->con()->prepare($sqlPosPri);
-                        $stmtPosPri->execute([$position, $price, $id]);
-                        $countRowPosPri = $stmtPosPri->rowCount();
-
-                        // pag di nag update
-                        if($countRowPosPri <= 0){
-                            $sqlPosPriNew = "ALTER TABLE company ADD position$i VARCHAR(100) NULL,
-                                                                 ADD price$i VARCHAR(100) NULL;
-                                             UPDATE company 
-                                             SET position$i = ?,
-                                                 price$i = ?
-                                             WHERE id = ?";
-                            $stmtPosPriNew = $this->con()->prepare($sqlPosPriNew);
-                            $stmtPosPriNew->execute([$position, $price, $id]);
-                            
-                        } 
-                    }
-
-                    echo "<script>window.location.assign('company.php');</script>";
-
-                } else {
-                    // update company that has 1 position, 1 price
-
-                    $sqlDefault = "UPDATE company SET company_name = ?,
-                                                      cpnumber = ?,
-                                                      email = ?,
-                                                      comp_location = ?,
-                                                      longitude = ?,
-                                                      latitude = ?,
-                                                      boundary_size = ?,
-                                                      watType = ?,
-                                                      shifts = ?,
-                                                      shift_span = ?,
-                                                      day_start = ?,
-                                                      price0 = ?
-                                   WHERE id = ?";
-                    $stmtDefault = $this->con()->prepare($sqlDefault);
-                    $stmtDefault->execute([$company_name_m,
-                                           $contact_number_m,
-                                           $email_m,
-                                           $comp_location_m,
-                                           $longitude_m,
-                                           $latitude_m,
-                                           $boundary_size_m,
-                                           $type_m,
-                                           $shifts_m,
-                                           $shifts_span_m,
-                                           $day_start_m,
-                                           $price0_m,
-                                           $id     
-                                          ]);
-                    $countRowDefault = $stmtDefault->rowCount();
-                    if($countRowDefault > 0){
-                        echo "<script>window.location.assign('company.php');</script>";
-                    } else {
-                        echo "Data was not updated";
-                    }
-                }
-
-
-            }
-        }
-    }
-
-    
-    public function informEmployeeInComp($email, $eCompanyName, 
-                                                 $eCpNumber,
-                                                 $eEmail,
-                                                 $eCompLocation,
-                                                 $eLongitude,
-                                                 $eLatitude,
-                                                 $eBoundarySize,
-                                                 $posArray,
-                                                 $priArray
-    )
-    {
-
-
-        $posWithPri = "";
-
-        for($i = 0; $i < sizeof($posArray); $i++){
-            $posWithPri .= $posArray[$i] . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rate: " . $priArray[$i] . "<br/>";
-        }
-
-        $name = 'JTDV Incorporation';
-        $subject = 'subject kunwari';
-        $body = "Company Details has been updated. <br/>
-                 <br/>
-                 Company Name: $eCompanyName <br/>
-                 Contact Number: $eCpNumber <br/>
-                 Company Email: $eEmail <br/>
-                 Company Location: $eCompLocation <br/>
-                 Longitude: $eLongitude <br/>
-                 Latitude: $eLatitude <br/>
-                 Boundary: $eBoundarySize <br/>
-                 <br/>
-                 <h4>Positions</h4>
-                 $posWithPri
-                ";
-
-        if(!empty($email)){
-
-            $mail = new PHPMailer();
-
-            // smtp settings
-            $mail->isSMTP();
-            $mail->Host = "smtp.gmail.com";
-            $mail->SMTPAuth = true;
-            $mail->Username = $this->e_username;  // gmail address
-            $mail->Password = $this->e_password;  // gmail password
-
-            $mail->Port = 465;
-            $mail->SMTPSecure = "ssl";
-
-            // email settings
-            $mail->isHTML(true);
-            $mail->setFrom($email, $name);              // Katabi ng user image
-            $mail->addAddress($email);                  // gmail address ng pagsesendan
-            $mail->Subject = ("$email ($subject)");     // headline
-            $mail->Body = $body;                        // textarea
-
-            if($mail->send()){
-                // $status = "success";
-                $response = "Your credentials has been sent to your email";
-                echo '<br/>'.$response;
-            } else {
-                $status = "failed";
-                $response = "Something is wrong: <br/>". $mail->ErrorInfo;
-                echo '<br/>'.$status."<br/>".$response;
-            }
-        }
-    }
-
-
-    public function deletecompany($id)
-    {
-        
-        echo "<script>
-                let modalForm = document.querySelector('.modal-triple'); // added
-                modalForm.style.display = 'flex';
-                document.querySelector('#modal-h1').innerText = 'Delete Company';
-                document.querySelector('#company_name_m').parentElement.remove();
-                document.querySelector('#contact_number_m').parentElement.remove();
-                document.querySelector('#email_m').parentElement.remove();
-                document.querySelector('#map2').parentElement.remove();
-                document.querySelector('#comp_location_m').parentElement.remove();
-                document.querySelector('#boundary_size_m').parentElement.remove();
-                document.querySelector('#type_m').parentElement.remove();
-                document.querySelector('#shift_m').parentElement.remove();
-                document.querySelector('#shift_span_m').parentElement.remove();
-                document.querySelector('#day_start_m').parentElement.remove();
-                document.querySelector('#addhere').remove(); // position0, price1
-                document.querySelector('#addnewmodal').parentElement.remove();
-                document.querySelector('#editcompany').remove();
-              </script>";
-        if(isset($_POST['deletecompany']))
-        {
-            $sql = "DELETE FROM company WHERE id = ?";
-            $stmt = $this->con()->prepare($sql);
-            $stmt->execute([$id]);
-            $countRow = $stmt->rowCount();
-            
-            if($countRow > 0){
-                echo "<script>window.location.assign('company.php');</script>";
-            } else {
-                echo 'Data was not successfully deleted';
-            }
-        }
-    }
-
-
-
     public function recentactivityleave()
     {
         $sql = "SELECT 
@@ -3687,27 +2248,51 @@ Class Payroll
                 AND 
                     date_admin BETWEEN date_sub(curdate(),interval 30 day) AND curdate()";
         $stmt = $this->con()->query($sql);
-        while($row = $stmt->fetch()){
-            $fullname = $row->lastname . ", " . $row->firstname;
+        $countRow = $stmt->rowCount();
 
+        if($countRow == 0){
             echo "<div class='card'>
                     <div class='card-header'>
                         <div class='card-status'>
-                            <div class='circle $row->status'></div>
-                            <h2>$row->status</h2>
+                            <div class='circle' style='background-color: gray;'></div>
+                            <h2>No recent</h2>
                         </div>
                         <form method='post' class='removeRecent'>
-                            <input type='hidden' name='removeDate' value='$row->date_admin' required/>
-                            <input type='hidden' name='removeId' value='$row->id' required/>
-                            <button type='submit' name='removeRecentBtn'><span class='material-icons'>close</span></button>
+                            <input type='hidden' name='removeDate' value='' required/>
+                            <input type='hidden' name='removeId' value='' required/>
+                            <button type='submit' name='removeRecentBtn'><span class='material-icons'></span></button>
                         </form>  
                     </div>
                     <div class='card-content'>
-                        <p>$fullname</p>
-                        <span>Date: <b>$row->date_admin</b></span>
+                        <p></p>
+                        <span style='margin-top: 20px;'><b></b></span>
                     </div>
                   </div>";
+        } else {
+            while($row = $stmt->fetch()){
+                $fullname = $row->lastname . ", " . $row->firstname;
+    
+                echo "<div class='card'>
+                        <div class='card-header'>
+                            <div class='card-status'>
+                                <div class='circle $row->status'></div>
+                                <h2>$row->status</h2>
+                            </div>
+                            <form method='post' class='removeRecent'>
+                                <input type='hidden' name='removeDate' value='$row->date_admin' required/>
+                                <input type='hidden' name='removeId' value='$row->id' required/>
+                                <button type='submit' name='removeRecentBtn'><span class='material-icons'>close</span></button>
+                            </form>  
+                        </div>
+                        <div class='card-content'>
+                            <p>$fullname</p>
+                            <span>Date: <b>$row->date_admin</b></span>
+                        </div>
+                      </div>";
+            }
         }
+
+        
     }
 
     public function removeRecentFunction()
@@ -3745,23 +2330,37 @@ Class Payroll
                 ON l.empId = e.empId
                 WHERE status = 'pending'";
         $stmt = $this->con()->query($sql);
-        while($row = $stmt->fetch()){
-            $fullname = $row->firstname ." ". $row->lastname;
+        $countRow = $stmt->rowCount();
+
+        if($countRow == 0){
             echo "<tr>
-                    <td>$fullname</td>
-                    <td>$row->typeOfLeave</td>
-                    <td>$row->reason</td>
-                    <td>$row->days</td>
-                    <td>$row->leave_start</td>
-                    <td>$row->leave_end</td>
-                    <td>
-                        <div class='buttons'>
-                            <a href='leave.php?id=$row->id&act=viewing'><span class='material-icons'>visibility</span></a>
-                            <a href='leave.php?id=$row->id&act=approve'><span class='material-icons'>done</span></a>
-                            <a href='leave.php?id=$row->id&act=reject'><span class='material-icons'>close</span></a>
-                        </div>
-                    </td>
+                    <td>No data found</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                   </tr>";
+        } else {
+            while($row = $stmt->fetch()){
+                $fullname = $row->firstname ." ". $row->lastname;
+                echo "<tr>
+                        <td>$fullname</td>
+                        <td>$row->typeOfLeave</td>
+                        <td>$row->reason</td>
+                        <td>$row->days</td>
+                        <td>$row->leave_start</td>
+                        <td>$row->leave_end</td>
+                        <td>
+                            <div class='buttons'>
+                                <a href='leave.php?id=$row->id&act=viewing'><span class='material-icons'>visibility</span></a>
+                                <a href='leave.php?id=$row->id&act=approve'><span class='material-icons'>done</span></a>
+                                <a href='leave.php?id=$row->id&act=reject'><span class='material-icons'>close</span></a>
+                            </div>
+                        </td>
+                      </tr>";
+            }
         }
     }
 
@@ -4908,7 +3507,7 @@ Class Payroll
             $myImage = base64_encode($user->image);
             echo "<img src='data:image/jpg;charset=utf8;base64,$myImage'/>";
         } else {
-            echo "<p class='status error'>Image(s) not found...</p>";
+            echo "<p class='status-error'>Image(s) not found...</p>";
         }
     }
 
@@ -5039,6 +3638,907 @@ Class Payroll
         }
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // for new company
+
+    // for newly added company
+    public function newlyaddedcompany()
+    {
+        $sql = "SELECT * FROM company ORDER BY date ASC LIMIT 4";
+        $stmt = $this->con()->query($sql);
+        $countRow = $stmt->rowCount();
+
+        if($countRow > 0){
+            while($row = $stmt->fetch()){
+
+                $status = "";
+                $datetime = $this->getDateTime();
+                $date = $datetime['date'];
+    
+                if(strtotime($row->date) <= strtotime($date) && 
+                   strtotime($row->date) >= strtotime($date.'-15 day')){
+                    $status = 'recent';
+                } elseif(strtotime($row->date) >= strtotime($date.'-30 day') && 
+                         strtotime($row->date) <= strtotime($date.'-15 day')){
+                    $status = 'late';
+                } else {
+                    $status = 'old';
+                }
+    
+                echo "<div class='cards'>
+                        <div class='circle $status'></div>
+                        <h3>$row->company_name</h3>
+                        <p>$row->date</p>
+                      </div>";
+            }
+        } else {
+            echo "<div class='cards'>
+                    <div class='circle' style='background: #d2d2d2;'></div>
+                    <h3>No <br/>Data Found</h3>
+                    <p></p>
+                  </div>";
+        }   
+    }
+
+    // list of company 
+    public function companylist()
+    {
+        $sql = "SELECT * FROM company";
+        $stmt = $this->con()->query($sql);
+        while($row = $stmt->fetch()){
+
+            $sqlFind = "SELECT company FROM schedule WHERE company = ?";
+            $stmtFind = $this->con()->prepare($sqlFind);
+            $stmtFind->execute([$row->company_name]);
+            $userFind = $stmtFind->fetch();
+            $countRowFind = $stmtFind->rowCount();
+
+            $delete = "";
+
+            if($countRowFind > 0){
+                $delete .= "<a></a>";
+            } else {
+                $delete .= "<a href='./company.php?id=$row->id&action=delete'>
+                                <span class='material-icons'>delete</span>
+                            </a>";
+            }
+
+            echo "<tr>
+                    <td>$row->company_name</td>
+                    <td>$row->hired_guards</td>
+                    <td>$row->email</td>
+                    <td>$row->date</td>
+                    <td>
+                        <a href='./company.php?id=$row->id&action=view'>
+                            <span class='material-icons'>visibility</span>
+                        </a>
+                        <a href='./company.php?id=$row->id&action=edit'>
+                            <span class='material-icons'>edit</span>
+                        </a>
+                        $delete
+                    </td>
+                  </tr>";
+        }
+    }
+
+    public function addcompany3()
+    {
+        if(isset($_POST['addcompany'])){
+            $company_name = $_POST['company_name'];
+            $cpnumber = $_POST['cpnumber'];
+            $email = $_POST['email'];
+            $comp_location = $_POST['comp_location'];
+            $longitude = $_POST['longitude'];
+            $latitude = $_POST['latitude'];
+            $boundary_size = $_POST['boundary_size'];
+            $shift = $_POST['shift'];
+            $shift_span = $_POST['shift_span'];
+            $day_start = $_POST['day_start'];
+
+            $datetime = $this->getDateTime();
+            $date = $datetime['date'];
+
+            if(empty($company_name) ||
+               empty($cpnumber) ||
+               empty($email) ||
+               empty($comp_location) ||
+               empty($longitude) ||
+               empty($latitude) ||
+               empty($boundary_size) ||
+               empty($shift) ||
+               empty($shift_span) ||
+               empty($day_start) ||
+               empty($date)
+            ){
+                echo "<div class='error'>All input field are required to add company</div>";
+            } else {
+
+                $sqlFindEmail = "SELECT email FROM company WHERE email = ?";
+                $stmtFindEmail = $this->con()->prepare($sqlFindEmail);
+                $stmtFindEmail->execute([$email]);
+                $userFindEmail = $stmtFindEmail->fetch();
+                $countRowFindEmail = $stmtFindEmail->rowCount();
+
+                if($countRowFindEmail > 0){
+                    echo "<div class='error'>Email is already exists!</div>";
+                } else {
+                    $sql = "INSERT INTO company(company_name,
+                                        cpnumber, 
+                                        email,
+                                        comp_location,
+                                        longitude,
+                                        latitude,
+                                        boundary_size,
+                                        shifts, 
+                                        shift_span,
+                                        day_start,
+                                        date) 
+                            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    $stmt = $this->con()->prepare($sql);
+                    $stmt->execute([$company_name, 
+                                    $cpnumber,
+                                    $email,
+                                    $comp_location,
+                                    $longitude,
+                                    $latitude,
+                                    $boundary_size,
+                                    $shift,
+                                    $shift_span,
+                                    $day_start,
+                                    $date
+                                ]);
+                    $countRow = $stmt->rowCount();
+
+                    if($countRow > 0){
+                        echo "<div class='success'>New data was added</div>";
+
+                        $lengthInput = $_POST['lengthInput'];
+                        
+
+                        for($i = 0; $i <= $lengthInput; $i++){
+                            $pos = $_POST["position$i"];
+                            $price = $_POST["price$i"];
+                            $ot = $_POST["ot$i"];
+
+                            $sqlPosition = "INSERT INTO `positions`(`company`, `position_name`, `price`, `overtime_rate`) VALUES (?, ?, ?, ?)";
+                            $stmtPosition = $this->con()->prepare($sqlPosition);
+                            $stmtPosition->execute([$company_name, 
+                                                    $pos, 
+                                                    $price, 
+                                                    $ot]);
+                            $countRowPosition = $stmtPosition->rowCount();
+                        }
+
+                    } else {
+                        echo "<div class='error'>No data was added</div>";
+                    }
+                }
+            }
+        }
+
+        // for add modal
+        if(isset($_POST['addcompany2'])){
+            $company_name = $_POST['company_name2'];
+            $cpnumber = $_POST['cpnumber2'];
+            $email = $_POST['email2'];
+            $comp_location = $_POST['comp_location2'];
+            $longitude = $_POST['longitude2'];
+            $latitude = $_POST['latitude2'];
+            $boundary_size = $_POST['boundary_size2'];
+            $shift = $_POST['shift2'];
+            $shift_span = $_POST['shift_span2'];
+            $day_start = $_POST['day_start2'];
+
+            $datetime = $this->getDateTime();
+            $date = $datetime['date'];
+
+            if(empty($company_name) ||
+               empty($cpnumber) ||
+               empty($email) ||
+               empty($comp_location) ||
+               empty($longitude) ||
+               empty($latitude) ||
+               empty($boundary_size) ||
+               empty($shift) ||
+               empty($shift_span) ||
+               empty($day_start) ||
+               empty($date)
+            ){
+                echo "<div class='error'>All input field are required to add company</div>";
+            } else {
+
+                $sqlFindEmail = "SELECT email FROM company WHERE email = ?";
+                $stmtFindEmail = $this->con()->prepare($sqlFindEmail);
+                $stmtFindEmail->execute([$email]);
+                $userFindEmail = $stmtFindEmail->fetch();
+                $countRowFindEmail = $stmtFindEmail->rowCount();
+
+                if($countRowFindEmail > 0){
+                    echo "<div class='error'>Email is already exists!</div>";
+                } else {
+                    $sql = "INSERT INTO company(company_name,
+                                        cpnumber, 
+                                        email,
+                                        comp_location,
+                                        longitude,
+                                        latitude,
+                                        boundary_size,
+                                        shifts, 
+                                        shift_span,
+                                        day_start,
+                                        date) 
+                            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    $stmt = $this->con()->prepare($sql);
+                    $stmt->execute([$company_name, 
+                                    $cpnumber,
+                                    $email,
+                                    $comp_location,
+                                    $longitude,
+                                    $latitude,
+                                    $boundary_size,
+                                    $shift,
+                                    $shift_span,
+                                    $day_start,
+                                    $date
+                                ]);
+                    $countRow = $stmt->rowCount();
+
+                    if($countRow > 0){
+                        echo "<div class='success'>New data was added</div>";
+
+                        $lengthInput = $_POST['lengthInput2'];
+                        
+
+                        for($i = 0; $i <= $lengthInput; $i++){
+                            $pos = $_POST["position$i"];
+                            $price = $_POST["price$i"];
+                            $ot = $_POST["ot$i"];
+
+                            $sqlPosition = "INSERT INTO `positions`(`company`, `position_name`, `price`, `overtime_rate`) VALUES (?, ?, ?, ?)";
+                            $stmtPosition = $this->con()->prepare($sqlPosition);
+                            $stmtPosition->execute([$company_name, 
+                                                    $pos, 
+                                                    $price, 
+                                                    $ot]);
+                            $countRowPosition = $stmtPosition->rowCount();
+                        }
+
+                    } else {
+                        echo "<div class='error'>No data was added</div>";
+                    }
+                }
+            }
+            
+        }
+    }
+
+
+    // Modal for Viewing of Company Info
+    public function viewcompanymodal($id)
+    {
+        
+        $sql = "SELECT * FROM company WHERE id = ?";
+        $stmt = $this->con()->prepare($sql);
+        $stmt->execute([$id]);
+        $user = $stmt->fetch();
+        $countRow = $stmt->rowCount();
+
+        if($countRow > 0){
+
+            $company_name = $user->company_name;
+            $cpnumber = $user->cpnumber;
+            $email = $user->email;
+            $comp_location = $user->comp_location;
+            $longitude = $user->longitude;
+            $latitude = $user->latitude;
+            $boundary_size = $user->boundary_size;
+            $shifts = $user->shifts;
+            $shift_span = $user->shift_span;
+            $day_start = $user->day_start;
+
+            $output = "<div class='view-modal'>
+                        <h1>View Modal</h1>
+                        <form method='POST'>
+                            <div>
+                                <label for='company_name'>Company Name</label>
+                                <input type='text' value='$company_name' readonly/>
+                            </div>
+                            <div>
+                                <label for='cpnumber'>Cp Number</label>
+                                <input type='text' value='$cpnumber' readonly/>
+                            </div>
+                            <div>
+                                <label for='email'>Email</label>
+                                <input type='email' value='$email' readonly/>
+                            </div>
+                            <div>
+                                <div id='map-viewmodal'></div>
+                            </div>
+                            <div>
+                                <label for='comp_location'>Comp Location</label>
+                                <input type='text' value='$comp_location' readonly/>
+                            </div>
+                            <div>
+                                <label for='longitude'>Longitude</label>
+                                <input type='text' id='longitude-viewmodal' value='$longitude' readonly/>
+                            </div>
+                            <div>
+                                <label for='latitude'>Latitude</label>
+                                <input type='text' id='latitude-viewmodal' value='$latitude' readonly/>
+                            </div>
+                            <div>
+                                <label for='boundary_size'>Boundary Size</label>
+                                <input type='text' value='$boundary_size' readonly/>
+                            </div>
+                            <div>
+                                <label for='shifts'>Shift</label>
+                                <select disabled>
+                                    <option value='$shifts'>$shifts</option>
+                                </select>
+                            </div>       
+                            <div>
+                                <label for='shift_span'>Shift Span</label>
+                                <select disabled>
+                                    <option value='$shift_span'>$shift_span</option>
+                                </select>
+                            </div>            
+                            <div>
+                                <label for='day_start'>Day Start</label>
+                                <select disabled>
+                                    <option value='$day_start'>$day_start</option>
+                                </select>
+                            </div>         
+                            <div class='positions_container'>
+                                <h1>Positions</h1>";
+
+            $sqlPosition = "SELECT * FROM `positions` WHERE `company` = '$company_name'";
+            $stmtPosition = $this->con()->query($sqlPosition);
+            while($rowPosition = $stmtPosition->fetch()){
+                    $output .= "<div>
+                                    <span>$rowPosition->position_name</span>
+                                    <span>$rowPosition->price</span>
+                                    <span>$rowPosition->overtime_rate</span>
+                                </div>";
+            }
+
+            $output .= "    </div>
+                        </form>
+                      </div>
+                      <script>let currPositionView = [$longitude, $latitude];</script>
+                      <script src='../scripts/comp-viewlocation.js'></script>";
+            echo $output;
+
+        } else {
+            echo "no user found";
+        }
+    }
+
+    // Modal for Editing Company Info
+    public function editcompanymodal($id)
+    {
+        $sql = "SELECT * FROM company WHERE id = ?";
+        $stmt = $this->con()->prepare($sql);
+        $stmt->execute([$id]);
+        $user = $stmt->fetch();
+        $countRow = $stmt->rowCount();
+
+        if($countRow > 0){
+
+            $company_name = $user->company_name;
+            $cpnumber = $user->cpnumber;
+            $email = $user->email;
+            $comp_location = $user->comp_location;
+            $longitude = $user->longitude;
+            $latitude = $user->latitude;
+            $boundary_size = $user->boundary_size;
+            $shifts = $user->shifts;
+            $shiftDisabled = $shifts == 'Day' ? 'Night' : 'Day';
+
+            $shift_span = $user->shift_span;
+            $shift_spanDisabled = $shift_span == '8' ? '12' : '8';
+
+            $day_start = $user->day_start;
+            $day_startDisabled = $day_start == '06:00 am' ? '07:00 am' : '06:00 am';
+
+            $sqlFind = "SELECT company FROM schedule WHERE company = ?";
+            $stmtFind = $this->con()->prepare($sqlFind);
+            $stmtFind->execute([$company_name]);
+            $userFind = $stmtFind->fetch();
+            $countRowFind = $stmtFind->rowCount();
+            $isEnable = "";
+
+            if($countRowFind > 0){
+                $isEnable .= "<div>
+                                    <label for='shifts'>Shifts</label>
+                                    <select name='shifts'>
+                                        <option value='$shifts' selected>$shifts</option>
+                                        <option value='$shiftDisabled' disabled>$shiftDisabled</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for='shift_span'>Shift Span</label>
+                                    <select name='shift_span'>
+                                        <option value='$shift_span' selected>$shift_span</option>
+                                        <option value='$shift_spanDisabled' disabled>$shift_spanDisabled</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for='day_start'>Day Start</label>
+                                    <select name='day_start'>
+                                        <option value='$day_start' selected>$day_start</option>
+                                        <option value='$day_startDisabled' disabled>$day_startDisabled</option>
+                                    </select>
+                              </div>";
+            } else {
+                $isEnable .= "<div>
+                                    <label for='shifts'>Shifts</label>
+                                    <select name='shifts'>
+                                        <option value='$shifts' selected>$shifts</option>
+                                        <option value='$shiftDisabled'>$shiftDisabled</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for='shift_span'>Shift Span</label>
+                                    <select name='shift_span'>
+                                        <option value='$shift_span' selected>$shift_span</option>
+                                        <option value='$shift_spanDisabled'>$shift_spanDisabled</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for='day_start'>Day Start</label>
+                                    <select name='day_start'>
+                                        <option value='$day_start' selected>$day_start</option>
+                                        <option value='$day_startDisabled'>$day_startDisabled</option>
+                                    </select>
+                              </div>";
+            }
+
+
+
+            $output = "<div class='edit-modal'>
+                        <h1>Edit Modal</h1>
+                        <form method='POST'>
+                                <input type='hidden' name='companyId' value='$id'/>
+                            <div>
+                                <label for='company_name'>Company Name</label>
+                                <input type='text' name='company_name' value='$company_name' />
+                            </div>
+                            <div>
+                                <label for='cpnumber'>Cp Number</label>
+                                <input type='text' name='cpnumber' value='$cpnumber' />
+                            </div>
+                            <div>
+                                <label for='email'>Email</label>
+                                <input type='email' name='email' value='$email' />
+                            </div>
+                            <div>
+                                <div id='map-editmodal'></div>
+                            </div>
+                            <div>
+                                <label for='comp_location'>Comp Location</label>
+                                <input type='text' name='comp_location' value='$comp_location' />
+                            </div>
+                            <div>
+                                <label for='longitude'>Longitude</label>
+                                <input type='text' name='longitude' id='longitude-editmodal' value='$longitude' />
+                            </div>
+                            <div>
+                                <label for='latitude'>Latitude</label>
+                                <input type='text' name='latitude' id='latitude-editmodal' value='$latitude' />
+                            </div>
+                            <div>
+                                <div id='map_b-editmodal'></div>
+                            </div>
+                            <div>
+                                <label for='boundary_size'>Boundary Size</label>
+                                <input type='text' name='boundary_size' class='map_b_size-editmodal' value='$boundary_size' />
+                            </div>
+                            $isEnable
+                            <div class='positions_container'>
+                                <a href='./company.php?company=$company_name'>Edit Positions</a>
+                            </div>
+                            <button type='submit' name='editCompanyInfo'>Edit Company</button> 
+                        </form>
+                      </div>
+                      <script>let currPositionEdit = [$longitude, $latitude];</script>
+                      <script src='../scripts/comp-editlocation.js'></script>";
+            echo $output;
+
+        } else {
+            echo "<div class='error'>No user found</div>";
+        }
+    }
+
+
+    // Action for Editing Company Info
+    public function editcompanymodalinfo()
+    {  
+        if(isset($_POST['editCompanyInfo']))
+        {
+            $companyId = $_POST['companyId'];
+            $company_name = $_POST['company_name'];
+            $cpnumber = $_POST['cpnumber'];
+            $email = $_POST['email'];
+            $comp_location = $_POST['comp_location'];
+            $longitude = $_POST['longitude'];
+            $latitude = $_POST['latitude'];
+            $boundary_size = $_POST['boundary_size'];
+            $shifts = $_POST['shifts'];
+            $shift_span = $_POST['shift_span'];
+            $day_start = $_POST['day_start'];
+
+            if(empty($companyId) ||
+               empty($company_name) ||
+               empty($cpnumber) ||
+               empty($email) ||
+               empty($comp_location) ||
+               empty($longitude) ||
+               empty($latitude) ||
+               empty($boundary_size) ||
+               empty($shifts) ||
+               empty($shift_span) ||
+               empty($day_start)
+            ){
+                echo "<div class='error'>All input fields are required to edit</div>";
+            } else {
+                $sql = "UPDATE company
+                        SET company_name = ?,
+                            cpnumber = ?,
+                            email = ?,
+                            comp_location = ?,
+                            longitude = ?,
+                            latitude = ?,
+                            boundary_size = ?,
+                            shifts = ?,
+                            shift_span = ?,
+                            day_start = ?
+                        WHERE id = ?";
+                $stmt = $this->con()->prepare($sql);
+                $stmt->execute([$company_name, 
+                                $cpnumber,
+                                $email, 
+                                $comp_location,
+                                $longitude,
+                                $latitude,
+                                $boundary_size,
+                                $shifts,
+                                $shift_span,
+                                $day_start,
+                                $companyId]);
+                $countRow = $stmt->rowCount();
+
+                if($countRow > 0){
+                    echo "<div class='success'>Updated Successfully</div>";
+                } else {
+                    echo "<div class='error'>Updating failed</div>";
+                }
+            }
+        }
+    }
+
+
+    // Modal For Positions
+    public function editpositions($company)
+    {
+        $sql = "SELECT * FROM `positions` WHERE company = '$company'";
+        $stmt = $this->con()->query($sql);
+        while($row = $stmt->fetch()){
+            echo "<tr>
+                    <td>$row->id</td>
+                    <td>$row->position_name</td>
+                    <td>$row->price</td>
+                    <td>$row->overtime_rate</td>
+                    <td>
+                        <a href='./company.php?idPos=$row->id&actionPos=edit'>Edit</div>
+                        <a href='./company.php?idPos=$row->id&actionPos=delete'>Delete</div>
+                    </td>
+                  </tr>";
+        }
+    }
+
+    // Action For Adding of New Position
+    public function addnewpos($company)
+    {
+        if(isset($_POST['addnewpos-btn'])){
+            $position_name = $_POST['position_name'];
+            $price = $_POST['price'];
+            $ot = $_POST['ot'];
+
+            if(empty($position_name) ||
+               empty($price) ||
+               empty($ot)
+            ){
+                echo "<div class='error'>All input fields are required to add position</div>";
+            } else {
+
+                // when position name exist don't add
+                $sqlFind = "SELECT position_name FROM `positions` WHERE position_name = ?";
+                $stmtFind = $this->con()->prepare($sqlFind);
+                $stmtFind->execute([$position_name]);
+                $userFind = $stmtFind->fetch();
+                $countRowFind = $stmtFind->rowCount();
+
+                if($countRowFind > 0){
+                    echo "<div class='error'>Position Name is already exists!</div>";
+                } else {
+                    $sql = "INSERT INTO `positions`(company, position_name, price, overtime_rate)
+                            VALUES(?, ?, ?, ?)";
+                    $stmt = $this->con()->prepare($sql);
+                    $stmt->execute([$company, $position_name, $price, $ot]);
+                    $countRow = $stmt->rowCount();
+
+                    if($countRow > 0){
+                        echo "<div class='success'>Position added successfully</div>";
+                    } else {
+                        echo "<div class='error'>No position added</div>";
+                    }
+                }
+            }
+
+        }
+        
+    }
+
+    // Modal For Edit Specific Position
+    public function editSpecificPositionModal($id)
+    {
+        $sql = "SELECT * FROM `positions` WHERE id = ?";
+        $stmt = $this->con()->prepare($sql);
+        $stmt->execute([$id]);
+        $user = $stmt->fetch();
+        $countRow = $stmt->rowCount();
+
+        if($countRow > 0){
+            echo "<form method='POST'>
+                    <input type='hidden' value='$user->id' name='position_id' />
+                    <input type='text' value='$user->position_name' name='position_name' />
+                    <input type='text' value='$user->price' name='price' />
+                    <input type='text' value='$user->overtime_rate' name='overtime_rate' />
+                    <button type='submit' name='editposBtn'>Edit</button>
+                  </form>";
+        } else {
+            echo "<div class='error'>No position detected</div>";
+        }
+    }
+
+    // Action for Editing Specific Position
+    public function editSpecificPosition()
+    {
+        if(isset($_POST['editposBtn'])){
+            $positionId = $_POST['position_id'];
+            $position_name = $_POST['position_name'];
+            $price = $_POST['price'];
+            $overtime_rate = $_POST['overtime_rate'];
+
+            if(empty($positionId) ||
+               empty($position_name) ||
+               empty($price) ||
+               empty($overtime_rate)
+            ){
+                echo "<div class='error'>All input fields are required to edit</div>";
+            } else {
+                $sql = "UPDATE `positions`
+                        SET position_name = ?,
+                            price = ?,
+                            overtime_rate = ?
+                        WHERE id = ?";
+                $stmt = $this->con()->prepare($sql);
+                $stmt->execute([$position_name, $price, $overtime_rate, $positionId]);
+                $countRow = $stmt->rowCount();
+
+                if($countRow > 0){
+                    echo "<div class='success'>Updated Successfully</div>";
+                } else {
+                    echo "<div class='error'>Updating failed</div>";
+                }
+            }
+        }
+    }
+
+    // Modal For Delete Specific Position
+    public function deleteSpecificPositionModal($id)
+    {
+        $sql = "SELECT * FROM `positions` WHERE id = ?";
+        $stmt = $this->con()->prepare($sql);
+        $stmt->execute([$id]);
+        $user = $stmt->fetch();
+        $countRow = $stmt->rowCount();
+
+        if($countRow > 0){
+            echo "<form method='POST'>
+                    <input type='hidden' name='posId' value='$user->id'/>
+                    <h1>Are you sure you want to delete this position?</h1>
+                    <button type='submit' name='deletePos'>Delete</button>
+                  </form>";
+        } else {
+            echo "<div class='error'>No position found</div>";
+        }
+    }
+
+    // Action for Deleting Specific Position
+    public function deleteSpecificPosition()
+    {
+        if(isset($_POST['deletePos'])){
+            $posId = $_POST['posId'];
+
+            // select company and position name
+            $sqlFindPos = "SELECT * FROM `positions` WHERE id = ?";
+            $stmtFindPos = $this->con()->prepare($sqlFindPos);
+            $stmtFindPos->execute([$posId]);
+            $userFindPos = $stmtFindPos->fetch();
+            $countRowFindPos = $stmtFindPos->rowCount();
+
+            if($countRowFindPos > 0){
+                $sqlFindEmp = "SELECT s.*, e.*
+                               FROM schedule s
+                               INNER JOIN employee e
+                               ON s.empId = e.empId
+                               WHERE s.company = ? AND e.position = ?";
+                $stmtFindEmp = $this->con()->prepare($sqlFindEmp);
+                $stmtFindEmp->execute([$userFindPos->company, $userFindPos->position_name]);
+                $userFindEmp = $stmtFindEmp->fetch();
+                $countRowFindEmp = $stmtFindEmp->rowCount();
+
+                if($countRowFindEmp > 0){
+                    echo "<div class='error'>Can't delete. There's an employee in that position</div>";
+                } else {
+                    $sql = "DELETE FROM `positions` WHERE id = ?";
+                    $stmt = $this->con()->prepare($sql);
+                    $stmt->execute([$posId]);
+                    $countRow = $stmt->rowCount();
+        
+                    if($countRow > 0){
+                        echo "<div class='success'>Successfully deleted</div>";
+                    } else {
+                        echo "<div class='error'>Delete position failed</div>";
+                    }
+                }
+
+            } 
+        }
+    }
+
+    // Modal for Deleting Company Info
+    public function deletecompanymodal($id)
+    {
+        echo "<form method='POST'>
+                <h1>Are you sure you want to delete this company?</h1>
+                <input type='hidden' value='$id' name='companyId'/>
+                <button type='submit' name='deletecompany'>Delete</button>
+              </form>";
+    }
+
+    // Action for Deleting the Company Info
+    public function deleteCompanyFinal()
+    {
+        if(isset($_POST['deletecompany'])){
+            $companyId = $_POST['companyId'];
+
+            // select company first to get company_name
+            $sql = "SELECT company_name FROM company WHERE id = ?";
+            $stmt = $this->con()->prepare($sql);
+            $stmt->execute([$companyId]);
+            $user = $stmt->fetch();
+            $countRow = $stmt->rowCount();
+
+            if($countRow > 0){
+                // kapag may company, may access na sa company_name
+                $sqlPos = "DELETE FROM `positions` WHERE company = ?";
+                $stmtPos = $this->con()->prepare($sqlPos);
+                $stmtPos->execute([$user->company_name]);
+                $countRowPos = $stmtPos->rowCount();
+
+                // magcecreate yan ng oic kaya need tong if
+                if($countRowPos > 0){
+                    // delete mo naman si company
+                    $sqlComp = "DELETE FROM company WHERE id = ?";
+                    $stmtComp = $this->con()->prepare($sqlComp);
+                    $stmtComp->execute([$companyId]);
+                    $countRowComp = $stmtComp->rowCount();
+
+                    if($countRowComp > 0){
+                        echo "<div class='success'>Company has been already deleted</div>";
+                    } else {
+                        echo "<div class='error'>No company deleted</div>";
+                    }
+                }
+            } else {
+                echo "<div class='error'>No company detected</div>";
+            }
+
+            
+        }
+    }
+
+
+    public function informEmployeeInComp($email, $eCompanyName, 
+                                                 $eCpNumber,
+                                                 $eEmail,
+                                                 $eCompLocation,
+                                                 $eLongitude,
+                                                 $eLatitude,
+                                                 $eBoundarySize,
+                                                 $posArray,
+                                                 $priArray
+    ){
+
+
+        $posWithPri = "";
+
+        for($i = 0; $i < sizeof($posArray); $i++){
+            $posWithPri .= $posArray[$i] . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rate: " . $priArray[$i] . "<br/>";
+        }
+
+        $name = 'JTDV Incorporation';
+        $subject = 'subject kunwari';
+        $body = "Company Details has been updated. <br/>
+                 <br/>
+                 Company Name: $eCompanyName <br/>
+                 Contact Number: $eCpNumber <br/>
+                 Company Email: $eEmail <br/>
+                 Company Location: $eCompLocation <br/>
+                 Longitude: $eLongitude <br/>
+                 Latitude: $eLatitude <br/>
+                 Boundary: $eBoundarySize <br/>
+                 <br/>
+                 <h4>Positions</h4>
+                 $posWithPri
+                ";
+
+        if(!empty($email)){
+
+            $mail = new PHPMailer();
+
+            // smtp settings
+            $mail->isSMTP();
+            $mail->Host = "smtp.gmail.com";
+            $mail->SMTPAuth = true;
+            $mail->Username = $this->e_username;  // gmail address
+            $mail->Password = $this->e_password;  // gmail password
+
+            $mail->Port = 465;
+            $mail->SMTPSecure = "ssl";
+
+            // email settings
+            $mail->isHTML(true);
+            $mail->setFrom($email, $name);              // Katabi ng user image
+            $mail->addAddress($email);                  // gmail address ng pagsesendan
+            $mail->Subject = ("$email ($subject)");     // headline
+            $mail->Body = $body;                        // textarea
+
+            if($mail->send()){
+                // $status = "success";
+                $response = "Your credentials has been sent to your email";
+                echo '<br/>'.$response;
+            } else {
+                $status = "failed";
+                $response = "Something is wrong: <br/>". $mail->ErrorInfo;
+                echo '<br/>'.$status."<br/>".$response;
+            }
+        }
+    }
 
 }
 

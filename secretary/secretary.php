@@ -2,7 +2,7 @@
 require_once('../class.php');
 $sessionData = $payroll->getSessionData();
 $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
-$payroll->addSecretary($sessionData['id'], $sessionData['fullname']);
+
 
 ?>
 <!DOCTYPE html>
@@ -18,6 +18,7 @@ $payroll->addSecretary($sessionData['id'], $sessionData['fullname']);
     <link rel="stylesheet" href="../styles/mincss/secretary.min.css">
 </head>
 <body>
+    <?php $payroll->addSecretary($sessionData['id'], $sessionData['fullname']); ?>
     <div class="main-container">
         <div class="leftbar">
             <div class="logo-container">
@@ -188,5 +189,8 @@ $payroll->addSecretary($sessionData['id'], $sessionData['fullname']);
             </div>
         </div>
     </div>
+    <script>
+        
+    </script>
 </body>
 </html>

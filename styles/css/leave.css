@@ -14,6 +14,8 @@
   right: 50px;
   z-index: 99;
   color: #ffffff;
+  -webkit-animation: hideError 1.3s ease-in-out forwards;
+          animation: hideError 1.3s ease-in-out forwards;
 }
 
 .success {
@@ -25,14 +27,154 @@
   right: 50px;
   z-index: 99;
   color: #ffffff;
+  -webkit-animation: hideSuccess 1.3s ease-in-out forwards;
+          animation: hideSuccess 1.3s ease-in-out forwards;
 }
 
 .success-email {
+  background: #38b80e75;
+  padding: 10px;
+  border-radius: 5px;
+  position: absolute;
   top: 100px;
+  right: 50px;
+  z-index: 99;
+  color: #ffffff;
+  -webkit-animation: hideSuccessEmail 1.3s ease-in-out 1s forwards;
+          animation: hideSuccessEmail 1.3s ease-in-out 1s forwards;
 }
 
 .error-email {
+  background: #ff000075;
+  padding: 10px;
+  border-radius: 5px;
+  position: absolute;
   top: 100px;
+  right: 50px;
+  z-index: 99;
+  color: #ffffff;
+  -webkit-animation: hideErrorEmail 1.3s ease-in-out 1s forwards;
+          animation: hideErrorEmail 1.3s ease-in-out 1s forwards;
+}
+
+@-webkit-keyframes hideSuccess {
+  0% {
+    top: 50px;
+    opacity: 1;
+  }
+  70% {
+    top: 50px;
+    opacity: 1;
+  }
+  100% {
+    top: 20px;
+    opacity: 0;
+  }
+}
+
+@keyframes hideSuccess {
+  0% {
+    top: 50px;
+    opacity: 1;
+  }
+  70% {
+    top: 50px;
+    opacity: 1;
+  }
+  100% {
+    top: 20px;
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes hideError {
+  0% {
+    top: 50px;
+    opacity: 1;
+  }
+  70% {
+    top: 50px;
+    opacity: 1;
+  }
+  100% {
+    top: 20px;
+    opacity: 0;
+  }
+}
+
+@keyframes hideError {
+  0% {
+    top: 50px;
+    opacity: 1;
+  }
+  70% {
+    top: 50px;
+    opacity: 1;
+  }
+  100% {
+    top: 20px;
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes hideSuccessEmail {
+  0% {
+    top: 100px;
+    opacity: 1;
+  }
+  70% {
+    top: 100px;
+    opacity: 1;
+  }
+  100% {
+    top: 70px;
+    opacity: 0;
+  }
+}
+
+@keyframes hideSuccessEmail {
+  0% {
+    top: 100px;
+    opacity: 1;
+  }
+  70% {
+    top: 100px;
+    opacity: 1;
+  }
+  100% {
+    top: 70px;
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes hideErrorEmail {
+  0% {
+    top: 100px;
+    opacity: 1;
+  }
+  70% {
+    top: 100px;
+    opacity: 1;
+  }
+  100% {
+    top: 70px;
+    opacity: 0;
+  }
+}
+
+@keyframes hideErrorEmail {
+  0% {
+    top: 100px;
+    opacity: 1;
+  }
+  70% {
+    top: 100px;
+    opacity: 1;
+  }
+  100% {
+    top: 70px;
+    opacity: 0;
+  }
 }
 
 .main-container {
@@ -919,9 +1061,6 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
   padding: 35px 10px 20px 15px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;

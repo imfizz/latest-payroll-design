@@ -2,8 +2,7 @@
 require_once('../class.php');
 $sessionData = $payroll->getSessionData();
 $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
-$payroll->addCompany();
-$payroll->addCompany2(); // for modal
+$payroll->addcompany3();
 
 ?>
 <!DOCTYPE html>
@@ -22,12 +21,43 @@ $payroll->addCompany2(); // for modal
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css" type="text/css" />
     <link rel="stylesheet" href="../styles/mincss/company.min.css">
     <style>
-        #lengthInput { display: none }
-        #lengthInputOriginal { display: none }
+        #map, #map_b, 
+        #map-addmodal, #map_b-addmodal,
+        #map-viewmodal,
+        #map-editmodal, #map_b-editmodal
+         {
+            height: 400px;
+            width: 400px;
+        }
+
+        .eks {
+            height: 100px;
+            width: 100px;
+            background: hotpink;
+            display: block;
+        }
+
+        .add-modal {
+            display: none;
+            position: absolute;
+            top: 0; left: 0;
+            background: rgb(0 0 0 / 1);
+            height: 200vh;
+            width: 100vw;
+            z-index: 99;
+        }
     </style>
 </head>
 <body>
-    <div class="main-container">
+    <?php 
+        // for entire company info
+        $payroll->editcompanymodalinfo(); 
+        $payroll->deleteCompanyFinal();
+        // for position only 
+        $payroll->editSpecificPosition();
+        $payroll->deleteSpecificPosition();
+    ?>
+    <div class='main-container'>
         <div class="leftbar">
             <div class="logo-container">
                 <div class="logo"></div>
@@ -75,7 +105,7 @@ $payroll->addCompany2(); // for modal
                     <h2>Newly Added</h2>
                 </div>
                 <div class="newlyadded-cards">
-                    <?= $payroll->companyNewlyAdded(); ?>
+                    <?php $payroll->newlyaddedcompany(); ?>
                 </div>
             </div>
             <div class="companylist-container">
@@ -96,13 +126,13 @@ $payroll->addCompany2(); // for modal
                                 <tr>
                                     <th>Name</th>
                                     <th>Hired Guards</th>
-                                    <th>Type</th>
+                                    <th>Email</th>
                                     <th>Date</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?= $payroll->listofcompany(); ?>
+                                <?php $payroll->companylist(); ?>
                             </tbody>
                         </table>
                     </div>
@@ -117,7 +147,8 @@ $payroll->addCompany2(); // for modal
             <div class="form-container">
                 <div class="form-header">
                     <h2>Add Company</h2>
-                    <a id='addmodal-show'>modal</a>
+                    <!-- <a id='addmodal-show'>modal</a> -->
+                    <button type='button' id='open-modal'>open modal</button>
                 </div>
                 <div class="form-contents">
                     <form id="myForm" method="post">
@@ -160,9 +191,8 @@ $payroll->addCompany2(); // for modal
                             <label for="">Shift</label>
                             <select name="shift" required>
                                 <option value="">Select shift</option>
-                                <option value="day">Day</option>
-                                <option value="night">Night</option>
-                                <option value="both">Both</option>
+                                <option value="Day">Day</option>
+                                <option value="Night">Night</option>
                             </select>
                         </div>
                         <div>
@@ -177,23 +207,19 @@ $payroll->addCompany2(); // for modal
                             <label for="">Day Start</label>
                             <select name="day_start" required>
                                 <option value="">Select day start</option>
-                    
-                                <!-- day 8hrs -->
-                                <option value="6:00 am">6:00 AM</option>
-                                <option value="7:00 am">7:00 AM</option>
-        
+                                <option value="06:00 am">06:00 AM</option>
+                                <option value="07:00 am">07:00 AM</option>
                             </select>
                         </div>
-                        <div id="addhere-main">
+                        <div class="addhere">
                             <label for="">Position</label>
-                            <input type="number" style="display:none;" class="length-main" value="1" name="length"/>
-                            <div class="position-container">
-                                <input type="text" class="name" value="Officer in charge" name="name0" autocomplete="off" readonly/>
-                                <input type="text" class="price" name="price0" autocomplete="off" placeholder="00.00"/>
-                            </div>
+                            <input type="number" style="display:none;" id="lengthInput" name="lengthInput" value="0" />
+                            <input type="text" name="position0" value="Officer in Charge" readonly/>
+                            <input type="text" name="price0" placeholder="price0" autocomplete="off"/>
+                            <input type="text" name="ot0" placeholder="ot0" autocomplete="off"/>
                         </div>
                         <div class="addnew-container">
-                            <button type="button" class="addnew-main">+ Add new</button>
+                            <button type="button" id="addnew">+ Add new</button>
                         </div>
                         <button type="submit" name="addcompany">Add Company</button><br/>
                     </form>
@@ -203,202 +229,309 @@ $payroll->addCompany2(); // for modal
     </div>
 
 
-<div class="modal-viewcompany">
-    <div class="modal-holder">
-        <div class="viewcompany-header">
-            <h1>Add Employee</h1>
-            <span id="exit-modal-viewcompany" class="material-icons">close</span>
-        </div>
-        <div class="viewcompany-content">
-            <form id="myForm" method="post">
-                <div>
-                    <label for="company_name">Company</label>
-                    <input type="text" name="company_name" autocomplete="off" required/>
-                </div>
-                <div>
-                    <label for="cpnumber">Contact Number</label>
-                    <input type="text" name="cpnumber" autocomplete="off"/>
-                </div>
-                <div>
-                    <label for="email">Email</label>
-                    <input type="email" name="email" autocomplete="off" required/>
-                </div>
-                <div>
-                    <label for="">Trace Location</label>
-                    <div id="map-addmodal" class="trace-addmodal"></div>
-                </div>
-                <div>
-                    <label for="location_name">Address</label>
-                    <input type="text" id="location_name" name="comp_location" required/>
-                    <input type="hidden" id="longitude-addmodal" name="longitude" placeholder="Longitude" required/>
-                    <input type="hidden" id="latitude-addmodal" name="latitude" placeholder="Latitude" required/>
-                </div>
-                <div>
-                    <label for="">Set Boundary</label>
-                    <div id="map_b-addmodal"></div>
-                    <input type="hidden" name="boundary_size" placeholder="Boundary size" class="map_b_size-addmodal" required/>
-                </div>
-                <div>
-                    <label for="">Type</label>
-                    <select name="type" required>
-                        <option value="">Select type</option>
-                        <option value="manual">Manual</option>
-                        <option value="automatic">Automatic</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="">Shift</label>
-                    <select name="shift" required>
-                        <option value="">Select shift</option>
-                        <option value="day">Day</option>
-                        <option value="night">Night</option>
-                        <option value="both">Both</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="">Shift Span</label>
-                    <select name="shift_span" required>
-                        <option value="">Select span</option>
-                        <option value="8">8 hrs</option>
-                        <option value="12">12 hrs</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="">Day Start</label>
-                    <select name="day_start" required>
-                        <option value="">Select day start</option>
-                    
-                        <!-- day 8hrs -->
-                                <option value="6:00 am">6:00 AM</option>
-                        <option value="7:00 am">7:00 AM</option>
-        
-                    </select>
-                </div>
-                <div id="addhere-addmodal">
-                    <label for="">Position</label>
-                    
+
+    <!-- add modal -->
+    <div class="modal-viewcompany">
+        <div class="modal-holder">
+            <div class="viewcompany-header">
+                <h1>Add Company</h1>
+                <span id="exit-modal-viewcompany" class="material-icons">close</span>
+            </div>
+            <div class="viewcompany-content">
+                <form id="myForm" method="post">
                     <div>
-                        <input type="text" class="name-modal" name="name0" autocomplete="off" placeholder="name"/>
-                        <input type="text" class="price-modal" name="price0" autocomplete="off" placeholder="00.00"/>
-                        <input type="number" class="length2" style="display:none;" value="1" name="length"/>
+                        <label for="company_name">Company</label>
+                        <input type="text" name="company_name2" autocomplete="off" required/>
                     </div>
-                </div>
-                <div class="addnew-container">
-                    <button type="button" class="addnew2">+ Add new</button>
-                </div>
-                <div>
-                    <button type="submit" name="addcompany2">Add Company</button>
-                </div>
-            </form>
+                    <div>
+                        <label for="cpnumber">Contact Number</label>
+                        <input type="text" name="cpnumber2" autocomplete="off"/>
+                    </div>
+                    <div>
+                        <label for="email">Email</label>
+                        <input type="email" name="email2" autocomplete="off" required/>
+                    </div>
+                    <div>
+                        <label for="">Trace Location</label>
+                        <div id="map-addmodal" class="trace-addmodal"></div>
+                    </div>
+                    <div>
+                        <label for="location_name">Address</label>
+                        <input type="text" id="location_name" name="comp_location2" required/>
+                        <input type="hidden" id="longitude-addmodal" name="longitude2" placeholder="Longitude" required/>
+                        <input type="hidden" id="latitude-addmodal" name="latitude2" placeholder="Latitude" required/>
+                    </div>
+                    <div>
+                        <label for="">Set Boundary</label>
+                        <div id="map_b-addmodal"></div>
+                        <input type="hidden" name="boundary_size2" placeholder="Boundary size" class="map_b_size-addmodal" required/>
+                    </div>
+                    <div>
+                        <!-- must removed -->
+                        <label for="">Type</label>
+                        <select name="type" required>
+                            <option value="">Select type</option>
+                            <option value="manual">Manual</option>
+                            <option value="automatic">Automatic</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="">Shift</label>
+                        <select name="shift2" required>
+                            <option value="">Select shift</option>
+                            <option value="Day">Day</option>
+                            <option value="Night">Night</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="">Shift Span</label>
+                        <select name="shift_span2" required>
+                            <option value="">Select span</option>
+                            <option value="8">8 hrs</option>
+                            <option value="12">12 hrs</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="">Day Start</label>
+                        <select name="day_start2" required>
+                            <option value="">Select day start</option>
+                            <option value="06:00 am">06:00 AM</option>
+                            <option value="07:00 am">07:00 AM</option>
+                        </select>
+                    </div>
+                    <div class="addhere-addmodal">
+                        <label for="">Position</label>
+                        <input type="text" name="position0" value="Officer in Charge" readonly/>
+                        <input type="text" name="price0" placeholder="price0" autocomplete="off" required/>
+                        <input type="text" name="ot0" placeholder="ot0" autocomplete="off" required/>
+                        <input type="number" id="lengthInput-addmodal" name="lengthInput2" style="display:none;" value="0" />
+                    </div>
+                    <div class="addnew-container">
+                        <button type="button" id="addnew-addmodal">+ Add new</button>
+                    </div>
+                    <div>
+                        <button type="submit" name="addcompany2">Add Company</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="modal-triple">
-    <div class="modal-holder">
-        <div class="triplecompany-header">
-            <h1 id="modal-h1">Edit Company</h1>
-            <span id="exit-modal-triplecompany" class="material-icons">close</span>
-        </div>
-        <div class="triplecompany-content">
-            <form method="post" id="modalform">
-                <div>
-                    <label for="company_name_m">Name</label>
-                    <input type="text" name="company_name_m" id="company_name_m" required/>
-                </div>
+     <!-- crud functionality for company -->
+     <?php if(isset($_GET['id']) && isset($_GET['action']) && $_GET['action'] == 'view'){ 
+        $payroll->viewcompanymodal($_GET['id']);
+    } ?>
 
-                <div>
-                    <label for="contact_number_m">Contact Number</label>
-                    <input type="text" name="contact_number_m" id="contact_number_m" required/>
-                </div>
+    <?php if(isset($_GET['id']) && isset($_GET['action']) && $_GET['action'] == 'edit'){ 
+        $payroll->editcompanymodal($_GET['id']);
+    } ?>
 
-                <div>
-                    <label for="email_m">Email</label>
-                    <input type="email" name="email_m" id="email_m" required/>
-                </div>
-                <div>
-                    <label for="">Trace Location</label>
-                    <!-- this will be a google map -->
-                    <div id="map2" class="trace-triplemodal"></div>
-                </div>
-                
+    <?php if(isset($_GET['id']) && isset($_GET['action']) && $_GET['action'] == 'delete'){ 
+        $payroll->deletecompanymodal($_GET['id']);
+    } ?>
 
-                <div>
-                    <label for="comp_location_m">Address</label>
-                    <input type="text" name="comp_location_m" id="comp_location_m" required/>
-                    <input type="hidden" name="longitude_m" id="longitude_m" placeholder="longitude" required/>
-                    <input type="hidden" name="latitude_m" id="latitude_m" placeholder="latitude" required/>
-                </div>
-                
-                <div>
-                    <label for="">Set Boundary</label>
-                    <div id="map_b_m"></div>
-                    <input type="hidden" name="boundary_size_m" id="boundary_size_m" class="map_b_size_m" required/>
-                </div>
-                <div>
-                    <label for="type_m">Type</label>
-                    <select name="type_m" id="type_m" required>
-                        <option value="manual">Manual</option>
-                        <option value="automatic">Automatic</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="">Shift</label>
-                    <select name="shift_m" id="shift_m" required>
-                        <option value="day">Day</option>
-                        <option value="night">Night</option>
-                        <option value="both">Both</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="">Shift Span</label>
-                    <select name="shift_span_m" id="shift_span_m" required>
-                        <option value="8">8 hrs</option>
-                        <option value="12">12 hrs</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="">Day Start</label>
-                    <select name="day_start_m" id="day_start_m" required>
-                        <option value="6:00 am">6:00 AM</option>
-                        <option value="7:00 am">7:00 AM</option>
-        
-                    </select>
-                </div>
 
-                <div id="addhere">
-                    <label for="">Position</label>
-                    <div>
-                        <input type="text" id="position0_m"/>
-                        <input type="text" name="price0" id="price0_m"/>
-                    </div>
-                </div>
+    <!-- when user wants to view the company positions -->
+    <?php if(isset($_GET['company'])){?>
+        <table>
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>position</th>
+                    <th>price</th>
+                    <th>overtime_rate</th>
+                    <th>action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $payroll->editpositions($_GET['company']); ?> 
+            </tbody>
+        </table>
+        <a href="./company.php?company=<?=$_GET['company'];?>&action=addnewpos">Add Position</a>
+    <?php } ?>
 
-                <div class="addnew-container">
-                    <button type="button" id="addnewmodal">Add New</button>
-                </div>
-                <div>
-                    <button type="submit" name="editcompany" id="editcompany">Edit</button>
-                    <button type="submit" name="deletecompany" id="deletecompany">Delete</button>
-                </div>
+    <?php if(isset($_GET['company']) && isset($_GET['action']) && $_GET['action'] == 'addnewpos'){ ?>
+        <div class='addnewpos-modal'>
+            <h1>Add New Position</h1>
+            <form method="POST">
+                <input type="text" name='position_name' placeholder='Position Name'/>
+                <input type="text" name='price' placeholder='Price'/>
+                <input type="text" name='ot' placeholder='Overtime Rate'/>
+                <button type='submit' name='addnewpos-btn'>Add Position</button>
             </form>
         </div>
-    </div>
-    
-</div>
-<script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
-<script src="../scripts/company2.js"></script>
+    <?php $payroll->addnewpos($_GET['company']); // action: add
+    } ?>
 
-<?php
+    <!-- when user wants to edit specific position -->
+    <?php if(isset($_GET['idPos']) && isset($_GET['actionPos']) && $_GET['actionPos'] == 'edit'){ 
+        $payroll->editSpecificPositionModal($_GET['idPos']);
+    } ?>
 
-if(isset($_GET['id']) && isset($_GET['act']) && $_GET['act'] == 'view'){
-    $payroll->viewcompany($_GET['id']);
-} elseif(isset($_GET['id']) && isset($_GET['act']) && $_GET['act'] == 'edit'){
-    $payroll->editcompany($_GET['id']);
-} elseif(isset($_GET['id']) && isset($_GET['act']) && $_GET['act'] == 'delete'){
-    $payroll->deletecompany($_GET['id']);
-}
+    <!-- when user wants to delete specific position -->
+    <?php if(isset($_GET['idPos']) && isset($_GET['actionPos']) && $_GET['actionPos'] == 'delete'){ 
+        $payroll->deleteSpecificPositionModal($_GET['idPos']);
+    } ?>
+    <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+    <script>
+        const addnew = document.querySelector('#addnew');
+        addnew.onclick = () => {
 
-?>
+            let addhere = document.querySelector('.addhere');
+            let inputLength = document.querySelector('#lengthInput');
+
+            // convert to int
+            let totalInput = parseInt(inputLength.value);
+            inputLength.value = parseInt(totalInput + 1);
+
+            // create elements
+            let div = document.createElement('div');
+            let pos = document.createElement('input');
+            let price = document.createElement('input');
+            let ot = document.createElement('input');
+            let eks = document.createElement('span');
+
+            pos.setAttribute('name', `position${inputLength.value}`);
+            pos.setAttribute('placeholder', `position${inputLength.value}`);
+            pos.setAttribute('type', 'text');
+            price.setAttribute('name', `price${inputLength.value}`);
+            price.setAttribute('placeholder', `price${inputLength.value}`);
+            price.setAttribute('type', 'text');
+            ot.setAttribute('name', `ot${inputLength.value}`);
+            ot.setAttribute('placeholder', `ot${inputLength.value}`);
+            ot.setAttribute('type', 'text');
+            eks.setAttribute('onclick', 'getParentElement(this)');
+            eks.setAttribute('class', 'eks');
+
+
+            // place to created div
+            div.appendChild(pos);
+            div.appendChild(price);
+            div.appendChild(ot);
+            div.appendChild(eks);
+
+            // add to existing parent element
+            addhere.appendChild(div);
+        }
+
+        function getParentElement(e){
+
+            let lengthInput = document.querySelector('#lengthInput');
+            lengthInput.value = parseInt(lengthInput.value) - parseInt(1);
+            // lengthInput.value = parseInt(lengthInput.value);
+
+            e.parentElement.children[0].value = ''; //position
+            e.parentElement.children[1].value = ''; //price
+            e.parentElement.children[2].value = ''; //ot
+
+            let myparent = e.parentElement; // div na walang att
+
+
+            let addhere = e.parentElement.parentElement; // addhere
+            let mydiv = addhere.querySelectorAll('div'); // object
+
+            const mydivArray = Object.values(mydiv); // array
+
+            // object
+            let filteredDiv = mydivArray.filter( div => { return div != myparent; });
+            const filteredDivArray = Object.values(filteredDiv); // array
+            console.log(filteredDiv);
+            for(let i = 0; i < filteredDivArray.length; i++){
+                filteredDivArray[i].children[0].setAttribute('name', `position${i+1}`);
+                filteredDivArray[i].children[1].setAttribute('name', `price${i+1}`);
+                filteredDivArray[i].children[2].setAttribute('name', `ot${i+1}`);
+            }
+
+            myparent.remove();
+        }
+
+        // open add modal
+        const openModalBtn = document.querySelector('#open-modal');
+        openModalBtn.onclick = () => {
+            let addModal = document.querySelector('.modal-viewcompany');
+            addModal.style.display = 'flex';
+
+        }
+
+        // close add modal
+        let exitModalViewCompany = document.querySelector("#exit-modal-viewcompany");
+        exitModalViewCompany.addEventListener('click', e => {
+            let viewcompanyModal = document.querySelector('.modal-viewcompany');
+            viewcompanyModal.style.display = "none";
+        });
+
+        // for add modal
+        const addnewAddModal = document.querySelector('#addnew-addmodal');
+        addnewAddModal.onclick = () => {
+
+            let addhere = document.querySelector('.addhere-addmodal');
+            let inputLength = document.querySelector('#lengthInput-addmodal');
+
+            // convert to int
+            let totalInput = parseInt(inputLength.value);
+            inputLength.value = parseInt(totalInput + 1);
+
+            // create elements
+            let div = document.createElement('div');
+            let pos = document.createElement('input');
+            let price = document.createElement('input');
+            let ot = document.createElement('input');
+            let eks = document.createElement('span');
+
+            pos.setAttribute('name', `position${inputLength.value}`);
+            pos.setAttribute('placeholder', `position${inputLength.value}`);
+            pos.setAttribute('type', 'text');
+            price.setAttribute('name', `price${inputLength.value}`);
+            price.setAttribute('placeholder', `price${inputLength.value}`);
+            price.setAttribute('type', 'text');
+            ot.setAttribute('name', `ot${inputLength.value}`);
+            ot.setAttribute('placeholder', `ot${inputLength.value}`);
+            ot.setAttribute('type', 'text');
+            eks.setAttribute('onclick', 'getParentElement2(this)');
+            eks.setAttribute('class', 'eks');
+
+
+            // place to created div
+            div.appendChild(pos);
+            div.appendChild(price);
+            div.appendChild(ot);
+            div.appendChild(eks);
+
+            // add to existing parent element
+            addhere.appendChild(div);
+        }
+
+        function getParentElement2(e){
+
+            let lengthInput = document.querySelector('#lengthInput-addmodal');
+            lengthInput.value = parseInt(lengthInput.value) - parseInt(1);
+            // lengthInput.value = parseInt(lengthInput.value);
+
+            e.parentElement.children[0].value = ''; //position
+            e.parentElement.children[1].value = ''; //price
+            e.parentElement.children[2].value = ''; //ot
+
+            let myparent = e.parentElement; // div na walang att
+
+
+            let addhere = e.parentElement.parentElement; // addhere
+            let mydiv = addhere.querySelectorAll('div'); // object
+
+            const mydivArray = Object.values(mydiv); // array
+
+            // object
+            let filteredDiv = mydivArray.filter( div => { return div != myparent; });
+            const filteredDivArray = Object.values(filteredDiv); // array
+            console.log(filteredDiv);
+            for(let i = 0; i < filteredDivArray.length; i++){
+                filteredDivArray[i].children[0].setAttribute('name', `position${i+1}`);
+                filteredDivArray[i].children[1].setAttribute('name', `price${i+1}`);
+                filteredDivArray[i].children[2].setAttribute('name', `ot${i+1}`);
+            }
+
+            myparent.remove();
+        }
+    </script>
+    <script src='../scripts/comp-location.js'></script>
 </body>
 </html>
