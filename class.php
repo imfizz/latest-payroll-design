@@ -2979,7 +2979,7 @@ Class Payroll
 
     public function dashboardStatistics()
     {
-        $sql = "SELECT * FROM employee";
+        $sql = "SELECT * FROM employee WHERE position != NULL";
         $stmt = $this->con()->prepare($sql);
         $stmt->execute([]);
         $users = $stmt->fetch();
@@ -3018,9 +3018,6 @@ Class Payroll
                         </div>
                       </div>";
             }
-
-            
-
         } else {
             echo "<div class='cards'>
                     <div>
@@ -3662,7 +3659,6 @@ Class Payroll
 
 
     // for new company
-
     // for newly added company
     public function newlyaddedcompany()
     {
@@ -3725,9 +3721,11 @@ Class Payroll
                             </a>";
             }
 
+            $hiredGuards = $row->hired_guards == NULL || '' ? 0 : $row->hired_guards;
+
             echo "<tr>
                     <td>$row->company_name</td>
-                    <td>$row->hired_guards</td>
+                    <td>$hiredGuards</td>
                     <td>$row->email</td>
                     <td>$row->date</td>
                     <td>
@@ -3743,7 +3741,7 @@ Class Payroll
         }
     }
 
-    public function addcompany3()
+    public function addcompany()
     {
         if(isset($_POST['addcompany'])){
             $company_name = $_POST['company_name'];
@@ -3959,79 +3957,79 @@ Class Payroll
             $day_start = $user->day_start;
 
             $output = "<div class='view-modal'>
-                        <h1>View Modal</h1>
-                        <form method='POST'>
-                            <div>
-                                <label for='company_name'>Company Name</label>
-                                <input type='text' value='$company_name' readonly/>
+                        <div class='modal-holder'>
+                            <div class='view-modal-header'>
+                                <h1>View Modal</h1>
+                                <span class='material-icons' id='view-modal-close'>close</span>
                             </div>
-                            <div>
-                                <label for='cpnumber'>Cp Number</label>
-                                <input type='text' value='$cpnumber' readonly/>
-                            </div>
-                            <div>
-                                <label for='email'>Email</label>
-                                <input type='email' value='$email' readonly/>
-                            </div>
-                            <div>
-                                <div id='map-viewmodal'></div>
-                            </div>
-                            <div>
-                                <label for='comp_location'>Comp Location</label>
-                                <input type='text' value='$comp_location' readonly/>
-                            </div>
-                            <div>
-                                <label for='longitude'>Longitude</label>
-                                <input type='text' id='longitude-viewmodal' value='$longitude' readonly/>
-                            </div>
-                            <div>
-                                <label for='latitude'>Latitude</label>
-                                <input type='text' id='latitude-viewmodal' value='$latitude' readonly/>
-                            </div>
-                            <div>
-                                <label for='boundary_size'>Boundary Size</label>
-                                <input type='text' value='$boundary_size' readonly/>
-                            </div>
-                            <div>
-                                <label for='shifts'>Shift</label>
-                                <select disabled>
-                                    <option value='$shifts'>$shifts</option>
-                                </select>
-                            </div>       
-                            <div>
-                                <label for='shift_span'>Shift Span</label>
-                                <select disabled>
-                                    <option value='$shift_span'>$shift_span</option>
-                                </select>
-                            </div>            
-                            <div>
-                                <label for='day_start'>Day Start</label>
-                                <select disabled>
-                                    <option value='$day_start'>$day_start</option>
-                                </select>
-                            </div>         
-                            <div class='positions_container'>
-                                <h1>Positions</h1>";
+                            <div class='view-modal-content'>
+                                <form method='POST'>
+                                    <div>
+                                        <label for='company_name'>Company</label>
+                                        <input type='text' value='$company_name' readonly/>
+                                    </div>
+                                    <div>
+                                        <label for='cpnumber'>Contact Number</label>
+                                        <input type='text' value='$cpnumber' readonly/>
+                                    </div>
+                                    <div>
+                                        <label for='email'>Email</label>
+                                        <input type='email' value='$email' readonly/>
+                                    </div>
+                                    <div>
+                                        <div id='map-viewmodal'></div>
+                                    </div>
+                                    <div>
+                                        <label for='comp_location'>Address</label>
+                                        <input type='text' value='$comp_location' readonly/>
+                                        <input type='hidden' id='longitude-viewmodal' value='$longitude' readonly/>
+                                        <input type='hidden' id='latitude-viewmodal' value='$latitude' readonly/>
+                                    </div>
+                                    <div>
+                                        <label for='boundary_size'>Boundary Size</label>
+                                        <input type='text' value='$boundary_size' readonly/>
+                                    </div>
+                                    <div>
+                                        <label for='shifts'>Shift</label>
+                                        <select disabled>
+                                            <option value='$shifts'>$shifts</option>
+                                        </select>
+                                    </div>       
+                                    <div>
+                                        <label for='shift_span'>Shift Span</label>
+                                        <select disabled>
+                                            <option value='$shift_span'>$shift_span</option>
+                                        </select>
+                                    </div>            
+                                    <div>
+                                        <label for='day_start'>Day Start</label>
+                                        <select disabled>
+                                            <option value='$day_start'>$day_start</option>
+                                        </select>
+                                    </div>         
+                                    <div>
+                                        <label>Positions</label>";
 
             $sqlPosition = "SELECT * FROM `positions` WHERE `company` = '$company_name'";
             $stmtPosition = $this->con()->query($sqlPosition);
             while($rowPosition = $stmtPosition->fetch()){
-                    $output .= "<div>
-                                    <span>$rowPosition->position_name</span>
-                                    <span>$rowPosition->price</span>
-                                    <span>$rowPosition->overtime_rate</span>
-                                </div>";
+                            $output .= "<div class='positions_container'>
+                                            <span>$rowPosition->position_name</span>
+                                            <span>$rowPosition->price</span>
+                                            <span>$rowPosition->overtime_rate</span>
+                                        </div>";
             }
-
-            $output .= "    </div>
-                        </form>
+            $output .= "            </div>
+                                </form>
+                            </div>
+                        </div>
                       </div>
                       <script>let currPositionView = [$longitude, $latitude];</script>
                       <script src='../scripts/comp-viewlocation.js'></script>";
             echo $output;
 
         } else {
-            echo "no user found";
+            echo "<div class='error'>No user found</div>";
         }
     }
 
@@ -4070,97 +4068,98 @@ Class Payroll
             $isEnable = "";
 
             if($countRowFind > 0){
-                $isEnable .= "<div>
+                $isEnable .= "  <div>
                                     <label for='shifts'>Shifts</label>
-                                    <select name='shifts'>
+                                    <select name='shifts' required>
                                         <option value='$shifts' selected>$shifts</option>
                                         <option value='$shiftDisabled' disabled>$shiftDisabled</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label for='shift_span'>Shift Span</label>
-                                    <select name='shift_span'>
+                                    <select name='shift_span' required>
                                         <option value='$shift_span' selected>$shift_span</option>
                                         <option value='$shift_spanDisabled' disabled>$shift_spanDisabled</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label for='day_start'>Day Start</label>
-                                    <select name='day_start'>
+                                    <select name='day_start' required>
                                         <option value='$day_start' selected>$day_start</option>
                                         <option value='$day_startDisabled' disabled>$day_startDisabled</option>
                                     </select>
-                              </div>";
+                                </div>";
             } else {
-                $isEnable .= "<div>
+                $isEnable .= "  <div>
                                     <label for='shifts'>Shifts</label>
-                                    <select name='shifts'>
+                                    <select name='shifts' required>
                                         <option value='$shifts' selected>$shifts</option>
                                         <option value='$shiftDisabled'>$shiftDisabled</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label for='shift_span'>Shift Span</label>
-                                    <select name='shift_span'>
+                                    <select name='shift_span' required>
                                         <option value='$shift_span' selected>$shift_span</option>
                                         <option value='$shift_spanDisabled'>$shift_spanDisabled</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label for='day_start'>Day Start</label>
-                                    <select name='day_start'>
+                                    <select name='day_start' required>
                                         <option value='$day_start' selected>$day_start</option>
                                         <option value='$day_startDisabled'>$day_startDisabled</option>
                                     </select>
-                              </div>";
+                                </div>";
             }
 
-
-
             $output = "<div class='edit-modal'>
-                        <h1>Edit Modal</h1>
-                        <form method='POST'>
-                                <input type='hidden' name='companyId' value='$id'/>
-                            <div>
-                                <label for='company_name'>Company Name</label>
-                                <input type='text' name='company_name' value='$company_name' />
+                        <div class='modal-holder'>
+                            <div class='edit-modal-header'>
+                                <h1>Edit Modal</h1>
+                                <span class='material-icons' id='edit-modal-close'>close</span>
                             </div>
-                            <div>
-                                <label for='cpnumber'>Cp Number</label>
-                                <input type='text' name='cpnumber' value='$cpnumber' />
+                            <div class='edit-modal-content'>
+                                <form method='POST'>
+                                    <div>
+                                        <input type='hidden' name='companyId' value='$id' required/>
+                                        <label for='company_name'>Company</label>
+                                        <input type='text' name='company_name' value='$company_name' autocomplete='off' required/>
+                                    </div>
+                                    <div>
+                                        <label for='cpnumber'>Contact Number</label>
+                                        <input type='text' name='cpnumber' value='$cpnumber' autocomplete='off' required/>
+                                    </div>
+                                    <div>
+                                        <label for='email'>Email</label>
+                                        <input type='email' name='email' value='$email' autocomplete='off' required/>
+                                    </div>
+                                    <div>
+                                        <div id='map-editmodal'></div>
+                                    </div>
+                                    <div>
+                                        <label for='comp_location'>Address</label>
+                                        <input type='text' name='comp_location' value='$comp_location' autocomplete='off' required/>
+                                        <input type='hidden' name='longitude' id='longitude-editmodal' value='$longitude' />
+                                        <input type='hidden' name='latitude' id='latitude-editmodal' value='$latitude' />
+                                    </div>
+                                    <div>
+                                        <label for='boundary_size'>Boundary Size</label>
+                                        <div id='map_b-editmodal'></div>
+                                        <input type='hidden' name='boundary_size' class='map_b_size-editmodal' value='$boundary_size' autocomplete='off' required/>
+                                    </div>
+                                    $isEnable
+                                    <div>
+                                        <div class='positions_container'>
+                                            <button type='button'><a href='./company.php?company=$company_name'>View Positions</a></button>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button type='submit' name='editCompanyInfo'>Edit Company</button> 
+                                    </div>
+                                </form>
                             </div>
-                            <div>
-                                <label for='email'>Email</label>
-                                <input type='email' name='email' value='$email' />
-                            </div>
-                            <div>
-                                <div id='map-editmodal'></div>
-                            </div>
-                            <div>
-                                <label for='comp_location'>Comp Location</label>
-                                <input type='text' name='comp_location' value='$comp_location' />
-                            </div>
-                            <div>
-                                <label for='longitude'>Longitude</label>
-                                <input type='text' name='longitude' id='longitude-editmodal' value='$longitude' />
-                            </div>
-                            <div>
-                                <label for='latitude'>Latitude</label>
-                                <input type='text' name='latitude' id='latitude-editmodal' value='$latitude' />
-                            </div>
-                            <div>
-                                <div id='map_b-editmodal'></div>
-                            </div>
-                            <div>
-                                <label for='boundary_size'>Boundary Size</label>
-                                <input type='text' name='boundary_size' class='map_b_size-editmodal' value='$boundary_size' />
-                            </div>
-                            $isEnable
-                            <div class='positions_container'>
-                                <a href='./company.php?company=$company_name'>Edit Positions</a>
-                            </div>
-                            <button type='submit' name='editCompanyInfo'>Edit Company</button> 
-                        </form>
+                        </div>
                       </div>
                       <script>let currPositionEdit = [$longitude, $latitude];</script>
                       <script src='../scripts/comp-editlocation.js'></script>";
@@ -4170,7 +4169,6 @@ Class Payroll
             echo "<div class='error'>No user found</div>";
         }
     }
-
 
     // Action for Editing Company Info
     public function editcompanymodalinfo()
@@ -4238,7 +4236,6 @@ Class Payroll
         }
     }
 
-
     // Modal For Positions
     public function editpositions($company)
     {
@@ -4251,8 +4248,12 @@ Class Payroll
                     <td>$row->price</td>
                     <td>$row->overtime_rate</td>
                     <td>
-                        <a href='./company.php?idPos=$row->id&actionPos=edit'>Edit</div>
-                        <a href='./company.php?idPos=$row->id&actionPos=delete'>Delete</div>
+                        <a href='./company.php?idPos=$row->id&actionPos=edit'>
+                            <span class='material-icons'>edit</span>
+                        </a>
+                        <a href='./company.php?idPos=$row->id&actionPos=delete'>
+                            <span class='material-icons'>delete</span>
+                        </a>
                     </td>
                   </tr>";
         }
@@ -4274,9 +4275,9 @@ Class Payroll
             } else {
 
                 // when position name exist don't add
-                $sqlFind = "SELECT position_name FROM `positions` WHERE position_name = ?";
+                $sqlFind = "SELECT position_name FROM `positions` WHERE position_name = ? AND company = ?";
                 $stmtFind = $this->con()->prepare($sqlFind);
-                $stmtFind->execute([$position_name]);
+                $stmtFind->execute([$position_name, $company]);
                 $userFind = $stmtFind->fetch();
                 $countRowFind = $stmtFind->rowCount();
 
@@ -4311,13 +4312,42 @@ Class Payroll
         $countRow = $stmt->rowCount();
 
         if($countRow > 0){
-            echo "<form method='POST'>
-                    <input type='hidden' value='$user->id' name='position_id' />
-                    <input type='text' value='$user->position_name' name='position_name' />
-                    <input type='text' value='$user->price' name='price' />
-                    <input type='text' value='$user->overtime_rate' name='overtime_rate' />
-                    <button type='submit' name='editposBtn'>Edit</button>
-                  </form>";
+            echo "<div class='editpos-modal'>
+                    <div class='modal-holder'>
+                        <div class='editpos-header'>
+                            <h1>Edit Position</h1>
+                            <span class='material-icons' id='editpos-modal-close'>close</span>
+                        </div>
+                        <div class='editpos-content'>
+                            <form method='POST'>
+                                <div>
+                                    <input type='hidden' value='$user->id' name='position_id' required/>
+                                    <label for=''>Position</label>
+                                    <input type='text' name='position_name' value='$user->position_name' autocomplete='off' required/>
+                                </div>
+                                <div>
+                                    <label for=''>Rates per hour</label>
+                                    <input type='text' name='price' value='$user->price' placeholder='00.00' autocomplete='off' required/>
+                                </div>
+                                <div>
+                                    <label for=''>Overtime Rate</label>
+                                    <input type='text' name='overtime_rate' value='$user->overtime_rate' placeholder='00.00' autocomplete='off' required/>
+                                </div>
+                                <div>
+                                    <button type='submit' name='editposBtn'>Edit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                  </div>
+                  <script>
+                    // close modal
+                    let editposModalClose = document.querySelector('#editpos-modal-close');
+                    editposModalClose.onclick = () => {
+                        let editposModal = document.querySelector('.editpos-modal');
+                        editposModal.style.display = 'none !important';
+                    }
+                  </script>";
         } else {
             echo "<div class='error'>No position detected</div>";
         }
@@ -4367,13 +4397,31 @@ Class Payroll
         $countRow = $stmt->rowCount();
 
         if($countRow > 0){
-            echo "<form method='POST'>
-                    <input type='hidden' name='posId' value='$user->id'/>
-                    <h1>Are you sure you want to delete this position?</h1>
-                    <button type='submit' name='deletePos'>Delete</button>
-                  </form>";
-        } else {
-            echo "<div class='error'>No position found</div>";
+            echo "<div class='deletepos-modal'>
+                    <div class='modal-holder'>
+                        <div class='deletepos-header'>
+                            <h1>Delete Position</h1>
+                            <span class='material-icons' id='deletepos-modal-close'>close</span>
+                        </div>
+                        <div class='deletepos-content'>
+                            <form method='POST'>
+                                <input type='hidden' name='posId' value='$user->id' required/>
+                                <h1>Are you sure you want to delete this position?</h1>
+                                <div>
+                                    <button type='submit' name='deletePos'>Delete</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                  </div>
+                  <script>
+                    // close modal
+                    let deleteposModalClose = document.querySelector('#deletepos-modal-close');
+                    deleteposModalClose.onclick = () => {
+                        let deleteposModal = document.querySelector('.deletepos-modal');
+                        deleteposModal.style.display = 'none !important';
+                    }
+                  </script>";
         }
     }
 
@@ -4423,11 +4471,31 @@ Class Payroll
     // Modal for Deleting Company Info
     public function deletecompanymodal($id)
     {
-        echo "<form method='POST'>
-                <h1>Are you sure you want to delete this company?</h1>
-                <input type='hidden' value='$id' name='companyId'/>
-                <button type='submit' name='deletecompany'>Delete</button>
-              </form>";
+        echo "<div class='delete-modal'>
+                <div class='modal-holder'>
+                    <div class='delete-header'>
+                        <h1>Delete Position</h1>
+                        <span class='material-icons' id='delete-modal-close'>close</span>
+                    </div>
+                    <div class='delete-content'>
+                        <form method='POST'>
+                            <input type='hidden' value='$id' name='companyId' required/>
+                            <h1>Are you sure you want to delete this company?</h1>
+                            <div>
+                                <button type='submit' name='deletecompany'>Delete</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+              </div>
+              <script>
+                // close modal
+                let deleteModalClose = document.querySelector('#delete-modal-close');
+                deleteModalClose.onclick = () => {
+                    let deleteModal = document.querySelector('.delete-modal');
+                    deleteModal.style.display = 'none !important';
+                }
+              </script>";
     }
 
     // Action for Deleting the Company Info

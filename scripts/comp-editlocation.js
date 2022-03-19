@@ -152,3 +152,11 @@ navigator.geolocation.getCurrentPosition((pos) => {
 
     mapEditModal.addControl(geocoder);
 });
+
+
+// close modal
+let editModalClose = document.querySelector('#edit-modal-close');
+editModalClose.onclick = () => {
+    let editModal = document.querySelector('.edit-modal');
+    editModal.style.display = 'none !important';
+}

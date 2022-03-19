@@ -2,7 +2,7 @@
 require_once('../class.php');
 $sessionData = $payroll->getSessionData();
 $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
-$payroll->addcompany3();
+$payroll->addcompany();
 
 ?>
 <!DOCTYPE html>
@@ -21,22 +21,6 @@ $payroll->addcompany3();
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css" type="text/css" />
     <link rel="stylesheet" href="../styles/mincss/company.min.css">
     <style>
-        #map, #map_b, 
-        #map-addmodal, #map_b-addmodal,
-        #map-viewmodal,
-        #map-editmodal, #map_b-editmodal
-         {
-            height: 400px;
-            width: 400px;
-        }
-
-        .eks {
-            height: 100px;
-            width: 100px;
-            background: hotpink;
-            display: block;
-        }
-
         .add-modal {
             display: none;
             position: absolute;
@@ -148,7 +132,7 @@ $payroll->addcompany3();
                 <div class="form-header">
                     <h2>Add Company</h2>
                     <!-- <a id='addmodal-show'>modal</a> -->
-                    <button type='button' id='open-modal'>open modal</button>
+                    <button type='button' id='open-modal'>modal</button>
                 </div>
                 <div class="form-contents">
                     <form id="myForm" method="post">
@@ -180,14 +164,6 @@ $payroll->addcompany3();
                             <input type="hidden" name="boundary_size" placeholder="Boundary size" class="map_b_size" required/>
                         </div>
                         <div>
-                            <label for="">Type</label>
-                            <select name="type" required>
-                                <option value="">Select type</option>
-                                <option value="manual">Manual</option>
-                                <option value="automatic">Automatic</option>
-                            </select>
-                        </div>
-                        <div>
                             <label for="">Shift</label>
                             <select name="shift" required>
                                 <option value="">Select shift</option>
@@ -214,9 +190,11 @@ $payroll->addcompany3();
                         <div class="addhere">
                             <label for="">Position</label>
                             <input type="number" style="display:none;" id="lengthInput" name="lengthInput" value="0" />
-                            <input type="text" name="position0" value="Officer in Charge" readonly/>
-                            <input type="text" name="price0" placeholder="price0" autocomplete="off"/>
-                            <input type="text" name="ot0" placeholder="ot0" autocomplete="off"/>
+                            <section>
+                                <input type="text" name="position0" value="Officer in Charge" readonly/>
+                                <input type="text" name="price0" placeholder="00.00" autocomplete="off"/>
+                                <input type="text" name="ot0" placeholder="00.00" autocomplete="off"/>
+                            </section>
                         </div>
                         <div class="addnew-container">
                             <button type="button" id="addnew">+ Add new</button>
@@ -267,15 +245,6 @@ $payroll->addcompany3();
                         <input type="hidden" name="boundary_size2" placeholder="Boundary size" class="map_b_size-addmodal" required/>
                     </div>
                     <div>
-                        <!-- must removed -->
-                        <label for="">Type</label>
-                        <select name="type" required>
-                            <option value="">Select type</option>
-                            <option value="manual">Manual</option>
-                            <option value="automatic">Automatic</option>
-                        </select>
-                    </div>
-                    <div>
                         <label for="">Shift</label>
                         <select name="shift2" required>
                             <option value="">Select shift</option>
@@ -301,10 +270,12 @@ $payroll->addcompany3();
                     </div>
                     <div class="addhere-addmodal">
                         <label for="">Position</label>
-                        <input type="text" name="position0" value="Officer in Charge" readonly/>
-                        <input type="text" name="price0" placeholder="price0" autocomplete="off" required/>
-                        <input type="text" name="ot0" placeholder="ot0" autocomplete="off" required/>
                         <input type="number" id="lengthInput-addmodal" name="lengthInput2" style="display:none;" value="0" />
+                        <section>
+                            <input type="text" name="position0" value="Officer in Charge" readonly/>
+                            <input type="text" name="price0" placeholder="00.00" autocomplete="off" required/>
+                            <input type="text" name="ot0" placeholder="00.00" autocomplete="off" required/>
+                        </section>
                     </div>
                     <div class="addnew-container">
                         <button type="button" id="addnew-addmodal">+ Add new</button>
@@ -333,32 +304,72 @@ $payroll->addcompany3();
 
     <!-- when user wants to view the company positions -->
     <?php if(isset($_GET['company'])){?>
-        <table>
-            <thead>
-                <tr>
-                    <th>id</th>
-                    <th>position</th>
-                    <th>price</th>
-                    <th>overtime_rate</th>
-                    <th>action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php $payroll->editpositions($_GET['company']); ?> 
-            </tbody>
-        </table>
-        <a href="./company.php?company=<?=$_GET['company'];?>&action=addnewpos">Add Position</a>
+        <div class="editpositions-modal">
+            <div class="modal-holder">
+                <div class="editpositions-header">
+                    <h1>Company Position</h1>
+                    <span class="material-icons" id='editpositions-modal-close'>close</span>
+                </div>
+                <div class="editpositions-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Position</th>
+                                <th>Rates per hr</th>
+                                <th>Overtime Rate</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $payroll->editpositions($_GET['company']); ?> 
+                        </tbody>
+                    </table>
+                    <div>
+                        <button>
+                            <a href="./company.php?company=<?=$_GET['company'];?>&action=addnewpos">Add Position</a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            // close modal
+            let editpositionsModalClose = document.querySelector('#editpositions-modal-close');
+            editpositionsModalClose.onclick = () => {
+                let editpositionsModal = document.querySelector('.editpositions-modal');
+                editpositionsModal.style.display = 'none !important';
+            }
+        </script>
     <?php } ?>
 
     <?php if(isset($_GET['company']) && isset($_GET['action']) && $_GET['action'] == 'addnewpos'){ ?>
         <div class='addnewpos-modal'>
-            <h1>Add New Position</h1>
-            <form method="POST">
-                <input type="text" name='position_name' placeholder='Position Name'/>
-                <input type="text" name='price' placeholder='Price'/>
-                <input type="text" name='ot' placeholder='Overtime Rate'/>
-                <button type='submit' name='addnewpos-btn'>Add Position</button>
-            </form>
+            <div class="modal-holder">
+                <div class="addnewpos-header">
+                    <h1>Add New Position</h1>
+                    <span class="material-icons">close</span>
+                </div>
+                <div class="addnewpos-content">
+                    <form method="POST">
+                        <div>
+                            <label for="">Position</label>
+                            <input type="text" name='position_name' autocomplete="off" required/>
+                        </div>
+                        <div>
+                            <label for="">Rates per hour</label>
+                            <input type="text" name='price' placeholder='00.00' autocomplete="off" required/>
+                        </div>
+                        <div>
+                            <label for="">Overtime Rate</label>
+                            <input type="text" name='ot' placeholder='00.00' autocomplete="off" required/>
+                        </div>
+                        <div>
+                            <button type='submit' name='addnewpos-btn'>Add Position</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     <?php $payroll->addnewpos($_GET['company']); // action: add
     } ?>
@@ -392,17 +403,17 @@ $payroll->addcompany3();
             let eks = document.createElement('span');
 
             pos.setAttribute('name', `position${inputLength.value}`);
-            pos.setAttribute('placeholder', `position${inputLength.value}`);
+            pos.setAttribute('placeholder', 'position');
             pos.setAttribute('type', 'text');
             price.setAttribute('name', `price${inputLength.value}`);
-            price.setAttribute('placeholder', `price${inputLength.value}`);
+            price.setAttribute('placeholder', '00.00');
             price.setAttribute('type', 'text');
             ot.setAttribute('name', `ot${inputLength.value}`);
-            ot.setAttribute('placeholder', `ot${inputLength.value}`);
+            ot.setAttribute('placeholder', '00.00');
             ot.setAttribute('type', 'text');
             eks.setAttribute('onclick', 'getParentElement(this)');
-            eks.setAttribute('class', 'eks');
-
+            eks.setAttribute('class', 'eks material-icons');
+            eks.innerText = 'close';
 
             // place to created div
             div.appendChild(pos);
@@ -479,16 +490,18 @@ $payroll->addcompany3();
             let eks = document.createElement('span');
 
             pos.setAttribute('name', `position${inputLength.value}`);
-            pos.setAttribute('placeholder', `position${inputLength.value}`);
+            pos.setAttribute('placeholder', 'position');
             pos.setAttribute('type', 'text');
             price.setAttribute('name', `price${inputLength.value}`);
-            price.setAttribute('placeholder', `price${inputLength.value}`);
+            price.setAttribute('placeholder', '00.00');
             price.setAttribute('type', 'text');
             ot.setAttribute('name', `ot${inputLength.value}`);
-            ot.setAttribute('placeholder', `ot${inputLength.value}`);
+            ot.setAttribute('placeholder', '00.00');
             ot.setAttribute('type', 'text');
             eks.setAttribute('onclick', 'getParentElement2(this)');
-            eks.setAttribute('class', 'eks');
+            eks.setAttribute('class', 'eks material-icons');
+            eks.innerText = 'close';
+            
 
 
             // place to created div

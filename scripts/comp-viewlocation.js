@@ -1,5 +1,4 @@
 // detect location
-
 navigator.geolocation.getCurrentPosition((pos) => {
 
     mapboxgl.accessToken = 'pk.eyJ1IjoiamVsbHliZWFucy1zbHkiLCJhIjoiY2t4NmVnYXU5MnJkNjJ1cW92ZDN1b3hndiJ9.FgwIbfJQOkbfbc1OtJHv2Q';
@@ -9,4 +8,11 @@ navigator.geolocation.getCurrentPosition((pos) => {
         center: currPositionView,
         zoom: 18
     });
+});
+
+// close modal
+let viewModalClose = document.querySelector('#view-modal-close');
+viewModalClose.addEventListener('click', () => {
+    let viewModal = document.querySelector('.view-modal');
+    viewModal.style.display = 'none';
 });
