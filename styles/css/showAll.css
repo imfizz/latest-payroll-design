@@ -1337,11 +1337,11 @@
   margin-right: 15px;
 }
 
-.main-container > .rightbar > .profile-container > .profile-setter > a > .image-container {
+.main-container > .rightbar > .profile-container > .profile-setter > a > .image-container > img {
   height: 33px;
   width: 33px;
   border-radius: 50%;
-  background: #333;
+  background: #666666;
 }
 
 .main-container > .rightbar > .relative-links {

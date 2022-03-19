@@ -64,8 +64,12 @@ $payroll->removeRecentFunction();
         <div class="rightbar">
             <div class="profile-container">
                 <div class="profile-setter">
-                    <h3>Ilacad, Francis</h3>
-                    <a href="../admin/profile.php"><div class="image-container"></div></a>
+                    <h3><?= $sessionData['fullname']; ?></h3>
+                    <a href="../admin/profile.php">
+                        <div class="image-container">
+                            <?= $payroll->viewAdminImage($sessionData['id']); ?>
+                        </div>
+                    </a>
                 </div>
             </div>
             <div class="leave-welcome">

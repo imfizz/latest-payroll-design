@@ -1115,17 +1115,26 @@
           transform: translateY(4px);
 }
 
-.main-container > .centerbar > .header-info > .profile-container > h3 {
+.main-container > .centerbar > .header-info > .profile-container > .profile-setter {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.main-container > .centerbar > .header-info > .profile-container > .profile-setter > h3 {
   font-size: 14px;
   font-weight: 500;
   margin-right: 15px;
 }
 
-.main-container > .centerbar > .header-info > .profile-container > a > .image-container {
+.main-container > .centerbar > .header-info > .profile-container > .profile-setter > a > .image-container > img {
   height: 33px;
   width: 33px;
   border-radius: 50%;
-  background: #666;
+  background: #666666;
 }
 
 .main-container > .centerbar > .table-info {

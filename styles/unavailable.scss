@@ -786,19 +786,21 @@
                 width: 92%;
                 transform: translateY(4px);
 
-                & > h3 {
-                    font-size: 14px;
-                    font-weight: $medium;
-                    margin-right: 15px;
-                }
-
-                & > a {
-
-                    & > .image-container {
+                & > .profile-setter {
+                    display: flex;
+                    align-items: center;
+    
+                    & > h3 {
+                        font-size: 14px;
+                        font-weight: $medium;
+                        margin-right: 15px;
+                    }
+        
+                    & > a > .image-container > img {
                         height: 33px;
                         width: 33px;
                         border-radius: 50%;
-                        background: #666;
+                        background: rgb(102, 102, 102);
                     }
                 }
             }

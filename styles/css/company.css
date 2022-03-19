@@ -1609,17 +1609,25 @@
           align-items: center;
 }
 
-.main-container > .rightbar > .profile-container > h4 {
+.main-container > .rightbar > .profile-container > .profile-setter {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.main-container > .rightbar > .profile-container > .profile-setter > h3 {
   font-size: 14px;
   font-weight: 500;
   margin-right: 15px;
 }
 
-.main-container > .rightbar > .profile-container > .profile-img {
-  border-radius: 50%;
+.main-container > .rightbar > .profile-container > .profile-setter > a > .image-container > img {
   height: 33px;
   width: 33px;
-  background: #666;
+  border-radius: 50%;
 }
 
 .main-container > .rightbar > .form-container {

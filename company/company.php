@@ -20,17 +20,6 @@ $payroll->addcompany();
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css" type="text/css" />
     <link rel="stylesheet" href="../styles/mincss/company.min.css">
-    <style>
-        .add-modal {
-            display: none;
-            position: absolute;
-            top: 0; left: 0;
-            background: rgb(0 0 0 / 1);
-            height: 200vh;
-            width: 100vw;
-            z-index: 99;
-        }
-    </style>
 </head>
 <body>
     <?php 
@@ -125,8 +114,14 @@ $payroll->addcompany();
         </div>
         <div class="rightbar">
             <div class="profile-container">
-                <h4>Ilacad, Francis</h4>
-                <div class="profile-img"></div>
+                <div class="profile-setter">
+                    <h3><?= $sessionData['fullname']; ?></h3>
+                    <a href="../admin/profile.php">
+                        <div class="image-container">
+                            <?= $payroll->viewAdminImage($sessionData['id']); ?>
+                        </div>
+                    </a>
+                </div>
             </div>
             <div class="form-container">
                 <div class="form-header">
@@ -205,8 +200,6 @@ $payroll->addcompany();
             </div>
         </div>
     </div>
-
-
 
     <!-- add modal -->
     <div class="modal-viewcompany">
