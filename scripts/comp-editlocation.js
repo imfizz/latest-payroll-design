@@ -155,8 +155,8 @@ navigator.geolocation.getCurrentPosition((pos) => {
 
 
 // close modal
-let editModalClose = document.querySelector('#edit-modal-close');
+let editModalClose = document.querySelector('#editModalClose');
 editModalClose.onclick = () => {
     let editModal = document.querySelector('.edit-modal');
-    editModal.style.display = 'none !important';
+    editModal.style.display = 'none';
 }

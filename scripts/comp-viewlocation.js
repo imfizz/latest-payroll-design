@@ -11,7 +11,7 @@ navigator.geolocation.getCurrentPosition((pos) => {
 });
 
 // close modal
-let viewModalClose = document.querySelector('#view-modal-close');
+let viewModalClose = document.querySelector('#viewModalClose');
 viewModalClose.addEventListener('click', () => {
     let viewModal = document.querySelector('.view-modal');
     viewModal.style.display = 'none';

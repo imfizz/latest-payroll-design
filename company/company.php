@@ -301,7 +301,7 @@ $payroll->addcompany();
             <div class="modal-holder">
                 <div class="editpositions-header">
                     <h1>Company Position</h1>
-                    <span class="material-icons" id='editpositions-modal-close'>close</span>
+                    <span class="material-icons" id='editpositionsModalClose'>close</span>
                 </div>
                 <div class="editpositions-content">
                     <table>
@@ -328,10 +328,10 @@ $payroll->addcompany();
         </div>
         <script>
             // close modal
-            let editpositionsModalClose = document.querySelector('#editpositions-modal-close');
+            let editpositionsModalClose = document.querySelector('#editpositionsModalClose');
             editpositionsModalClose.onclick = () => {
                 let editpositionsModal = document.querySelector('.editpositions-modal');
-                editpositionsModal.style.display = 'none !important';
+                editpositionsModal.style.display = 'none';
             }
         </script>
     <?php } ?>
@@ -341,7 +341,7 @@ $payroll->addcompany();
             <div class="modal-holder">
                 <div class="addnewpos-header">
                     <h1>Add New Position</h1>
-                    <span class="material-icons">close</span>
+                    <span class="material-icons" id="addnewposModalClose">close</span>
                 </div>
                 <div class="addnewpos-content">
                     <form method="POST">
@@ -364,6 +364,13 @@ $payroll->addcompany();
                 </div>
             </div>
         </div>
+        <script>
+            let addnewposModalClose = document.querySelector('#addnewposModalClose');
+            addnewposModalClose.onclick = () => {
+                let addnewpos = document.querySelector('.addnewpos-modal');
+                addnewpos.style.display = 'none';
+            }
+        </script>
     <?php $payroll->addnewpos($_GET['company']); // action: add
     } ?>
 

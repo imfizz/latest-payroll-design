@@ -157,14 +157,6 @@ $payroll->deleteRecentGuard();
                                 <input type="text" name="number" id="number">
                             </div>
                             <div>
-                                <label for="browserfingerprint">Browser Fingerprint</label>
-                                <input type="text" name="browserfingerprint" id="browserfingerprint" required/>
-                            </div>
-                            <div>
-                                <label for="devicefingerprint">Device Fingerprint</label>
-                                <input type="text" name="devicefingerprint" id="devicefingerprint" required/>
-                            </div>
-                            <div>
                                 <label for="qrcode">Qr Code</label>
                                 <input type="text" name="qrcode" id="qrcode" required/>
                                 <div onclick="generatePassword(this)">Generate</div>
@@ -208,14 +200,6 @@ $payroll->deleteRecentGuard();
                         <div>
                             <label for='cpnumber'>Contact Number</label>
                             <input type='text' name='cpnumber' id='cpnumber' required/>
-                        </div>
-                        <div>
-                            <label for='browserfingerprint'>Browser Fingerprint</label>
-                            <input type='text' name='browserfingerprint' id='browserfingerprint' required/>
-                        </div>
-                        <div>
-                            <label for='devicefingerprint'>Device Fingerprint</label>
-                            <input type='text' name='devicefingerprint' id='devicefingerprint' required/>
                         </div>
                         <div>
                             <label for='qrcode'>QR Code</label>

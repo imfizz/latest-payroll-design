@@ -1102,8 +1102,6 @@ Class Payroll
             // $password = $this->generatedPassword2($firstname." ".$lastname);
             $realPassword = $this->generatedPassword2();
             $dbPassword = $this->generatedPassword($realPassword); // md5, pass with keyword
-            $browserfingerprint = $_POST['browserfingerprint'];
-            $devicefingerprint = $_POST['devicefingerprint'];
             $qrcode = $_POST['qrcode'];
             $number = $_POST['number'];
             $access = "employee";
@@ -1117,8 +1115,6 @@ Class Payroll
                empty($address) &&
                empty($email) &&
                empty($dbPassword) &&
-               empty($browserfingerprint) &&
-               empty($devicefingerprint) &&
                empty($qrcode) &&
                empty($access) &&
                empty($availability)
@@ -1143,16 +1139,14 @@ Class Payroll
                                                  address,
                                                  email,
                                                  password,
-                                                 browserfingerprint,
-                                                 devicefingerprint,
                                                  qrcode,
                                                  access,
                                                  availability,
                                                  time,
                                                  date)
-                            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                     $stmt = $this->con()->prepare($sql);
-                    $stmt->execute([$empId, $firstname, $lastname, $number, $address, $email, $dbPassword[0], $browserfingerprint, $devicefingerprint, $qrcode, $access, $availability, $time, $date]);
+                    $stmt->execute([$empId, $firstname, $lastname, $number, $address, $email, $dbPassword[0], $qrcode, $access, $availability, $time, $date]);
                     $countRow = $stmt->rowCount();
 
                     if($countRow > 0){
@@ -4207,7 +4201,7 @@ Class Payroll
                         <div class='modal-holder'>
                             <div class='view-modal-header'>
                                 <h1>View Modal</h1>
-                                <span class='material-icons' id='view-modal-close'>close</span>
+                                <span class='material-icons' id='viewModalClose'>close</span>
                             </div>
                             <div class='view-modal-content'>
                                 <form method='POST'>
@@ -4364,7 +4358,7 @@ Class Payroll
                         <div class='modal-holder'>
                             <div class='edit-modal-header'>
                                 <h1>Edit Modal</h1>
-                                <span class='material-icons' id='edit-modal-close'>close</span>
+                                <span class='material-icons' id='editModalClose'>close</span>
                             </div>
                             <div class='edit-modal-content'>
                                 <form method='POST'>
@@ -4599,7 +4593,7 @@ Class Payroll
                     <div class='modal-holder'>
                         <div class='editpos-header'>
                             <h1>Edit Position</h1>
-                            <span class='material-icons' id='editpos-modal-close'>close</span>
+                            <span class='material-icons' id='editposModalClose'>close</span>
                         </div>
                         <div class='editpos-content'>
                             <form method='POST'>
@@ -4625,10 +4619,10 @@ Class Payroll
                   </div>
                   <script>
                     // close modal
-                    let editposModalClose = document.querySelector('#editpos-modal-close');
+                    let editposModalClose = document.querySelector('#editposModalClose');
                     editposModalClose.onclick = () => {
                         let editposModal = document.querySelector('.editpos-modal');
-                        editposModal.style.display = 'none !important';
+                        editposModal.style.display = 'none';
                     }
                   </script>";
         } else {
@@ -4712,7 +4706,7 @@ Class Payroll
                     <div class='modal-holder'>
                         <div class='deletepos-header'>
                             <h1>Delete Position</h1>
-                            <span class='material-icons' id='deletepos-modal-close'>close</span>
+                            <span class='material-icons' id='deleteposModalClose'>close</span>
                         </div>
                         <div class='deletepos-content'>
                             <form method='POST'>
@@ -4727,10 +4721,10 @@ Class Payroll
                   </div>
                   <script>
                     // close modal
-                    let deleteposModalClose = document.querySelector('#deletepos-modal-close');
+                    let deleteposModalClose = document.querySelector('#deleteposModalClose');
                     deleteposModalClose.onclick = () => {
                         let deleteposModal = document.querySelector('.deletepos-modal');
-                        deleteposModal.style.display = 'none !important';
+                        deleteposModal.style.display = 'none';
                     }
                   </script>";
         }
@@ -4786,7 +4780,7 @@ Class Payroll
                 <div class='modal-holder'>
                     <div class='delete-header'>
                         <h1>Delete Position</h1>
-                        <span class='material-icons' id='delete-modal-close'>close</span>
+                        <span class='material-icons' id='deleteModalClose'>close</span>
                     </div>
                     <div class='delete-content'>
                         <form method='POST'>
@@ -4801,10 +4795,10 @@ Class Payroll
               </div>
               <script>
                 // close modal
-                let deleteModalClose = document.querySelector('#delete-modal-close');
+                let deleteModalClose = document.querySelector('#deleteModalClose');
                 deleteModalClose.onclick = () => {
                     let deleteModal = document.querySelector('.delete-modal');
-                    deleteModal.style.display = 'none !important';
+                    deleteModal.style.display = 'none';
                 }
               </script>";
     }
