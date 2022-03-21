@@ -90,7 +90,7 @@ $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
             <div class="profile-container">
                 <div class="profile-setter">
                     <h3><?= $sessionData['fullname']; ?></h3>
-                    <a href="./admin/profile.php">
+                    <a href="../admin/profile.php">
                         <div class="image-container">
                             <?= $payroll->viewAdminImage($sessionData['id']); ?>
                         </div>

@@ -30,7 +30,7 @@ $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
                     <li><a href="../dashboard.php">Dashboard</a></li>
                     <li class="active-parent">Records
                         <ul>
-                            <li><a href="../employee.php">Employee</a></li>
+                            <li><a href="../employee/employee.php">Employee</a></li>
                             <li><a href="../company/company.php">Company</a></li>
                             <li><a href="./secretary.php">Secretary</a></li>
                         </ul>
@@ -125,7 +125,7 @@ $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
             <div class="profile-container">
                 <div class="profile-setter">
                     <h3><?= $sessionData['fullname']; ?></h3>
-                    <a href="./admin/profile.php">
+                    <a href="../admin/profile.php">
                         <div class="image-container">
                             <?= $payroll->viewAdminImage($sessionData['id']); ?>
                         </div>

@@ -1298,6 +1298,7 @@
   font-weight: 500;
   font-size: 13px;
   color: #7F7F7F;
+  text-transform: capitalize;
 }
 
 .main-container > .centerbar > .sidenav-profile > .sidenav-profile-content > .sidenav-profile-right > .info-container > .user-photo-container > div:last-child {
@@ -1434,7 +1435,7 @@
   margin-top: 10px;
 }
 
-.main-container > .centerbar > .sidenav-profile > .sidenav-profile-content > .sidenav-profile-right > .links-container > .socialmedia-container > div {
+.main-container > .centerbar > .sidenav-profile > .sidenav-profile-content > .sidenav-profile-right > .links-container > .socialmedia-container > a {
   height: 25px;
   width: 25px;
   border-radius: 50%;
@@ -1442,15 +1443,15 @@
   cursor: pointer;
 }
 
-.main-container > .centerbar > .sidenav-profile > .sidenav-profile-content > .sidenav-profile-right > .links-container > .socialmedia-container > div:nth-child(1) {
+.main-container > .centerbar > .sidenav-profile > .sidenav-profile-content > .sidenav-profile-right > .links-container > .socialmedia-container > a.facebook-icon {
   background: #5E5CEF;
 }
 
-.main-container > .centerbar > .sidenav-profile > .sidenav-profile-content > .sidenav-profile-right > .links-container > .socialmedia-container > div:nth-child(1):hover {
+.main-container > .centerbar > .sidenav-profile > .sidenav-profile-content > .sidenav-profile-right > .links-container > .socialmedia-container > a.facebook-icon:hover {
   background: #4745ed;
 }
 
-.main-container > .centerbar > .sidenav-profile > .sidenav-profile-content > .sidenav-profile-right > .links-container > .socialmedia-container > div:nth-child(1)::before {
+.main-container > .centerbar > .sidenav-profile > .sidenav-profile-content > .sidenav-profile-right > .links-container > .socialmedia-container > a.facebook-icon::before {
   content: url("https://api.iconify.design/eva/facebook-fill.svg?color=%23f8f8f8&height=18");
   position: absolute;
   top: 64%;
@@ -1459,15 +1460,15 @@
           transform: translate(-50%, -50%);
 }
 
-.main-container > .centerbar > .sidenav-profile > .sidenav-profile-content > .sidenav-profile-right > .links-container > .socialmedia-container > div:nth-child(2) {
+.main-container > .centerbar > .sidenav-profile > .sidenav-profile-content > .sidenav-profile-right > .links-container > .socialmedia-container > a.google-icon {
   background: #414141;
 }
 
-.main-container > .centerbar > .sidenav-profile > .sidenav-profile-content > .sidenav-profile-right > .links-container > .socialmedia-container > div:nth-child(2):hover {
+.main-container > .centerbar > .sidenav-profile > .sidenav-profile-content > .sidenav-profile-right > .links-container > .socialmedia-container > a.google-icon:hover {
   background: #343434;
 }
 
-.main-container > .centerbar > .sidenav-profile > .sidenav-profile-content > .sidenav-profile-right > .links-container > .socialmedia-container > div:nth-child(2)::before {
+.main-container > .centerbar > .sidenav-profile > .sidenav-profile-content > .sidenav-profile-right > .links-container > .socialmedia-container > a.google-icon::before {
   content: url("https://api.iconify.design/flat-color-icons/google.svg?color=%23f8f8f8&height=15");
   position: absolute;
   top: 60%;
@@ -1476,15 +1477,15 @@
           transform: translate(-50%, -50%);
 }
 
-.main-container > .centerbar > .sidenav-profile > .sidenav-profile-content > .sidenav-profile-right > .links-container > .socialmedia-container > div:nth-child(3) {
+.main-container > .centerbar > .sidenav-profile > .sidenav-profile-content > .sidenav-profile-right > .links-container > .socialmedia-container > a.twitter-icon {
   background: #61B2E4;
 }
 
-.main-container > .centerbar > .sidenav-profile > .sidenav-profile-content > .sidenav-profile-right > .links-container > .socialmedia-container > div:nth-child(3):hover {
+.main-container > .centerbar > .sidenav-profile > .sidenav-profile-content > .sidenav-profile-right > .links-container > .socialmedia-container > a.twitter-icon:hover {
   background: #4ba7e0;
 }
 
-.main-container > .centerbar > .sidenav-profile > .sidenav-profile-content > .sidenav-profile-right > .links-container > .socialmedia-container > div:nth-child(3)::before {
+.main-container > .centerbar > .sidenav-profile > .sidenav-profile-content > .sidenav-profile-right > .links-container > .socialmedia-container > a.twitter-icon::before {
   content: url("https://api.iconify.design/akar-icons/twitter-fill.svg?color=%23f8f8f8&height=15");
   position: absolute;
   top: 60%;
@@ -1493,17 +1494,17 @@
           transform: translate(-50%, -50%);
 }
 
-.main-container > .centerbar > .sidenav-profile > .sidenav-profile-content > .sidenav-profile-right > .links-container > .socialmedia-container > div:nth-child(4) {
+.main-container > .centerbar > .sidenav-profile > .sidenav-profile-content > .sidenav-profile-right > .links-container > .socialmedia-container > a.instagram-icon {
   background-image: -webkit-gradient(linear, left bottom, right top, from(#9C06DF), to(#FF7B03));
   background-image: linear-gradient(to top right, #9C06DF, #FF7B03);
 }
 
-.main-container > .centerbar > .sidenav-profile > .sidenav-profile-content > .sidenav-profile-right > .links-container > .socialmedia-container > div:nth-child(4):hover {
+.main-container > .centerbar > .sidenav-profile > .sidenav-profile-content > .sidenav-profile-right > .links-container > .socialmedia-container > a.instagram-icon:hover {
   background-image: -webkit-gradient(linear, left bottom, right top, from(#8b05c6), to(#e96f00));
   background-image: linear-gradient(to top right, #8b05c6, #e96f00);
 }
 
-.main-container > .centerbar > .sidenav-profile > .sidenav-profile-content > .sidenav-profile-right > .links-container > .socialmedia-container > div:nth-child(4)::before {
+.main-container > .centerbar > .sidenav-profile > .sidenav-profile-content > .sidenav-profile-right > .links-container > .socialmedia-container > a.instagram-icon::before {
   content: url("https://api.iconify.design/uil/instagram.svg?color=%23f8f8f8&height=16");
   position: absolute;
   top: 60%;

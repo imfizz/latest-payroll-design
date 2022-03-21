@@ -287,7 +287,7 @@ Class Payroll
                                     echo 'expired na si timer</br>';
                                     
                                     $varNull = NULL;
-                                    $setAccess = 'super administrator';
+                                    $setAccess = 'administrator';
                                     $sqlUpdateTimer = "UPDATE super_admin SET timer = ?, access = ? WHERE id = ?";
                                     $stmtUpdateTimer = $this->con()->prepare($sqlUpdateTimer);
                                     $stmtUpdateTimer->execute([$varNull, $setAccess, $users->id]);
@@ -447,7 +447,7 @@ Class Payroll
         if($level == 2){
             $level = '../';
             
-            if($access == 'super administrator'){
+            if($access == 'administrator'){
                 return;
             } elseif($access == 'secretary'){
                 echo 'Welcome '.$fullname.' ('.$access.')';
@@ -455,7 +455,7 @@ Class Payroll
                 header("Location: ".$level."login.php?message=$message");
             }
         } else {
-            if($access == 'super administrator'){
+            if($access == 'administrator'){
                 return;
             } elseif($access == 'secretary'){
                 // red
@@ -3475,6 +3475,29 @@ Class Payroll
         $rowCount = $stmt->rowCount();
 
         if($rowCount > 0){
+            $fullname = $user->firstname." ".$user->lastname;
+
+            $facebook = $user->facebook;
+            $google = $user->google;
+            $twitter = $user->twitter;
+            $instagram = $user->instagram;
+
+            if($facebook == 'https://'){
+                $facebook = '';
+            }
+
+            if($google == 'https://'){
+                $google = '';
+            }
+
+            if($twitter == 'https://'){
+                $twitter = '';
+            }
+
+            if($instagram == 'https://'){
+                $instagram = '';
+            }
+
             echo "<script>
                       let image = document.querySelector('#image');
                       let firstname = document.querySelector('#firstname');
@@ -3488,6 +3511,176 @@ Class Payroll
                       address.value = '$user->address';
                       cpnumber.value = '$user->cpnumber';
                       email.value = '$user->username';
+
+
+                      // before modal
+                      let userNameContainer = document.querySelector('.user-name');
+                      let userH1 = userNameContainer.querySelector('h1');
+                      let userP = userNameContainer.querySelector('p');
+                      userH1.innerText = '$fullname';
+                      userP.innerText = '$user->access';
+                      
+                      let aboutMeContainer = document.querySelector('.about-me-container');
+                      let aboutP = aboutMeContainer.querySelector('p');
+                      aboutP.innerText = '$user->address';
+
+                      let mobEmailContainer = document.querySelector('.mob-email-container');
+                      let mobEmailData = mobEmailContainer.querySelectorAll('p');
+
+                      mobEmailData[0].innerText = '$user->cpnumber';
+                      mobEmailData[1].innerText = '$user->username';
+
+                      // create social media icons container
+                      let socialMediaContainer = document.querySelector('.socialmedia-container');
+                      let facebookText = '$facebook';
+                      let googleText = '$google';
+                      let twitterText = '$twitter';
+                      let instagramText = '$instagram';
+
+
+                      if(facebookText){
+                        let newA = document.createElement('a');
+                        newA.setAttribute('class', 'facebook-icon');
+                        newA.setAttribute('href', facebookText);
+                        socialMediaContainer.appendChild(newA);
+                      }
+
+                      if(googleText){
+                        let newA = document.createElement('a');
+                        newA.setAttribute('class', 'google-icon');
+                        newA.setAttribute('title', googleText);
+                        socialMediaContainer.appendChild(newA);
+                      }
+
+                      if(twitterText){
+                        let newA = document.createElement('a');
+                        newA.setAttribute('class', 'twitter-icon');
+                        newA.setAttribute('href', twitterText);
+                        socialMediaContainer.appendChild(newA);
+                      }
+
+                      if(instagramText){
+                        let newA = document.createElement('a');
+                        newA.setAttribute('class', 'instagram-icon');
+                        newA.setAttribute('href', instagramText);
+                        socialMediaContainer.appendChild(newA);
+                      }
+                      
+                      let facebookInput = document.querySelector('#facebook');
+                      let googleInput = document.querySelector('#google');
+                      let twitterInput = document.querySelector('#twitter');
+                      let instagramInput = document.querySelector('#instagram');
+
+                      facebookInput.value = facebookText;
+                      googleInput.value = googleText;
+                      twitterInput.value = twitterText;
+                      instagramInput.value = instagramText;
+
+
+                  </script>";
+        }
+    }
+
+    public function adminChange($id)
+    {
+        $sql = "SELECT * FROM super_admin WHERE id = ?";
+        $stmt = $this->con()->prepare($sql);
+        $stmt->execute([$id]);
+        $user = $stmt->fetch();
+        $rowCount = $stmt->rowCount();
+
+        if($rowCount > 0){
+            $fullname = $user->firstname." ".$user->lastname;
+
+            $facebook = $user->facebook;
+            $google = $user->google;
+            $twitter = $user->twitter;
+            $instagram = $user->instagram;
+
+            if($facebook == 'https://'){
+                $facebook = '';
+            }
+
+            if($google == 'https://'){
+                $google = '';
+            }
+
+            if($twitter == 'https://'){
+                $twitter = '';
+            }
+
+            if($instagram == 'https://'){
+                $instagram = '';
+            }
+
+            echo "<script>
+                      let email = document.querySelector('#username');
+                      email.value = '$user->username';
+
+                      // before modal
+                      let userNameContainer = document.querySelector('.user-name');
+                      let userH1 = userNameContainer.querySelector('h1');
+                      let userP = userNameContainer.querySelector('p');
+                      userH1.innerText = '$fullname';
+                      userP.innerText = '$user->access';
+                      
+                      let aboutMeContainer = document.querySelector('.about-me-container');
+                      let aboutP = aboutMeContainer.querySelector('p');
+                      aboutP.innerText = '$user->address';
+
+                      let mobEmailContainer = document.querySelector('.mob-email-container');
+                      let mobEmailData = mobEmailContainer.querySelectorAll('p');
+
+                      mobEmailData[0].innerText = '$user->cpnumber';
+                      mobEmailData[1].innerText = '$user->username';
+
+                      // create social media icons container
+                      let socialMediaContainer = document.querySelector('.socialmedia-container');
+                      let facebookText = '$facebook';
+                      let googleText = '$google';
+                      let twitterText = '$twitter';
+                      let instagramText = '$instagram';
+
+
+                      if(facebookText){
+                        let newA = document.createElement('a');
+                        newA.setAttribute('class', 'facebook-icon');
+                        newA.setAttribute('href', facebookText);
+                        socialMediaContainer.appendChild(newA);
+                      }
+
+                      if(googleText){
+                        let newA = document.createElement('a');
+                        newA.setAttribute('class', 'google-icon');
+                        newA.setAttribute('title', googleText);
+                        socialMediaContainer.appendChild(newA);
+                      }
+
+                      if(twitterText){
+                        let newA = document.createElement('a');
+                        newA.setAttribute('class', 'twitter-icon');
+                        newA.setAttribute('href', twitterText);
+                        socialMediaContainer.appendChild(newA);
+                      }
+
+                      if(instagramText){
+                        let newA = document.createElement('a');
+                        newA.setAttribute('class', 'instagram-icon');
+                        newA.setAttribute('href', instagramText);
+                        socialMediaContainer.appendChild(newA);
+                      }
+                      
+                      let facebookInput = document.querySelector('#facebook');
+                      let googleInput = document.querySelector('#google');
+                      let twitterInput = document.querySelector('#twitter');
+                      let instagramInput = document.querySelector('#instagram');
+
+                      facebookInput.value = facebookText;
+                      googleInput.value = googleText;
+                      twitterInput.value = twitterText;
+                      instagramInput.value = instagramText;
+
+
                   </script>";
         }
     }
@@ -3504,7 +3697,24 @@ Class Payroll
             $myImage = base64_encode($user->image);
             echo "<img src='data:image/jpg;charset=utf8;base64,$myImage'/>";
         } else {
-            echo "<p class='status-error'>Image(s) not found...</p>";
+            echo "<img />";
+        }
+    }
+
+    // for modal with id='output'
+    public function viewAdminImage2($id)
+    {
+        $sql = "SELECT `image` FROM admin_profile WHERE sa_id = ?";
+        $stmt = $this->con()->prepare($sql);
+        $stmt->execute([$id]);
+        $user = $stmt->fetch();
+        $countRow = $stmt->rowCount();
+
+        if($countRow > 0){
+            $myImage = base64_encode($user->image);
+            echo "<img src='data:image/jpg;charset=utf8;base64,$myImage' id='output'/>";
+        } else {
+            echo "<img id='output'/>";
         }
     }
 
@@ -3518,68 +3728,105 @@ Class Payroll
             $cpnumber = $_POST['cpnumber'];
             $email = $_POST['email'];
 
+            $facebook = $_POST['facebook'] != '' ? $_POST['facebook'] : 'https://';
+            $google = $_POST['google'] != '' ? $_POST['google'] : 'https://';
+            $twitter = $_POST['twitter'] != '' ? $_POST['twitter'] : 'https://';
+            $instagram = $_POST['instagram'] != '' ? $_POST['instagram'] : 'https://';
+
+
             if(empty($firstname) ||
                empty($lastname) ||
                empty($address) ||
                empty($cpnumber) ||
                empty($email)
             ){
-                echo 'All input fields are required to update.';
+                echo "<div class='error'>All input fields are required to update.</div>";
             } else {
 
-                $sqlAdmin = "UPDATE super_admin
-                             SET firstname = ?,
-                                 lastname = ?,
-                                 address = ?,
-                                 cpnumber = ?,
-                                 username = ?
-                             WHERE id = ?";
-                $stmtAdmin = $this->con()->prepare($sqlAdmin);
-                $stmtAdmin->execute([$firstname, $lastname, $address, $cpnumber, $email, $id]);
-                $countRowAdmin = $stmtAdmin->rowCount();
-                if($countRowAdmin > 0){
-                    echo 'nag update na yung admin';
+                // username is already exist in super_admin
+                $sqlExist = "SELECT id, username
+                             FROM super_admin 
+                             WHERE username = ? AND id != ?";
+                $stmtExist = $this->con()->prepare($sqlExist);
+                $stmtExist->execute([$email, $id]);
+                $userExist = $stmtExist->fetch();
+                $countRowExist = $stmtExist->rowCount();
+                if($countRowExist > 0){
+                    echo "<div class='error'>Email already exists</div>";
                 } else {
-                    echo 'di pa nag update yung admin';
-                }
 
-                $status = 'error'; 
-                if(!empty($_FILES["image"]["name"])) {
-                    // Get file info 
-                    $fileName = basename($_FILES["image"]["name"]); // sample.jpg
-                    $fileType = pathinfo($fileName, PATHINFO_EXTENSION); // .jpg
-                    
-                    // Allow certain file formats 
-                    $allowTypes = array('jpg','png','jpeg','gif'); 
+                    // if nagiba email send credentials
+                    $sqlSend = "SELECT sa.id, sa.username, sd.sa_id, sd.secret_key as secret_key 
+                                FROM super_admin sa
+                                INNER JOIN secret_diary sd
+                                ON sa.username = sd.sa_id
+                                WHERE sa.id = ? AND sa.username = ?";
+                    $stmtSend = $this->con()->prepare($sqlSend);
+                    $stmtSend->execute([$id, $email]);
+                    $userSend = $stmtSend->fetch();
+                    $countRowSend = $stmtSend->rowCount();
 
-                    // kapag jpg yung file or what
-                    if(in_array($fileType, $allowTypes)){ 
-                        $image = $_FILES['image']['tmp_name']; 
-                        $imgContent = addslashes(file_get_contents($image)); 
-                    
-                        // Delete the existing image because it will fail if we update it
-                        $sqlDel = "DELETE FROM admin_profile WHERE sa_id = ?";
-                        $stmtDel = $this->con()->prepare($sqlDel);
-                        $stmtDel->execute([$id]);
-                        $countRowDel = $stmtDel->rowCount();
-                        if($countRowDel > 0){
+                    // fetch old data to get password
+                    $sqlCre = "SELECT sa.username, sd.sa_id, sd.secret_key as secret_key 
+                               FROM super_admin sa
+                               INNER JOIN secret_diary sd
+                               ON sa.username = sd.sa_id
+                               WHERE sa.id = ?";
+                    $stmtCre = $this->con()->prepare($sqlCre);
+                    $stmtCre->execute([$id]);
+                    $userCre = $stmtCre->fetch();
+
+                    if($countRowSend <= 0){
+                        $this->sendEmail($email, $userCre->secret_key);
+                    }
+
+                    $sqlAdmin = "UPDATE super_admin
+                                SET firstname = ?,
+                                    lastname = ?,
+                                    address = ?,
+                                    cpnumber = ?,
+                                    username = ?,
+                                    facebook = ?,
+                                    google = ?,
+                                    twitter = ?,
+                                    instagram = ?
+                                WHERE id = ?";
+                    $stmtAdmin = $this->con()->prepare($sqlAdmin);
+                    $stmtAdmin->execute([$firstname, $lastname, $address, $cpnumber, $email, $facebook, $google, $twitter, $instagram, $id]);
+                    $countRowAdmin = $stmtAdmin->rowCount();
+                    if($countRowAdmin > 0){
+                        echo "<div class='success'>Successfully updated.</div>";
+                    }
+
+                    $status = 'error'; 
+                    if(!empty($_FILES["image"]["name"])) {
+                        // Get file info 
+                        $fileName = basename($_FILES["image"]["name"]); // sample.jpg
+                        $fileType = pathinfo($fileName, PATHINFO_EXTENSION); // .jpg
+                        
+                        // Allow certain file formats 
+                        $allowTypes = array('jpg','png','jpeg','gif'); 
+
+                        // kapag jpg yung file or what
+                        if(in_array($fileType, $allowTypes)){ 
+                            $image = $_FILES['image']['tmp_name']; 
+                            $imgContent = addslashes(file_get_contents($image)); 
+                        
+                            // Delete the existing image because it will fail if we update it
+                            $sqlDel = "DELETE FROM admin_profile WHERE sa_id = ?";
+                            $stmtDel = $this->con()->prepare($sqlDel);
+                            $stmtDel->execute([$id]);
+
                             // Insert image content into database 
                             $sql = "INSERT INTO admin_profile (image, sa_id, created) 
                                     VALUES ('$imgContent', $id, NOW())";
-                            $insert = $this->con()->query($sql); 
-                            
-                            if($insert){ 
-                                echo "File uploaded successfully."; 
-                            }else{ 
-                                echo "File upload failed, please try again."; 
-                            }  
-                        }
+                            $stmt = $this->con()->query($sql);
 
+                        } else{ 
+                            echo "<div class='error'>Sorry, only JPG, JPEG, PNG, & GIF files are allowed to upload.</div>"; 
+                        } 
+                    }
 
-                        
-                    }else{ 
-                        echo 'Sorry, only JPG, JPEG, PNG, & GIF files are allowed to upload.'; 
-                    } 
                 }
             }
         } 
@@ -3600,7 +3847,7 @@ Class Payroll
                empty($current_password) ||
                empty($confirm_password)
             ){
-                echo 'all input fields are required to update password';
+                echo "<div class='error'>All input fields are required to update password</div>";
             } else {
 
                 $sqlFindUser = "SELECT * FROM super_admin 
@@ -3612,7 +3859,7 @@ Class Payroll
                 $countRowFindUser = $stmtFindUser->rowCount();
 
                 if($countRowFindUser > 0){
-                    echo 'tugma credentials';
+                    echo "<div class='success'>Successfully Updated</div>";
 
                     $currEmail = $userFindUser->username;
 
@@ -3629,7 +3876,7 @@ Class Payroll
                     $stmtOrigPass->execute([$confirm_password, $currEmail]);
 
                 } else {
-                    echo 'password are not match';
+                    echo "<div class='error'>Password are not match</div>";
                 }  
             }
         }
