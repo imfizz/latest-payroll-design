@@ -4476,6 +4476,27 @@ Class Payroll
 
                 if($countRow > 0){
                     echo "<div class='success'>Updated Successfully</div>";
+
+                    $sqlInform = "SELECT s.company, e.email as e_email 
+                                  FROM schedule s
+                                  INNER JOIN employee e
+                                  ON s.empId = e.empId
+
+                                  WHERE s.company = '$company_name'";
+                    $stmtInform = $this->con()->query($sqlInform);
+
+                    while($rowInform = $stmtInform->fetch()){
+                        $this->informEmployeeInComp($rowInform->e_email,
+                                                    $company_name,
+                                                    $cpnumber,
+                                                    $email,
+                                                    $comp_location,
+                                                    $longitude,
+                                                    $latitude,
+                                                    $boundary_size
+                        );
+                    }
+
                 } else {
                     echo "<div class='error'>Updating failed</div>";
                 }
@@ -4539,6 +4560,21 @@ Class Payroll
 
                     if($countRow > 0){
                         echo "<div class='success'>Position added successfully</div>";
+
+                        // get all email first
+                        $sqlEmail = "SELECT e.email as email
+                                      FROM schedule s 
+                                      INNER JOIN employee e
+                                      ON s.empId = e.empId
+                                      WHERE s.company = '$company'";
+                        $stmtEmail = $this->con()->query($sqlEmail);
+                        
+
+                        while($rowEmail = $stmtEmail->fetch()){
+                            // inform here
+                            $this->informEmployeeInCompAddPos($rowEmail->email, $position_name, $price, $ot);
+                        }
+
                     } else {
                         echo "<div class='error'>No position added</div>";
                     }
@@ -4616,6 +4652,13 @@ Class Payroll
             ){
                 echo "<div class='error'>All input fields are required to edit</div>";
             } else {
+
+                // before update get the old data
+                $sqlOld = "SELECT * FROM `positions` WHERE id = ?";
+                $stmtOld = $this->con()->prepare($sqlOld);
+                $stmtOld->execute([$positionId]);
+                $userOld = $stmtOld->fetch();
+
                 $sql = "UPDATE `positions`
                         SET position_name = ?,
                             price = ?,
@@ -4627,6 +4670,27 @@ Class Payroll
 
                 if($countRow > 0){
                     echo "<div class='success'>Updated Successfully</div>";
+
+                    // get all email first
+                    $sqlEmail = "SELECT e.email as email
+                                 FROM schedule s 
+                                 INNER JOIN employee e
+                                 ON s.empId = e.empId
+                                 WHERE s.company = '$userOld->company'";
+                    $stmtEmail = $this->con()->query($sqlEmail);
+                    
+
+                    $position_name2 = $userOld->position_name;
+                    $price2 = $userOld->price;
+                    $overtime_rate2 = $userOld->overtime_rate;
+
+                    while($rowEmail = $stmtEmail->fetch()){
+                        // inform here
+                        $this->informEmployeeInCompEditPos($rowEmail->email, $position_name, $price, $overtime_rate
+                                                                           , $position_name2, $price2, $overtime_rate2
+                                                          );
+                    }
+
                 } else {
                     echo "<div class='error'>Updating failed</div>";
                 }
@@ -4787,24 +4851,16 @@ Class Payroll
         }
     }
 
-
+    // company basic information
     public function informEmployeeInComp($email, $eCompanyName, 
                                                  $eCpNumber,
                                                  $eEmail,
                                                  $eCompLocation,
                                                  $eLongitude,
                                                  $eLatitude,
-                                                 $eBoundarySize,
-                                                 $posArray,
-                                                 $priArray
+                                                 $eBoundarySize
     ){
 
-
-        $posWithPri = "";
-
-        for($i = 0; $i < sizeof($posArray); $i++){
-            $posWithPri .= $posArray[$i] . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rate: " . $priArray[$i] . "<br/>";
-        }
 
         $name = 'JTDV Incorporation';
         $subject = 'subject kunwari';
@@ -4817,9 +4873,6 @@ Class Payroll
                  Longitude: $eLongitude <br/>
                  Latitude: $eLatitude <br/>
                  Boundary: $eBoundarySize <br/>
-                 <br/>
-                 <h4>Positions</h4>
-                 $posWithPri
                 ";
 
         if(!empty($email)){
@@ -4843,15 +4896,137 @@ Class Payroll
             $mail->Subject = ("$email ($subject)");     // headline
             $mail->Body = $body;                        // textarea
 
-            if($mail->send()){
-                // $status = "success";
-                $response = "Your credentials has been sent to your email";
-                echo '<br/>'.$response;
-            } else {
-                $status = "failed";
-                $response = "Something is wrong: <br/>". $mail->ErrorInfo;
-                echo '<br/>'.$status."<br/>".$response;
-            }
+            $mail->send();
+        }
+    }
+
+    // company positions, price and rates
+    public function informEmployeeInCompAddPos($email, $pos, $rate, $ot)
+    {
+
+
+        $name = 'JTDV Incorporation';
+        $subject = 'subject kunwari';
+        $body = "Company Details has been updated. <br/>
+                 <br/>
+                 New Position in company has been added:<br/>
+                 Position Name: $pos <br/>
+                 Rate per hour: $rate <br/>
+                 Overtime Rate: $ot
+                ";
+
+        if(!empty($email)){
+
+            $mail = new PHPMailer();
+
+            // smtp settings
+            $mail->isSMTP();
+            $mail->Host = "smtp.gmail.com";
+            $mail->SMTPAuth = true;
+            $mail->Username = $this->e_username;  // gmail address
+            $mail->Password = $this->e_password;  // gmail password
+
+            $mail->Port = 465;
+            $mail->SMTPSecure = "ssl";
+
+            // email settings
+            $mail->isHTML(true);
+            $mail->setFrom($email, $name);              // Katabi ng user image
+            $mail->addAddress($email);                  // gmail address ng pagsesendan
+            $mail->Subject = ("$email ($subject)");     // headline
+            $mail->Body = $body;                        // textarea
+
+            $mail->send();
+        }
+    }
+
+
+
+    // company positions, price and rates
+    public function informEmployeeInCompEditPos($email, $pos, $rate, $ot, $pos2, $rate2, $ot2)
+    {
+        $name = 'JTDV Incorporation';
+        $subject = 'subject kunwari';
+        $body = "Company Details has been updated. <br/>
+                 <br/>
+                 1 Position has been updated<br/>
+                 From<br/>
+                 Position Name: $pos2 <br/>
+                 Rate per hour: $rate2 <br/>
+                 Overtime Rate: $ot2 <br/><br/>
+
+                 To<br/>
+                 Position Name: $pos <br/>
+                 Rate per hour: $rate <br/>
+                 Overtime Rate: $ot <br/>
+                ";
+
+        if(!empty($email)){
+
+            $mail = new PHPMailer();
+
+            // smtp settings
+            $mail->isSMTP();
+            $mail->Host = "smtp.gmail.com";
+            $mail->SMTPAuth = true;
+            $mail->Username = $this->e_username;  // gmail address
+            $mail->Password = $this->e_password;  // gmail password
+
+            $mail->Port = 465;
+            $mail->SMTPSecure = "ssl";
+
+            // email settings
+            $mail->isHTML(true);
+            $mail->setFrom($email, $name);              // Katabi ng user image
+            $mail->addAddress($email);                  // gmail address ng pagsesendan
+            $mail->Subject = ("$email ($subject)");     // headline
+            $mail->Body = $body;                        // textarea
+
+            $mail->send();
+        }
+    }
+
+    // company positions, price and rates
+    public function informEmployeeInCompDeletePos($email, $pos, $rate, $ot)
+    {
+        $name = 'JTDV Incorporation';
+        $subject = 'subject kunwari';
+        $body = "Company Details has been updated. <br/>
+                 <br/>
+                 1 Position has been updated<br/>
+                 From<br/>
+                 Position Name: $pos2 <br/>
+                 Rate per hour: $rate2 <br/>
+                 Overtime Rate: $ot2 <br/><br/>
+
+                 To<br/>
+                 Position Name: $pos <br/>
+                 Rate per hour: $rate <br/>
+                 Overtime Rate: $ot <br/>
+                ";
+
+        if(!empty($email)){
+
+            $mail = new PHPMailer();
+
+            // smtp settings
+            $mail->isSMTP();
+            $mail->Host = "smtp.gmail.com";
+            $mail->SMTPAuth = true;
+            $mail->Username = $this->e_username;  // gmail address
+            $mail->Password = $this->e_password;  // gmail password
+
+            $mail->Port = 465;
+            $mail->SMTPSecure = "ssl";
+
+            // email settings
+            $mail->isHTML(true);
+            $mail->setFrom($email, $name);              // Katabi ng user image
+            $mail->addAddress($email);                  // gmail address ng pagsesendan
+            $mail->Subject = ("$email ($subject)");     // headline
+            $mail->Body = $body;                        // textarea
+
+            $mail->send();
         }
     }
 
