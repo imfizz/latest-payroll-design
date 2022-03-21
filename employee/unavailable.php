@@ -81,9 +81,9 @@ if(isset($_GET['sid'])){
 
                         <colgroup>
                             <col span="1" style="width:15%" />
-                            <col span="1" style="width:15%" />
-                            <col span="1" style="width:40%" />
-                            <col span="1" style="width:10%" />
+                            <col span="1" style="width:18%" />
+                            <col span="1" style="width:22%" />
+                            <col span="1" style="width:7%" />
                         </colgroup>
 
                         <thead>
@@ -154,10 +154,6 @@ if(isset($_GET['sid'])){
                     <div>
                         <label for="price">Contract Price</label>
                         <input type="text" name="price" id='price' disabled/>
-                    </div>
-                    <div>
-                        <label for="watType">Type</label>
-                        <input type="text" name="watType" id='watType' disabled/>
                     </div>
                     <div>
                         <label for="empAddress">Employee Address</label>

@@ -12,79 +12,97 @@ addmoreEmp.addEventListener('click', e => {
     addMoreModal.style.display = 'block';
 });
 
-function populateLocation(e){
+
+// when user pick 1 company
+function populate(e){
     let opt = e.selectedIndex;
-    let optLocValue = e.options[opt].dataset.loc;
-    let optIdValue = e.options[opt].dataset.comid;
+    
+    // call select's position
+    let positionsArray = document.querySelectorAll('.position'); // object
+    let location = document.querySelector('#location');
 
-    // position
-    let puthere = document.querySelectorAll('.puthere');
-    let selectsTag = Object.values(puthere);
+    let prices = document.querySelectorAll('.price');
+    let ot = document.querySelectorAll('.ot');
 
-    // price
-    let puthere2 = document.querySelectorAll('.puthere2');
-    let priceTag = Object.values(puthere2);
+    // remove all prices and ot when company changed
+    prices.forEach(pri => pri.value = '' );
+    ot.forEach(o => o.value = '' );
 
-    if(opt == 0){
-        // remove all options inside select
-        selectsTag.forEach(sel => {
-            sel.innerHTML = "<option value=''>Select Position</option>";
-        })
 
-        priceTag.forEach(price => {
-            price.value = '';
-        })
+    if(opt != ''){
+        // for location
+        let optLocValue = e.options[opt].dataset.loc;
+        location.value = optLocValue;
 
+        // for positions, price, ot
+        let optPosString = e.options[opt].dataset.pos;
+        let optPriceString = e.options[opt].dataset.price;
+        let optOtString = e.options[opt].dataset.ot;
+
+        // convert to array separeted by comma
+        let optPosArray = optPosString.split(',');
+        let optPriceArray = optPriceString.split(',');
+        let optOtArray = optOtString.split(',');
+
+        // empty select position before add data
+        positionsArray.forEach((pos) => {
+            pos.innerText = '';
+        });
+
+        positionsArray.forEach((pos) => {
+            let defaultOpt = document.createElement('option');
+            defaultOpt.value = '';
+            defaultOpt.innerText = 'Select Position';
+            pos.appendChild(defaultOpt);
+
+
+            for(let i = 0; i < optPosArray.length; i++){
+                let option = document.createElement('option');              // create option
+                option.setAttribute('data-posprice', optPriceArray[i]);     // set price
+                option.setAttribute('data-posot', optOtArray[i]);           // set ot
+                option.value = optPosArray[i];                              // option value = pos
+                option.innerText = optPosArray[i];                          // option text  = pos
+                pos.appendChild(option);
+            }
+        });
     } else {
-        let optPosValue = e.options[opt].dataset.pos;
-        let optPriValue = e.options[opt].dataset.price;
+        location.value = 'Auto fill';
+        positionsArray.forEach((pos) => {
+            pos.innerText = '';
+            
+            let defaultOpt = document.createElement('option');
+            defaultOpt.value = '';
+            defaultOpt.innerText = 'Select Position';
+            pos.appendChild(defaultOpt);
 
-        // position and price convert to array;
-        let positions = optPosValue.split(",");
-        let prices = optPriValue.split(",");
-
-        positions.pop();
-        prices.pop();
-        
-        console.log(positions);
-        selectsTag.forEach(sel => {
-            for(let i = 1; i < selectsTag.length; i++){
-                sel.innerHTML = "<option data-posprice='' value=''>Select Position</option>";
-            }
         });
-
-        priceTag.forEach(price => {
-            price.value = '';
-        });
-
-        selectsTag.forEach(sel=>{
-            for(let i = 0; i < positions.length; i++){
-                let option = document.createElement('option');
-                option.setAttribute('data-posprice', prices[i]);
-                option.value = positions[i];
-                option.innerText = positions[i];
-                sel.appendChild(option);
-            }
-        });
-    }
-
-    let location = document.querySelector("#location");
-    location.value = optLocValue;
-
-    // remove undefined values
-    if(optLocValue == undefined){
-        location.value = '';
     }
 }
 
-function setPrice(sel){
-    let myTd = sel.parentElement; // td
-    let puthere2 = myTd.querySelector('.puthere2');
+// setter of price and ot when position change
+function getPrice(e){
+    let opt = e.selectedIndex;
+    
+    // TD
+    let parentContainer = e.parentElement;
+    // remove value
+    parentContainer.querySelector('.price').value = '';
+    parentContainer.querySelector('.ot').value = '';
 
-    // set input price value
-    let selIndex = sel.selectedIndex;
-    puthere2.value = sel.options[selIndex].dataset.posprice
+    if(e.options[opt].dataset.posprice == undefined){
+        // set no value
+        parentContainer.querySelector('.price').value;
+        parentContainer.querySelector('.ot').value;
+    } else {
+        // set new value
+        parentContainer.querySelector('.price').value = e.options[opt].dataset.posprice;
+        parentContainer.querySelector('.ot').value = e.options[opt].dataset.posot;
+    }
+
+    
 }
+
+
 
 function removeMe(me){
     let currentUrl = window.location.href;

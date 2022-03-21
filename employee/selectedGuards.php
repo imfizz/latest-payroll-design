@@ -73,7 +73,7 @@ $payroll->setUnavailableGuards();
                         <div class="left">
                             <div>
                                 <label for="companyname">Company Name</label>
-                                <select name="companyname" onchange="populateLocation(this)" id="companyname" required>
+                                <select name="companyname" onchange="populate(this)" id="companyname" required>
                                     <option value="">Select One</option>
                                     <!-- get all company name -->
                                     <?= $payroll->dropdownCompanyDetails(); ?>

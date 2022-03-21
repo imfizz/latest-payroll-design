@@ -98,7 +98,6 @@ $payroll->deleteRecentGuard();
                                 <th>Name</th>
                                 <th>Contacts</th>
                                 <th>Availability</th>
-                                <th>Type</th>
                                 <th>Date</th>
                             </tr>
                         </thead>

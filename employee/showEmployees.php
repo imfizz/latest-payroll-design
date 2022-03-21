@@ -143,14 +143,6 @@ $payroll->selectguards();
                             <input type='text' name='cpnumber' id='cpnumber' value='09060766219' required/>
                         </div>
                         <div>
-                            <label for='browserfingerprint'>Browser Fingerprint</label>
-                            <input type='text' name='browserfingerprint' id='browserfingerprint' value='89ff208e26f18a4c8c05fc57d2f494ee' required/>
-                        </div>
-                        <div>
-                            <label for='devicefingerprint'>Device Fingerprint</label>
-                            <input type='text' name='devicefingerprint' id='devicefingerprint' value='89ff208e26f18a4c8c05fc57d2f494ee' required/>
-                        </div>
-                        <div>
                             <label for='qrcode'>QR Code</label>
                             <input type='text' name='qrcode' id='qrcode' value='aL2NAvs3' required/>
                         </div>
