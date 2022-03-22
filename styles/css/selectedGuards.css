@@ -1489,9 +1489,11 @@
 
 .addmore-modal > .modal-holder {
   width: 63%;
-  max-height: 400px;
+  max-height: 455px;
   background: white;
   padding: 30px 20px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   border-radius: 5px;
   position: absolute;
   top: 50%;
@@ -1505,7 +1507,6 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  position: relative;
 }
 
 .addmore-modal > .modal-holder > .table-header {
@@ -1542,8 +1543,9 @@
 
 .addmore-modal > .modal-holder > .table-content > .table-holder {
   overflow-y: scroll;
-  max-height: 83%;
+  height: 82%;
   margin-bottom: 2%;
+  position: relative;
   /* width */
   /* Track */
   /* Handle */
@@ -1570,6 +1572,7 @@
 .addmore-modal > .modal-holder > .table-content > .table-holder > table {
   border-collapse: separate;
   border-spacing: 0 10px;
+  height: 100%;
 }
 
 .addmore-modal > .modal-holder > .table-content > .table-holder > table > thead > tr > th {
