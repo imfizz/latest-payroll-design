@@ -1,7 +1,5 @@
 /vendor/
 /.env
-/emailTemplate.php
-/ep.php
-/validations.txt
-/mincss/
-/css/
+/styles/css/
+/styles/mincss/
+/.composer.lock
