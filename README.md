@@ -14,14 +14,14 @@ Employee, Company, and Secretary Accounts are created through the JTDV Admin Sys
 
 To begin, you must first download and install xampp on your local computer. Simply click the config and then the PHP(php.ini) file once it has been installed.
 
-Look for ```;extension=openssl``` and scroll down to locate it. Make sure it's formatted correctly same as the given data below.
+Search for ```;extension=openssl``` and scroll down a little to find the code below. Make sure you format it according to these guidelines.
 
-```;extension=pdo_firebird```
-```extension=pdo_mysql```
-```;extension=pdo_oci```
-```extension=pdo_odbc```
-```extension=pdo_pgsql```
-```extension=pdo_sqlite```
+```;extension=pdo_firebird``` <br/>
+```extension=pdo_mysql```<br/>
+```;extension=pdo_oci```<br/>
+```extension=pdo_odbc```<br/>
+```extension=pdo_pgsql```<br/>
+```extension=pdo_sqlite```<br/>
 
 ### 2. Install Composer.exe
 
