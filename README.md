@@ -48,7 +48,7 @@ Type ```composer install``` and hit enter to install the packages needed.
 
 In the root directory of the cloned repository, create ```.env``` file and type this <br/>
 
-```E_USERNAME=youremailaddress```
+```E_USERNAME=youremailaddress``` <br/>
 ```E_PASSWORD=youremailpassword```
 
 Run your xampp server and go to this link 
