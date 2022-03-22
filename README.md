@@ -37,10 +37,19 @@ You may find database inside the cloned repository. Try to import this in xampp 
 3. Create Database named ```payroll```
 4. Click import and locate the given database in the cloned repository.
 
-### 5. Last step! 🚀
+
+### 5. Install Packages 🚀
 
 Open your command prompt and type ```cd``` and drag the folder of the cloned repository.<br/>
 Type ```composer install``` and hit enter to install the packages needed.
+
+
+### 6. Last Step! 🚀
+
+In the root directory of the cloned repository, create ```.env``` file and type this <br/>
+
+```E_USERNAME=youremailaddress```
+```E_PASSWORD=youremailpassword```
 
 Run your xampp server and go to this link 
 ```localhost/foldername/login.php```
