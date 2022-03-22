@@ -23,6 +23,4 @@ Search for ```;extension=openssl``` and scroll down a little to find the code be
 ```extension=pdo_pgsql```<br/>
 ```extension=pdo_sqlite```<br/>
 
-### 2. Install Composer.exe
-
-#### <a href="https://getcomposer.org/download/">Click and install this</a>
+### 2. Install Composer.exe <a href="https://getcomposer.org/download/">(Click me)</a>
