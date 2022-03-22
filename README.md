@@ -1,4 +1,4 @@
-# JTDV Admin System c
+# JTDV Admin System
 
 ![JTDV Security Agency](jtdv-admin-dashboard.png?raw=true "JTDV Security Agency")
 
@@ -26,22 +26,23 @@ Search for ```;extension=openssl``` and scroll down a little to find the code be
 ### 2. Install Composer.exe 🚀 <a href="https://getcomposer.org/download/">(click me)</a> 
 
 ### 3. Clone the repo! 🚀
+Go to this link and clone or download <br/>
 ```https://github.com/imfizz/latest-payroll-design.git``` and place it inside xampp/htdocs
 
-### 4. Import Database in Xampp
+### 4. Import Database in Xampp 🚀
 
 You may find database inside the cloned repository. Try to import this in xampp server.
 1. Run Apache and Mysql in Xampp
 2. Go to ```localhost/phpmyadmin```
-3. Create Database named ```payroll``
+3. Create Database named ```payroll```
 4. Click import and locate the given database in the cloned repository.
 
 ### 5. Last step! 🚀
 
-Open your command prompt and type ```cd``` and drag the folder of the cloned repository.
+Open your command prompt and type ```cd``` and drag the folder of the cloned repository.<br/>
 Type ```composer install``` and hit enter to install the packages needed.
 
 Run your xampp server and go to this link 
-localhost```/foldername/login.php```
+```localhost/foldername/login.php```
 
 🚀 BOOM you may use the system now.
