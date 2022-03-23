@@ -2,8 +2,6 @@
 require_once('../class.php');
 $sessionData = $payroll->getSessionData();
 $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -84,36 +82,7 @@ $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Marianne Herrera</td>
-                                    <td>Generate Payslip</td>
-                                    <td>12/02/2021</td>
-                                </tr>
-                                <tr>
-                                    <td>Marianne Herrera</td>
-                                    <td>Print Attendance Report</td>
-                                    <td>12/02/2021</td>
-                                </tr>
-                                <tr>
-                                    <td>Marianne Herrera</td>
-                                    <td>Generate Payslip</td>
-                                    <td>12/02/2021</td>
-                                </tr>
-                                <tr>
-                                    <td>Marianne Herrera</td>
-                                    <td>Generate Salary</td>
-                                    <td>12/02/2021</td>
-                                </tr>
-                                <tr>
-                                    <td>Marianne Herrera</td>
-                                    <td>Generate Payslip</td>
-                                    <td>12/02/2021</td>
-                                </tr>
-                                <tr>
-                                    <td>Marianne Herrera</td>
-                                    <td>Generate Payslip</td>
-                                    <td>12/02/2021</td>
-                                </tr>
+                                <?= $payroll->secretaryLogs() ?>
                             </tbody>
                         </table>
                     </div>
@@ -193,8 +162,9 @@ $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
             </div>
         </div>
     </div>
-    <script>
-        
-    </script>
+
+<?php if(isset($_GET['secId'])){
+    $payroll->showSpecificSec($_GET['secId']);
+} ?>
 </body>
 </html>

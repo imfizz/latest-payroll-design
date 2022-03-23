@@ -758,7 +758,9 @@
         width: 54%;
         padding: 35px 0 20px 15px;
         background: transparent !important;
-        @include y-center;
+        // @include y-center;
+        display: flex;
+        flex-direction: column;
         box-sizing: border-box;
         overflow-y: scroll;
 

@@ -739,9 +739,11 @@
 
     & > .centerbar {
         width: 54%;
-        padding: 55px 10px 20px 10px;
+        padding: 35px 10px 20px 10px;
         background: transparent !important;
-        @include y-center;
+        // @include y-center;
+        display: flex;
+        flex-direction: column;
         box-sizing: border-box;
         overflow-y: scroll;
 

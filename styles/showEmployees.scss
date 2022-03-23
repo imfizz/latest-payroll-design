@@ -937,6 +937,33 @@
                                 }
                             }
 
+                            & > .buttons-qr {
+                                height: 21px;
+                                width: 21px;
+                                border-radius: 50%;
+                                background-color: $bgi-view;
+                                @include y-center;
+                                cursor: pointer;
+
+                                &:hover {
+                                    background-color: darken($bgi-view, 5%);
+
+                                    & > span {
+                                        color: darken($i-view, 5%);
+                                    }
+                                }
+
+                                & > a {
+                                    text-decoration: none;
+                                    transform: translateY(2px);
+
+                                    & > span {
+                                        font-size: 16px;
+                                        color: $i-view;
+                                    }
+                                }
+                            }
+
                             & > .buttons-delete {
                                 height: 21px;
                                 width: 21px;
@@ -1129,17 +1156,8 @@
                         transition: 200ms ease-in-out;
                     }
 
-                    // qrcode
-                    &:nth-child(6)::before {
-                        content: url('https://api.iconify.design/bx/qr.svg?color=%239747ff&height=20');
-                        position: absolute;
-                        top: 2px;
-                        left: -38px;
-                        transition: 200ms ease-in-out;
-                    }
-
                     // button
-                    &:nth-child(7) {
+                    &:nth-child(6) {
                         display: flex;
                         justify-content: center;
                         align-items: center;

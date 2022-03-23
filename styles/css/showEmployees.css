@@ -1311,6 +1311,46 @@
   color: #19C773;
 }
 
+.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-qr {
+  height: 21px;
+  width: 21px;
+  border-radius: 50%;
+  background-color: #C0DEFA;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
+}
+
+.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-qr:hover {
+  background-color: #a8d2f8;
+}
+
+.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-qr:hover > span {
+  color: #1c92ff;
+}
+
+.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-qr > a {
+  text-decoration: none;
+  -webkit-transform: translateY(2px);
+          transform: translateY(2px);
+}
+
+.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-qr > a > span {
+  font-size: 16px;
+  color: #359EFF;
+}
+
 .main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-delete {
   height: 21px;
   width: 21px;
@@ -1560,16 +1600,7 @@
   transition: 200ms ease-in-out;
 }
 
-.modal-editguard > .modal-holder > .editguard-content > form > div:nth-child(6)::before {
-  content: url("https://api.iconify.design/bx/qr.svg?color=%239747ff&height=20");
-  position: absolute;
-  top: 2px;
-  left: -38px;
-  -webkit-transition: 200ms ease-in-out;
-  transition: 200ms ease-in-out;
-}
-
-.modal-editguard > .modal-holder > .editguard-content > form > div:nth-child(7) {
+.modal-editguard > .modal-holder > .editguard-content > form > div:nth-child(6) {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1582,7 +1613,7 @@
   padding: 10px 0;
 }
 
-.modal-editguard > .modal-holder > .editguard-content > form > div:nth-child(7) > button {
+.modal-editguard > .modal-holder > .editguard-content > form > div:nth-child(6) > button {
   padding: 7px 0;
   width: 45%;
   border: none;
@@ -1593,7 +1624,7 @@
   cursor: pointer;
 }
 
-.modal-editguard > .modal-holder > .editguard-content > form > div:nth-child(7) > button:hover {
+.modal-editguard > .modal-holder > .editguard-content > form > div:nth-child(6) > button:hover {
   background-color: #16b066;
 }
 

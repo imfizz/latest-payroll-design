@@ -1402,13 +1402,14 @@
           justify-content: center;
 }
 
-.main-container > .rightbar > .relative-links > .top > div:first-child > span {
+.main-container > .rightbar > .relative-links > .top > div:first-child > a {
+  text-decoration: none;
   height: 50px;
   width: 50px;
   position: relative;
 }
 
-.main-container > .rightbar > .relative-links > .top > div:first-child > span::before {
+.main-container > .rightbar > .relative-links > .top > div:first-child > a > span::before {
   content: url("https://api.iconify.design/healthicons/security-worker.svg?color=%23f8f8f8&height=50");
   position: absolute;
   top: 0;
@@ -1470,13 +1471,14 @@
   background: #FFB163;
 }
 
-.main-container > .rightbar > .relative-links > .bottom > div:nth-child(1) > div > span {
-  height: 45px;
-  width: 45px;
+.main-container > .rightbar > .relative-links > .bottom > div:nth-child(1) > div > a {
+  text-decoration: none;
+  height: 50px;
+  width: 50px;
   position: relative;
 }
 
-.main-container > .rightbar > .relative-links > .bottom > div:nth-child(1) > div > span:before {
+.main-container > .rightbar > .relative-links > .bottom > div:nth-child(1) > div > a > span::before {
   content: url("https://api.iconify.design/healthicons/security-worker.svg?color=%23f8f8f8&height=45");
   position: absolute;
   top: 0;
@@ -1487,13 +1489,14 @@
   background: #FFFFFF;
 }
 
-.main-container > .rightbar > .relative-links > .bottom > div:nth-child(2) > div > span {
-  height: 45px;
-  width: 45px;
+.main-container > .rightbar > .relative-links > .bottom > div:nth-child(2) > div > a {
+  text-decoration: none;
+  height: 50px;
+  width: 50px;
   position: relative;
 }
 
-.main-container > .rightbar > .relative-links > .bottom > div:nth-child(2) > div > span:before {
+.main-container > .rightbar > .relative-links > .bottom > div:nth-child(2) > div > a > span::before {
   content: url("https://api.iconify.design/bx/bx-building.svg?color=black&height=45");
   position: absolute;
   top: 0;
@@ -1522,4 +1525,731 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+}
+
+.view-modal {
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.37);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  z-index: 99;
+}
+
+.view-modal > .modal-holder {
+  background: white;
+  border-radius: 5px;
+  width: 33%;
+  max-height: 80%;
+  position: relative;
+  padding: 13px 0px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.view-modal > .modal-holder > .viewmodal-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #c8c8c8;
+  height: 7%;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.view-modal > .modal-holder > .viewmodal-header > h1 {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.view-modal > .modal-holder > .viewmodal-header > span {
+  position: absolute;
+  right: 20px;
+  cursor: pointer;
+}
+
+.view-modal > .modal-holder > .viewmodal-content {
+  width: 100%;
+  height: 93%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  overflow-y: scroll;
+}
+
+.view-modal > .modal-holder > .viewmodal-content::-webkit-scrollbar {
+  width: 0px;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form {
+  padding-top: 20px;
+  height: 100%;
+  width: 72%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  position: relative;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div > label {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div > input {
+  border: none;
+  border-bottom: 1px solid #D9D9D9;
+  margin-top: 5px;
+  font-size: 14px;
+  outline: none;
+  color: #464646;
+  font-weight: 400;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div > select {
+  border: none;
+  border-bottom: 1px solid #D9D9D9;
+  outline: none;
+  font-size: 14px;
+  color: #464646;
+  margin-top: 5px;
+  width: 100%;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(1)::before {
+  content: url("https://api.iconify.design/ant-design/user-outlined.svg?color=%239747ff&height=20");
+  position: absolute;
+  top: 2px;
+  left: -38px;
+  -webkit-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(2)::before {
+  content: url("https://api.iconify.design/ph/gender-intersex-bold.svg?color=%239747ff&height=20");
+  position: absolute;
+  top: 2px;
+  left: -38px;
+  -webkit-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(3)::before {
+  content: url("https://api.iconify.design/eva/email-outline.svg?color=%239747ff&height=20");
+  position: absolute;
+  top: 2px;
+  left: -38px;
+  -webkit-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(4)::before {
+  content: url("https://api.iconify.design/feather/phone-call.svg?color=%239747ff&height=20");
+  position: absolute;
+  top: 2px;
+  left: -38px;
+  -webkit-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(5)::before {
+  content: url("https://api.iconify.design/akar-icons/location.svg?color=%239747ff&height=20");
+  position: absolute;
+  top: 2px;
+  left: -38px;
+  -webkit-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(6) > #map_b-addmodal {
+  width: 100%;
+  height: 250px;
+  background: #D9D9D9;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(6)::before {
+  content: url("https://api.iconify.design/ri/pin-distance-line.svg?color=%239747ff&height=20");
+  position: absolute;
+  top: 2px;
+  left: -38px;
+  -webkit-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(7)::before {
+  content: url("https://api.iconify.design/fluent/weather-partly-cloudy-day-16-regular.svg?color=%239747ff&height=20");
+  position: absolute;
+  top: 2px;
+  left: -38px;
+  -webkit-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(8)::before {
+  content: url("https://api.iconify.design/ic/outline-work-history.svg?color=%239747ff&height=20");
+  position: absolute;
+  top: 2px;
+  left: -38px;
+  -webkit-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(9)::before {
+  content: url("https://api.iconify.design/bx/bx-time-five.svg?color=%239747ff&height=20");
+  position: absolute;
+  top: 2px;
+  left: -38px;
+  -webkit-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(10) {
+  width: 100%;
+  position: relative;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(10) > section {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 5px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 100%;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(10) > section > input {
+  border: none;
+  border-bottom: 1px solid #D9D9D9;
+  outline: none;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(10) > section > input:nth-child(1) {
+  width: 52%;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(10) > section > input:nth-child(2) {
+  width: 18%;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(10) > section > input:nth-child(3) {
+  width: 18%;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(10) > div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  position: relative;
+  margin-top: 10px;
+  gap: 5px;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(10) > div > input {
+  border: none;
+  border-bottom: 1px solid #D9D9D9;
+  outline: none;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(10) > div > input:nth-child(1) {
+  width: 52%;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(10) > div > input:nth-child(2) {
+  width: 18%;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(10) > div > input:nth-child(3) {
+  width: 18%;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(10) > div > .eks {
+  cursor: pointer;
+  font-size: 16px;
+  color: #e44b4b;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(10)::before {
+  content: url("https://api.iconify.design/icon-park-outline/ranking.svg?color=%239747ff&height=20");
+  position: absolute;
+  top: 2px;
+  left: -38px;
+  -webkit-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(11) {
+  width: 100%;
+  position: relative;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(11) > button {
+  width: 35%;
+  border: none;
+  padding: 5px 0;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 13px;
+  background: #C0FADE;
+  color: #19C773;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(11) > button:hover {
+  background: #a8f8d2;
+  color: #16b066;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(12) {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 10px 0;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(12) > button {
+  padding: 7px 0;
+  width: 45%;
+  border: none;
+  background: #4848FE;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.view-modal > .modal-holder > .viewmodal-content > form > div:nth-child(12) > button:hover {
+  background-color: #2f2ffe;
+}
+
+.edit-modal {
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.37);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  z-index: 99;
+}
+
+.edit-modal > .modal-holder {
+  background: white;
+  border-radius: 5px;
+  width: 33%;
+  max-height: 80%;
+  position: relative;
+  padding: 13px 0px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.edit-modal > .modal-holder > .editmodal-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #c8c8c8;
+  height: 7%;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.edit-modal > .modal-holder > .editmodal-header > h1 {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.edit-modal > .modal-holder > .editmodal-header > span {
+  position: absolute;
+  right: 20px;
+  cursor: pointer;
+}
+
+.edit-modal > .modal-holder > .editmodal-content {
+  width: 100%;
+  height: 93%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  overflow-y: scroll;
+}
+
+.edit-modal > .modal-holder > .editmodal-content::-webkit-scrollbar {
+  width: 0px;
+}
+
+.edit-modal > .modal-holder > .editmodal-content > form {
+  padding-top: 20px;
+  height: 100%;
+  width: 72%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  position: relative;
+}
+
+.edit-modal > .modal-holder > .editmodal-content > form > div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.edit-modal > .modal-holder > .editmodal-content > form > div > label {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.edit-modal > .modal-holder > .editmodal-content > form > div > input {
+  border: none;
+  border-bottom: 1px solid #D9D9D9;
+  margin-top: 5px;
+  font-size: 14px;
+  outline: none;
+  color: #464646;
+  font-weight: 400;
+}
+
+.edit-modal > .modal-holder > .editmodal-content > form > div > select {
+  border: none;
+  border-bottom: 1px solid #D9D9D9;
+  outline: none;
+  font-size: 14px;
+  color: #464646;
+  margin-top: 5px;
+  width: 100%;
+}
+
+.edit-modal > .modal-holder > .editmodal-content > form > div:nth-child(1)::before {
+  content: url("https://api.iconify.design/ant-design/user-outlined.svg?color=%239747ff&height=20");
+  position: absolute;
+  top: 2px;
+  left: -38px;
+  -webkit-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
+}
+
+.edit-modal > .modal-holder > .editmodal-content > form > div:nth-child(2)::before {
+  content: url("https://api.iconify.design/ph/gender-intersex-bold.svg?color=%239747ff&height=20");
+  position: absolute;
+  top: 2px;
+  left: -38px;
+  -webkit-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
+}
+
+.edit-modal > .modal-holder > .editmodal-content > form > div:nth-child(3)::before {
+  content: url("https://api.iconify.design/eva/email-outline.svg?color=%239747ff&height=20");
+  position: absolute;
+  top: 2px;
+  left: -38px;
+  -webkit-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
+}
+
+.edit-modal > .modal-holder > .editmodal-content > form > div:nth-child(4)::before {
+  content: url("https://api.iconify.design/feather/phone-call.svg?color=%239747ff&height=20");
+  position: absolute;
+  top: 2px;
+  left: -38px;
+  -webkit-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
+}
+
+.edit-modal > .modal-holder > .editmodal-content > form > div:nth-child(5)::before {
+  content: url("https://api.iconify.design/akar-icons/location.svg?color=%239747ff&height=20");
+  position: absolute;
+  top: 2px;
+  left: -38px;
+  -webkit-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
+}
+
+.edit-modal > .modal-holder > .editmodal-content > form > div:nth-child(6) {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-top: 10px;
+}
+
+.edit-modal > .modal-holder > .editmodal-content > form > div:nth-child(6) > button {
+  padding: 7px 0;
+  width: 45%;
+  border: none;
+  background: #19C773;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.edit-modal > .modal-holder > .editmodal-content > form > div:nth-child(6) > button:hover {
+  background-color: #16b066;
+}
+
+.delete-modal {
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.37);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  z-index: 99;
+}
+
+.delete-modal > .modal-holder {
+  width: 33%;
+  max-height: 80%;
+  border-radius: 5px;
+  background: white;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  position: relative;
+  -webkit-transform: translateY(-140px);
+          transform: translateY(-140px);
+}
+
+.delete-modal > .modal-holder > .deletemodal-header {
+  width: 100%;
+  height: 7%;
+  border-bottom: 1px solid #c8c8c8;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  position: relative;
+  padding: 25px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.delete-modal > .modal-holder > .deletemodal-header > h1 {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.delete-modal > .modal-holder > .deletemodal-header > span {
+  position: absolute;
+  right: 20px;
+  cursor: pointer;
+}
+
+.delete-modal > .modal-holder > .deletemodal-content {
+  height: 93%;
+  width: 100%;
+  position: relative;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  overflow-y: scroll;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.delete-modal > .modal-holder > .deletemodal-content::-webkit-scrollbar {
+  width: 0px;
+}
+
+.delete-modal > .modal-holder > .deletemodal-content > form {
+  height: 100%;
+  width: 72%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  position: relative;
+  padding-top: 20px;
+}
+
+.delete-modal > .modal-holder > .deletemodal-content > form > h1 {
+  font-size: 22px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.delete-modal > .modal-holder > .deletemodal-content > form > div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.delete-modal > .modal-holder > .deletemodal-content > form > div > button {
+  margin-top: 20px;
+  border: none;
+  padding: 7px 0;
+  background: #F24E4E;
+  border-radius: 5px;
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.delete-modal > .modal-holder > .deletemodal-content > form > div > button:hover {
+  background: #f03636;
 }

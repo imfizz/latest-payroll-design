@@ -1,6 +1,6 @@
 <?php
 
-require_once "index.php";
+require_once "index2.php";
 $credentials = array('e_username' => $e_username, 
                      'e_password' => $e_password);
 
@@ -602,7 +602,7 @@ Class Payroll
     // show only 2 record of secretary
     public function show2Secretary()
     {
-        $sql = "SELECT fullname, access, gender FROM secretary ORDER BY id DESC LIMIT 2";
+        $sql = "SELECT fullname, access, gender, id FROM secretary WHERE isDeleted = 0 ORDER BY id DESC LIMIT 2";
         $stmt = $this->con()->query($sql);
         $countRow = $stmt->rowCount();
 
@@ -649,8 +649,8 @@ Class Payroll
                 echo "<div class='left-svg'>
                         <div class='left-svg-headline'>
                             <div class='left-svg-top'>
-                                <h2>Position of Head Finance</h2>
-                                <button><div class='circle'></div> View</button>
+                                <h2>Role as Secretary</h2>
+                                <button><div class='circle'></div> <a href='./secretary.php?secId=$row->id'>View</a></button>
                             </div>
                             <di class='left-svg-bottom'>
                                 <div class='profile'>
@@ -672,8 +672,8 @@ Class Payroll
                 echo "<div class='right-svg'>
                         <div class='right-svg-headline'>
                             <div class='right-svg-top'>
-                                <h2>Position of Head Finance</h2>
-                                <button><div class='circle'></div> View</button>
+                                <h2>Role as Secretary</h2>
+                                <button><div class='circle'></div> <a href='./secretary.php?secId=$row->id'>View</a></button>
                             </div>
                             <div class='right-svg-bottom'>
                                 <div class='profile'>
@@ -694,9 +694,26 @@ Class Payroll
         }
     }
 
+    public function secretaryLogs()
+    {
+        $sql = "SELECT sl.*, s.fullname 
+                FROM secretary_log sl
+                INNER JOIN secretary s
+                ON sl.sec_id = s.id
+                ORDER BY sl.id DESC";
+        $stmt = $this->con()->query($sql);
+        while($row = $stmt->fetch()){
+            echo "<tr>
+                    <td>$row->fullname</td>
+                    <td>$row->action</td>
+                    <td>$row->date</td>
+                  </tr>";
+        }
+    }
+
     public function showAllSecretary()
     {
-        $sql = "SELECT * FROM secretary";
+        $sql = "SELECT * FROM secretary WHERE isDeleted = 0";
         $stmt = $this->con()->query($sql);
 
         while($row = $stmt->fetch()){
@@ -715,71 +732,129 @@ Class Payroll
         }
     }
 
-    public function showSpecificSec()
+    public function showSpecificSec($id)
     {
-        if(isset($_GET['secId']) && !isset($_GET['email'])){
-            $id = $_GET['secId'];
 
-            $sql = "SELECT * FROM secretary WHERE id = ?";
-            $stmt = $this->con()->prepare($sql);
-            $stmt->execute([$id]);
-            $user = $stmt->fetch();
-            $countRow = $stmt->rowCount();
+        $sql = "SELECT * FROM secretary WHERE id = ?";
+        $stmt = $this->con()->prepare($sql);
+        $stmt->execute([$id]);
+        $user = $stmt->fetch();
+        $countRow = $stmt->rowCount();
 
-            if($countRow > 0){
-                $fullname = $user->fullname;
-                $gender = $user->gender;
-                $email = $user->email;
-                $cpnumber = $user->cpnumber;
-                $address = $user->address;
+        if($countRow > 0){
+            $fullname = $user->fullname;
+            $gender = $user->gender;
+            $email = $user->email;
+            $cpnumber = $user->cpnumber;
+            $address = $user->address;
 
-                echo "<script>
-                         let viewModal = document.querySelector('.view-modal');
-                         viewModal.setAttribute('id', 'show-modal');
-
-                         let fullname = document.querySelector('#fullname').value = '$fullname';
-                         let gender = document.querySelector('#gender').value = '$gender';
-                         let email = document.querySelector('#email').value = '$email';
-                         let cpnumber = document.querySelector('#cpnumber').value = '$cpnumber';
-                         let address = document.querySelector('#address').value = '$address';
-
-                      </script>";
-            }
+            echo "  <div class='view-modal'>
+                        <div class='modal-holder'>
+                            <div class='viewmodal-header'>
+                                <h1>View Details</h1>
+                                <span class='material-icons' id='viewModalClose'>close</span>
+                            </div>
+                            <div class='viewmodal-content'>
+                                <form method='post'>
+                                    <div>
+                                        <label for='fullname'>Fullname</label>
+                                        <input type='text' name='fullname' id='fullname' value='$fullname' readonly/>
+                                    </div>
+                                    <div>
+                                        <label for='gender'>Gender</label>
+                                        <select name='gender' id='gender' required disabled>
+                                            <option value='$gender'>$gender</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for='email'>Email</label>
+                                        <input type='email' name='email' id='email' value='$email' readonly/>
+                                    </div>
+                                    <div>
+                                        <label for=''>Contact Number</label>
+                                        <input type='text' name='cpnumber' id='cpnumber' value='$cpnumber' readonly/>
+                                    </div>
+                                    <div>
+                                        <label for='address'>Address</label>
+                                        <input type='text' name='address' id='address' value='$address' readonly/>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        // close modal
+                        let viewModalClose = document.querySelector('#viewModalClose');
+                        viewModalClose.addEventListener('click', () => {
+                            let viewModal = document.querySelector('.view-modal');
+                            viewModal.style.display = 'none';
+                        });
+                    </script>";
         }
     }
 
-    public function editModalShow()
+    public function editModalShow($id)
     {
-        if(isset($_GET['secId']) && isset($_GET['email'])){
-            $id = $_GET['secId'];
+        $sql = "SELECT * FROM secretary WHERE id = ?";
+        $stmt = $this->con()->prepare($sql);
+        $stmt->execute([$id]);
+        $user = $stmt->fetch();
+        $countRow = $stmt->rowCount();
 
-            $sql = "SELECT * FROM secretary WHERE id = ?";
-            $stmt = $this->con()->prepare($sql);
-            $stmt->execute([$id]);
-            $user = $stmt->fetch();
-            $countRow = $stmt->rowCount();
+        if($countRow > 0){
+            $fullname = $user->fullname;
+            $gender = $user->gender;
+            $gender2 = $gender == 'Male' ? 'Female' : $gender;
+            $email = $user->email;
+            $cpnumber = $user->cpnumber;
+            $address = $user->address;
 
-            if($countRow > 0){
-                $fullname = $user->fullname;
-                $gender = $user->gender;
-                $email = $user->email;
-                $cpnumber = $user->cpnumber;
-                $address = $user->address;
-
-                echo "<script>
-                         let viewModal = document.querySelector('.view-modal');
-                         viewModal.setAttribute('id', 'show-modal');
-
-                         let fullname = document.querySelector('#fullname').value = '$fullname';
-                         let gender = document.querySelector('#gender').value = '$gender';
-                         let email = document.querySelector('#email').value = '$email';
-                         let cpnumber = document.querySelector('#cpnumber').value = '$cpnumber';
-                         let address = document.querySelector('#address').value = '$address';
-
-                         let updateBtn = document.querySelector('#updateBtn');
-                         updateBtn.style.display = 'block';
-                      </script>";
-            }
+            echo "  <div class='edit-modal'>
+                        <div class='modal-holder'>
+                            <div class='editmodal-header'>
+                                <h1>Edit Details</h1>
+                                <span class='material-icons' id='editModalClose'>close</span>
+                            </div>
+                            <div class='editmodal-content'>
+                                <form method='post'>
+                                    <div>
+                                        <label for='fullname'>Fullname</label>
+                                        <input type='text' name='fullname' id='fullname' value='$fullname' autocomplete='off' required/>
+                                    </div>
+                                    <div>
+                                        <label for='gender'>Gender</label>
+                                        <select name='gender' id='gender' required>
+                                            <option value='$gender'>$gender</option>
+                                            <option value='$gender2'>$gender2</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for='email'>Email</label>
+                                        <input type='email' name='email' id='email' value='$email' autocomplete='off' required/>
+                                    </div>
+                                    <div>
+                                        <label for=''>Contact Number</label>
+                                        <input type='text' name='cpnumber' id='cpnumber' value='$cpnumber' autocomplete='off' required/>
+                                    </div>
+                                    <div>
+                                        <label for='address'>Address</label>
+                                        <input type='text' name='address' id='address' value='$address' autocomplete='off' required/>
+                                    </div>
+                                    <div>
+                                        <button type='submit' name='updateSec' id='updateBtn'>Update</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        // close modal
+                        let editModalClose = document.querySelector('#editModalClose');
+                        editModalClose.addEventListener('click', () => {
+                            let editModal = document.querySelector('.edit-modal');
+                            editModal.style.display = 'none';
+                        });
+                    </script>";
         }
     }
 
@@ -839,7 +914,7 @@ Class Payroll
 
                             if($countRow2 > 0){
                                 $this->sendEmail($users2->email, $users2->secret_key);
-                                echo "<script>window.location.assign('secretary.php');</script>";
+                                echo "<script>window.location.assign('./showAll.php');</script>";
                             } else {
                                 echo 'There was something wrong in our codes';
                             }
@@ -863,7 +938,8 @@ Class Payroll
                     $countRow = $stmt->rowCount();
 
                     if($countRow > 0){
-                        echo '<br/>Data was updated successfully';
+                        echo 'Data was updated successfully';
+                        echo "<script>window.location.assign('./showAll.php');</script>";
                     } else {
                         echo '<br/>No data was updated. There was something wrong in our codes';
                     }
@@ -874,43 +950,47 @@ Class Payroll
     }
 
 
-    public function deleteSecretary($id)
+    public function deleteModalShowIt($id)
     {
-        echo "<script>
-                let viewModal = document.querySelector('.view-modal');
-                viewModal.setAttribute('id', 'show-modal');
+        $sql = "SELECT * FROM secretary WHERE id = ?";
+        $stmt = $this->con()->prepare($sql);
+        $stmt->execute([$id]);
+        $user = $stmt->fetch();
+        $countRow = $stmt->rowCount();
+        if($countRow > 0){
+            echo "  <div class='delete-modal'>
+                        <div class='modal-holder'>
+                            <div class='deletemodal-header'>
+                                <h1>Delete Secretary</h1>
+                                <span class='material-icons' id='deleteModalClose'>close</span>
+                            </div>
+                            <div class='deletemodal-content'>
+                                <form method='post'>
+                                    <h1>Are you sure you want to delete this secretary?</h1>
+                                    <div>
+                                        <input type='hidden' name='id' value='$user->id' required/>
+                                        <button type='submit' name='deleteSec' id='deleteBtn'>Delete</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        // close modal
+                        let deleteModalClose = document.querySelector('#deleteModalClose');
+                        deleteModalClose.addEventListener('click', () => {
+                            let deleteModal = document.querySelector('.delete-modal');
+                            deleteModal.style.display = 'none';
+                        });
+                    </script>";
+        }
+    }
 
-                document.querySelector('#fullname').setAttribute('type', 'hidden');
-                document.querySelector('#fullname').removeAttribute('required');
-
-                document.querySelector('#gender').style.visibility = 'hidden';
-                document.querySelector('#gender').removeAttribute('required');
-                
-                document.querySelector('#email').setAttribute('type', 'hidden');
-                document.querySelector('#email').removeAttribute('required');
-
-                document.querySelector('#cpnumber').setAttribute('type', 'hidden');
-                document.querySelector('#cpnumber').removeAttribute('required');
-
-                document.querySelector('#address').setAttribute('type', 'hidden');
-                document.querySelector('#address').removeAttribute('required');
-
-                let updateBtn = document.querySelector('#updateBtn');
-                updateBtn.style.display = 'none';
-
-                let deleteBtn = document.querySelector('#deleteBtn');
-                deleteBtn.style.display = 'block';
-
-                let deleteHeader = document.querySelector('#myH1');
-                deleteHeader.style.display = 'block';
-
-                let labels = document.querySelectorAll('label');
-                labels.forEach((label)=>{
-                    label.style.display = 'none';
-                });
-              </script>";
-
+    public function deleteSecretary()
+    {
         if(isset($_POST['deleteSec'])){
+            $id = $_POST['id'];
+
             if(empty($id)){
                 echo 'Id are required to delete this employee';
             } else {
@@ -1240,6 +1320,11 @@ Class Payroll
                             <div class='buttons-edit'>
                                 <a href='showEmployees.php?id=$row->id&email=$row->email&action=edit'>
                                     <span class='material-icons'>edit</span>
+                                </a>
+                            </div>
+                            <div class='buttons-qr'>
+                                <a href='./qr.php?myqr=$row->qrcode'>
+                                    <span class='material-icons'>qr_code</span>
                                 </a>
                             </div>
                             <div class='buttons-delete'>
@@ -1977,7 +2062,7 @@ Class Payroll
             $lastname = $_POST['lastname'];
             $address = $_POST['address'];
             $email = $_POST['email'];
-            $number = $_POST['number'];
+            $number = $_POST['cpnumber'];
 
             if(empty($firstname) &&
                empty($lastname) &&
@@ -2048,9 +2133,9 @@ Class Payroll
                     $countRow = $stmt->rowCount();
 
                     if($countRow > 0){
-                        echo '<br/>Data was updated successfully.';
+                        echo "<br/>Data was updated successfully.<script>window.location.assign('./showEmployees.php');</script>";
                     } else {
-                        echo '<br/>No data was updated. There was something wrong in our codes';
+                        echo "<br/>No data was updated. There was something wrong in our codes<script>window.location.assign('./showEmployees.php');</script>";
                     }
                 }
                     
@@ -2085,7 +2170,8 @@ Class Payroll
                         echo "<div class='success'>Successfully deleted</div>
                               <script>window.location.assign('./showEmployees.php');</script>";
                     } else {
-                        echo "<div class='error'>Delete failed</div>";
+                        echo "<div class='error'>Delete failed</div>
+                              <script>window.location.assign('./showEmployees.php');</script>";
                     }
                 }
             }
@@ -2120,7 +2206,7 @@ Class Payroll
                          let lastname = document.querySelector('#lastname').value = '$lastname';
                          let address = document.querySelector('#address').value = '$address';
                          let email = document.querySelector('#email').value = '$email';
-                         let number = document.querySelector('#number').value = '$number';
+                         let number = document.querySelector('#cpnumber').value = '$number';
                       </script>";
             }
         }

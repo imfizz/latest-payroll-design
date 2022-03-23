@@ -66,8 +66,7 @@ $payroll->addcompany();
             <div class="welcome-info">
                 <div class="welcome-box">
                     <h2>Hello Francis!</h2>
-                    <p>You have 3 new company added. It is a lot. Keep up the good work. Let's go 😘</p>
-                    <button><a href="#">Review All</a></button>
+                    <p>Let's keep things organized and maintainable</p>
                 </div>
                 <div class="welcome-svg">
                     <object data="../styles/SVG_modified/company.svg" type="image/svg+xml"></object>

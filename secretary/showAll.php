@@ -27,7 +27,7 @@ $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
                     <li><a href="../dashboard.php">Dashboard</a></li>
                     <li class="active-parent">Records
                         <ul>
-                            <li><a href="../employee.php">Employee</a></li>
+                            <li><a href="../employee/employee.php">Employee</a></li>
                             <li><a href="../company/company.php">Company</a></li>
                             <li><a href="./secretary.php">Secretary</a></li>
                         </ul>
@@ -104,23 +104,23 @@ $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
                 </div>
                 <div class="top">
                     <div>
-                        <span></span>
+                        <a href="../employee/unavailable.php"><span></span></a>
                     </div>
                     <div>
-                        <a href="#">Unavailable Guards</a>
+                        <a href="../employee/unavailable.php">Unavailable Guards</a>
                     </div>
                 </div>
                 <div class="bottom">
                     <div>
                         <p>Available Guard</p>
                         <div>
-                            <span></span>
+                            <a href="../employee/showEmployees.php"><span></span></a>
                         </div>
                     </div>
                     <div>
                         <p>Company</p>
                         <div>
-                            <span></span>
+                            <a href="../company/company.php"><span></span></a>
                         </div>
                     </div>
                 </div>
@@ -128,50 +128,19 @@ $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
         </div>
     </div>
 
-    <div class="view-modal">
-        <form method="post">
-            <!-- <h1 id="myH1">Are you sure you want to delete?</h1> -->
-            <div>
-                <label for="fullname">Fullname</label>
-                <input type="text" name="fullname" id="fullname" autocomplete="off" required/>
-            </div>
-            <div>
-                <label for="gender">Gender</label>
-                <select name="gender" id="gender" required>
-                    <option value=""></option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                </select>
-            </div>
-            <div>
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email" autocomplete="off" required/>
-            </div>
-            <div>
-                <label for="cpnumber">Contact #</label>
-                <input type="text" name="cpnumber" id="cpnumber" autocomplete="off" required/>
-            </div>
-            <div>
-                <label for="address">Address</label>
-                <input type="text" name="address" id="address" autocomplete="off" required/>
-            </div>
-            <button type="submit" name="updateSec" id="updateBtn">Update</button>
-            
-            <button type="submit" name="deleteSec" id="deleteBtn">Delete</button>
-        </form>
-    </div>
+<?php if(isset($_GET['secId']) && !isset($_GET['email'])){
+    $payroll->showSpecificSec($_GET['secId']);
+} ?>
 
-<?php 
-$payroll->showSpecificSec(); 
 
-if(isset($_GET['secId']) && isset($_GET['email'])){
-    $payroll->editModalShow();
+<?php if(isset($_GET['secId']) && isset($_GET['email'])){
+    $payroll->editModalShow($_GET['secId']);
     $payroll->editSecretary($_GET['secId'], $_GET['email']);
-}
+} ?>
 
-if(isset($_GET['secIdDelete'])){
-    $payroll->deleteSecretary($_GET['secIdDelete']);
-}
-?>
+<?php if(isset($_GET['secIdDelete'])){
+    $payroll->deleteModalShowIt($_GET['secIdDelete']);
+    $payroll->deleteSecretary();
+} ?>
 </body>
 </html>

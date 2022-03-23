@@ -1030,7 +1030,7 @@
 
 .main-container > .centerbar {
   width: 54%;
-  padding: 55px 10px 20px 10px;
+  padding: 35px 10px 20px 10px;
   background: transparent !important;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1039,12 +1039,6 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   overflow-y: scroll;

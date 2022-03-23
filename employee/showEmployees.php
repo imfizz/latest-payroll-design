@@ -124,30 +124,26 @@ $payroll->selectguards();
                     <form method='POST'>
                         <div>
                             <label for='firstname'>Firstname</label>
-                            <input type='text' name='firstname' id='firstname' value='Francis' required/>
+                            <input type='text' name='firstname' id='firstname' required/>
                         </div>
                         <div>
                             <label for='lastname'>Lastname</label>
-                            <input type='text' name='lastname' id='lastname' value='Ilacad' required/>
+                            <input type='text' name='lastname' id='lastname' required/>
                         </div>
                         <div>
                             <label for='address'>Address</label>
-                            <input type='text' name='address' id='address' value='38/F Joy Nostalg Center No.17 ADB Avenue Ortigas Center, Pasig' required/>
+                            <input type='text' name='address' id='address' required/>
                         </div>
                         <div>
                             <label for='email'>Email</label>
-                            <input type='email' name='email' id='email' value='francis.albert.sarcaoga.ilacad@gmail.com' required/>
+                            <input type='email' name='email' id='email' required/>
                         </div>
                         <div>
                             <label for='cpnumber'>Contact Number</label>
-                            <input type='text' name='cpnumber' id='cpnumber' value='09060766219' required/>
+                            <input type='text' name='cpnumber' id='cpnumber' required/>
                         </div>
                         <div>
-                            <label for='qrcode'>QR Code</label>
-                            <input type='text' name='qrcode' id='qrcode' value='aL2NAvs3' required/>
-                        </div>
-                        <div>
-                            <button type='submit' name='editGuard'>Edit Guard</button>
+                            <button type='submit' name='editemployee'>Edit Guard</button>
                         </div>
                     </form>
                 </div>
