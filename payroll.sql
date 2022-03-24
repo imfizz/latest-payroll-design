@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 21, 2022 at 09:47 PM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 7.3.33
+-- Generation Time: Mar 24, 2022 at 11:57 AM
+-- Server version: 10.4.20-MariaDB
+-- PHP Version: 7.3.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -69,7 +69,14 @@ INSERT INTO `admin_log` (`id`, `name`, `action`, `table_name`, `time`, `date`) V
 (213, 'Rizza Janes Pachecos', 'login', NULL, '08:16:27pm', '2022/03/21'),
 (214, 'Rizza Janes Pachecos', 'login', NULL, '11:18:37pm', '2022/03/21'),
 (215, 'Rizza Janes Pachecos', 'login', NULL, '12:22:28am', '2022/03/22'),
-(216, 'Rizza Janes Pachecos', 'login', NULL, '12:40:05am', '2022/03/22');
+(216, 'Rizza Janes Pachecos', 'login', NULL, '12:40:05am', '2022/03/22'),
+(217, 'Rizza Janes Pachecos', 'login', NULL, '02:35:31pm', '2022/03/22'),
+(218, 'Rizza Janes Pachecos', 'login', NULL, '03:20:38pm', '2022/03/22'),
+(219, 'Rizza Janes Pachecos', 'Add Secretary', NULL, '03:31:37pm', '2022/03/22'),
+(220, 'Rizza Janes Pachecos', 'Add Secretary', NULL, '03:32:15pm', '2022/03/22'),
+(221, 'Rizza Janes Pachecos', 'login', NULL, '03:09:53pm', '2022/03/23'),
+(222, 'Rizza Janes Pachecos', 'login', NULL, '09:02:34am', '2022/03/24'),
+(223, 'Rizza Janes Pachecos', 'login', NULL, '04:48:08pm', '2022/03/24');
 
 -- --------------------------------------------------------
 
@@ -119,7 +126,7 @@ CREATE TABLE `company` (
 --
 
 INSERT INTO `company` (`id`, `company_name`, `hired_guards`, `cpnumber`, `email`, `comp_location`, `longitude`, `latitude`, `boundary_size`, `watType`, `shifts`, `shift_span`, `day_start`, `date`) VALUES
-(33, 'Rebisco', NULL, '09060766219', 'rebisco@gmail.com', 'Rebisco Sample Address', '121.04928462771016', '14.651458505979022', '0.079km', NULL, 'Day', '12', '07:00 am', '2022/03/19'),
+(33, 'Rebisco', '0', '09060766219', 'rebisco@gmail.com', 'Rebisco Sample Address', '121.04928462771016', '14.651458505979022', '0.079km', NULL, 'Day', '12', '07:00 am', '2022/03/19'),
 (38, 'Nissin Seafood Incorporation', '2', '09060766219', 'filacad22@gmail.com', 'Novaliches', '121.03334816121998', '14.724003991342983', '0.161km', NULL, 'Night', '12', '07:00 am', '2022/03/21');
 
 -- --------------------------------------------------------
@@ -155,8 +162,8 @@ CREATE TABLE `employee` (
 
 INSERT INTO `employee` (`id`, `empId`, `firstname`, `lastname`, `cpnumber`, `address`, `position`, `ratesperDay`, `overtime_rate`, `watType`, `email`, `password`, `qrcode`, `access`, `availability`, `timer`, `time`, `date`) VALUES
 (43, '2022-42', 'Francis', 'Ilacad', '09060766219', 'Sample Address ko hehehe', 'Security Guard', '45.00', '44.00', NULL, 'francis.albert.sarcaoga.ilacad@gmail.com', '2bb058e1e06051eb6dd619d730fb2062', 'oHsOwmUH', 'employee', 'Unavailable', NULL, '08:40:57pm', '2022/03/21'),
-(44, '2022-43', 'Francis', 'Marianne', '09060766219', 'Sample address', 'Officer in Charge', '50.00', '49.00', NULL, 'sicnarfarerreh@gmail.com', '62afe2be7805a77b1fc933b898221824', 'I4STrv3U', 'employee', 'Unavailable', NULL, '11:22:10pm', '2022/03/21'),
-(45, '2022-44', 'asdasd', 'asdasd', 'asdasd', 'asdasd', NULL, NULL, NULL, NULL, 'filacad22@gmail.com', '0b05c100d8f2ee7bdd51d7a4a8e998c6', '2pf81vL0', 'employee', 'Available', NULL, '04:27:31am', '2022/03/22');
+(44, '2022-43', 'Francis', 'Marianne', '09060766219', 'Quezon City', 'Security Guard', '45.00', NULL, NULL, 'sicnarfarerreh@gmail.com', '62afe2be7805a77b1fc933b898221824', 'I4STrv3U', 'employee', 'Unavailable', NULL, '11:22:10pm', '2022/03/21'),
+(47, '2022-44', 'Kiko', 'Lopez', '09060766219', 'Kiko Lopez Drive', NULL, NULL, NULL, NULL, 'filacad22@gmail.com', 'eb214672ba3ac7f847652d43b370c96d', 'QpfRZZnN', 'employee', 'Available', NULL, '04:56:28pm', '2022/03/24');
 
 -- --------------------------------------------------------
 
@@ -180,6 +187,31 @@ CREATE TABLE `emp_attendance` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `inbox`
+--
+
+CREATE TABLE `inbox` (
+  `id` varchar(255) NOT NULL,
+  `empId` varchar(50) NOT NULL,
+  `subject` varchar(100) NOT NULL,
+  `body` varchar(255) NOT NULL,
+  `filename` varchar(255) DEFAULT NULL,
+  `filenewname` varchar(255) DEFAULT NULL,
+  `date_created` varchar(50) NOT NULL,
+  `status` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `inbox`
+--
+
+INSERT INTO `inbox` (`id`, `empId`, `subject`, `body`, `filename`, `filenewname`, `date_created`, `status`) VALUES
+('2203221647937965', '2022-42', 'Violation Memorandum', 'Violation: No Overseacup, Name Cloth, Agency Name Cloth, Holster\n\nFine: 400.00\n\n(Insert message here)', NULL, NULL, '2022/03/22 04:32:45 PM', 'Unread'),
+('2203221647938231', '2022-43', 'Violation', 'Violation: Sleeping on post\r\n\r\n(Insert message)', 'Memorandum.docx', '2203221647938231Memorandum.docx', '2022/03/22 04:37:11 PM', 'Unread');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `leave_request`
 --
 
@@ -197,6 +229,13 @@ CREATE TABLE `leave_request` (
   `date_created` varchar(50) NOT NULL,
   `date_admin` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `leave_request`
+--
+
+INSERT INTO `leave_request` (`id`, `empId`, `days`, `leave_start`, `leave_end`, `type`, `typeOfLeave`, `reason`, `substitute_by`, `status`, `date_created`, `date_admin`) VALUES
+(4, '2022-42', 3, '2022-03-24', '2022-03-27', '', 'Sick Leave', 'Tinatamad', '2022-43', 'approved', '2022-03-22', '2022-02-19');
 
 -- --------------------------------------------------------
 
@@ -246,8 +285,8 @@ CREATE TABLE `schedule` (
 --
 
 INSERT INTO `schedule` (`id`, `empId`, `company`, `scheduleTimeIn`, `scheduleTimeOut`, `shift`, `shift_span`, `expiration_date`, `date_assigned`) VALUES
-(143, '2022-43', 'Nissin Seafood Incorporation', '07:00 am', '07:00 pm', 'Night', 12, '2024-03-21', '2022-03-22'),
-(144, '2022-42', 'Nissin Seafood Incorporation', NULL, NULL, NULL, NULL, '2024-03-21', '2022-03-22');
+(144, '2022-42', 'Nissin Seafood Incorporation', NULL, NULL, NULL, NULL, '2024-03-21', '2022-03-22'),
+(147, '2022-43', 'Nissin Seafood Incorporation', NULL, NULL, NULL, NULL, '2022-03-27', '2022-03-22');
 
 -- --------------------------------------------------------
 
@@ -269,6 +308,14 @@ CREATE TABLE `secretary` (
   `isDeleted` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `secretary`
+--
+
+INSERT INTO `secretary` (`id`, `fullname`, `gender`, `cpnumber`, `address`, `email`, `password`, `timer`, `admin_id`, `access`, `isDeleted`) VALUES
+(27, 'Francis Marianne', 'Female', '09060766219', 'Novaliches, Quezon City', 'filacad22@gmail.com', 'fa2c1145b5ce30dbc18a013396e87d02', NULL, 4, 'secretary', 0),
+(28, 'Francis Ilacad', 'Female', '09060766219', 'Bayan Glori', 'sicnarfarerreh@gmail.com', 'c3991757eb3eded3199c6949fbd7a161', NULL, 4, 'secretary', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -282,6 +329,18 @@ CREATE TABLE `secretary_log` (
   `time` varchar(100) DEFAULT NULL,
   `date` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `secretary_log`
+--
+
+INSERT INTO `secretary_log` (`id`, `sec_id`, `action`, `time`, `date`) VALUES
+(1, 27, 'Delete deduction', '07:32 PM', '2022-03-21'),
+(3, 28, 'Add deduction', '02:12 PM', '2022-023-15'),
+(4, 27, 'Generate salary', '01:40 PM', '2022-03-07'),
+(5, 27, 'Add cash advance', '05:26 PM', '2022-03-01'),
+(6, 27, 'Delete cash advance', '11:13 PM', '2022-03-05'),
+(7, 28, 'Generate salary', '10:53 PM', '2022-03-11');
 
 -- --------------------------------------------------------
 
@@ -322,7 +381,7 @@ CREATE TABLE `secret_diarye` (
 INSERT INTO `secret_diarye` (`id`, `e_id`, `secret_key`) VALUES
 (22, 'francis.albert.sarcaoga.ilacad@gmail.com', 'fh&iq(tb'),
 (23, 'sicnarfarerreh@gmail.com', 'gx_ajrs+'),
-(24, 'filacad22@gmail.com', 'd_79ho@5');
+(27, 'filacad22@gmail.com', '9jg5s40)');
 
 -- --------------------------------------------------------
 
@@ -335,6 +394,14 @@ CREATE TABLE `secret_diarys` (
   `se_id` varchar(100) NOT NULL,
   `secret_key` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `secret_diarys`
+--
+
+INSERT INTO `secret_diarys` (`id`, `se_id`, `secret_key`) VALUES
+(18, 'filacad22@gmail.com', 'p59f$h27'),
+(19, 'sicnarfarerreh@gmail.com', 'pyqhtgn8');
 
 -- --------------------------------------------------------
 
@@ -376,9 +443,19 @@ CREATE TABLE `violationsandremarks` (
   `id` int(11) NOT NULL,
   `empId` varchar(100) NOT NULL,
   `violation` varchar(255) NOT NULL,
-  `remark` varchar(255) NOT NULL,
-  `date_created` varchar(100) NOT NULL
+  `fine` int(11) DEFAULT NULL,
+  `remark` varchar(255) DEFAULT NULL,
+  `date_created` varchar(100) NOT NULL,
+  `paid` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `violationsandremarks`
+--
+
+INSERT INTO `violationsandremarks` (`id`, `empId`, `violation`, `fine`, `remark`, `date_created`, `paid`) VALUES
+(26, '2022-42', 'No Overseacup, Name Cloth, Agency Name Cloth, Holster', 400, '2203221647937965', '2022/03/22', 'Unpaid'),
+(27, '2022-43', 'Sleeping on post', NULL, '2203221647938231', '2022/03/22', 'Unpaid');
 
 --
 -- Indexes for dumped tables
@@ -417,6 +494,13 @@ ALTER TABLE `employee`
 -- Indexes for table `emp_attendance`
 --
 ALTER TABLE `emp_attendance`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `empId` (`empId`);
+
+--
+-- Indexes for table `inbox`
+--
+ALTER TABLE `inbox`
   ADD PRIMARY KEY (`id`),
   ADD KEY `empId` (`empId`);
 
@@ -491,6 +575,7 @@ ALTER TABLE `super_admin`
 --
 ALTER TABLE `violationsandremarks`
   ADD PRIMARY KEY (`id`),
+  ADD KEY `violationsandremarks_ibfk_1` (`remark`),
   ADD KEY `empId` (`empId`);
 
 --
@@ -501,7 +586,7 @@ ALTER TABLE `violationsandremarks`
 -- AUTO_INCREMENT for table `admin_log`
 --
 ALTER TABLE `admin_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=217;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=224;
 
 --
 -- AUTO_INCREMENT for table `admin_profile`
@@ -519,7 +604,7 @@ ALTER TABLE `company`
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `emp_attendance`
@@ -531,7 +616,7 @@ ALTER TABLE `emp_attendance`
 -- AUTO_INCREMENT for table `leave_request`
 --
 ALTER TABLE `leave_request`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `positions`
@@ -543,19 +628,19 @@ ALTER TABLE `positions`
 -- AUTO_INCREMENT for table `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=146;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=149;
 
 --
 -- AUTO_INCREMENT for table `secretary`
 --
 ALTER TABLE `secretary`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `secretary_log`
 --
 ALTER TABLE `secretary_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `secret_diary`
@@ -567,13 +652,13 @@ ALTER TABLE `secret_diary`
 -- AUTO_INCREMENT for table `secret_diarye`
 --
 ALTER TABLE `secret_diarye`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `secret_diarys`
 --
 ALTER TABLE `secret_diarys`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `super_admin`
@@ -585,7 +670,7 @@ ALTER TABLE `super_admin`
 -- AUTO_INCREMENT for table `violationsandremarks`
 --
 ALTER TABLE `violationsandremarks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- Constraints for dumped tables
@@ -657,7 +742,8 @@ ALTER TABLE `secret_diarys`
 -- Constraints for table `violationsandremarks`
 --
 ALTER TABLE `violationsandremarks`
-  ADD CONSTRAINT `violationsandremarks_ibfk_1` FOREIGN KEY (`empId`) REFERENCES `employee` (`empId`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `violationsandremarks_ibfk_1` FOREIGN KEY (`remark`) REFERENCES `inbox` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `violationsandremarks_ibfk_2` FOREIGN KEY (`empId`) REFERENCES `employee` (`empId`) ON DELETE NO ACTION ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
