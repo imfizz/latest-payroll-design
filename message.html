@@ -11,14 +11,40 @@
     <link rel="stylesheet" href="./styles/mincss/message.min.css">
 </head>
 <body>
-    <div class="success">
-        <div class="icon-container">
-            <span class="material-icons">done</span>
+    <div class='success'>
+        <div class='icon-container'>
+            <span class='material-icons'>done</span>
         </div>
         <p>Create Success</p>
-        <div class="closeContainer">
-            <span class="material-icons">close</span>
+        <div class='closeContainer'>
+            <span class='material-icons'>close</span>
         </div>
     </div>
+    <script>
+        let msgSuc = document.querySelector('.success');
+        setTimeout(e =>  msgSuc.remove(), 5000);
+    </script>
+
+
+
+
+    <div class='error'>
+        <div class='icon-container'>
+            <span class='material-icons'>close</span>
+        </div>
+        <p>Create Failed</p>
+        <div class='closeContainer'>
+            <span class='material-icons'>close</span>
+        </div>
+    </div>
+    <script>
+        let msgErr = document.querySelector('.error');
+        setTimeout(e => msgErr.remove(), 5000);
+    </script>
+
+
+    
+
+    
 </body>
 </html>
