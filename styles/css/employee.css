@@ -2199,6 +2199,26 @@
   font-weight: 400;
 }
 
+.modal-addguard > .modal-holder > .addguard-content > form > div > div {
+  background: #774ab09e;
+  border-radius: 5px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 2px 10px;
+  font-size: 12px;
+  color: white;
+  font-weight: medium;
+  position: absolute;
+  top: 0;
+  left: 69px;
+  cursor: pointer;
+}
+
+.modal-addguard > .modal-holder > .addguard-content > form > div > div:hover {
+  background: #6a429e;
+}
+
 .modal-addguard > .modal-holder > .addguard-content > form > div:nth-child(1)::before, .modal-addguard > .modal-holder > .addguard-content > form > div:nth-child(2)::before {
   content: url("https://api.iconify.design/akar-icons/person.svg?color=%239747ff&height=20");
   position: absolute;

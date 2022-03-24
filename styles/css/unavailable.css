@@ -1267,8 +1267,7 @@
           justify-content: space-between;
   -webkit-transform: translateY(2px);
           transform: translateY(2px);
-  width: 40%;
-  margin-right: 20px;
+  width: 67%;
 }
 
 .main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-view {
@@ -1307,6 +1306,46 @@
 }
 
 .main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-view > a > span {
+  font-size: 16px;
+  color: #359EFF;
+}
+
+.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-qr {
+  height: 21px;
+  width: 21px;
+  border-radius: 50%;
+  background-color: #C0DEFA;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
+}
+
+.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-qr:hover {
+  background-color: #a8d2f8;
+}
+
+.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-qr:hover > span {
+  color: #1c92ff;
+}
+
+.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-qr > a {
+  text-decoration: none;
+  -webkit-transform: translateY(2px);
+          transform: translateY(2px);
+}
+
+.main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-qr > a > span {
   font-size: 16px;
   color: #359EFF;
 }

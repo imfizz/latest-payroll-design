@@ -181,28 +181,29 @@ $payroll->deleteRecentGuard();
                 <div class="addguard-content">
                     <form method='POST'>
                         <div>
-                            <label for='firstname'>Firstname</label>
-                            <input type='text' name='firstname' id='firstname' required/>
+                            <label for='firstname2'>Firstname</label>
+                            <input type='text' name='firstname' id='firstname2' required/>
                         </div>
                         <div>
-                            <label for='lastname'>Lastname</label>
-                            <input type='text' name='lastname' id='lastname' required/>
+                            <label for='lastname2'>Lastname</label>
+                            <input type='text' name='lastname' id='lastname2' required/>
                         </div>
                         <div>
-                            <label for='address'>Address</label>
-                            <input type='text' name='address' id='address' required/>
+                            <label for='address2'>Address</label>
+                            <input type='text' name='address' id='address2' required/>
                         </div>
                         <div>
-                            <label for='email'>Email</label>
-                            <input type='email' name='email' id='email' required/>
+                            <label for='email2'>Email</label>
+                            <input type='email' name='email' id='email2' required/>
                         </div>
                         <div>
-                            <label for='cpnumber'>Contact Number</label>
-                            <input type='text' name='cpnumber' id='cpnumber' required/>
+                            <label for='cpnumber2'>Contact Number</label>
+                            <input type='text' name='cpnumber' id='cpnumber2' required/>
                         </div>
                         <div>
-                            <label for='qrcode'>QR Code</label>
-                            <input type='text' name='qrcode' id='qrcode' required/>
+                            <label for='qrcode2'>QR Code</label>
+                            <input type='text' name='qrcode' id='qrcode2' required/>
+                            <div onclick="generatePassword(this)">Generate</div>
                         </div>
                         <div>
                             <button type='submit' name='addGuard'>Add Employee</button>

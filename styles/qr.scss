@@ -1,78 +1,5 @@
 @import 'sass/Config';
 
-.error {
-    background: #ff000075;
-    padding: 10px;
-    border-radius: 5px;
-    position: absolute;
-    top: 50px;
-    right: 50px;
-    z-index: 99;
-    color: #ffffff;
-    animation: hideError 1.3s ease-in-out forwards;
-}
-
-.success {
-    background: #38b80e75;
-    padding: 10px;
-    border-radius: 5px;
-    position: absolute;
-    top: 50px;
-    right: 50px;
-    z-index: 99;
-    color: #ffffff;
-    animation: hideSuccess 1.3s ease-in-out forwards;
-}
-
-.success-email {
-    background: #38b80e75;
-    padding: 10px;
-    border-radius: 5px;
-    position: absolute;
-    top: 100px;
-    right: 50px;
-    z-index: 99;
-    color: #ffffff;
-    animation: hideSuccessEmail 1.3s ease-in-out 1s forwards;
-
-}
-
-.error-email {
-    background: #ff000075;
-    padding: 10px;
-    border-radius: 5px;
-    position: absolute;
-    top: 100px;
-    right: 50px;
-    z-index: 99;
-    color: #ffffff;
-    animation: hideErrorEmail 1.3s ease-in-out 1s forwards;
-}
-
-@keyframes hideSuccess {
-    0% { top: 50px; opacity: 1; }
-    70% { top: 50px; opacity: 1; }
-    100% { top: 20px; opacity: 0; }
-}
-
-@keyframes hideError {
-    0% { top: 50px; opacity: 1; }
-    70% { top: 50px; opacity: 1; }
-    100% { top: 20px; opacity: 0; }
-}
-
-@keyframes hideSuccessEmail {
-    0% { top: 100px; opacity: 1; }
-    70% { top: 100px; opacity: 1; }
-    100% { top: 70px; opacity: 0; }
-}
-
-@keyframes hideErrorEmail {
-    0% { top: 100px; opacity: 1; }
-    70% { top: 100px; opacity: 1; }
-    100% { top: 70px; opacity: 0; }
-}
-
 .main-container {
     height: 100vh;
     width: 100vw;
@@ -81,18 +8,12 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
-    gap: 15px;
-    padding-right: 15px;
 
-    // leftbar and others
-    & > .leftbar, .centerbar, .rightbar {
+
+    & > .leftbar {
         height: 100%;
         background: $front;
         position: relative;
-        box-sizing: border-box;
-    }
-
-    & > .leftbar {
         width: 18%;
         display: flex;
         flex-direction: column;
@@ -739,567 +660,104 @@
     }
 
     & > .centerbar {
-        width: 82%;
-        padding: 35px 15px 30px 15px;
-        background: transparent !important;
-        box-sizing: border-box;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        box-sizing: border-box;
+        padding: 35px 60px 20px 35px;
+        width: 82%;
+        height: 100%;
+        background: #9848FE;
+        position: relative;
 
-        & > .header-info {
-            height: 4%;
-            background: transparent !important;
-            border: none !important;
+        & > .centerbar-info {
             display: flex;
-            flex-direction: row;
             justify-content: space-between;
-            align-items: flex-end;
-            padding-right: 30px;
+            width: 100%;
 
             & > h1 {
                 font-size: 16px;
                 font-weight: $semibold;
-
-                @media only screen and (min-width: 1050px) {
-                    font-size: 16px;
-                }
-        
-                @media only screen and (min-width: 1300px) {
-                    font-size: 16px;
-                }
-        
-                @media only screen and (min-width: 1500px) {
-                    font-size: 16px;
-                }
-        
-                @media only screen and (min-width: 1700px) {
-                    font-size: 19px;
-                }
+                color: #fff;
             }
 
             & > .profile-container {
                 display: flex;
-                flex-direction: row;
-                justify-content: flex-end;
                 align-items: center;
-                width: 92%;
-                transform: translateY(4px);
 
-                & > .profile-setter {
-                    display: flex;
-                    align-items: center;
-    
-                    & > h3 {
-                        font-size: 14px;
-                        font-weight: $medium;
-                        margin-right: 15px;
-                    }
-        
-                    & > a > .image-container > img {
-                        height: 33px;
-                        width: 33px;
-                        border-radius: 50%;
-                        background: rgb(102, 102, 102);
-                    }
+                & > h3 {
+                    font-weight: $medium;
+                    margin-right: 15px;
+                    font-size: 14px;
+                    color: #fff;
+                }
+
+                & > a > div > img {
+                    height: 33px;
+                    width: 33px;
+                    border-radius: 50%;
+                    background: #666;
                 }
             }
-
         }
 
-        & > .table-info {
-            display: flex;
-            flex-direction: column;
-            padding-left: 20px;
-            height: 88%;
-            position: relative;
-            box-sizing: border-box;
-
-            & > .table-header {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                height: 10%;
-
-                & > h1 {
-                    font-size: 18px;
-                    font-weight: $semibold;
-                }
-
-                & > form {
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: center;
-                    align-items: center;
-                    margin-right: 20px;
-
-                    & > input {
-                        padding: 3px 0;
-                        text-indent: 10px;
-                        outline: none;
-                        border: 2px solid #cecece;
-                        border-radius: 5px;
-                        font-size: 13px;
-                    }
-
-                    & > button {
-                        display: none;
-                    }
-                    
-                }
-            }
-
-            & > .table-content {
-                height: 84%;
-                background: #fff;
-                box-sizing: border-box;
-                padding: 20px 20px 10px 20px;
-                border-radius: 5px;
-                margin-bottom: 1%;
-                overflow-y: scroll;
-
-                /* width */
-                &::-webkit-scrollbar {
-                    width: 5px;
-                }
-                
-                /* Track */
-                &::-webkit-scrollbar-track {
-                    background: #f1f1f1; 
-                }
-                
-                /* Handle */
-                &::-webkit-scrollbar-thumb {
-                    background: #888;
-                    border-radius: 8px;
-                }
-                
-                /* Handle on hover */
-                &::-webkit-scrollbar-thumb:hover {
-                    background: rgb(85, 85, 85); 
-                }
-
-                & > table {
-                    border-collapse:separate;
-                    border-spacing:0 10px;
-
-                    & > thead > tr > th {
-                        text-align: left;
-                        font-weight: $semibold;
-                        color: #2B2B2B;
-                        font-size: 15px;
-                    }
-
-
-                    & > tbody > tr:nth-child(odd){
-                        background: #FAFAFA;
-                    }
-
-                    & > tbody > tr:nth-child(even){
-                        background: transparent;
-                    }
-
-                    & > tbody > tr > td {
-                        font-size: 13px;
-                        padding: 5px 0;
-
-                        & > .buttons {
-                            display: flex;
-                            justify-content: space-between;
-                            transform: translateY(2px);
-                            width: 67%;
-
-                            & > .buttons-view {
-                                height: 21px;
-                                width: 21px;
-                                border-radius: 50%;
-                                background-color: $bgi-view;
-                                @include y-center;
-                                cursor: pointer;
-
-                                &:hover {
-                                    background-color: darken($bgi-view, 5%);
-
-                                    & > a > span {
-                                        color: darken($i-view, 5%);
-                                    }
-                                }
-
-                                & > a {
-                                    text-decoration: none;
-                                    transform: translateY(2px);
-
-                                    & > span {
-                                        font-size: 16px;
-                                        color: $i-view;
-                                    }
-                                } 
-                            }
-
-                            & > .buttons-qr {
-                                height: 21px;
-                                width: 21px;
-                                border-radius: 50%;
-                                background-color: $bgi-view;
-                                @include y-center;
-                                cursor: pointer;
-
-                                &:hover {
-                                    background-color: darken($bgi-view, 5%);
-
-                                    & > span {
-                                        color: darken($i-view, 5%);
-                                    }
-                                }
-
-                                & > a {
-                                    text-decoration: none;
-                                    transform: translateY(2px);
-
-                                    & > span {
-                                        font-size: 16px;
-                                        color: $i-view;
-                                    }
-                                }
-                            }
-
-                            & > .buttons-delete {
-                                height: 21px;
-                                width: 21px;
-                                border-radius: 50%;
-                                background-color: $bgi-delete;
-                                @include y-center;
-                                cursor: pointer;
-
-                                &:hover {
-                                    background-color: darken($bgi-delete, 5%);
-
-                                    & > a > span {
-                                        color: darken($i-delete, 5%);
-                                    }
-                                }
-
-                                & > a {
-                                    text-decoration: none;
-                                    transform: translateY(2px);
-
-                                    & > span {
-                                        font-size: 16px;
-                                        color: $i-delete;
-                                    }
-                                }
-                            }
-                        }
-
-                        &:first-child {
-                            text-align: left;
-                            border-radius: 10px 0 0 10px;
-                        }
-
-                        &:last-child {
-                            border-radius: 0 10px 10px 0;
-                            display: flex;
-                            justify-content: flex-end;
-                            align-items: center;
-
-
-                        }
-                    }
-                }
-            }
-
-        }
-        
-    }
-}
-
-.modal-viewguard {
-    height: 100vh;
-    width: 100vw;
-    position: absolute;
-    top: 0; left: 0;
-    background: rgba(0,0,0,.37);
-    display: none;
-
-    & > .modal-holder {
-        background: white;
-        border-radius: 5px;
-        width: 33%;
-        max-height: 80%;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        padding: 13px 0px;
-        box-sizing: border-box;
-        overflow-y: scroll;
-
-        /* width */
-        &::-webkit-scrollbar {
-            width: 5px;
-        }
-        
-        /* Track */
-        &::-webkit-scrollbar-track {
-            background: #f1f1f1; 
-        }
-        
-        /* Handle */
-        &::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 8px;
-        }
-        
-        /* Handle on hover */
-        &::-webkit-scrollbar-thumb:hover {
-            background: rgb(85, 85, 85); 
-        }
-
-        & > .viewguard-header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgb(200, 200, 200);
-            height: 7%;
-            box-sizing: border-box;
-
-            & > h1 {
-                font-size: 20px;
-                font-weight: $medium;
-            }
-
-            & > span {
-                position: absolute;
-                right: 20px;
-                cursor: pointer;
-            }
-        }
-
-        & > .viewguard-content {
+        & > .centerbar-content {
             width: 100%;
-            height: 93%;
-            @include x-center;
+            height: 100%;
+            position: relative;
             box-sizing: border-box;
 
-            &::-webkit-scrollbar {
-                width: 0px;
-            }
-
-            & > form {
-                padding-top: 20px;
-                height: 100%;
-                min-width: 70%;
+            & > .centerbar-card {
                 display: flex;
                 flex-direction: column;
-                box-sizing: border-box;
+                align-items: center;
+                justify-content: center;
+                min-height: 450px;
+                width: 300px;
+                @include n-center;
 
-                & > div {
-                    display: flex;
-                    flex-direction: column;
-                    margin-bottom: 10px;
-                    position: relative;
-
-                    // for duration
-                    & > h3 {
-                        font-size: 16px;
-                        font-weight: $semibold;
-                    }
-
-                    & > div {
-                        display: flex;
-                        flex-direction: row;
-                        justify-content: space-between;
-
-                        & > label {
-                            font-size: 15px;
-                            font-weight: $semibold;
-                        }
-                    }
-
-
-                    & > label {
-                        font-weight: $semibold;
-                        font-size: 16px;
-                    }
-
-                    & > input {
-                        border: none;
-                        border-bottom: 1px solid #D9D9D9;
-                        margin-top: 5px;
-                        font-size: 14px;
-                        outline: none;
-                        color: #464646;
-                        font-weight: $regular;
-                        background: transparent;
-                    }
-
-                    // firstname, lastname
-                    &:nth-child(1)::before,
-                    &:nth-child(2)::before {
-                        content: url('https://api.iconify.design/akar-icons/person.svg?color=%239747ff&height=20');
-                        position: absolute;
-                        top: 2px;
-                        left: -38px;
-                        transition: 200ms ease-in-out;
-                    }
-
-                    // company
-                    &:nth-child(3)::before {
-                        content: url('https://api.iconify.design/bx/bx-building.svg?color=%239747ff&height=20');
-                        position: absolute;
-                        top: 2px;
-                        left: -38px;
-                        transition: 200ms ease-in-out;
-                    }
-
-                    // company location
-                    &:nth-child(4)::before {
-                        content: url('https://api.iconify.design/akar-icons/location.svg?color=%239747ff&height=20');
-                        position: absolute;
-                        top: 2px;
-                        left: -38px;
-                        transition: 200ms ease-in-out;
-                    }
-
-                    // duration
-                    &:nth-child(5)::before {
-                        content: url('https://api.iconify.design/bx/bx-time-five.svg?color=%239747ff&height=20');
-                        position: absolute;
-                        top: 2px;
-                        left: -38px;
-                        transition: 200ms ease-in-out;
-                    }
-
-                    // position
-                    &:nth-child(6)::before {
-                        content: url('https://api.iconify.design/icon-park/ranking.svg?color=%239747ff&height=20');
-                        position: absolute;
-                        top: 2px;
-                        left: -38px;
-                        transition: 200ms ease-in-out;
-                    }
-
-                    // price
-                    &:nth-child(7)::before {
-                        content: url('https://api.iconify.design/heroicons-outline/currency-dollar.svg?color=%239747ff&height=20');
-                        position: absolute;
-                        top: 2px;
-                        left: -38px;
-                        transition: 200ms ease-in-out;
-                    }
-
-                    // employee address
-                    &:nth-child(8)::before {
-                        content: url('https://api.iconify.design/akar-icons/location.svg?color=%239747ff&height=20');
-                        position: absolute;
-                        top: 2px;
-                        left: -38px;
-                        transition: 200ms ease-in-out;
-                    }
-
-                    // email
-                    &:nth-child(9)::before {
-                        content: url('https://api.iconify.design/eva/email-outline.svg?color=%239747ff&height=20');
-                        position: absolute;
-                        top: 2px;
-                        left: -38px;
-                        transition: 200ms ease-in-out;
-                    }
-
-                    // cpnumber
-                    &:nth-child(10)::before {
-                        content: url('https://api.iconify.design/feather/phone-call.svg?color=%239747ff&height=20');
-                        position: absolute;
-                        top: 2px;
-                        left: -38px;
-                        transition: 200ms ease-in-out;
-                    }
-
+                & > img {
+                    height: 200px; 
+                    width: 200px;
                 }
-            }
-        }
-    }
-}
 
-.modal-deleteguard {
-    height: 100vh;
-    width: 100vw;
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%,-50%);
-    background: rgba(0,0,0,.37);
-    display: none;
-    justify-content: center;
-    box-sizing: border-box;
-    padding-top: 70px;
-
-    & > .modal-holder {
-        background: white;
-        border-radius: 5px;
-        width: 33%;
-        max-height: 34%;
-        position: relative;
-        padding: 0px 0px 30px 0;
-        box-sizing: border-box;
-
-        & > .deleteguard-header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            border-bottom: 1px solid rgb(200, 200, 200);
-            height: 25%;
-            box-sizing: border-box;
-
-            & > h1 {
-                font-size: 20px;
-                font-weight: $medium;
-            }
-
-            & > span {
-                position: absolute;
-                right: 20px;
-                cursor: pointer;
-            }
-        }
-
-        & > .deleteguard-content {
-            width: 100%;
-            height: 75%;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            position: relative;
-
-            & > h1 {
-                font-size: 18px;
-                font-weight: $medium;
-                text-align: center;
-                width: 70%;
-                padding: 20px 0;
-            }
-
-            & > form {
-                width: 35%;
-                @include x-center;
+                & > input {
+                    background: #A863FF;
+                    border-radius: 5px;
+                    border: none;
+                    outline: none;
+                    color: #fff;
+                    font-weight: $medium;
+                    font-size: 14px;
+                    padding: 10px 15px;
+                    box-sizing: border-box;
+                    margin-top: 15px;
+                    width: 100%;
+                }
 
                 & > button {
-                    width: 100%;
-                    padding: 7px 0;
-                    border-radius: 5px;
-                    background-color: $btn-delete;
+                    background: #F39E49;
+                    border-radius: 50px;
                     border: none;
-                    color: white;
+                    padding: 10px 0;
+                    text-transform: uppercase;
                     font-weight: $semibold;
+                    color: #fff;
+                    margin: 20px 0;
                     cursor: pointer;
+                    width: 100%;
+                    box-sizing: border-box;
 
                     &:hover {
-                        background-color: darken($btn-delete, 5%);
+                        background: darken(#F39E49, 5%);
                     }
+                }
+
+                & > a {
+                    text-decoration: none;
+                    color: #D1D1D1;
+                    font-size: 14px;
+
+                    &:hover { color: darken(#D1D1D1, 10%); }
                 }
             }
         }

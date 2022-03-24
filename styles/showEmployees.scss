@@ -907,8 +907,7 @@
                             display: flex;
                             justify-content: space-between;
                             transform: translateY(2px);
-                            width: 40%;
-                            margin-right: 20px;
+                            width: 67%;
 
                             & > .buttons-edit {
                                 height: 21px;
@@ -1005,7 +1004,6 @@
                         }
 
                         &:last-child {
-                            border-radius: 0 10px 10px 0;
                             display: flex;
                             justify-content: flex-end;
                             align-items: center;

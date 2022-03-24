@@ -3116,16 +3116,7 @@
   transition: 200ms ease-in-out;
 }
 
-.modal-editguard > .modal-holder > .editguard-content > form > div:nth-child(6)::before {
-  content: url("https://api.iconify.design/bx/qr.svg?color=%239747ff&height=20");
-  position: absolute;
-  top: 2px;
-  left: -38px;
-  -webkit-transition: 200ms ease-in-out;
-  transition: 200ms ease-in-out;
-}
-
-.modal-editguard > .modal-holder > .editguard-content > form > div:nth-child(7) {
+.modal-editguard > .modal-holder > .editguard-content > form > div:nth-child(6) {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -3138,7 +3129,7 @@
   padding: 10px 0;
 }
 
-.modal-editguard > .modal-holder > .editguard-content > form > div:nth-child(7) > button {
+.modal-editguard > .modal-holder > .editguard-content > form > div:nth-child(6) > button {
   padding: 7px 0;
   width: 45%;
   border: none;
@@ -3149,7 +3140,7 @@
   cursor: pointer;
 }
 
-.modal-editguard > .modal-holder > .editguard-content > form > div:nth-child(7) > button:hover {
+.modal-editguard > .modal-holder > .editguard-content > form > div:nth-child(6) > button:hover {
   background-color: #16b066;
 }
 

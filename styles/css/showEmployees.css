@@ -1267,8 +1267,7 @@
           justify-content: space-between;
   -webkit-transform: translateY(2px);
           transform: translateY(2px);
-  width: 40%;
-  margin-right: 20px;
+  width: 67%;
 }
 
 .main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td > .buttons > .buttons-edit {
@@ -1404,7 +1403,6 @@
 }
 
 .main-container > .centerbar > .table-info > .table-content > table > tbody > tr > td:last-child {
-  border-radius: 0 10px 10px 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

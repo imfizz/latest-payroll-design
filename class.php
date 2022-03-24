@@ -1309,7 +1309,8 @@ Class Payroll
 
         while($row = $stmt->fetch()){
             $type = $row->watType == NULL ? 'None' : $row->watType;
-
+            $fullname = $row->firstname." ".$row->lastname;
+            $availability = $row->availability;
             echo "<tr>
                     <td><input type='checkbox' id='c$row->id' onclick='setVal(this, $row->id);'/></td>
                     <td><label for='c$row->id'>$row->lastname, $row->firstname</label></td>
@@ -1323,7 +1324,7 @@ Class Payroll
                                 </a>
                             </div>
                             <div class='buttons-qr'>
-                                <a href='./qr.php?myqr=$row->qrcode'>
+                                <a href='./qr.php?myqr=$row->qrcode&fullname=$fullname&availability=$availability'>
                                     <span class='material-icons'>qr_code</span>
                                 </a>
                             </div>
@@ -1350,6 +1351,8 @@ Class Payroll
                        e.firstname AS firstname,
                        e.lastname AS lastname,
                        e.email,
+                       e.qrcode,
+                       e.availability,
                        c.company_name AS companyname,
                        c.comp_location AS location
                 FROM schedule s
@@ -1371,6 +1374,9 @@ Class Payroll
         } else {
             while($row = $stmt->fetch()){
                 $fullname = $row->lastname.", ".$row->firstname;
+                $fullname2 = $row->firstname." ".$row->lastname;
+                $availability = $row->availability;
+
                 echo "<tr>
                          <td>$fullname</td>
                          <td>$row->companyname</td>
@@ -1380,6 +1386,11 @@ Class Payroll
                                 <div class='buttons-view'>
                                     <a href='unavailable.php?sid=$row->id'>
                                         <span class='material-icons'>visibility</span>
+                                    </a>
+                                </div>
+                                <div class='buttons-qr'>
+                                    <a href='./qr.php?myqr=$row->qrcode&fullname=$fullname2&availability=$availability'>
+                                        <span class='material-icons'>qr_code</span>
                                     </a>
                                 </div>
                                 <div class='buttons-delete'>
@@ -3247,10 +3258,6 @@ Class Payroll
                         <input type='text' name='cpnumber' id='cpnumber' value='$user->cpnumber' required/>
                     </div>
                     <div>
-                        <label for='qrcode'>Qr Code</label>
-                        <input type='text' name='qrcode' id='qrcode' value='$user->qrcode' required/>
-                    </div>
-                    <div>
                         <button type='submit' name='editGuard'>Edit Guard</button>
                     </div>
                   </form>";
@@ -3267,14 +3274,12 @@ Class Payroll
             $address = $_POST['address'];
             $email = $_POST['email'];
             $cpnumber = $_POST['cpnumber'];
-            $qrcode = $_POST['qrcode'];
 
             if(empty($firstname) &&
                empty($lastname) &&
                empty($address) &&
                empty($email) &&
-               empty($cpnumber) &&
-               empty($qrcode)
+               empty($cpnumber)
             ){
                 echo 'All input fields are required to edit the employee information';
             } else {
@@ -3285,8 +3290,7 @@ Class Payroll
                                 lastname = ?,
                                 address = ?,
                                 email = ?,
-                                cpnumber = ?,
-                                qrcode = ?
+                                cpnumber = ?
                             WHERE id = ?";
                     $stmt = $this->con()->prepare($sql);
                     $stmt->execute([$firstname, $lastname, $address, $email, $cpnumber, $qrcode, $id]);
@@ -3306,8 +3310,7 @@ Class Payroll
                                     lastname = ?,
                                     address = ?,
                                     email = ?,
-                                    cpnumber = ?,
-                                    qrcode = ?
+                                    cpnumber = ?
                                 WHERE id = ?";
                         $stmt = $this->con()->prepare($sql);
                         $stmt->execute([$firstname, $lastname, $address, $email, $cpnumber, $qrcode, $id]);

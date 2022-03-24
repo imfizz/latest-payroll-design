@@ -1605,6 +1605,24 @@
                         font-weight: $regular;
                     }
 
+                    & > div {
+                        background: #774ab09e;
+                        border-radius: 5px;
+                        width: fit-content;
+                        padding: 2px 10px;
+                        font-size: 12px;
+                        color: white;
+                        font-weight: medium;
+                        position: absolute;
+                        top: 0;
+                        left: 69px;
+                        cursor: pointer;
+
+                        &:hover {
+                            background: darken(#764ab0, 5%);
+                        }
+                    }
+
                     // firstname, lastname
                     &:nth-child(1)::before,
                     &:nth-child(2)::before {
