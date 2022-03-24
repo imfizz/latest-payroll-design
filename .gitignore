@@ -1,5 +1,5 @@
 /vendor/
 /.env
-/styles/css/*.css
-/styles/mincss/*.min.css
-/.composer.lock
+styles/css/*
+styles/mincss/*
+composer.lock
