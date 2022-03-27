@@ -368,7 +368,7 @@
 .main-container > .leftbar > .logo-container > .logo {
   height: 30px;
   width: 30px;
-  background-image: url("../img/jtdvpng.png");
+  background-image: url("../img/jtdv.png");
   background-size: cover;
   margin-right: 10px;
 }
@@ -2268,7 +2268,7 @@
   font-weight: medium;
   position: absolute;
   top: 0;
-  left: 69px;
+  left: 85px;
   cursor: pointer;
 }
 

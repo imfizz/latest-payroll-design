@@ -368,7 +368,7 @@
 .main-container > .leftbar > .logo-container > .logo {
   height: 30px;
   width: 30px;
-  background-image: url("../img/jtdvpng.png");
+  background-image: url("../img/jtdv.png");
   background-size: cover;
   margin-right: 10px;
 }
@@ -3035,7 +3035,6 @@
   border-radius: 5px;
   width: 33%;
   max-height: 80%;
-  position: relative;
   padding: 13px 0px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -3224,7 +3223,6 @@
   border-radius: 5px;
   width: 33%;
   max-height: 34%;
-  position: relative;
   padding: 0px 0px 30px 0;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -3346,7 +3344,6 @@
   border-radius: 5px;
   width: 33%;
   max-height: 80%;
-  position: relative;
   padding: 13px 0px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -3480,7 +3477,16 @@
   transition: 200ms ease-in-out;
 }
 
-.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(4) {
+.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(4)::before {
+  content: url("https://api.iconify.design/akar-icons/location.svg?color=%239747ff&height=20");
+  position: absolute;
+  top: 2px;
+  left: -32px;
+  -webkit-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
+}
+
+.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(5) {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -3490,7 +3496,7 @@
           flex-direction: column;
 }
 
-.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(4)::before {
+.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(5)::before {
   content: url("https://api.iconify.design/fluent/weather-partly-cloudy-day-16-regular.svg?color=%239747ff&height=20");
   position: absolute;
   top: 2px;
@@ -3499,7 +3505,7 @@
   transition: 200ms ease-in-out;
 }
 
-.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(4) > .daysleave-info {
+.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(5) > .daysleave-info {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -3511,11 +3517,11 @@
   width: 100%;
 }
 
-.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(4) > .daysleave-info > div > select {
+.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(5) > .daysleave-info > div > select {
   margin-right: 10px;
 }
 
-.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(4) > .daysleave-info > div > span {
+.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(5) > .daysleave-info > div > span {
   font-size: 14px;
   font-weight: 600;
   display: -webkit-box;
@@ -3528,16 +3534,16 @@
   width: 100%;
 }
 
-.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(4) > .daysleave-info > div > span:first-child {
+.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(5) > .daysleave-info > div > span:first-child {
   margin-bottom: 15px;
 }
 
-.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(4) > .daysleave-info > div > span:last-child {
+.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(5) > .daysleave-info > div > span:last-child {
   -webkit-transform: translateX(20px);
           transform: translateX(20px);
 }
 
-.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(4) > .daysleave-info > div > span > input {
+.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(5) > .daysleave-info > div > span > input {
   border: none;
   border-bottom: 1px solid #D9D9D9;
   margin-left: 10px;
@@ -3547,11 +3553,11 @@
   color: #B9B9B9;
 }
 
-.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(4) > .daysleave-info > div > span > input:last-child {
+.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(5) > .daysleave-info > div > span > input:last-child {
   width: 70%;
 }
 
-.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(5)::before {
+.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(6)::before {
   content: url("https://api.iconify.design/gg/options.svg?color=%239747ff&height=20");
   position: absolute;
   top: 2px;
@@ -3560,7 +3566,7 @@
   transition: 200ms ease-in-out;
 }
 
-.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(6)::before {
+.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(7)::before {
   content: url("https://api.iconify.design/ic/outline-description.svg?color=%239747ff&height=20");
   position: absolute;
   top: 2px;
@@ -3569,7 +3575,7 @@
   transition: 200ms ease-in-out;
 }
 
-.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(7) {
+.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(8) {
   width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -3587,7 +3593,7 @@
   position: relative;
 }
 
-.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(7) > button {
+.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(8) > button {
   border: none;
   padding: 10px 0;
   color: #fff;
@@ -3597,20 +3603,12 @@
   cursor: pointer;
 }
 
-.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(7) > button:first-child {
+.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(8) > #approvebtn {
   background: #19C773;
 }
 
-.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(7) > button:first-child:hover {
+.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(8) > #approvebtn:hover {
   background: #16b066;
-}
-
-.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(7) > button:last-child {
-  background: #F24E4E;
-}
-
-.modal-approverequest > .modal-holder > .approverequest-content > form > div:nth-child(7) > button:last-child:hover {
-  background: #f03636;
 }
 
 .modal-rejectrequest {
@@ -3640,7 +3638,6 @@
   border-radius: 5px;
   width: 33%;
   max-height: 80%;
-  position: relative;
   padding: 13px 0px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -3774,7 +3771,16 @@
   transition: 200ms ease-in-out;
 }
 
-.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(4) {
+.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(4)::before {
+  content: url("https://api.iconify.design/akar-icons/location.svg?color=%239747ff&height=20");
+  position: absolute;
+  top: 2px;
+  left: -32px;
+  -webkit-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
+}
+
+.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(5) {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -3784,7 +3790,7 @@
           flex-direction: column;
 }
 
-.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(4)::before {
+.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(5)::before {
   content: url("https://api.iconify.design/fluent/weather-partly-cloudy-day-16-regular.svg?color=%239747ff&height=20");
   position: absolute;
   top: 2px;
@@ -3793,7 +3799,7 @@
   transition: 200ms ease-in-out;
 }
 
-.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(4) > .daysleave-info {
+.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(5) > .daysleave-info {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -3805,11 +3811,13 @@
   width: 100%;
 }
 
-.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(4) > .daysleave-info > div > select {
+.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(5) > .daysleave-info > div > select {
   margin-right: 10px;
+  border: 1px solid #dedede;
+  color: #999999;
 }
 
-.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(4) > .daysleave-info > div > span {
+.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(5) > .daysleave-info > div > span {
   font-size: 14px;
   font-weight: 600;
   display: -webkit-box;
@@ -3822,16 +3830,16 @@
   width: 100%;
 }
 
-.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(4) > .daysleave-info > div > span:first-child {
+.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(5) > .daysleave-info > div > span:first-child {
   margin-bottom: 15px;
 }
 
-.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(4) > .daysleave-info > div > span:last-child {
+.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(5) > .daysleave-info > div > span:last-child {
   -webkit-transform: translateX(20px);
           transform: translateX(20px);
 }
 
-.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(4) > .daysleave-info > div > span > input {
+.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(5) > .daysleave-info > div > span > input {
   border: none;
   border-bottom: 1px solid #D9D9D9;
   margin-left: 10px;
@@ -3839,13 +3847,14 @@
   background: transparent;
   font-weight: 500;
   color: #B9B9B9;
+  outline: none;
 }
 
-.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(4) > .daysleave-info > div > span > input:last-child {
+.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(5) > .daysleave-info > div > span > input:last-child {
   width: 70%;
 }
 
-.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(5)::before {
+.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(6)::before {
   content: url("https://api.iconify.design/gg/options.svg?color=%239747ff&height=20");
   position: absolute;
   top: 2px;
@@ -3854,7 +3863,7 @@
   transition: 200ms ease-in-out;
 }
 
-.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(6)::before {
+.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(7)::before {
   content: url("https://api.iconify.design/ic/outline-description.svg?color=%239747ff&height=20");
   position: absolute;
   top: 2px;
@@ -3863,7 +3872,7 @@
   transition: 200ms ease-in-out;
 }
 
-.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(7) {
+.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(8) {
   width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -3881,7 +3890,7 @@
   position: relative;
 }
 
-.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(7) > button {
+.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(8) > button {
   border: none;
   padding: 10px 0;
   color: #fff;
@@ -3891,18 +3900,10 @@
   cursor: pointer;
 }
 
-.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(7) > button:first-child {
-  background: #19C773;
-}
-
-.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(7) > button:first-child:hover {
-  background: #16b066;
-}
-
-.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(7) > button:last-child {
+.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(8) > #rejectbtn {
   background: #F24E4E;
 }
 
-.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(7) > button:last-child:hover {
+.modal-rejectrequest > .modal-holder > .rejectrequest-content > form > div:nth-child(8) > #rejectbtn:hover {
   background: #f03636;
 }

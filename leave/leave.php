@@ -2,7 +2,6 @@
 require_once('../class.php');
 $sessionData = $payroll->getSessionData();
 $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
-$payroll->viewApproveReject();
 $payroll->removeRecentFunction();
 ?>
 <!DOCTYPE html>
@@ -138,32 +137,32 @@ $payroll->removeRecentFunction();
                 <div class="approverequest-content">
                     <form method="POST">
                         <div>
-                            <input type="hidden" name="requestId" id='requestId'/>
+                            <input type="hidden" name="requestId" id='requestId' required/>
                             <label for="substitute">Substitute</label>
-                            <select name="substitute" id="substitute">
+                            <select name="substitute" id="substitute" required>
                                 <?= $payroll->listoffreeguard(); ?>
                             </select>
                         </div>
                         <div>
                             <label for="fullname">Name</label>
-                            <input type="text" name="fullname" id='fullname' disabled/>
+                            <input type="text" name="fullname" id='fullname' readonly/>
                         </div>
                         <div>
                             <label for="email">Email</label>
-                            <input type="email" name="email" id='email' disabled/>
+                            <input type="email" name="email" id='email' readonly/>
                         </div>
                         <div>
                             <label for="daysleave">Days Leave</label>
                             <div class="daysleave-info">
                                 <div>
-                                    <select name="days" id="daysleave" disabled></select>
+                                    <select name="days" id="daysleave" readonly></select>
                                 </div>
                                 <div>
                                     <span>From
-                                        <input type="date" name="leave_start" id='leave_start' disabled/> 
+                                        <input type="date" name="leave_start" id='leave_start' readonly/> 
                                     </span>
                                     <span>To
-                                        <input type="date" name="leave_end" id='leave_end' disabled/>
+                                        <input type="date" name="leave_end" id='leave_end' readonly/>
                                     </span>
                                 </div>
                             </div>
@@ -171,15 +170,14 @@ $payroll->removeRecentFunction();
                         </div>
                         <div>
                             <label for="type">Type</label>
-                            <input type="text" name="type" id='type' disabled/>
+                            <input type="text" name="type" id='type' readonly/>
                         </div>
                         <div>
                             <label for="reason">Reason</label>
-                            <input type="text" name="reason" id='reason' disabled/>
+                            <input type="text" name="reason" id='reason' readonly/>
                         </div>
                         <div>
                             <button type='submit' name='approveRequest' id='approvebtn'>Approve Request</button>
-                            <button type='submit' name='rejectRequest' id='rejectbtn'>Reject Request</button>
                         </div>
                     </form>
                 </div>
@@ -216,24 +214,24 @@ $payroll->removeRecentFunction();
                         </div>
                         <div>
                             <label for="fullname">Name</label>
-                            <input type="text" name="fullname" id='fullname' disabled/>
+                            <input type="text" name="fullname" id='fullname' readonly/>
                         </div>
                         <div>
                             <label for="email">Email</label>
-                            <input type="email" name="email" id='email' disabled/>
+                            <input type="email" name="email" id='email' readonly/>
                         </div>
                         <div>
                             <label for="daysleave">Days Leave</label>
                             <div class="daysleave-info">
                                 <div>
-                                    <select name="days" id="daysleave" disabled></select>
+                                    <select name="days" id="daysleave" readonly></select>
                                 </div>
                                 <div>
                                     <span>From
-                                        <input type="date" name="leave_start" id='leave_start' disabled/> 
+                                        <input type="date" name="leave_start" id='leave_start' readonly/> 
                                     </span>
                                     <span>To
-                                        <input type="date" name="leave_end" id='leave_end' disabled/>
+                                        <input type="date" name="leave_end" id='leave_end' readonly/>
                                     </span>
                                 </div>
                             </div>
@@ -241,14 +239,13 @@ $payroll->removeRecentFunction();
                         </div>
                         <div>
                             <label for="type">Type</label>
-                            <input type="text" name="type" id='type' disabled/>
+                            <input type="text" name="type" id='type' readonly/>
                         </div>
                         <div>
                             <label for="reason">Reason</label>
-                            <input type="text" name="reason" id='reason' disabled/>
+                            <input type="text" name="reason" id='reason' readonly/>
                         </div>
                         <div>
-                            <button type='submit' name='approveRequest' id='approvebtn'>Approve Request</button>
                             <button type='submit' name='rejectRequest' id='rejectbtn'>Reject Request</button>
                         </div>
                     </form>

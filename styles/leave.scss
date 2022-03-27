@@ -238,7 +238,7 @@
             & > .logo {
                 height: 30px;
                 width: 30px;
-                background-image: url("../img/jtdvpng.png");
+                background-image: url("../img/jtdv.png");
                 background-size: cover;
                 margin-right: 10px;
 
@@ -910,7 +910,7 @@
                                     background: #ABFFB3;
                                 }
 
-                                &.reject {
+                                &.rejected {
                                     background: #FFABAB;
                                 }
                             }
@@ -918,6 +918,7 @@
                             & > h2 {
                                 font-size: 18px;
                                 font-weight: $semibold;
+                                text-transform: capitalize;
                             }
                         }
 
@@ -1120,28 +1121,6 @@
                                     text-decoration: none;
 
                                     &:nth-child(1){
-                                        background: $bgi-view;
-                                        display: flex;
-                                        flex-direction: column;
-                                        justify-content: center;
-                                        align-items: center;
-
-                                        &:hover {
-                                            background: darken($bgi-view, 5%);
-
-                                            & > span {
-                                                color: darken($i-view, 5%);
-                                            }
-                                        }
-
-                                        & > span {
-                                            color: $i-view;
-                                            font-size: 15px;
-                                            transform: translateY(0px);
-                                        }
-                                    }
-
-                                    &:nth-child(2){
                                         background: $bgi-edit;
                                         display: flex;
                                         flex-direction: column;
@@ -1164,7 +1143,7 @@
                                     }
 
 
-                                    &:nth-child(3){
+                                    &:nth-child(2){
                                         background: $bgi-delete;
                                         display: flex;
                                         flex-direction: column;
@@ -1210,7 +1189,7 @@
         border-radius: 5px;
         width: 33%;
         max-height: 80%;
-        position: relative;
+        // position: relative;
         padding: 13px 0px;
         box-sizing: border-box;
 
@@ -1434,7 +1413,7 @@
         border-radius: 5px;
         width: 33%;
         max-height: 80%;
-        position: relative;
+        // position: relative;
         padding: 13px 0px;
         box-sizing: border-box;
 

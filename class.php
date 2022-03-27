@@ -69,7 +69,6 @@ Class Payroll
             $_SESSION['reservedPassword'] = "";
         }
 
-
         // if attempts hits 2
         if($_SESSION['attempts'] == 2){
             
@@ -79,7 +78,8 @@ Class Payroll
                 $password = $this->generatedPassword($_POST['password']);
 
                 if(empty($username) && empty($password)){
-                    echo 'input fields are required to login';
+                    $msg = 'Input field are required to login';
+                    echo "<script>window.location.assign('./login.php?errormessage=$msg');</script>";
                 } else {
                     
                     // if user input === reservedEmail
@@ -90,11 +90,6 @@ Class Payroll
                         $stmtAttempt2->execute([$_SESSION['reservedEmail'], $password[0]]);
                         $usersAttempt2 = $stmtAttempt2->fetch();
                         $countRowAttempt2 = $stmtAttempt2->rowCount();
-
-
-                        
-
-
 
                         // if no row detected
                         if($countRowAttempt2 < 1){
@@ -114,7 +109,8 @@ Class Payroll
                             // send user credentials
                             $this->sendEmail($_SESSION['reservedEmail'], $userGetPass->secret_key);
                             $_SESSION['attempts'] -= 1; // decrease 1 attempt to current attempts
-                            echo 'No of attempts: '.$_SESSION['attempts'];
+                            $msg = 'No of attempts: '.$_SESSION['attempts'];
+                            echo "<script>window.location.assign('./login.php?errormessage=$msg');</script>";
                         } else {
                             // if row detected
                             $fullname = $usersAttempt2->firstname." ".$usersAttempt2->lastname;
@@ -148,17 +144,11 @@ Class Payroll
                                                                 );
                                 header('Location: dashboard.php'); // redirect to dashboard.php
                                 return $_SESSION['adminDetails']; // after calling the function, return session
-                            } else {
-                                echo 'Di nag insert sa admin_log';
                             }
                         }
                     }
                 }
-
             }
-
-            
-
         } else if($_SESSION['attempts'] == 0){ // if attempts bring down to 0
             
             // select username na gumamit ng 5 attempts
@@ -200,17 +190,16 @@ Class Payroll
 
                 // checking if the column was updated already
                 if($updateCountRow > 0){
-                    echo 'System has been locked for 6 hrs';
-                    session_destroy(); // destroy all the sessions
-                    
+                    session_destroy(); // destroy all the session
+                    $msg = 'System has been locked for 6 hrs';
+                    echo "<script>window.location.assign('./login.php?errormessage=$msg');</script>";
                 } else {
-                    echo 'There was something wrong in the codes';
                     session_destroy();
                 }
             } else {
-                echo 'Username is not exists';
+                $msg = 'Username is not exists';
+                echo "<script>window.location.assign('./login.php?errormessage=$msg');</script>";
             }
-
         } else {
             // if user hit login button
             if(isset($_POST['login'])){
@@ -222,7 +211,8 @@ Class Payroll
     
                 // if username and password are empty
                 if(empty($username) && empty($password[0])){
-                    echo 'All input fields are required to login.';
+                    $msg = 'All input fields are required to login.';
+                    echo "<script>window.location.assign('./login.php?errormessage=$msg');</script>";
                 } else {
                     // check if email is exist using a function
                     $checkEmailArray = $this->checkEmailExist($username); // returns an array(true, cho@gmail.com)
@@ -233,7 +223,6 @@ Class Payroll
 
                         $suspendedAccess = 'suspended';
                         
-
                         // find account that matches the username and password
                         $sql = "SELECT * FROM super_admin WHERE username = ? AND password = ?";
                         $stmt = $this->con()->prepare($sql);
@@ -259,7 +248,7 @@ Class Payroll
                                                                     `time`,
                                                                     `date`
                                                                     )
-                                            VALUES(?, ?, ?, ?)";
+                                              VALUES(?, ?, ?, ?)";
                                 $actLogStmt = $this->con()->prepare($actLogSql);
                                 $actLogStmt->execute([$fullname, $action, $time, $date]);
                 
@@ -290,35 +279,63 @@ Class Payroll
 
                                 // check if user->timer date was expired
                                 if(strtotime($dateExpired) < strtotime($checkDateTimeNow)){
-                                    echo 'expired na si timer</br>';
                                     
+                                    // timer end, back to its default state
                                     $varNull = NULL;
                                     $setAccess = 'administrator';
                                     $sqlUpdateTimer = "UPDATE super_admin SET timer = ?, access = ? WHERE id = ?";
                                     $stmtUpdateTimer = $this->con()->prepare($sqlUpdateTimer);
                                     $stmtUpdateTimer->execute([$varNull, $setAccess, $users->id]);
 
+                                    $fullname = $users->firstname." ".$users->lastname; // create fullname
+                                    $action = "login"; 
+                                        
+                                    // set timezone and get date and time
+                                    $datetime = $this->getDateTime(); 
+                                    $time = $datetime['time'];
+                                    $date = $datetime['date'];
+                    
+                                    // insert mo sa activity log ni admin
+                                    $actLogSql = "INSERT INTO admin_log(`name`, 
+                                                                        `action`,
+                                                                        `time`,
+                                                                        `date`
+                                                                        )
+                                                VALUES(?, ?, ?, ?)";
+                                    $actLogStmt = $this->con()->prepare($actLogSql);
+                                    $actLogStmt->execute([$fullname, $action, $time, $date]);
+                    
+                                    // create user details using session
+                                    session_start();
+                                    $_SESSION['attempts'] = 5;
+                                    $_SESSION['adminDetails'] = array('fullname' => $fullname,
+                                                                    'access' => $users->access,
+                                                                    'id' => $users->id
+                                                                    );
+                                    unset($_SESSION['reservedEmail']);
+                                    unset($_SESSION['reservedPassword']);
+
+                                    header('Location: dashboard.php'); // redirect to dashboard.php
+                                    return $_SESSION['adminDetails']; // after calling the function, return session
                                 } else {
-                                    echo 'Your account has been locked until</>'.
-                                         'Date: '.$dateExpired;
-                                    
+                                    $msg = 'Your account has been locked until '.
+                                           'Date: '.$dateExpired;
+                                    echo "<script>window.location.assign('./login.php?errormessage=$msg');</script>";
                                 }
-  
                             } 
                         } else {
-
                             // insert here, pag suspended na tas naglogin ulit same email dapat yung attempt will set to 0
-
-
-                            echo "Username and password are not matched <br/>";
+                            
                             $_SESSION['attempts'] -= 1; // decrease 1 attempt to current attempts
-                            echo 'No of attempts: '.$_SESSION['attempts'];
+                            $msg = 'Username and password are not matched. No of attempts: '.$_SESSION['attempts'];
+                            echo "<script>window.location.assign('./login.php?errormessage=$msg');</script>";
                             
                             $_SESSION['reservedEmail'] = $username; // blank to kanina, nagkaron na ng laman
                             $_SESSION['reservedPassword'] = $passwordArray; // blank to kanina, nagkaron na ng laman
                         }
                     } else {
-                        echo 'Your email is not exist in our system';
+                        $msg = 'Your email is not exist in our system.';
+                        echo "<script>window.location.assign('./login.php?errormessage=$msg');</script>";
                     }
                 }
             }
@@ -350,7 +367,6 @@ Class Payroll
                 return false;
             }
         }
-
     }
 
     public function checkEmailExist($email)
@@ -374,7 +390,6 @@ Class Payroll
     {
         
         $name = 'JTDV Incorporation';
-        $subject = '';
         $body = "Credentials
                  Your username: $email <br/>
                  Your password: $password
@@ -398,7 +413,7 @@ Class Payroll
             $mail->isHTML(true);
             $mail->setFrom($email, $name);              // Katabi ng user image
             $mail->addAddress($email);                  // gmail address ng pagsesendan
-            $mail->Subject = ("$email ($subject)");     // headline
+            $mail->Subject = ("$email");     // headline
             $mail->Body = $body;                        // textarea
 
             $mail->send();
@@ -415,7 +430,7 @@ Class Payroll
 
     // vonne
     public function mobile_logout() {
-        $this->pdo =null;
+        $this->pdo = null;
         session_start();
         session_destroy();
         header('Location: m_login.php');
@@ -493,6 +508,7 @@ Class Payroll
                       <script>
                         let msgErr = document.querySelector('.error');
                         setTimeout(e => msgErr.remove(), 5000);
+                        window.location.assign('./secretary.php');
                       </script>";
             } else {
                 
@@ -721,7 +737,7 @@ Class Payroll
                 FROM secretary_log sl
                 INNER JOIN secretary s
                 ON sl.sec_id = s.id
-                ORDER BY sl.id DESC";
+                ORDER BY sl.date DESC";
         $stmt = $this->con()->query($sql);
 
         $countRow = $stmt->rowCount();
@@ -745,7 +761,7 @@ Class Payroll
 
     public function showAllSecretary()
     {
-        $sql = "SELECT * FROM secretary WHERE isDeleted = 0";
+        $sql = "SELECT * FROM secretary WHERE isDeleted = 0 ORDER BY id DESC";
         $stmt = $this->con()->query($sql);
 
         $countRow = $stmt->rowCount();
@@ -847,7 +863,7 @@ Class Payroll
         if($countRow > 0){
             $fullname = $user->fullname;
             $gender = $user->gender;
-            $gender2 = $gender == 'Male' ? 'Female' : $gender;
+            $gender2 = $gender == 'Male' ? 'Female' : 'Male';
             $email = $user->email;
             $cpnumber = $user->cpnumber;
             $address = $user->address;
@@ -1051,8 +1067,8 @@ Class Payroll
                               <script>
                                 let msgSuc = document.querySelector('.success');
                                 setTimeout(e =>  msgSuc.remove(), 5000);
+                                window.location.assign('./showAll.php');
                               </script>";
-                        echo "<script>window.location.assign('./showAll.php');</script>";
                     } else {
                         echo "<div class='error'>
                                 <div class='icon-container'>
@@ -1069,7 +1085,6 @@ Class Payroll
                               </script>";
                     }
                 }
-
             }
         }
     }
@@ -1149,6 +1164,7 @@ Class Payroll
                           <script>
                             let msgSuc = document.querySelector('.success');
                             setTimeout(e =>  msgSuc.remove(), 5000);
+                            window.location.assign('./showAll.php');
                           </script>";
                 } else {
                     echo "<div class='error'>
@@ -1167,9 +1183,7 @@ Class Payroll
                 }
             }
         }
-        
     }
-
 
 
     public function recentAssignedGuards()
@@ -1213,9 +1227,6 @@ Class Payroll
                       </div>";
             }
         }
-
-        
-
     }
 
     public function deleteRecentGuardModal($id)
@@ -1315,7 +1326,7 @@ Class Payroll
                     $sqlEmp = "UPDATE employee
                                SET position = ?,
                                    ratesperDay = ?,
-                                   watType = ?,
+                                   overtime_rate = ?,
                                    availability = ?
                                WHERE empId = ?
                                ";
@@ -1334,6 +1345,7 @@ Class Payroll
                           <script>
                             let msgSuc = document.querySelector('.success');
                             setTimeout(e =>  msgSuc.remove(), 5000);
+                            window.location.assign('./employee.php');
                           </script>";
                 }
             }
@@ -1353,7 +1365,7 @@ Class Payroll
             $empId = $curr_year."-".$this->createEmpId(); // generated empId
 
             if($this->createEmpId() == NULL || $this->createEmpId() == 0 || $this->createEmpId() == ""){
-                $empId = $curr_year."-0";
+                $empId = $curr_year."-1";
             }
 
             $firstname = $_POST['firstname'];
@@ -1455,6 +1467,7 @@ Class Payroll
                         // send user credentials
                         $this->sendEmail($email, $realPassword);
 
+                        echo "<script>window.location.assign('./employee.php');</script>";
                     } else {
                         echo "<div class='error'>
                                 <div class='icon-container'>
@@ -1471,7 +1484,136 @@ Class Payroll
                               </script>";
                     }
                 }
+            }
+        }
 
+        // for add employee modal
+        if(isset($_POST['addemployeemodal'])){
+
+            date_default_timezone_set('Asia/Manila'); // set default timezone to manila
+            $curr_year = date("Y"); // year
+
+            $empId = $curr_year."-".$this->createEmpId(); // generated empId
+
+            if($this->createEmpId() == NULL || $this->createEmpId() == 0 || $this->createEmpId() == ""){
+                $empId = $curr_year."-1";
+            }
+
+            $firstname = $_POST['firstname'];
+            $lastname = $_POST['lastname'];
+            $address = $_POST['address'];
+            $email = $_POST['email'];
+            $realPassword = $this->generatedPassword2();
+            $dbPassword = $this->generatedPassword($realPassword); // md5, pass with keyword
+            $qrcode = $_POST['qrcode'];
+            $number = $_POST['number'];
+            $access = "employee";
+            $availability = "Available";
+
+            $fullname = $firstname.$lastname;
+
+            if(empty($firstname) &&
+               empty($lastname) &&
+               empty($number) &&
+               empty($address) &&
+               empty($email) &&
+               empty($dbPassword) &&
+               empty($qrcode) &&
+               empty($access) &&
+               empty($availability)
+            ){
+                echo "<div class='error'>
+                        <div class='icon-container'>
+                            <span class='material-icons'>close</span>
+                        </div>
+                        <p>All input fields are required!</p>
+                        <div class='closeContainer'>
+                            <span class='material-icons'>close</span>
+                        </div>
+                      </div>
+                      <script>
+                        let msgErr = document.querySelector('.error');
+                        setTimeout(e => msgErr.remove(), 5000);
+                      </script>";
+            } else {
+
+                if($this->checkEmpEmailExist($email)){
+                    echo "<div class='error'>
+                            <div class='icon-container'>
+                                <span class='material-icons'>close</span>
+                            </div>
+                            <p>Email Already Exist!</p>
+                            <div class='closeContainer'>
+                                <span class='material-icons'>close</span>
+                            </div>
+                          </div>
+                          <script>
+                            let msgErr = document.querySelector('.error');
+                            setTimeout(e => msgErr.remove(), 5000);
+                          </script>";
+                } else {
+                    // set timezone and get date and time
+                    $datetime = $this->getDateTime(); 
+                    $time = $datetime['time'];
+                    $date = $datetime['date'];
+
+                    // add mo na ko
+                    $sql = "INSERT INTO employee(empId,
+                                                 firstname,
+                                                 lastname,
+                                                 cpnumber,
+                                                 address,
+                                                 email,
+                                                 password,
+                                                 qrcode,
+                                                 access,
+                                                 availability,
+                                                 time,
+                                                 date)
+                            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    $stmt = $this->con()->prepare($sql);
+                    $stmt->execute([$empId, $firstname, $lastname, $number, $address, $email, $dbPassword[0], $qrcode, $access, $availability, $time, $date]);
+                    $countRow = $stmt->rowCount();
+
+                    if($countRow > 0){
+                        echo "<div class='success'>
+                                <div class='icon-container'>
+                                    <span class='material-icons'>done</span>
+                                </div>
+                                <p>New Data Added</p>
+                                <div class='closeContainer'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                              </div>
+                              <script>
+                                let msgSuc = document.querySelector('.success');
+                                setTimeout(e =>  msgSuc.remove(), 5000);
+                              </script>";
+
+                        // gagamitin pang login sa employee dashboard
+                        $sqlSecretKeyEmployee = "INSERT INTO secret_diarye(e_id, secret_key)
+                                                 VALUES(?, ?)";
+                        $stmtSecretKeyEmployee = $this->con()->prepare($sqlSecretKeyEmployee);
+                        $stmtSecretKeyEmployee->execute([$email, $realPassword]);
+                        // send user credentials
+                        $this->sendEmail($email, $realPassword);
+                        echo "<script>window.location.assign('./employee.php');</script>";
+                    } else {
+                        echo "<div class='error'>
+                                <div class='icon-container'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                                <p>No Data Added</p>
+                                <div class='closeContainer'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                              </div>
+                              <script>
+                                let msgErr = document.querySelector('.error');
+                                setTimeout(e => msgErr.remove(), 5000);
+                              </script>";
+                    }
+                }
             }
         }
     }
@@ -1491,7 +1633,7 @@ Class Payroll
 
     // employee.php      td without actions
     public function showAllEmp(){
-        $sql = "SELECT * FROM employee";
+        $sql = "SELECT * FROM employee ORDER BY id DESC";
         $stmt = $this->con()->query($sql);
         $countRow = $stmt->rowCount();
 
@@ -1517,7 +1659,7 @@ Class Payroll
 
     // showEmployees.php      td with actions
     public function showAllEmpActions(){
-        $sql = "SELECT * FROM employee WHERE availability = 'Available'";
+        $sql = "SELECT * FROM employee WHERE availability = 'Available' AND onLeave = 0";
         $stmt = $this->con()->query($sql);
         $countRow = $stmt->rowCount();
 
@@ -1532,7 +1674,7 @@ Class Payroll
         }
 
         while($row = $stmt->fetch()){
-            $type = $row->watType == NULL ? 'None' : $row->watType;
+
             $fullname = $row->firstname." ".$row->lastname;
             $availability = $row->availability;
             echo "<tr>
@@ -1548,7 +1690,7 @@ Class Payroll
                                 </a>
                             </div>
                             <div class='buttons-qr'>
-                                <a href='./qr.php?myqr=$row->qrcode&fullname=$fullname&availability=$availability'>
+                                <a href='./generateqr.php?myqr=$row->qrcode&fullname=$fullname&availability=$availability'>
                                     <span class='material-icons'>qr_code</span>
                                 </a>
                             </div>
@@ -1575,7 +1717,7 @@ Class Payroll
                        e.firstname AS firstname,
                        e.lastname AS lastname,
                        e.email,
-                       e.qrcode,
+                       e.qrcode AS qrcode,
                        e.availability,
                        c.company_name AS companyname,
                        c.comp_location AS location
@@ -1600,6 +1742,7 @@ Class Payroll
                 $fullname = $row->lastname.", ".$row->firstname;
                 $fullname2 = $row->firstname." ".$row->lastname;
                 $availability = $row->availability;
+                $qrcode = $row->qrcode;
 
                 echo "<tr>
                          <td>$fullname</td>
@@ -1613,7 +1756,7 @@ Class Payroll
                                     </a>
                                 </div>
                                 <div class='buttons-qr'>
-                                    <a href='./qr.php?myqr=$row->qrcode&fullname=$fullname2&availability=$availability'>
+                                    <a href='./generateqr.php?myqr=$qrcode&fullname=$fullname2&availability=$availability'>
                                         <span class='material-icons'>qr_code</span>
                                     </a>
                                 </div>
@@ -1684,7 +1827,6 @@ Class Payroll
                          let empAddress = document.querySelector('#empAddress').value = '$user->address';
                          let email = document.querySelector('#email').value = '$user->email';
                          let cpnumber = document.querySelector('#cpnumber').value = '$user->cpnumber';
-
                       </script>";
             }
         }
@@ -1993,9 +2135,7 @@ Class Payroll
                     $empDayEnd = date("h:i a", strtotime($userCompany->day_start." +".$userCompany->shift_span." hours"));
                 }
 
-
                 $name = 'JTDV Incorporation';
-                $subject = '';
                 $body = "Congratulations! You have been assigned to $company. The company located at $empLocation. <br/>
                          Shift type: $empShift <br/>
                          Your schedule: $empDayStart - $empDayEnd <br/>
@@ -2023,13 +2163,11 @@ Class Payroll
                     $mail->isHTML(true);
                     $mail->setFrom($email, $name);              // Katabi ng user image
                     $mail->addAddress($email);                  // gmail address ng pagsesendan
-                    $mail->Subject = ("$email ($subject)");     // headline
+                    $mail->Subject = ("$email");     // headline
                     $mail->Body = $body;                        // textarea
 
                     $mail->send();
                 }
-
-
             } 
         } else {
             // not officer in charge
@@ -2044,7 +2182,6 @@ Class Payroll
                 $empLocation = $userCompany->comp_location;
                 
                 $name = 'JTDV Incorporation';
-                $subject = '';
                 $body = "Congratulations! You have been assigned to $company. The company located at $empLocation. <br/>
                          Position: $empPosition <br/>
                          Rate per hour: $empPrice <br/>
@@ -2070,16 +2207,13 @@ Class Payroll
                     $mail->isHTML(true);
                     $mail->setFrom($email, $name);              // Katabi ng user image
                     $mail->addAddress($email);                  // gmail address ng pagsesendan
-                    $mail->Subject = ("$email ($subject)");     // headline
+                    $mail->Subject = ("$email");     // headline
                     $mail->Body = $body;                        // textarea
 
                     $mail->send();
                 }
-
-
             }
         }
-
     }
 
 
@@ -2236,8 +2370,6 @@ Class Payroll
                                     setTimeout(e => msgErr.remove(), 5000);
                                   </script>";
                         }
-                        
-
                     } else {
                         // if not equal to officer in charge do not set schedule
                         $sql = "INSERT INTO schedule(empId, company, expiration_date)
@@ -2295,7 +2427,6 @@ Class Payroll
                     }
                 }
             }
-
         }
     }
 
@@ -2632,8 +2763,6 @@ Class Payroll
                       </div>";
             }
         }
-
-        
     }
 
     public function removeRecentFunction()
@@ -2679,7 +2808,8 @@ Class Payroll
                 FROM leave_request l
                 INNER JOIN employee e
                 ON l.empId = e.empId
-                WHERE status = 'pending'";
+                WHERE status = 'pending'
+                ORDER BY l.id DESC";
         $stmt = $this->con()->query($sql);
         $countRow = $stmt->rowCount();
 
@@ -2705,7 +2835,6 @@ Class Payroll
                         <td>$row->leave_end</td>
                         <td>
                             <div class='buttons'>
-                                <a href='leave.php?id=$row->id&act=viewing'><span class='material-icons'>visibility</span></a>
                                 <a href='leave.php?id=$row->id&act=approve'><span class='material-icons'>done</span></a>
                                 <a href='leave.php?id=$row->id&act=reject'><span class='material-icons'>close</span></a>
                             </div>
@@ -2721,7 +2850,6 @@ Class Payroll
     {
         $sql = "SELECT * FROM employee WHERE availability = 'Available'";
         $stmt = $this->con()->query($sql);
-
         $countRow = $stmt->rowCount();
 
         if($countRow > 0){
@@ -2736,7 +2864,7 @@ Class Payroll
                 }
             }
         } else {
-            echo "<option>No Available Guard</option>";
+            echo "<option value=''>No Available Guard</option>";
         }
     }
 
@@ -2761,16 +2889,17 @@ Class Payroll
             if($countRowFind > 0){
                 $fullname = $userFind->firstname." ".$userFind->lastname;
                 $email = $userFind->email;
+                $address = $userFind->address;
                 $days = $user->days;
                 $leave_start = $user->leave_start;
                 $leave_end = $user->leave_end;
                 $type = $user->typeOfLeave;
                 $reason = $user->reason;
-
                 echo "<script>
                         let requestId = document.querySelector('#requestId');
                         let fullname = document.querySelector('#fullname');
                         let email = document.querySelector('#email');
+                        let address = document.querySelector('#address');
                         let daysleave = document.querySelector('#daysleave');
                         let leave_start = document.querySelector('#leave_start');
                         let leave_end = document.querySelector('#leave_end');
@@ -2783,6 +2912,9 @@ Class Payroll
                         fullname.setAttribute('readonly', 'readonly');
                         email.value = '$email';
                         email.setAttribute('readonly', 'readonly');
+
+                        address.value = '$address';
+                        address.setAttribute('readonly', 'readonly');
 
                         let option = document.createElement('option');
                         option.value = '$days';
@@ -2806,12 +2938,66 @@ Class Payroll
                         reason.setAttribute('readonly', 'readonly');
 
                       </script>";
+            } else {
+                echo " no user found";
             }
-
         }
     }
 
-    public function viewApproveReject()
+    public function informSubstitute($email, 
+                                     $company, 
+                                     $comp_address, 
+                                     $timeinSched,
+                                     $timeoutSched,
+                                     $shiftSched,
+                                     $shiftSpanSched,
+                                     $leaveStart,
+                                     $expDateNew,
+                                     $substiPosition,
+                                     $substiPrice,
+                                     $substiOT)
+    {
+        $name = 'JTDV Incorporation';
+        $body = "You have been assigned as a substitute for $company. Located at $comp_address <br/>
+                 <br/>
+                 <h4>Starting at $leaveStart you may start working on us.</h4> <br/>
+                 Shift: $shiftSched <br/>
+                 Total hours per day: $shiftSpanSched <br/> 
+                 Schedule: $timeinSched to $timeoutSched <br/>
+                 Position: $substiPosition <br/>
+                 Rate per hour: $substiPrice <br/>
+                 Overtime Rate: $substiOT <br/>
+                 <br/>
+                 End of Contract: $expDateNew <br/>
+
+                ";
+
+        if(!empty($email)){
+
+            $mail = new PHPMailer();
+
+            // smtp settings
+            $mail->isSMTP();
+            $mail->Host = "smtp.gmail.com";
+            $mail->SMTPAuth = true;
+            $mail->Username = $this->e_username;  // gmail address
+            $mail->Password = $this->e_password;  // gmail password
+
+            $mail->Port = 465;
+            $mail->SMTPSecure = "ssl";
+
+            // email settings
+            $mail->isHTML(true);
+            $mail->setFrom($email, $name);              // Katabi ng user image
+            $mail->addAddress($email);                  // gmail address ng pagsesendan
+            $mail->Subject = ("$email");     // headline
+            $mail->Body = $body;                        // textarea
+
+            $mail->send();
+        }
+    }
+
+    public function approveRequest($id)
     {
         if(isset($_POST['approveRequest'])){
             $id = $_POST['requestId'];
@@ -2831,7 +3017,7 @@ Class Payroll
 
                                 e.position as position,
                                 e.ratesperDay as price,
-                                e.watType as watType,
+                                e.overtime_rate as ot,
 
                                 c.comp_location as c_address
                         FROM leave_request l
@@ -2857,7 +3043,7 @@ Class Payroll
 
                 $substiPosition = $userFind->position;
                 $substiPrice = $userFind->price;
-                $substiType = $userFind->watType;
+                $substiOT = $userFind->ot;
 
                 $availability = 'Unavailable';
 
@@ -2865,19 +3051,17 @@ Class Payroll
                 $datetime = $this->getDateTime();
                 $date = $datetime['date'];
 
-
                 $sqlSubstiUpdate = "UPDATE employee 
                                     SET position = ?,
                                         ratesperDay = ?,
-                                        watType = ?,
+                                        overtime_rate = ?,
                                         availability = ?
                                     WHERE empId = ?";
 
                 $stmtSubstiUpdate = $this->con()->prepare($sqlSubstiUpdate);
-                $stmtSubstiUpdate->execute([$substiPosition, $substiPrice, $substiType, $availability, $substiEmpId]);
+                $stmtSubstiUpdate->execute([$substiPosition, $substiPrice, $substiOT, $availability, $substiEmpId]);
                 $countRowSubstiUpdate = $stmtSubstiUpdate->rowCount();
                 if($countRowSubstiUpdate > 0){
-                    echo 'nag update na si employee';
 
                     $sql = "UPDATE leave_request
                             SET substitute_by = ?,
@@ -2890,7 +3074,6 @@ Class Payroll
                     $countRow = $stmt->rowCount();
 
                     if($countRow > 0){
-                        echo 'nag update na si leave_request';
                         // to add new schedule
                         $companySched = $userFind->company;
                         $timeinSched = $userFind->timein;
@@ -2905,21 +3088,20 @@ Class Payroll
                         $stmtSched->execute([$substiEmpId, $companySched, $timeinSched, $timeoutSched, $shiftSched, $shiftSpanSched, $expDateNew]);
                         $countRowSched = $stmtSched->rowCount();
                         if($countRowSched > 0){
-                            echo 'nakapag add na sa schedule';
 
+                            $onLeave = 1;
                             $leaveEmpId = $userFind->leaveEmpId;
-                            $sqlDelSched = "UPDATE schedule
-                                            SET scheduleTimeIn = ?,
-                                                scheduleTimeOut = ?,
-                                                shift = ?,
-                                                shift_span = ?
-                                            WHERE empId = ?";
-                            $stmtDelSched = $this->con()->prepare($sqlDelSched);
-                            $stmtDelSched->execute([NULL, NULL, NULL, NULL, $leaveEmpId]);
-                            $countRowDelSched = $stmtDelSched->rowCount();
-                            if($countRowDelSched > 0){
-                                echo 'nadelete na sa sched';
-                                
+
+
+                            $sqlUpdateAvailability = "UPDATE employee
+                                                      SET availability = ?,
+                                                          onLeave = ?
+                                                      WHERE empId = ?";
+                            $stmtUpdateAvailability = $this->con()->prepare($sqlUpdateAvailability);
+                            $stmtUpdateAvailability->execute(['Available', $onLeave, $leaveEmpId]);
+                            $countRowUpdateAvailability = $stmtUpdateAvailability->rowCount();
+
+                            if($countRowUpdateAvailability > 0){
                                 $comp_address = $userFind->c_address;
                                 $leaveStart = $userFind->leaveStart;
 
@@ -2942,22 +3124,51 @@ Class Payroll
                                                         $leaveStart,
                                                         $expDateNew,
                                                         $substiPosition,
-                                                        $substiPrice
+                                                        $substiPrice,
+                                                        $substiOT
                                                         );
+                                    $msg = 'Approved Successfully';
+                                    echo "<script>window.location.assign('./dashboard.php?message=$msg')</script>";
                                 } else {
-                                    echo 'no available guard found';
+                                    echo "<div class='error'>
+                                            <div class='icon-container'>
+                                                <span class='material-icons'>close</span>
+                                            </div>
+                                            <p>No Available Guard Found</p>
+                                            <div class='closeContainer'>
+                                                <span class='material-icons'>close</span>
+                                            </div>
+                                          </div>
+                                          <script>
+                                            let msgErr = document.querySelector('.error');
+                                            setTimeout(e => msgErr.remove(), 5000);
+                                          </script>";
                                 }
-                            } else {
-                                echo 'di pa nadelete sa sched';
                             }
                         } else {
-                            echo 'di pa nakapag add sa schedule';
+                            echo "<div class='error'>
+                                    <div class='icon-container'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                    <p>Error Creating Schedule</p>
+                                    <div class='closeContainer'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                  </div>
+                                  <script>
+                                    let msgErr = document.querySelector('.error');
+                                    setTimeout(e => msgErr.remove(), 5000);
+                                  </script>";
                         }
                     }
                 }
             }
         }
+    }
 
+
+    public function rejectRequest($id)
+    {
         if(isset($_POST['rejectRequest'])){
             $id = $_GET['id'];
             $email = $_POST['email'];
@@ -2979,11 +3190,7 @@ Class Payroll
             $countRow = $stmt->rowCount();
 
             if($countRow > 0){
-                echo 'rejected';
-
-
                 $name = 'JTDV Incorporation';
-                $subject = 'subject kunwari';
                 $body = "Your request has been rejected. <br/>
                         <br/>
                         Days: $days <br/>
@@ -3009,253 +3216,31 @@ Class Payroll
                     $mail->isHTML(true);
                     $mail->setFrom($email, $name);              // Katabi ng user image
                     $mail->addAddress($email);                  // gmail address ng pagsesendan
-                    $mail->Subject = ("$email ($subject)");     // headline
+                    $mail->Subject = ("$email");                // headline
                     $mail->Body = $body;                        // textarea
 
-                    if($mail->send()){
-                        // $status = "success";
-                        $response = "Your credentials has been sent to your email";
-                        echo '<br/>'.$response;
-                    } else {
-                        $status = "failed";
-                        $response = "Something is wrong: <br/>". $mail->ErrorInfo;
-                        echo '<br/>'.$status."<br/>".$response;
-                    }
+                    $mail->send();
+
+                    $msg = 'Reject Successfully';
+                    echo "<script>window.location.assign('./dashboard.php?message=$msg')</script>";
                 }
             } else {
-                echo 'di rejected haha';
+                echo "<div class='error'>
+                        <div class='icon-container'>
+                            <span class='material-icons'>close</span>
+                        </div>
+                        <p>Failed to reject</p>
+                        <div class='closeContainer'>
+                            <span class='material-icons'>close</span>
+                        </div>
+                      </div>
+                      <script>
+                        let msgErr = document.querySelector('.error');
+                        setTimeout(e => msgErr.remove(), 5000);
+                      </script>";
             }
         }
     }
-
-
-    public function informSubstitute($email, 
-                                     $company, 
-                                     $comp_address, 
-                                     $timeinSched,
-                                     $timeoutSched,
-                                     $shiftSched,
-                                     $shiftSpanSched,
-                                     $leaveStart,
-                                     $expDateNew,
-                                     $substiPosition,
-                                     $substiPrice)
-    {
-
-        $name = 'JTDV Incorporation';
-        $subject = '';
-        $body = "You have been assigned as a substitute for $company. Located at $comp_address <br/>
-                 <br/>
-                 <h4>Starting at $leaveStart you may start working on us.</h4> <br/>
-                 Shift: $shiftSched <br/>
-                 Total hours per day: $shiftSpanSched <br/> 
-                 Schedule: $timeinSched to $timeoutSched <br/>
-                 Position: $substiPosition <br/>
-                 Rate per hour: $substiPrice <br/>
-                 <br/>
-                 End of Contract: $expDateNew <br/>
-
-                ";
-
-        if(!empty($email)){
-
-            $mail = new PHPMailer();
-
-            // smtp settings
-            $mail->isSMTP();
-            $mail->Host = "smtp.gmail.com";
-            $mail->SMTPAuth = true;
-            $mail->Username = $this->e_username;  // gmail address
-            $mail->Password = $this->e_password;  // gmail password
-
-            $mail->Port = 465;
-            $mail->SMTPSecure = "ssl";
-
-            // email settings
-            $mail->isHTML(true);
-            $mail->setFrom($email, $name);              // Katabi ng user image
-            $mail->addAddress($email);                  // gmail address ng pagsesendan
-            $mail->Subject = ("$email ($subject)");     // headline
-            $mail->Body = $body;                        // textarea
-
-            $mail->send();
-        }
-
-    }
-
-    public function approveRequest($id)
-    {
-
-        echo "<script>
-                let appABtn = document.querySelector('#approvebtn');
-                appABtn.style.display = 'block';
-
-                let appRBtn = document.querySelector('#rejectbtn');
-                appRBtn.style.display = 'none';
-              </script>";
-
-        if(isset($_POST['approveRequest'])){
-            $id = $_POST['requestId'];
-
-            $sqlFind = "SELECT 
-                                l.*,
-                                l.leave_start as leaveStart,
-                                l.leave_end as leaveEnd,
-                                l.empId as leaveEmpId,
-                                s.empId as empId,
-                                s.company as company,
-                                s.scheduleTimeIn as timein,
-                                s.scheduleTimeOut as timeout,
-                                s.shift as shift,
-                                s.shift_span as shift_span,
-                                s.expiration_date as expdate,
-
-                                e.position as position,
-                                e.ratesperDay as price,
-                                e.watType as watType,
-
-                                c.comp_location as c_address
-                        FROM leave_request l
-                        INNER JOIN schedule s
-                        ON l.empId = s.empId
-
-                        INNER JOIN employee e
-                        ON l.empId = e.empId
-
-                        INNER JOIN company c
-                        ON s.company = c.company_name 
-                        WHERE l.id = ?";
-            $stmtFind = $this->con()->prepare($sqlFind);
-            $stmtFind->execute([$id]);
-            $userFind = $stmtFind->fetch();
-            $countRowFind = $stmtFind->rowCount();
-
-            if($countRowFind > 0){
-
-                $status = 'approved';
-                $substiEmpId = $_POST['substitute'];
-                $expDateNew = $userFind->leaveEnd;
-
-                $substiPosition = $userFind->position;
-                $substiPrice = $userFind->price;
-                $substiType = $userFind->watType;
-
-                $availability = 'Unavailable';
-
-                // set timezone and get date and time
-                $datetime = $this->getDateTime();
-                $date = $datetime['date'];
-
-
-                $sqlSubstiUpdate = "UPDATE employee 
-                                    SET position = ?,
-                                        ratesperDay = ?,
-                                        watType = ?,
-                                        availability = ?
-                                    WHERE empId = ?";
-
-                $stmtSubstiUpdate = $this->con()->prepare($sqlSubstiUpdate);
-                $stmtSubstiUpdate->execute([$substiPosition, $substiPrice, $substiType, $availability, $substiEmpId]);
-                $countRowSubstiUpdate = $stmtSubstiUpdate->rowCount();
-                if($countRowSubstiUpdate > 0){
-                    echo 'nag update na si employee';
-
-                    $sql = "UPDATE leave_request
-                            SET substitute_by = ?,
-                                status = ?,
-                                date_admin = ?
-                            WHERE id = ?
-                            ";
-                    $stmt = $this->con()->prepare($sql);
-                    $stmt->execute([$substiEmpId, $status, $date, $id]);
-                    $countRow = $stmt->rowCount();
-
-                    if($countRow > 0){
-                        echo 'nag update na si leave_request';
-                        // to add new schedule
-                        $companySched = $userFind->company;
-                        $timeinSched = $userFind->timein;
-                        $timeoutSched = $userFind->timeout;
-                        $shiftSched = $userFind->shift;
-                        $shiftSpanSched = $userFind->shift_span;
-
-                        $sqlSched = "INSERT INTO schedule(empId, company, scheduleTimeIn, scheduleTimeOut, shift, shift_span, expiration_date)
-                                     VALUES(?, ?, ?, ?, ?, ?, ?)
-                                    ";
-                        $stmtSched = $this->con()->prepare($sqlSched);
-                        $stmtSched->execute([$substiEmpId, $companySched, $timeinSched, $timeoutSched, $shiftSched, $shiftSpanSched, $expDateNew]);
-                        $countRowSched = $stmtSched->rowCount();
-                        if($countRowSched > 0){
-                            echo 'nakapag add na sa schedule';
-
-                            $leaveEmpId = $userFind->leaveEmpId;
-                            $sqlDelSched = "UPDATE schedule
-                                            SET scheduleTimeIn = ?,
-                                                scheduleTimeOut = ?,
-                                                shift = ?,
-                                                shift_span = ?
-                                            WHERE empId = ?";
-                            $stmtDelSched = $this->con()->prepare($sqlDelSched);
-                            $stmtDelSched->execute([NULL, NULL, NULL, NULL, $leaveEmpId]);
-                            $countRowDelSched = $stmtDelSched->rowCount();
-                            if($countRowDelSched > 0){
-                                echo 'nadelete na sa sched';
-                                
-                                $comp_address = $userFind->c_address;
-                                $leaveStart = $userFind->leaveStart;
-
-                                // get email of substitute guard
-                                $sqlFindSubsti = "SELECT * FROM employee WHERE empId = ?";
-                                $stmtFindSubsti = $this->con()->prepare($sqlFindSubsti);
-                                $stmtFindSubsti->execute([$substiEmpId]);
-                                $userFindSubsti = $stmtFindSubsti->fetch();
-                                $countRowFindSubsti = $stmtFindSubsti->rowCount();
-
-                                if($countRowFindSubsti > 0){
-                                    // inform substitute guard
-                                    $this->informSubstitute($userFindSubsti->email, 
-                                                        $companySched, 
-                                                        $comp_address, 
-                                                        $timeinSched,
-                                                        $timeoutSched,
-                                                        $shiftSched,
-                                                        $shiftSpanSched,
-                                                        $leaveStart,
-                                                        $expDateNew,
-                                                        $substiPosition,
-                                                        $substiPrice
-                                                        );
-                                } else {
-                                    echo 'no available guard found';
-                                }
-                            } else {
-                                echo 'di pa nadelete sa sched';
-                            }
-                        } else {
-                            echo 'di pa nakapag add sa schedule';
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    public function rejectRequest($id)
-    {
-        echo "<script>
-                let rejRBtn = document.querySelector('#rejectbtn');
-                rejRBtn.style.display = 'block';
-
-                let rejABtn = document.querySelector('#approvebtn');
-                rejABtn.style.display = 'none';
-              </script>";
-    }
-
-
-
-
-
-
 
     public function countNewGuardsWelcome($name)
     {
@@ -3263,7 +3248,8 @@ Class Payroll
 
         $sql = "SELECT * FROM schedule 
                 WHERE date_assigned BETWEEN CURRENT_DATE - 15 
-                                        AND CURRENT_DATE";
+                                        AND CURRENT_DATE
+                ORDER BY id DESC";
         $stmt = $this->con()->prepare($sql);
         $stmt->execute();
         $users = $stmt->fetch();
@@ -3401,8 +3387,6 @@ Class Payroll
                 $posName = $usersCountEmp->position;
                 $posTotal = $usersCountEmp->positions;
                 $posPercentage = $usersCountEmp->percentage . "%";
-                // $getTotal = $posTotal / $totalEmployees; // 0.33
-                // $decToPercentage = round((float)$getTotal * 100 ) . '%'; // 33%
 
                 echo "<tr>
                           <td>$posTotal</td>
@@ -3422,7 +3406,7 @@ Class Payroll
 
     public function dashboardRecentActivity()
     {
-        $sql = "SELECT * FROM company";
+        $sql = "SELECT * FROM company ORDER BY id DESC";
         $stmt = $this->con()->query($sql);
         $countRow = $stmt->rowCount();
 
@@ -3461,16 +3445,13 @@ Class Payroll
                             </td>
                           </tr>";
                 } 
-                
             }
         }
-
-        
     }
 
     public function dashboardRecentActivityAll()
     {
-        $sql = "SELECT * FROM company";
+        $sql = "SELECT * FROM company ORDER BY id DESC";
         $stmt = $this->con()->query($sql);
         $countRow = $stmt->rowCount();
 
@@ -3502,12 +3483,10 @@ Class Payroll
                 $status = 'old';
             }
 
-            $hiredGuards = $users->hired_guards == NULL || 'NULL' || '' ? 0 : $users->hired_guards;
-
             echo "<tr>
                     <td>$users->company_name</td>
                     <td>$users->comp_location</td>
-                    <td>$hiredGuards</td>
+                    <td>$users->hired_guards</td>
                     <td>$users->date</td>
                   </tr>";
         }
@@ -3515,7 +3494,7 @@ Class Payroll
 
     public function dashboardNewGuards()
     {
-        $sql = "SELECT * FROM employee ORDER BY date DESC LIMIT 4";
+        $sql = "SELECT * FROM employee WHERE availability = 'Available' AND onLeave = 0 ORDER BY id DESC LIMIT 4";
         $stmt = $this->con()->query($sql);
         $countRow = $stmt->rowCount();
 
@@ -3559,8 +3538,6 @@ Class Payroll
                       </div>";
             }
         }
-
-        
     }
 
     // modal only
@@ -3576,15 +3553,15 @@ Class Payroll
             echo "<form method='post'>
                     <div>
                         <label for='firstname'>Firstname</label>
-                        <input type='text' name='firstname' id='firstname' value='$user->firstname' required/>
+                        <input type='text' name='firstname' id='firstname' value='$user->firstname' onkeydown='return /^[a-zA-Z\s]*$/i.test(event.key)' required/>
                     </div>
                     <div>
                         <label for='lastname'>Lastname</label>
-                        <input type='text' name='lastname' id='lastname' value='$user->lastname' required/>
+                        <input type='text' name='lastname' id='lastname' value='$user->lastname' onkeydown='return /^[a-zA-Z\s]*$/i.test(event.key)' required/>
                     </div>
                     <div>
                         <label for='address'>Address</label>
-                        <input type='text' name='address' id='address' value='$user->address' required/>
+                        <input type='text' name='address' id='address' value='$user->address' placeholder='Please include the city' required/>
                     </div>
                     <div>
                         <label for='email'>Email</label>
@@ -3592,14 +3569,13 @@ Class Payroll
                     </div>
                     <div>
                         <label for='cpnumber'>Contact Number</label>
-                        <input type='text' name='cpnumber' id='cpnumber' value='$user->cpnumber' required/>
+                        <input type='text' name='cpnumber' id='cpnumber' value='$user->cpnumber' placeholder='09' onkeypress='validate(event)' required/>
                     </div>
                     <div>
                         <button type='submit' name='editGuard'>Edit Guard</button>
                     </div>
                   </form>";
         }
-
     }
 
     // new guard edit in modal info
@@ -3633,6 +3609,14 @@ Class Payroll
                       </script>";
             } else {
 
+                if(!strstr($address, 'City')){
+                    echo "Address need to have a city";
+                }
+
+                if(!strstr($address, 'city')){
+                    echo "Address need to have a city2";
+                }
+
                 if($email == $existingEmail){
                     $sql = "UPDATE employee
                             SET firstname = ?,
@@ -3646,25 +3630,14 @@ Class Payroll
                     $countRow = $stmt->rowCount();
 
                     if($countRow > 0){
-                        echo "<div class='success'>
-                                <div class='icon-container'>
-                                    <span class='material-icons'>done</span>
-                                </div>
-                                <p>Updated Successfully</p>
-                                <div class='closeContainer'>
-                                    <span class='material-icons'>close</span>
-                                </div>
-                              </div>
-                              <script>
-                                let msgSuc = document.querySelector('.success');
-                                setTimeout(e =>  msgSuc.remove(), 5000);
-                              </script>";
+                        $msg = 'Update Successfully';
+                        echo "<script>window.location.assign('./dashboard.php?message=$msg');</script>";
                     } else {
                         echo "<div class='error'>
                                 <div class='icon-container'>
                                     <span class='material-icons'>close</span>
                                 </div>
-                                <p>Create Failed</p>
+                                <p>Update Failed</p>
                                 <div class='closeContainer'>
                                     <span class='material-icons'>close</span>
                                 </div>
@@ -3722,6 +3695,8 @@ Class Payroll
                                   <script>
                                     let msgSuc = document.querySelector('.success');
                                     setTimeout(e =>  msgSuc.remove(), 5000);
+
+                                    window.location.assign('./dashboard.php');
                                   </script>";
 
                             $sqlInform = "SELECT e.*, sd.secret_key as secret_key  
@@ -3810,19 +3785,8 @@ Class Payroll
 
                         $countRowEmp = $stmtEmp->rowCount();
                         if($countRowEmp > 0){
-                            echo "<div class='success'>
-                                    <div class='icon-container'>
-                                        <span class='material-icons'>done</span>
-                                    </div>
-                                    <p>Deleted Successfully</p>
-                                    <div class='closeContainer'>
-                                        <span class='material-icons'>close</span>
-                                    </div>
-                                  </div>
-                                  <script>
-                                    let msgSuc = document.querySelector('.success');
-                                    setTimeout(e =>  msgSuc.remove(), 5000);
-                                  </script>";
+                            $msg = 'Deleted Successfully';
+                            echo "<script>window.location.assign('./dashboard.php?message=$msg');</script>";
                         } else {
                             echo "<div class='error'>
                                     <div class='icon-container'>
@@ -3838,8 +3802,6 @@ Class Payroll
                                     setTimeout(e => msgErr.remove(), 5000);
                                   </script>";
                         }
-
-                        echo "<script>window.location.assign('./dashboard.php');</script>";
                     }
                 }
             }
@@ -4013,8 +3975,6 @@ Class Payroll
                       googleInput.value = googleText;
                       twitterInput.value = twitterText;
                       instagramInput.value = instagramText;
-
-
                   </script>";
         }
     }
@@ -4117,8 +4077,6 @@ Class Payroll
                       googleInput.value = googleText;
                       twitterInput.value = twitterText;
                       instagramInput.value = instagramText;
-
-
                   </script>";
         }
     }
@@ -4170,7 +4128,6 @@ Class Payroll
             $google = $_POST['google'] != '' ? $_POST['google'] : 'https://';
             $twitter = $_POST['twitter'] != '' ? $_POST['twitter'] : 'https://';
             $instagram = $_POST['instagram'] != '' ? $_POST['instagram'] : 'https://';
-
 
             if(empty($firstname) ||
                empty($lastname) ||
@@ -4312,7 +4269,6 @@ Class Payroll
                                   </script>"; 
                         } 
                     }
-
                 }
             }
         } 
@@ -4404,34 +4360,11 @@ Class Payroll
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     // for new company
     // for newly added company
     public function newlyaddedcompany()
     {
-        $sql = "SELECT * FROM company ORDER BY date ASC LIMIT 4";
+        $sql = "SELECT * FROM company ORDER BY date DESC LIMIT 4";
         $stmt = $this->con()->query($sql);
         $countRow = $stmt->rowCount();
 
@@ -4470,7 +4403,7 @@ Class Payroll
     // list of company 
     public function companylist()
     {
-        $sql = "SELECT * FROM company";
+        $sql = "SELECT * FROM company ORDER BY date DESC";
         $stmt = $this->con()->query($sql);
         while($row = $stmt->fetch()){
 
@@ -4597,7 +4530,6 @@ Class Payroll
                                                     $ot]);
                             $countRowPosition = $stmtPosition->rowCount();
                         }
-
                     } else {
                         echo "<div class='error'>No data was added</div>";
                     }
@@ -4677,7 +4609,6 @@ Class Payroll
 
                         $lengthInput = $_POST['lengthInput2'];
                         
-
                         for($i = 0; $i <= $lengthInput; $i++){
                             $pos = $_POST["position$i"];
                             $price = $_POST["price$i"];
@@ -4691,13 +4622,11 @@ Class Payroll
                                                     $ot]);
                             $countRowPosition = $stmtPosition->rowCount();
                         }
-
                     } else {
                         echo "<div class='error'>No data was added</div>";
                     }
                 }
             }
-            
         }
     }
 
@@ -4705,7 +4634,6 @@ Class Payroll
     // Modal for Viewing of Company Info
     public function viewcompanymodal($id)
     {
-        
         $sql = "SELECT * FROM company WHERE id = ?";
         $stmt = $this->con()->prepare($sql);
         $stmt->execute([$id]);
@@ -4796,7 +4724,6 @@ Class Payroll
                       <script>let currPositionView = [$longitude, $latitude];</script>
                       <script src='../scripts/comp-viewlocation.js'></script>";
             echo $output;
-
         } else {
             echo "<div class='error'>No user found</div>";
         }
@@ -4881,7 +4808,6 @@ Class Payroll
                                     </select>
                                 </div>";
             }
-
             $output = "<div class='edit-modal'>
                         <div class='modal-holder'>
                             <div class='edit-modal-header'>
@@ -4933,7 +4859,6 @@ Class Payroll
                       <script>let currPositionEdit = [$longitude, $latitude];</script>
                       <script src='../scripts/comp-editlocation.js'></script>";
             echo $output;
-
         } else {
             echo "<div class='error'>No user found</div>";
         }
@@ -5018,7 +4943,6 @@ Class Payroll
                                                     $boundary_size
                         );
                     }
-
                 } else {
                     echo "<div class='error'>Updating failed</div>";
                 }
@@ -5091,20 +5015,16 @@ Class Payroll
                                       WHERE s.company = '$company'";
                         $stmtEmail = $this->con()->query($sqlEmail);
                         
-
                         while($rowEmail = $stmtEmail->fetch()){
                             // inform here
                             $this->informEmployeeInCompAddPos($rowEmail->email, $position_name, $price, $ot);
                         }
-
                     } else {
                         echo "<div class='error'>No position added</div>";
                     }
                 }
             }
-
         }
-        
     }
 
     // Modal For Edit Specific Position
@@ -5200,7 +5120,6 @@ Class Payroll
                                  ON s.empId = e.empId
                                  WHERE s.company = '$userOld->company'";
                     $stmtEmail = $this->con()->query($sqlEmail);
-                    
 
                     $position_name2 = $userOld->position_name;
                     $price2 = $userOld->price;
@@ -5212,7 +5131,6 @@ Class Payroll
                                                                            , $position_name2, $price2, $overtime_rate2
                                                           );
                     }
-
                 } else {
                     echo "<div class='error'>Updating failed</div>";
                 }
@@ -5296,7 +5214,6 @@ Class Payroll
                         echo "<div class='error'>Delete position failed</div>";
                     }
                 }
-
             } 
         }
     }
@@ -5368,8 +5285,6 @@ Class Payroll
             } else {
                 echo "<div class='error'>No company detected</div>";
             }
-
-            
         }
     }
 
@@ -5382,10 +5297,7 @@ Class Payroll
                                                  $eLatitude,
                                                  $eBoundarySize
     ){
-
-
         $name = 'JTDV Incorporation';
-        $subject = 'subject kunwari';
         $body = "Company Details has been updated. <br/>
                  <br/>
                  Company Name: $eCompanyName <br/>
@@ -5415,7 +5327,7 @@ Class Payroll
             $mail->isHTML(true);
             $mail->setFrom($email, $name);              // Katabi ng user image
             $mail->addAddress($email);                  // gmail address ng pagsesendan
-            $mail->Subject = ("$email ($subject)");     // headline
+            $mail->Subject = ("$email");                // headline
             $mail->Body = $body;                        // textarea
 
             $mail->send();
@@ -5425,10 +5337,7 @@ Class Payroll
     // company positions, price and rates
     public function informEmployeeInCompAddPos($email, $pos, $rate, $ot)
     {
-
-
         $name = 'JTDV Incorporation';
-        $subject = 'subject kunwari';
         $body = "Company Details has been updated. <br/>
                  <br/>
                  New Position in company has been added:<br/>
@@ -5455,7 +5364,7 @@ Class Payroll
             $mail->isHTML(true);
             $mail->setFrom($email, $name);              // Katabi ng user image
             $mail->addAddress($email);                  // gmail address ng pagsesendan
-            $mail->Subject = ("$email ($subject)");     // headline
+            $mail->Subject = ("$email");                // headline
             $mail->Body = $body;                        // textarea
 
             $mail->send();
@@ -5468,7 +5377,6 @@ Class Payroll
     public function informEmployeeInCompEditPos($email, $pos, $rate, $ot, $pos2, $rate2, $ot2)
     {
         $name = 'JTDV Incorporation';
-        $subject = 'subject kunwari';
         $body = "Company Details has been updated. <br/>
                  <br/>
                  1 Position has been updated<br/>
@@ -5501,7 +5409,7 @@ Class Payroll
             $mail->isHTML(true);
             $mail->setFrom($email, $name);              // Katabi ng user image
             $mail->addAddress($email);                  // gmail address ng pagsesendan
-            $mail->Subject = ("$email ($subject)");     // headline
+            $mail->Subject = ("$email");                // headline
             $mail->Body = $body;                        // textarea
 
             $mail->send();
@@ -5512,7 +5420,6 @@ Class Payroll
     public function informEmployeeInCompDeletePos($email, $pos, $rate, $ot)
     {
         $name = 'JTDV Incorporation';
-        $subject = 'subject kunwari';
         $body = "Company Details has been updated. <br/>
                  <br/>
                  1 Position has been updated<br/>
@@ -5545,14 +5452,12 @@ Class Payroll
             $mail->isHTML(true);
             $mail->setFrom($email, $name);              // Katabi ng user image
             $mail->addAddress($email);                  // gmail address ng pagsesendan
-            $mail->Subject = ("$email ($subject)");     // headline
+            $mail->Subject = ("$email");                // headline
             $mail->Body = $body;                        // textarea
 
             $mail->send();
         }
     }
-
 }
-
 $payroll = new Payroll();
 ?>

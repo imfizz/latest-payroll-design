@@ -237,7 +237,7 @@
             & > .logo {
                 height: 30px;
                 width: 30px;
-                background-image: url("../img/jtdvpng.png");
+                background-image: url("../img/jtdv.png");
                 background-size: cover;
                 margin-right: 10px;
 
@@ -2241,7 +2241,7 @@
         border-radius: 5px;
         width: 33%;
         max-height: 80%;
-        position: relative;
+        // position: relative;
         padding: 13px 0px;
         box-sizing: border-box;
 
@@ -2388,7 +2388,7 @@
         border-radius: 5px;
         width: 33%;
         max-height: 34%;
-        position: relative;
+        // position: relative;
         padding: 0px 0px 30px 0;
         box-sizing: border-box;
 
@@ -2468,7 +2468,7 @@
         border-radius: 5px;
         width: 33%;
         max-height: 80%;
-        position: relative;
+        // position: relative;
         padding: 13px 0px;
         box-sizing: border-box;
 
@@ -2566,8 +2566,17 @@
                         transition: 200ms ease-in-out;
                     }
 
+                    // address
+                    &:nth-child(4)::before {
+                        content: url("https://api.iconify.design/akar-icons/location.svg?color=%239747ff&height=20");
+                        position: absolute;
+                        top: 2px;
+                        left: -32px;
+                        transition: 200ms ease-in-out;
+                    }
+
                     // days leave, datestart, dateend
-                    &:nth-child(4){
+                    &:nth-child(5){
                         display: flex;
                         flex-direction: column;
 
@@ -2622,7 +2631,7 @@
                     }
 
                     // type
-                    &:nth-child(5)::before {
+                    &:nth-child(6)::before {
                         content: url('https://api.iconify.design/gg/options.svg?color=%239747ff&height=20');
                         position: absolute;
                         top: 2px;
@@ -2631,7 +2640,7 @@
                     }
 
                     // reason
-                    &:nth-child(6)::before {
+                    &:nth-child(7)::before {
                         content: url('https://api.iconify.design/ic/outline-description.svg?color=%239747ff&height=20');
                         position: absolute;
                         top: 2px;
@@ -2640,7 +2649,7 @@
                     }
 
                     // button
-                    &:nth-child(7){
+                    &:nth-child(8){
                         width: 100%;
                         @include x-center;
                         position: relative;
@@ -2655,19 +2664,11 @@
                             cursor: pointer;
                         }
 
-                        & > button:first-child {
+                        & > #approvebtn {
                             background: $btn-edit;
 
                             &:hover {
                                 background: darken($btn-edit, 5%)
-                            }
-                        }
-
-                        & > button:last-child {
-                            background: $btn-delete;
-
-                            &:hover {
-                                background: darken($btn-delete, 5%)
                             }
                         }
                     }
@@ -2692,7 +2693,7 @@
         border-radius: 5px;
         width: 33%;
         max-height: 80%;
-        position: relative;
+        // position: relative;
         padding: 13px 0px;
         box-sizing: border-box;
 
@@ -2790,8 +2791,17 @@
                         transition: 200ms ease-in-out;
                     }
 
+                    // address
+                    &:nth-child(4)::before {
+                        content: url("https://api.iconify.design/akar-icons/location.svg?color=%239747ff&height=20");
+                        position: absolute;
+                        top: 2px;
+                        left: -32px;
+                        transition: 200ms ease-in-out;
+                    }
+
                     // days leave, datestart, dateend
-                    &:nth-child(4){
+                    &:nth-child(5){
                         display: flex;
                         flex-direction: column;
 
@@ -2811,6 +2821,8 @@
 
                             & > div > select {
                                 margin-right: 10px;
+                                border: 1px solid #dedede;
+                                color: #999999;
                             }
 
                             & > div > span {
@@ -2836,6 +2848,7 @@
                                     background: transparent;
                                     font-weight: $medium;
                                     color: #B9B9B9;
+                                    outline: none;
 
                                     &:last-child {
                                         width: 70%;
@@ -2846,7 +2859,7 @@
                     }
 
                     // type
-                    &:nth-child(5)::before {
+                    &:nth-child(6)::before {
                         content: url('https://api.iconify.design/gg/options.svg?color=%239747ff&height=20');
                         position: absolute;
                         top: 2px;
@@ -2855,7 +2868,7 @@
                     }
 
                     // reason
-                    &:nth-child(6)::before {
+                    &:nth-child(7)::before {
                         content: url('https://api.iconify.design/ic/outline-description.svg?color=%239747ff&height=20');
                         position: absolute;
                         top: 2px;
@@ -2864,7 +2877,7 @@
                     }
 
                     // button
-                    &:nth-child(7){
+                    &:nth-child(8){
                         width: 100%;
                         @include x-center;
                         position: relative;
@@ -2879,15 +2892,7 @@
                             cursor: pointer;
                         }
 
-                        & > button:first-child {
-                            background: $btn-edit;
-
-                            &:hover {
-                                background: darken($btn-edit, 5%)
-                            }
-                        }
-
-                        & > button:last-child {
+                        & > #rejectbtn {
                             background: $btn-delete;
 
                             &:hover {

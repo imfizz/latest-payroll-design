@@ -198,7 +198,7 @@ $payroll->deleteRecentGuard();
                         </div>
                         <div>
                             <label for='cpnumber2'>Contact Number</label>
-                            <input type='text' name='cpnumber' id='cpnumber2' required/>
+                            <input type='text' name='number' id='cpnumber2' required/>
                         </div>
                         <div>
                             <label for='qrcode2'>QR Code</label>
@@ -206,7 +206,7 @@ $payroll->deleteRecentGuard();
                             <div onclick="generatePassword(this)">Generate</div>
                         </div>
                         <div>
-                            <button type='submit' name='addGuard'>Add Employee</button>
+                            <button type='submit' name='addemployeemodal'>Add Employee</button>
                         </div>
                     </form>
                 </div>

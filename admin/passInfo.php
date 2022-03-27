@@ -28,7 +28,7 @@ $payroll->adminChangePassword($sessionData['id']);
                     <li><a href="../dashboard.php">Dashboard</a></li>
                     <li>Records
                         <ul>
-                            <li><a href="../employee.php">Employee</a></li>
+                            <li><a href="../employee/employee.php">Employee</a></li>
                             <li><a href="../company/company.php">Company</a></li>
                             <li><a href="../secretary/secretary.php">Secretary</a></li>
                         </ul>

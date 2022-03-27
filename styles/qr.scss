@@ -64,7 +64,7 @@
             & > .logo {
                 height: 30px;
                 width: 30px;
-                background-image: url("../img/jtdvpng.png");
+                background-image: url("../img/jtdv.png");
                 background-size: cover;
                 margin-right: 10px;
 
@@ -715,12 +715,14 @@
                 width: 300px;
                 @include n-center;
 
-                & > img {
+                & > form { display: flex; flex-direction: column; align-items: center; }
+
+                & > form > img {
                     height: 200px; 
                     width: 200px;
                 }
 
-                & > input {
+                & > form > input {
                     background: #A863FF;
                     border-radius: 5px;
                     border: none;
@@ -734,7 +736,7 @@
                     width: 100%;
                 }
 
-                & > button {
+                & > form > button {
                     background: #F39E49;
                     border-radius: 50px;
                     border: none;
@@ -752,7 +754,7 @@
                     }
                 }
 
-                & > a {
+                & > form > a {
                     text-decoration: none;
                     color: #D1D1D1;
                     font-size: 14px;

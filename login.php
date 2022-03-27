@@ -7,6 +7,15 @@ if(isset($_GET['message'])){
     echo $_GET['message'];
 }
 
+// for error message when logging in
+$errorMessage = '';
+
+if(isset($_GET['errormessage'])){
+    $errorMessage = $_GET['errormessage'];
+} else {
+    $errorMessage = '';
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,11 +55,9 @@ if(isset($_GET['message'])){
                 <h1>Welcome Back</h1>
                 <p>Sign in your account</p>
             </div>
-            <form method="POST">
+            <form method="POST" id="form">
+                <input type="hidden" id='errormessage' value='<?= $errorMessage; ?>' />
                 <!-- insert here -->
-                <div class="message error">
-                    <p>It appears that your credentials is incorrect. Try it again</p>
-                </div>
 
                 <div class="input-container1">
                     <label for="username">Username</label>
@@ -69,5 +76,23 @@ if(isset($_GET['message'])){
             </form>
         </div>
     </div>
+    <script>
+        window.onload = () => {
+            let myForm = document.querySelector('#form');
+            let errorMessage = document.querySelector('#errormessage');
+
+            if(errorMessage.value != ''){
+                // create error message elements
+                let myDiv = document.createElement('div');
+                myDiv.setAttribute('class', 'message error');
+                let myP = document.createElement('p');
+                myP.innerText = errorMessage.value;
+
+                // append it inside div
+                myDiv.appendChild(myP);
+                myForm.prepend(myDiv);
+            }
+        }
+    </script>
 </body>
 </html>

@@ -5,13 +5,6 @@
   font-family: 'Poppins', 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
-/*
-    320px - 480px: Mobile devices
-    481px - 768px: iPads, Tablets
-    769px - 1024px: Small scrreens, laptops
-    1025px - 1200px: Desktops, large screens
-    1201px and more - Extra large screens, TV.
-*/
 .main-container {
   height: 100vh;
   width: 100vw;
@@ -60,7 +53,7 @@
 .main-container > .leftbar > nav > .logo-container > .logo {
   height: 37px;
   width: 37px;
-  background-image: url("./img/jtdvpng.png");
+  background-image: url("../img/jtdv.png");
   background-size: cover;
   -o-object-fit: contain;
      object-fit: contain;

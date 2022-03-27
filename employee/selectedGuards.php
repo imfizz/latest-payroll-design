@@ -92,7 +92,7 @@ $payroll->setUnavailableGuards();
                                         <label for="year">Year</label>
                                         <select name="year" onchange="setYear(this)" id="year" required>
                                             <option value="0">0</option>
-                                            <option value="1">1</option>
+                                            <option value="1" selected>1</option>
                                             <option value="2">2</option>
                                         </select>
                                     </div>
@@ -100,7 +100,7 @@ $payroll->setUnavailableGuards();
                                         <label for="month">Month</label>
                                         <select name="month" onchange="setMonthDay(this)" id="month">
                                             <option value="0">0</option>
-                                            <option value="1">1</option>
+                                            <option value="1" selected>1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
                                             <option value="4">4</option>
@@ -118,7 +118,7 @@ $payroll->setUnavailableGuards();
                                         <label for="day">Day</label>
                                         <select name="day" onchange="setMonthDay(this)" id="day">
                                             <option value="0">0</option>
-                                            <option value="1">1</option>
+                                            <option value="1" selected>1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
                                             <option value="4">4</option>

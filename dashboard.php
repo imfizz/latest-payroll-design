@@ -2,7 +2,13 @@
 require_once('class.php');
 $sessionData = $payroll->getSessionData();
 $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 1);
-$payroll->viewApproveReject();
+
+// for success action
+$msg = '';
+if(isset($_GET['message'])){
+    $msg = $_GET['message'];
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +31,7 @@ $payroll->viewApproveReject();
             </div>
             <div class="links-container">
                 <ul>
-                    <li class="active-parent"><a href="./dashboard.html">Dashboard</a></li>
+                    <li class="active-parent"><a href="./dashboard.php">Dashboard</a></li>
                     <li>Records
                         <ul>
                             <li><a href="./employee/employee.php">Employee</a></li>
@@ -69,7 +75,7 @@ $payroll->viewApproveReject();
             </div>
             <div class="activity-info">
                 <div class="activity-header">
-                    <h2>Recent Activity</h2>
+                    <h2>Recent Company</h2>
                     <button><a href="./dashboard.php?seeAll=true">See All</a></button>
                 </div>
                 <div class="activity-table">
@@ -128,6 +134,9 @@ $payroll->viewApproveReject();
             </div>
         </div>
     </div>
+
+    <!-- for success action -->
+    <input type='hidden' id='msg' value='<?= $msg; ?>' />
 
     <!-- for review all modal -->
     <?php if(isset($_GET['reviewAll']) && $_GET['reviewAll'] == true){ ?>
@@ -217,7 +226,7 @@ $payroll->viewApproveReject();
         <div class="modal-company">
             <div class="activity-container">
                 <div class="activity-header">
-                    <h1>Recent Activity</h1>
+                    <h1>List of Company</h1>
                     <span id="exit-modal-company" class="material-icons">close</span>
                 </div>
                 <div class="activity-content">
@@ -276,6 +285,25 @@ $payroll->viewApproveReject();
                 let editguardModal = document.querySelector('.modal-editguard');
                 editguardModal.style.display = "none";
             });
+
+            // disable not necessary inputs
+            function validate(evt) {
+                var theEvent = evt || window.event;
+
+                // Handle paste
+                if (theEvent.type === 'paste') {
+                    key = event.clipboardData.getData('text/plain');
+                } else {
+                // Handle key press
+                    var key = theEvent.keyCode || theEvent.which;
+                    key = String.fromCharCode(key);
+                }
+                var regex = /[0-9]|\./;
+                if( !regex.test(key) ) {
+                    theEvent.returnValue = false;
+                    if(theEvent.preventDefault) theEvent.preventDefault();
+                }
+            }
         </script>
     <?php } ?>
 
@@ -309,9 +337,9 @@ $payroll->viewApproveReject();
                 <div class="approverequest-content">
                     <form method="POST">
                         <div>
-                            <input type="hidden" name="requestId" id='requestId'/>
+                            <input type="hidden" name="requestId" id='requestId' required/>
                             <label for="substitute">Substitute</label>
-                            <select name="substitute" id="substitute">
+                            <select name="substitute" id="substitute" required>
                                 <?= $payroll->listoffreeguard(); ?>
                             </select>
                         </div>
@@ -322,6 +350,10 @@ $payroll->viewApproveReject();
                         <div>
                             <label for="email">Email</label>
                             <input type="email" name="email" id='email' disabled/>
+                        </div>
+                        <div>
+                            <label for="address">Address</label>
+                            <input type="text" name="addresss" id="address" disabled>
                         </div>
                         <div>
                             <label for="daysleave">Days Leave</label>
@@ -350,7 +382,6 @@ $payroll->viewApproveReject();
                         </div>
                         <div>
                             <button type='submit' name='approveRequest' id='approvebtn'>Approve Request</button>
-                            <button type='submit' name='rejectRequest' id='rejectbtn'>Reject Request</button>
                         </div>
                     </form>
                 </div>
@@ -365,8 +396,8 @@ $payroll->viewApproveReject();
             });
         </script>
         <?php
-        $payroll->viewRequest($_GET['id']);
-        $payroll->approveRequest($_GET['id']);
+        $payroll->viewRequest($_GET['id']); // taga bato ng data sa input fields
+        $payroll->approveRequest($_GET['id']); // taga submit sa server
     }
     
     if(isset($_GET['id']) && isset($_GET['act']) && $_GET['act'] == 'reject'){ ?>
@@ -387,39 +418,41 @@ $payroll->viewApproveReject();
                         </div>
                         <div>
                             <label for="fullname">Name</label>
-                            <input type="text" name="fullname" id='fullname' disabled/>
+                            <input type="text" name="fullname" id='fullname' readonly/>
                         </div>
                         <div>
                             <label for="email">Email</label>
-                            <input type="email" name="email" id='email' disabled/>
+                            <input type="email" name="email" id='email' readonly/>
+                        </div>
+                        <div>
+                            <label for="address">Address</label>
+                            <input type="text" name="addresss" id="address" readonly>
                         </div>
                         <div>
                             <label for="daysleave">Days Leave</label>
                             <div class="daysleave-info">
                                 <div>
-                                    <select name="days" id="daysleave" disabled></select>
+                                    <select name="days" id="daysleave" readonly></select>
                                 </div>
                                 <div>
                                     <span>From
-                                        <input type="date" name="leave_start" id='leave_start' disabled/> 
+                                        <input type="date" name="leave_start" id='leave_start' readonly/> 
                                     </span>
                                     <span>To
-                                        <input type="date" name="leave_end" id='leave_end' disabled/>
+                                        <input type="date" name="leave_end" id='leave_end' readonly/>
                                     </span>
                                 </div>
                             </div>
-                            
                         </div>
                         <div>
                             <label for="type">Type</label>
-                            <input type="text" name="type" id='type' disabled/>
+                            <input type="text" name="type" id='type' readonly/>
                         </div>
                         <div>
                             <label for="reason">Reason</label>
-                            <input type="text" name="reason" id='reason' disabled/>
+                            <input type="text" name="reason" id='reason' readonly/>
                         </div>
                         <div>
-                            <button type='submit' name='approveRequest' id='approvebtn'>Approve Request</button>
                             <button type='submit' name='rejectRequest' id='rejectbtn'>Reject Request</button>
                         </div>
                     </form>
@@ -439,6 +472,36 @@ $payroll->viewApproveReject();
         $payroll->rejectRequest($_GET['id']);
     }
     ?>
+    <script>
+        let msg = document.querySelector('#msg');
+        if(msg.value != ''){
+            let successDiv = document.createElement('div');
+            successDiv.classList.add('success');
+            let iconContainerDiv = document.createElement('div');
+            iconContainerDiv.classList.add('icon-container');
+            let spanIcon = document.createElement('span');
+            spanIcon.classList.add('material-icons');
+            spanIcon.innerText = 'done';
+            let pSuccess = document.createElement('p');
+            pSuccess.innerText = msg.value; // set to $_GET['msg']
+            let closeContainerDiv = document.createElement('div');
+            closeContainerDiv.classList.add('closeContainer');
+            let spanClose = document.createElement('span');
+            spanClose.classList.add('material-icons');
+            spanClose.innerText = 'close';
 
+            // destructure
+            iconContainerDiv.appendChild(spanIcon);
+            closeContainerDiv.appendChild(spanClose);
+
+            successDiv.appendChild(iconContainerDiv);
+            successDiv.appendChild(pSuccess);
+            successDiv.appendChild(closeContainerDiv);
+            document.body.appendChild(successDiv);
+
+            // remove after 5 mins
+            setTimeout(e => successDiv.remove(), 5000);
+        }
+    </script>
 </body>
 </html>
