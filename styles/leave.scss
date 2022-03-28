@@ -1172,6 +1172,122 @@
                 }
             }
         }
+
+        & > .employee-approve {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            width: 100%;
+
+            & > .employee-approve-header {
+                width: 100%;
+                margin-bottom: 20px;
+
+                & > h1 {
+                    font-size: 16px;
+                    font-weight: $semibold;
+                }
+            }
+
+            & > .table-container {
+                display: flex;
+                flex-direction: column;
+                background: $front;
+                border-radius: 5px;
+                padding: 30px 20px;
+
+                & > .table-header {
+                    width: 100%;
+                    margin-bottom: 20px;
+
+                    & > h1 {
+                        font-size: 16px;
+                        font-weight: $semibold;
+                    }
+                }
+
+                & > .table-content {
+
+                    & > table {
+                        width: 100%;
+                        position: relative;
+                        border-collapse: separate;
+                        border-spacing: 0 20px;
+
+                        & > thead > tr > th {
+                            text-align: left;
+                            color: #ABABAB;
+                            font-weight: $semibold;
+                            font-size: 14px;
+                        }
+
+                        & > tbody > tr > td {
+                            font-size: 13px;
+                            font-weight: $regular;
+                        }
+                    }
+
+                }
+            }
+        }
+
+        & > .employee-reject {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            width: 100%;
+
+            & > .employee-reject-header {
+                width: 100%;
+                margin-bottom: 20px;
+
+                & > h1 {
+                    font-size: 16px;
+                    font-weight: $semibold;
+                }
+            }
+
+            & > .table-container {
+                display: flex;
+                flex-direction: column;
+                background: $front;
+                border-radius: 5px;
+                padding: 30px 20px;
+
+                & > .table-header {
+                    width: 100%;
+                    margin-bottom: 20px;
+
+                    & > h1 {
+                        font-size: 16px;
+                        font-weight: $semibold;
+                    }
+                }
+
+                & > .table-content {
+
+                    & > table {
+                        width: 100%;
+                        position: relative;
+                        border-collapse: separate;
+                        border-spacing: 0 20px;
+
+                        & > thead > tr > th {
+                            text-align: left;
+                            color: #ABABAB;
+                            font-weight: $semibold;
+                            font-size: 14px;
+                        }
+
+                        & > tbody > tr > td {
+                            font-size: 13px;
+                            font-weight: $regular;
+                        }
+                    }
+
+                }
+            }
+        }
     }
 }
 
@@ -1287,8 +1403,17 @@
                         transition: 200ms ease-in-out;
                     }
 
+                    // address
+                    &:nth-child(4)::before {
+                        content: url("https://api.iconify.design/akar-icons/location.svg?color=%239747ff&height=20");
+                        position: absolute;
+                        top: 2px;
+                        left: -32px;
+                        transition: 200ms ease-in-out;
+                    }
+
                     // days leave, datestart, dateend
-                    &:nth-child(4){
+                    &:nth-child(5){
                         display: flex;
                         flex-direction: column;
 
@@ -1343,7 +1468,7 @@
                     }
 
                     // type
-                    &:nth-child(5)::before {
+                    &:nth-child(6)::before {
                         content: url('https://api.iconify.design/gg/options.svg?color=%239747ff&height=20');
                         position: absolute;
                         top: 2px;
@@ -1352,7 +1477,7 @@
                     }
 
                     // reason
-                    &:nth-child(6)::before {
+                    &:nth-child(7)::before {
                         content: url('https://api.iconify.design/ic/outline-description.svg?color=%239747ff&height=20');
                         position: absolute;
                         top: 2px;
@@ -1361,7 +1486,7 @@
                     }
 
                     // button
-                    &:nth-child(7){
+                    &:nth-child(8){
                         width: 100%;
                         @include x-center;
                         position: relative;
@@ -1381,14 +1506,6 @@
 
                             &:hover {
                                 background: darken($btn-edit, 5%)
-                            }
-                        }
-
-                        & > button:last-child {
-                            background: $btn-delete;
-
-                            &:hover {
-                                background: darken($btn-delete, 5%)
                             }
                         }
                     }
@@ -1511,8 +1628,17 @@
                         transition: 200ms ease-in-out;
                     }
 
+                    // address
+                    &:nth-child(4)::before {
+                        content: url("https://api.iconify.design/akar-icons/location.svg?color=%239747ff&height=20");
+                        position: absolute;
+                        top: 2px;
+                        left: -32px;
+                        transition: 200ms ease-in-out;
+                    }
+
                     // days leave, datestart, dateend
-                    &:nth-child(4){
+                    &:nth-child(5){
                         display: flex;
                         flex-direction: column;
 
@@ -1532,6 +1658,8 @@
 
                             & > div > select {
                                 margin-right: 10px;
+                                border: 1px solid #dedede;
+                                color: #999999;
                             }
 
                             & > div > span {
@@ -1557,6 +1685,7 @@
                                     background: transparent;
                                     font-weight: $medium;
                                     color: #B9B9B9;
+                                    outline: none;
 
                                     &:last-child {
                                         width: 70%;
@@ -1567,7 +1696,7 @@
                     }
 
                     // type
-                    &:nth-child(5)::before {
+                    &:nth-child(6)::before {
                         content: url('https://api.iconify.design/gg/options.svg?color=%239747ff&height=20');
                         position: absolute;
                         top: 2px;
@@ -1576,7 +1705,7 @@
                     }
 
                     // reason
-                    &:nth-child(6)::before {
+                    &:nth-child(7)::before {
                         content: url('https://api.iconify.design/ic/outline-description.svg?color=%239747ff&height=20');
                         position: absolute;
                         top: 2px;
@@ -1585,7 +1714,7 @@
                     }
 
                     // button
-                    &:nth-child(7){
+                    &:nth-child(8){
                         width: 100%;
                         @include x-center;
                         position: relative;

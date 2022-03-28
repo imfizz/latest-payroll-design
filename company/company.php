@@ -4,6 +4,12 @@ $sessionData = $payroll->getSessionData();
 $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
 $payroll->addcompany();
 
+// for success action
+$msg = '';
+if(isset($_GET['message'])){
+    $msg = $_GET['message'];
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -65,8 +71,9 @@ $payroll->addcompany();
             </div>
             <div class="welcome-info">
                 <div class="welcome-box">
-                    <h2>Hello Francis!</h2>
-                    <p>Let's keep things organized and maintainable</p>
+                    <h2><?= $sessionData['fullname']; ?></h2>
+                    <!-- <p>Let's keep things organized and maintainable</p> -->
+                    <p>You’ve already added 9 companies to your website. To begin building a new company, click the button below to get started</p>
                 </div>
                 <div class="welcome-svg">
                     <object data="../styles/SVG_modified/company.svg" type="image/svg+xml"></object>
@@ -136,7 +143,7 @@ $payroll->addcompany();
                         </div>
                         <div>
                             <label for="cpnumber">Contact Number</label>
-                            <input type="text" name="cpnumber" autocomplete="off"/>
+                            <input type="text" name="cpnumber" autocomplete="off" placeholder="09" onkeypress='validate(event)' required/>
                         </div>
                         <div>
                             <label for="email">Email</label>
@@ -148,7 +155,7 @@ $payroll->addcompany();
                         </div>
                         <div>
                             <label for="location_name">Address</label>
-                            <input type="text" id="location_name" name="comp_location" required/>
+                            <input type="text" id="location_name" name="comp_location" autocomplete="off" required/>
                             <input type="hidden" id="longitude" name="longitude" placeholder="Longitude" required/>
                             <input type="hidden" id="latitude" name="latitude" placeholder="Latitude" required/>
                         </div>
@@ -161,8 +168,8 @@ $payroll->addcompany();
                             <label for="">Shift</label>
                             <select name="shift" required>
                                 <option value="">Select shift</option>
-                                <option value="Day">Day</option>
-                                <option value="Night">Night</option>
+                                <option value="Shift1">Shift1</option>
+                                <option value="Shift2">Shift2</option>
                             </select>
                         </div>
                         <div>
@@ -185,9 +192,9 @@ $payroll->addcompany();
                             <label for="">Position</label>
                             <input type="number" style="display:none;" id="lengthInput" name="lengthInput" value="0" />
                             <section>
-                                <input type="text" name="position0" value="Officer in Charge" readonly/>
-                                <input type="text" name="price0" placeholder="00.00" autocomplete="off"/>
-                                <input type="text" name="ot0" placeholder="00.00" autocomplete="off"/>
+                                <input type="text" name="position0" value="Officer in Charge" onkeydown='return /^[a-zA-Z\s]*$/i.test(event.key)' autocomplete="off" readonly/>
+                                <input type="text" name="price0" placeholder="00.00" onkeypress='validate(event)' autocomplete="off"/>
+                                <input type="text" name="ot0" placeholder="00.00" onkeypress='validate(event)' autocomplete="off"/>
                             </section>
                         </div>
                         <div class="addnew-container">
@@ -199,6 +206,9 @@ $payroll->addcompany();
             </div>
         </div>
     </div>
+
+    <!-- for success action -->
+    <input type='hidden' id='msg' value='<?= $msg; ?>' />
 
     <!-- add modal -->
     <div class="modal-viewcompany">
@@ -240,8 +250,8 @@ $payroll->addcompany();
                         <label for="">Shift</label>
                         <select name="shift2" required>
                             <option value="">Select shift</option>
-                            <option value="Day">Day</option>
-                            <option value="Night">Night</option>
+                            <option value="Shift1">Shift1</option>
+                            <option value="Shift2">Shift2</option>
                         </select>
                     </div>
                     <div>
@@ -572,6 +582,36 @@ $payroll->addcompany();
                 theEvent.returnValue = false;
                 if(theEvent.preventDefault) theEvent.preventDefault();
             }
+        }
+
+        let msg = document.querySelector('#msg');
+        if(msg.value != ''){
+            let successDiv = document.createElement('div');
+            successDiv.classList.add('success');
+            let iconContainerDiv = document.createElement('div');
+            iconContainerDiv.classList.add('icon-container');
+            let spanIcon = document.createElement('span');
+            spanIcon.classList.add('material-icons');
+            spanIcon.innerText = 'done';
+            let pSuccess = document.createElement('p');
+            pSuccess.innerText = msg.value; // set to $_GET['msg']
+            let closeContainerDiv = document.createElement('div');
+            closeContainerDiv.classList.add('closeContainer');
+            let spanClose = document.createElement('span');
+            spanClose.classList.add('material-icons');
+            spanClose.innerText = 'close';
+
+            // destructure
+            iconContainerDiv.appendChild(spanIcon);
+            closeContainerDiv.appendChild(spanClose);
+
+            successDiv.appendChild(iconContainerDiv);
+            successDiv.appendChild(pSuccess);
+            successDiv.appendChild(closeContainerDiv);
+            document.body.appendChild(successDiv);
+
+            // remove after 5 mins
+            setTimeout(e => successDiv.remove(), 5000);
         }
     </script>
     <script src='../scripts/comp-location.js'></script>

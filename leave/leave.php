@@ -3,6 +3,13 @@ require_once('../class.php');
 $sessionData = $payroll->getSessionData();
 $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
 $payroll->removeRecentFunction();
+
+// for success action
+$msg = '';
+if(isset($_GET['message'])){
+    $msg = $_GET['message'];
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -85,11 +92,11 @@ $payroll->removeRecentFunction();
 
             <div class="employee-request">
                 <div class="employee-request-header">
-                    <h1>Employee Request</h1>
+                    <h1>List of Leave Request</h1>
                 </div>
                 <div class="table-container">
                     <div class="table-header">
-                        <h1>List of Request</h1>
+                        <h1>Pending Request</h1>
                     </div>
                     <div class="table-content">
                         <table>
@@ -110,8 +117,8 @@ $payroll->removeRecentFunction();
                                     <th>Type</th>
                                     <th>Reason</th>
                                     <th>Days</th>
-                                    <th>Date Start</th>
-                                    <th>Date End</th>
+                                    <th>From</th>
+                                    <th>To</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -122,8 +129,91 @@ $payroll->removeRecentFunction();
                     </div>
                 </div>
             </div>
+
+            <div class="employee-approve">
+                <div class="employee-approve-header">
+                    <h1></h1>
+                </div>
+                <div class="table-container">
+                    <div class="table-header">
+                        <h1>Approved Request</h1>
+                    </div>
+                    <div class="table-content">
+                        <table>
+
+                            <colgroup>
+                                <col span="1" style="width:20.28%" />
+                                <col span="1" style="width:14.28%" />
+                                <col span="1" style="width:14.28%" />
+                                <col span="1" style="width:10.28%" />
+                                <col span="1" style="width:14.28%" />
+                                <col span="1" style="width:14.28%" />
+                                <col span="1" style="width:14.28%" />
+                            </colgroup>
+
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Reason</th>
+                                    <th>Days</th>
+                                    <th>From</th>
+                                    <th>To</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?= $payroll->listofleaveapprove(); ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="employee-reject">
+                <div class="employee-reject-header">
+                    <h1></h1>
+                </div>
+                <div class="table-container">
+                    <div class="table-header">
+                        <h1>Rejected Request</h1>
+                    </div>
+                    <div class="table-content">
+                        <table>
+
+                            <colgroup>
+                                <col span="1" style="width:20.28%" />
+                                <col span="1" style="width:14.28%" />
+                                <col span="1" style="width:14.28%" />
+                                <col span="1" style="width:10.28%" />
+                                <col span="1" style="width:14.28%" />
+                                <col span="1" style="width:14.28%" />
+                                <col span="1" style="width:14.28%" />
+                            </colgroup>
+
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Reason</th>
+                                    <th>Days</th>
+                                    <th>From</th>
+                                    <th>To</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?= $payroll->listofleavereject(); ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- for success action -->
+    <input type='hidden' id='msg' value='<?= $msg; ?>' />
 
     <!-- for approve, reject leave modal -->
     <?php
@@ -152,10 +242,14 @@ $payroll->removeRecentFunction();
                             <input type="email" name="email" id='email' readonly/>
                         </div>
                         <div>
+                            <label for="address">Address</label>
+                            <input type="text" name="address" id='address' readonly>
+                        </div>
+                        <div>
                             <label for="daysleave">Days Leave</label>
                             <div class="daysleave-info">
                                 <div>
-                                    <select name="days" id="daysleave" readonly></select>
+                                    <select name="days" id="daysleave" disabled readonly></select>
                                 </div>
                                 <div>
                                     <span>From
@@ -221,6 +315,10 @@ $payroll->removeRecentFunction();
                             <input type="email" name="email" id='email' readonly/>
                         </div>
                         <div>
+                            <label for="address">Address</label>
+                            <input type="text" name="address" id='address' readonly>
+                        </div>
+                        <div>
                             <label for="daysleave">Days Leave</label>
                             <div class="daysleave-info">
                                 <div>
@@ -265,5 +363,36 @@ $payroll->removeRecentFunction();
         $payroll->rejectRequest($_GET['id']);
     }
     ?>
+    <script>
+        let msg = document.querySelector('#msg');
+        if(msg.value != ''){
+            let successDiv = document.createElement('div');
+            successDiv.classList.add('success');
+            let iconContainerDiv = document.createElement('div');
+            iconContainerDiv.classList.add('icon-container');
+            let spanIcon = document.createElement('span');
+            spanIcon.classList.add('material-icons');
+            spanIcon.innerText = 'done';
+            let pSuccess = document.createElement('p');
+            pSuccess.innerText = msg.value; // set to $_GET['msg']
+            let closeContainerDiv = document.createElement('div');
+            closeContainerDiv.classList.add('closeContainer');
+            let spanClose = document.createElement('span');
+            spanClose.classList.add('material-icons');
+            spanClose.innerText = 'close';
+
+            // destructure
+            iconContainerDiv.appendChild(spanIcon);
+            closeContainerDiv.appendChild(spanClose);
+
+            successDiv.appendChild(iconContainerDiv);
+            successDiv.appendChild(pSuccess);
+            successDiv.appendChild(closeContainerDiv);
+            document.body.appendChild(successDiv);
+
+            // remove after 5 mins
+            setTimeout(e => successDiv.remove(), 5000);
+        }
+    </script>
 </body>
 </html>

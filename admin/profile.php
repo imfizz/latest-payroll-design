@@ -133,8 +133,8 @@ $payroll->editAdminProfile($sessionData['id']);
                                     <label for="firstname">Name</label>
                                 </div>
                                 <div>
-                                    <input type="text" name='firstname' id='firstname' autocomplete="off" placeholder="Firstname" required/>
-                                    <input type="text" name='lastname' id='lastname' autocomplete="off" placeholder="Lastname" required/>
+                                    <input type="text" name='firstname' id='firstname' autocomplete="off" onkeydown='return /^[a-zA-Z\s]*$/i.test(event.key)' placeholder="Firstname" required/>
+                                    <input type="text" name='lastname' id='lastname' autocomplete="off" onkeydown='return /^[a-zA-Z\s]*$/i.test(event.key)' placeholder="Lastname" required/>
                                 </div>
                             </div>
                         </div>
@@ -146,7 +146,7 @@ $payroll->editAdminProfile($sessionData['id']);
 
                         <div>
                             <label for="cpnumber">Mobile</label>
-                            <input type="text" name='cpnumber' id='cpnumber' autocomplete="off" placeholder='09123456789' required/>
+                            <input type="text" name='cpnumber' id='cpnumber' autocomplete="off" placeholder='09' onkeypress='validate(event)' required/>
                         </div>
 
                         <div>
@@ -198,6 +198,25 @@ $payroll->editAdminProfile($sessionData['id']);
             toggleForm.innerText = 'Edit Info';
         }
 
+    }
+
+    // disable not necessary inputs
+    function validate(evt) {
+        var theEvent = evt || window.event;
+
+        // Handle paste
+        if (theEvent.type === 'paste') {
+            key = event.clipboardData.getData('text/plain');
+        } else {
+        // Handle key press
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+        }
+        var regex = /[0-9]|\./;
+        if( !regex.test(key) ) {
+            theEvent.returnValue = false;
+            if(theEvent.preventDefault) theEvent.preventDefault();
+        }
     }
 </script>
 </body>

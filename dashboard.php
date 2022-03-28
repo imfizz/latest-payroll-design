@@ -397,7 +397,7 @@ if(isset($_GET['message'])){
         </script>
         <?php
         $payroll->viewRequest($_GET['id']); // taga bato ng data sa input fields
-        $payroll->approveRequest($_GET['id']); // taga submit sa server
+        $payroll->approveRequest2($_GET['id']); // taga submit sa server
     }
     
     if(isset($_GET['id']) && isset($_GET['act']) && $_GET['act'] == 'reject'){ ?>
@@ -469,7 +469,7 @@ if(isset($_GET['message'])){
         </script>
         <?php 
         $payroll->viewRequest($_GET['id']);
-        $payroll->rejectRequest($_GET['id']);
+        $payroll->rejectRequest2($_GET['id']);
     }
     ?>
     <script>

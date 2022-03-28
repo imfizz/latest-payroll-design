@@ -508,7 +508,6 @@ Class Payroll
                       <script>
                         let msgErr = document.querySelector('.error');
                         setTimeout(e => msgErr.remove(), 5000);
-                        window.location.assign('./secretary.php');
                       </script>";
             } else {
                 
@@ -552,20 +551,6 @@ Class Payroll
                     $countRow = $stmt->rowCount();
 
                     if($countRow > 0){
-                        echo "<div class='success'>
-                                <div class='icon-container'>
-                                    <span class='material-icons'>done</span>
-                                </div>
-                                <p>New Data Added</p>
-                                <div class='closeContainer'>
-                                    <span class='material-icons'>close</span>
-                                </div>
-                              </div>
-                              <script>
-                                let msgSuc = document.querySelector('.success');
-                                setTimeout(e =>  msgSuc.remove(), 5000);
-                              </script>
-                             ";
 
                         // gagamitin pang login sa employee dashboard
                         $sqlSecretKeySecretary = "INSERT INTO secret_diarys(se_id, secret_key)
@@ -582,6 +567,9 @@ Class Payroll
                         $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
                         $stmtAdminLog->execute([$fullnameAdmin, $action, $time, $date]);
                         $countRowAdminLog = $stmtAdminLog->rowCount();
+
+                        $msg = 'New Data was Added';
+                        echo "<script>window.location.assign('./secretary.php?message=$msg');</script>";
 
                     } else {
                         echo "<div class='error'>
@@ -996,19 +984,6 @@ Class Payroll
                         $countRow = $stmt->rowCount();
 
                         if($countRow > 0){
-                            echo "<div class='success'>
-                                    <div class='icon-container'>
-                                        <span class='material-icons'>done</span>
-                                    </div>
-                                    <p>Updated Successfully</p>
-                                    <div class='closeContainer'>
-                                        <span class='material-icons'>close</span>
-                                    </div>
-                                  </div>
-                                  <script>
-                                    let msgSuc = document.querySelector('.success');
-                                    setTimeout(e =>  msgSuc.remove(), 5000);
-                                  </script>";
 
                             // after mo maupdate kunin mo yung data
                             $sql2 = "SELECT s.email, 
@@ -1026,7 +1001,9 @@ Class Payroll
 
                             if($countRow2 > 0){
                                 $this->sendEmail($users2->email, $users2->secret_key);
-                                echo "<script>window.location.assign('./showAll.php');</script>";
+                                $msg = 'Update Successfully';
+                                echo "<script>window.location.assign('./showAll.php?message=$msg');</script>";
+
                             } else {
                                 echo "<div class='error'>
                                         <div class='icon-container'>
@@ -1073,20 +1050,8 @@ Class Payroll
                     $countRow = $stmt->rowCount();
 
                     if($countRow > 0){
-                        echo "<div class='success'>
-                                <div class='icon-container'>
-                                    <span class='material-icons'>done</span>
-                                </div>
-                                <p>Updated Successfully</p>
-                                <div class='closeContainer'>
-                                    <span class='material-icons'>close</span>
-                                </div>
-                              </div>
-                              <script>
-                                let msgSuc = document.querySelector('.success');
-                                setTimeout(e =>  msgSuc.remove(), 5000);
-                                window.location.assign('./showAll.php');
-                              </script>";
+                        $msg = 'Update Successfully';
+                        echo "<script>window.location.assign('./showAll.php?message=$msg');</script>";
                     } else {
                         echo "<div class='error'>
                                 <div class='icon-container'>
@@ -1170,20 +1135,9 @@ Class Payroll
                 $countRow = $stmt->rowCount();
 
                 if($countRow > 0){
-                    echo "<div class='success'>
-                            <div class='icon-container'>
-                                <span class='material-icons'>done</span>
-                            </div>
-                            <p>Deleted Successfully</p>
-                            <div class='closeContainer'>
-                                <span class='material-icons'>close</span>
-                            </div>
-                          </div>
-                          <script>
-                            let msgSuc = document.querySelector('.success');
-                            setTimeout(e =>  msgSuc.remove(), 5000);
-                            window.location.assign('./showAll.php');
-                          </script>";
+                    $msg = 'Deleted Successfully';
+                    echo "<script>window.location.assign('./showAll.php?message=$msg');</script>";
+
                 } else {
                     echo "<div class='error'>
                             <div class='icon-container'>
@@ -1351,20 +1305,8 @@ Class Payroll
                     $stmtEmp = $this->con()->prepare($sqlEmp);
                     $stmtEmp->execute([$makeItNull, $makeItNull, $makeItNull, $availability, $empId]);
 
-                    echo "<div class='success'>
-                            <div class='icon-container'>
-                                <span class='material-icons'>done</span>
-                            </div>
-                            <p>Deleted Successfully</p>
-                            <div class='closeContainer'>
-                                <span class='material-icons'>close</span>
-                            </div>
-                          </div>
-                          <script>
-                            let msgSuc = document.querySelector('.success');
-                            setTimeout(e =>  msgSuc.remove(), 5000);
-                            window.location.assign('./employee.php');
-                          </script>";
+                    $msg = 'Deleted Successfully';
+                    echo "<script>window.location.assign('./employee.php?message=$msg');</script>";
                 }
             }
         }
@@ -1463,19 +1405,9 @@ Class Payroll
                     $countRow = $stmt->rowCount();
 
                     if($countRow > 0){
-                        echo "<div class='success'>
-                                <div class='icon-container'>
-                                    <span class='material-icons'>done</span>
-                                </div>
-                                <p>New Data Added</p>
-                                <div class='closeContainer'>
-                                    <span class='material-icons'>close</span>
-                                </div>
-                              </div>
-                              <script>
-                                let msgSuc = document.querySelector('.success');
-                                setTimeout(e =>  msgSuc.remove(), 5000);
-                              </script>";
+                        
+                        $msg = 'New Data Added';
+                        echo "<script>window.location.assign('./employee.php?message=$msg');</script>";
 
                         // gagamitin pang login sa employee dashboard
                         $sqlSecretKeyEmployee = "INSERT INTO secret_diarye(e_id, secret_key)
@@ -1594,19 +1526,6 @@ Class Payroll
                     $countRow = $stmt->rowCount();
 
                     if($countRow > 0){
-                        echo "<div class='success'>
-                                <div class='icon-container'>
-                                    <span class='material-icons'>done</span>
-                                </div>
-                                <p>New Data Added</p>
-                                <div class='closeContainer'>
-                                    <span class='material-icons'>close</span>
-                                </div>
-                              </div>
-                              <script>
-                                let msgSuc = document.querySelector('.success');
-                                setTimeout(e =>  msgSuc.remove(), 5000);
-                              </script>";
 
                         // gagamitin pang login sa employee dashboard
                         $sqlSecretKeyEmployee = "INSERT INTO secret_diarye(e_id, secret_key)
@@ -1615,7 +1534,9 @@ Class Payroll
                         $stmtSecretKeyEmployee->execute([$email, $realPassword]);
                         // send user credentials
                         $this->sendEmail($email, $realPassword);
-                        echo "<script>window.location.assign('./employee.php');</script>";
+                        $msg = 'New Data Added';
+                        echo "<script>window.location.assign('./employee.php?message=$msg');</script>";
+
                     } else {
                         echo "<div class='error'>
                                 <div class='icon-container'>
@@ -2517,19 +2438,6 @@ Class Payroll
                         $countRow = $stmt->rowCount();
 
                         if($countRow > 0){
-                            echo "<div class='success'>
-                                    <div class='icon-container'>
-                                        <span class='material-icons'>done</span>
-                                    </div>
-                                    <p>Added Successfully</p>
-                                    <div class='closeContainer'>
-                                        <span class='material-icons'>close</span>
-                                    </div>
-                                  </div>
-                                  <script>
-                                    let msgSuc = document.querySelector('.success');
-                                    setTimeout(e =>  msgSuc.remove(), 5000);
-                                  </script>";
 
                             // after mo maupdate kunin mo yung data
                             $sql2 = "SELECT e.email, 
@@ -2547,7 +2455,8 @@ Class Payroll
 
                             if($countRow2 > 0){
                                 $this->sendEmail($users2->email, $users2->secret_key);
-                                echo "<script>window.location.assign('showEmployees.php');</script>";
+                                $msg = 'Updated Successfully';
+                                echo "<script>window.location.assign('./showEmployees.php?message=$msg');</script>";
                             }
                         } else {
                             echo "<div class='error'>
@@ -2580,20 +2489,8 @@ Class Payroll
                     $countRow = $stmt->rowCount();
 
                     if($countRow > 0){
-                        echo "<div class='success'>
-                                <div class='icon-container'>
-                                    <span class='material-icons'>done</span>
-                                </div>
-                                <p>Updated Successfully</p>
-                                <div class='closeContainer'>
-                                    <span class='material-icons'>close</span>
-                                </div>
-                              </div>
-                              <script>
-                                let msgSuc = document.querySelector('.success');
-                                setTimeout(e =>  msgSuc.remove(), 5000);
-                              </script>
-                              <script>window.location.assign('./showEmployees.php');</script>";
+                        $msg = 'Updated Successfully';
+                        echo "<script>window.location.assign('./showEmployees.php?message=$msg');</script>";
                     } else {
                         echo "<div class='error'>
                                 <div class='icon-container'>
@@ -2607,8 +2504,7 @@ Class Payroll
                               <script>
                                 let msgErr = document.querySelector('.error');
                                 setTimeout(e => msgErr.remove(), 5000);
-                              </script>
-                              <script>window.location.assign('./showEmployees.php');</script>";
+                              </script>";
                     }
                 }
             }
@@ -2639,20 +2535,8 @@ Class Payroll
                     $stmtEmployee->execute([$id]);
                     $countRowEmployee = $stmtEmployee->rowCount();
                     if($countRowEmployee > 0){
-                        echo "<div class='success'>
-                                <div class='icon-container'>
-                                    <span class='material-icons'>done</span>
-                                </div>
-                                <p>Deleted Successfully</p>
-                                <div class='closeContainer'>
-                                    <span class='material-icons'>close</span>
-                                </div>
-                              </div>
-                              <script>
-                                let msgSuc = document.querySelector('.success');
-                                setTimeout(e =>  msgSuc.remove(), 5000);
-                              </script>
-                              <script>window.location.assign('./showEmployees.php');</script>";
+                        $msg = 'Deleted Successfully';
+                        echo "<script>window.location.assign('./showEmployees.php?message=$msg');</script>";
                     } else {
                         echo "<div class='error'>
                                 <div class='icon-container'>
@@ -2666,8 +2550,7 @@ Class Payroll
                               <script>
                                 let msgErr = document.querySelector('.error');
                                 setTimeout(e => msgErr.remove(), 5000);
-                              </script>
-                              <script>window.location.assign('./showEmployees.php');</script>";
+                              </script>";
                     }
                 }
             }
@@ -2799,19 +2682,8 @@ Class Payroll
             $countRow = $stmt->rowCount();
 
             if($countRow > 0){
-                echo "<div class='success'>
-                        <div class='icon-container'>
-                            <span class='material-icons'>done</span>
-                        </div>
-                        <p>Removed from recent</p>
-                        <div class='closeContainer'>
-                            <span class='material-icons'>close</span>
-                        </div>
-                      </div>
-                      <script>
-                        let msgSuc = document.querySelector('.success');
-                        setTimeout(e =>  msgSuc.remove(), 5000);
-                      </script>";
+                $msg = 'Removed from recent';
+                echo "<script>window.location.assign('./leave.php?message=$msg');</script>";
             }
         }
     }
@@ -2864,7 +2736,89 @@ Class Payroll
         }
     }
 
+    public function listofleaveapprove()
+    {
+        $sql = "SELECT 
+                        l.*, 
+                        l.id as id,
+                        e.empId,
+                        e.firstname as firstname,  
+                        e.lastname as lastname
+                FROM leave_request l
+                INNER JOIN employee e
+                ON l.empId = e.empId
+                WHERE status = 'approved'
+                ORDER BY l.id DESC";
+        $stmt = $this->con()->query($sql);
+        $countRow = $stmt->rowCount();
 
+        if($countRow == 0){
+            echo "<tr>
+                    <td>No data found</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>";
+        } else {
+            while($row = $stmt->fetch()){
+                $fullname = $row->firstname ." ". $row->lastname;
+                echo "<tr>
+                        <td>$fullname</td>
+                        <td>$row->typeOfLeave</td>
+                        <td>$row->reason</td>
+                        <td>$row->days</td>
+                        <td>$row->leave_start</td>
+                        <td>$row->leave_end</td>
+                        <td>$row->date_admin</td>
+                      </tr>";
+            }
+        }
+    }
+
+    public function listofleavereject()
+    {
+        $sql = "SELECT 
+                        l.*, 
+                        l.id as id,
+                        e.empId,
+                        e.firstname as firstname,  
+                        e.lastname as lastname
+                FROM leave_request l
+                INNER JOIN employee e
+                ON l.empId = e.empId
+                WHERE status = 'rejected'
+                ORDER BY l.id DESC";
+        $stmt = $this->con()->query($sql);
+        $countRow = $stmt->rowCount();
+
+        if($countRow == 0){
+            echo "<tr>
+                    <td>No data found</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>";
+        } else {
+            while($row = $stmt->fetch()){
+                $fullname = $row->firstname ." ". $row->lastname;
+                echo "<tr>
+                        <td>$fullname</td>
+                        <td>$row->typeOfLeave</td>
+                        <td>$row->reason</td>
+                        <td>$row->days</td>
+                        <td>$row->leave_start</td>
+                        <td>$row->leave_end</td>
+                        <td>$row->date_admin</td>
+                      </tr>";
+            }
+        }
+    }
 
     public function listoffreeguard()
     {
@@ -3057,6 +3011,194 @@ Class Payroll
 
             if($countRowFind > 0){
 
+                $checkData = $userFind->leaveStart;
+                $datetime = $this->getDateTime();
+                $dateNow = $datetime['date'];
+                
+                if(strtotime($checkData) <= strtotime($dateNow)){
+                    echo "<div class='error'>
+                            <div class='icon-container'>
+                                <span class='material-icons'>close</span>
+                            </div>
+                            <p>No longer valid. Out of date.</p>
+                            <div class='closeContainer'>
+                                <span class='material-icons'>close</span>
+                            </div>
+                          </div>
+                          <script>
+                            let msgErr = document.querySelector('.error');
+                            setTimeout(e => msgErr.remove(), 5000);
+                          </script>";
+                } else {
+                    $status = 'approved';
+                    $substiEmpId = $_POST['substitute'];
+                    $expDateNew = $userFind->leaveEnd;
+
+                    $substiPosition = $userFind->position;
+                    $substiPrice = $userFind->price;
+                    $substiOT = $userFind->ot;
+
+                    $availability = 'Unavailable';
+
+                    // set timezone and get date and time
+                    $datetime = $this->getDateTime();
+                    $date = $datetime['date'];
+
+                    $sqlSubstiUpdate = "UPDATE employee 
+                                        SET position = ?,
+                                            ratesperDay = ?,
+                                            overtime_rate = ?,
+                                            availability = ?
+                                        WHERE empId = ?";
+
+                    $stmtSubstiUpdate = $this->con()->prepare($sqlSubstiUpdate);
+                    $stmtSubstiUpdate->execute([$substiPosition, $substiPrice, $substiOT, $availability, $substiEmpId]);
+                    $countRowSubstiUpdate = $stmtSubstiUpdate->rowCount();
+                    if($countRowSubstiUpdate > 0){
+
+                        $sql = "UPDATE leave_request
+                                SET substitute_by = ?,
+                                    status = ?,
+                                    date_admin = ?
+                                WHERE id = ?
+                                ";
+                        $stmt = $this->con()->prepare($sql);
+                        $stmt->execute([$substiEmpId, $status, $date, $id]);
+                        $countRow = $stmt->rowCount();
+
+                        if($countRow > 0){
+                            // to add new schedule
+                            $companySched = $userFind->company;
+                            $timeinSched = $userFind->timein;
+                            $timeoutSched = $userFind->timeout;
+                            $shiftSched = $userFind->shift;
+                            $shiftSpanSched = $userFind->shift_span;
+
+                            $sqlSched = "INSERT INTO schedule(empId, company, scheduleTimeIn, scheduleTimeOut, shift, shift_span, expiration_date)
+                                        VALUES(?, ?, ?, ?, ?, ?, ?)
+                                        ";
+                            $stmtSched = $this->con()->prepare($sqlSched);
+                            $stmtSched->execute([$substiEmpId, $companySched, $timeinSched, $timeoutSched, $shiftSched, $shiftSpanSched, $expDateNew]);
+                            $countRowSched = $stmtSched->rowCount();
+                            if($countRowSched > 0){
+                                $leaveEmpId = $userFind->leaveEmpId;
+
+                                $sqlUpdateAvailability = "UPDATE employee
+                                                        SET availability = ?
+                                                        WHERE empId = ?";
+                                $stmtUpdateAvailability = $this->con()->prepare($sqlUpdateAvailability);
+                                $stmtUpdateAvailability->execute(['Leave', $leaveEmpId]);
+                                $countRowUpdateAvailability = $stmtUpdateAvailability->rowCount();
+
+                                if($countRowUpdateAvailability > 0){
+                                    $comp_address = $userFind->c_address;
+                                    $leaveStart = $userFind->leaveStart;
+
+                                    // get email of substitute guard
+                                    $sqlFindSubsti = "SELECT * FROM employee WHERE empId = ?";
+                                    $stmtFindSubsti = $this->con()->prepare($sqlFindSubsti);
+                                    $stmtFindSubsti->execute([$substiEmpId]);
+                                    $userFindSubsti = $stmtFindSubsti->fetch();
+                                    $countRowFindSubsti = $stmtFindSubsti->rowCount();
+
+                                    if($countRowFindSubsti > 0){
+                                        // inform substitute guard
+                                        $this->informSubstitute($userFindSubsti->email, 
+                                                            $companySched, 
+                                                            $comp_address, 
+                                                            $timeinSched,
+                                                            $timeoutSched,
+                                                            $shiftSched,
+                                                            $shiftSpanSched,
+                                                            $leaveStart,
+                                                            $expDateNew,
+                                                            $substiPosition,
+                                                            $substiPrice,
+                                                            $substiOT
+                                                            );
+                                        $msg = 'Approved Successfully';
+                                        echo "<script>window.location.assign('./leave.php?message=$msg')</script>";
+                                    } else {
+                                        echo "<div class='error'>
+                                                <div class='icon-container'>
+                                                    <span class='material-icons'>close</span>
+                                                </div>
+                                                <p>No Available Guard Found</p>
+                                                <div class='closeContainer'>
+                                                    <span class='material-icons'>close</span>
+                                                </div>
+                                            </div>
+                                            <script>
+                                                let msgErr = document.querySelector('.error');
+                                                setTimeout(e => msgErr.remove(), 5000);
+                                            </script>";
+                                    }
+                                }
+                            } else {
+                                echo "<div class='error'>
+                                        <div class='icon-container'>
+                                            <span class='material-icons'>close</span>
+                                        </div>
+                                        <p>Error Creating Schedule</p>
+                                        <div class='closeContainer'>
+                                            <span class='material-icons'>close</span>
+                                        </div>
+                                    </div>
+                                    <script>
+                                        let msgErr = document.querySelector('.error');
+                                        setTimeout(e => msgErr.remove(), 5000);
+                                    </script>";
+                            }
+                        }
+                    }
+                }
+
+                
+            }
+        }
+    }
+
+    // for dashboard
+    public function approveRequest2($id)
+    {
+        if(isset($_POST['approveRequest'])){
+            $id = $_POST['requestId'];
+
+            $sqlFind = "SELECT 
+                                l.*,
+                                l.leave_start as leaveStart,
+                                l.leave_end as leaveEnd,
+                                l.empId as leaveEmpId,
+                                s.empId as empId,
+                                s.company as company,
+                                s.scheduleTimeIn as timein,
+                                s.scheduleTimeOut as timeout,
+                                s.shift as shift,
+                                s.shift_span as shift_span,
+                                s.expiration_date as expdate,
+
+                                e.position as position,
+                                e.ratesperDay as price,
+                                e.overtime_rate as ot,
+
+                                c.comp_location as c_address
+                        FROM leave_request l
+                        INNER JOIN schedule s
+                        ON l.empId = s.empId
+
+                        INNER JOIN employee e
+                        ON l.empId = e.empId
+
+                        INNER JOIN company c
+                        ON s.company = c.company_name 
+                        WHERE l.id = ?";
+            $stmtFind = $this->con()->prepare($sqlFind);
+            $stmtFind->execute([$id]);
+            $userFind = $stmtFind->fetch();
+            $countRowFind = $stmtFind->rowCount();
+
+            if($countRowFind > 0){
+
                 $status = 'approved';
                 $substiEmpId = $_POST['substitute'];
                 $expDateNew = $userFind->leaveEnd;
@@ -3182,8 +3324,83 @@ Class Payroll
         }
     }
 
-
     public function rejectRequest($id)
+    {
+        if(isset($_POST['rejectRequest'])){
+            $id = $_GET['id'];
+            $email = $_POST['email'];
+            $days = $_POST['days'];
+            $leave_start = $_POST['leave_start'];
+            $leave_end = $_POST['leave_end'];
+            $reason = $_POST['reason'];
+
+            // set timezone and get date and time
+            $datetime = $this->getDateTime();
+            $date = $datetime['date'];
+
+            $sql = "UPDATE leave_request
+                    SET status = ?,
+                        date_admin = ?
+                    WHERE id = ?";
+            $stmt = $this->con()->prepare($sql);
+            $stmt->execute(['rejected', $date, $id]);
+            $countRow = $stmt->rowCount();
+
+            if($countRow > 0){
+                $name = 'JTDV Incorporation';
+                $body = "Your request has been rejected. <br/>
+                        <br/>
+                        Days: $days <br/>
+                        From: $leave_start to $leave_end <br/>
+                        Reason: $reason
+                        ";
+
+                if(!empty($email)){
+
+                    $mail = new PHPMailer();
+
+                    // smtp settings
+                    $mail->isSMTP();
+                    $mail->Host = "smtp.gmail.com";
+                    $mail->SMTPAuth = true;
+                    $mail->Username = $this->e_username;  // gmail address
+                    $mail->Password = $this->e_password;  // gmail password
+
+                    $mail->Port = 465;
+                    $mail->SMTPSecure = "ssl";
+
+                    // email settings
+                    $mail->isHTML(true);
+                    $mail->setFrom($email, $name);              // Katabi ng user image
+                    $mail->addAddress($email);                  // gmail address ng pagsesendan
+                    $mail->Subject = ("$email");                // headline
+                    $mail->Body = $body;                        // textarea
+
+                    $mail->send();
+
+                    $msg = 'Reject Successfully';
+                    echo "<script>window.location.assign('./leave.php?message=$msg')</script>";
+                }
+            } else {
+                echo "<div class='error'>
+                        <div class='icon-container'>
+                            <span class='material-icons'>close</span>
+                        </div>
+                        <p>Failed to reject</p>
+                        <div class='closeContainer'>
+                            <span class='material-icons'>close</span>
+                        </div>
+                      </div>
+                      <script>
+                        let msgErr = document.querySelector('.error');
+                        setTimeout(e => msgErr.remove(), 5000);
+                      </script>";
+            }
+        }
+    }
+
+    // for dashboard
+    public function rejectRequest2($id)
     {
         if(isset($_POST['rejectRequest'])){
             $id = $_GET['id'];
@@ -3488,23 +3705,12 @@ Class Payroll
         }
 
         while($users = $stmt->fetch()){
-            $findColor = $users->date;
-            $status = '';
-            
-            if(strtotime($users->date) <= strtotime($date) && 
-               strtotime($users->date) >= strtotime($date.'-15 day')){
-                $status = 'recent';
-            } elseif(strtotime($users->date) >= strtotime($date.'-30 day') && 
-                     strtotime($users->date) <= strtotime($date.'-15 day')){
-                $status = 'late';
-            } else {
-                $status = 'old';
-            }
+            $hiredGuards = $users->hired_guards == NULL ? 0 : $users->hired_guards;
 
             echo "<tr>
                     <td>$users->company_name</td>
                     <td>$users->comp_location</td>
-                    <td>$users->hired_guards</td>
+                    <td>$hiredGuards</td>
                     <td>$users->date</td>
                   </tr>";
         }
@@ -3627,13 +3833,13 @@ Class Payroll
                       </script>";
             } else {
 
-                if(!strstr($address, 'City')){
-                    echo "Address need to have a city";
-                }
+                // if(!strstr($address, 'City')){
+                //     echo "Address need to have a city";
+                // }
 
-                if(!strstr($address, 'city')){
-                    echo "Address need to have a city2";
-                }
+                // if(!strstr($address, 'city')){
+                //     echo "Address need to have a city2";
+                // }
 
                 if($email == $existingEmail){
                     $sql = "UPDATE employee
@@ -4421,7 +4627,7 @@ Class Payroll
     // list of company 
     public function companylist()
     {
-        $sql = "SELECT * FROM company ORDER BY date DESC";
+        $sql = "SELECT * FROM company ORDER BY id DESC";
         $stmt = $this->con()->query($sql);
         while($row = $stmt->fetch()){
 
@@ -4490,7 +4696,19 @@ Class Payroll
                empty($day_start) ||
                empty($date)
             ){
-                echo "<div class='error'>All input field are required to add company</div>";
+                echo "<div class='error'>
+                        <div class='icon-container'>
+                            <span class='material-icons'>close</span>
+                        </div>
+                        <p>All input field are required to add company</p>
+                        <div class='closeContainer'>
+                            <span class='material-icons'>close</span>
+                        </div>
+                      </div>
+                      <script>
+                        let msgErr = document.querySelector('.error');
+                        setTimeout(e => msgErr.remove(), 5000);
+                      </script>";
             } else {
 
                 $sqlFindEmail = "SELECT email FROM company WHERE email = ?";
@@ -4500,7 +4718,19 @@ Class Payroll
                 $countRowFindEmail = $stmtFindEmail->rowCount();
 
                 if($countRowFindEmail > 0){
-                    echo "<div class='error'>Email is already exists!</div>";
+                    echo "<div class='error'>
+                            <div class='icon-container'>
+                                <span class='material-icons'>close</span>
+                            </div>
+                            <p>Email is already exists!</p>
+                            <div class='closeContainer'>
+                                <span class='material-icons'>close</span>
+                            </div>
+                          </div>
+                          <script>
+                            let msgErr = document.querySelector('.error');
+                            setTimeout(e => msgErr.remove(), 5000);
+                          </script>";
                 } else {
                     $sql = "INSERT INTO company(company_name,
                                         cpnumber, 
@@ -4530,7 +4760,6 @@ Class Payroll
                     $countRow = $stmt->rowCount();
 
                     if($countRow > 0){
-                        echo "<div class='success'>New data was added</div>";
 
                         $lengthInput = $_POST['lengthInput'];
                         
@@ -4548,8 +4777,24 @@ Class Payroll
                                                     $ot]);
                             $countRowPosition = $stmtPosition->rowCount();
                         }
+
+                        $msg = 'New data was added';
+                        echo "<script>window.location.assign('./company.php?message=$msg');</script>";
+
                     } else {
-                        echo "<div class='error'>No data was added</div>";
+                        echo "<div class='error'>
+                                <div class='icon-container'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                                <p>No data was added</p>
+                                <div class='closeContainer'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                              </div>
+                              <script>
+                                let msgErr = document.querySelector('.error');
+                                setTimeout(e => msgErr.remove(), 5000);
+                              </script>";
                     }
                 }
             }
@@ -4583,7 +4828,19 @@ Class Payroll
                empty($day_start) ||
                empty($date)
             ){
-                echo "<div class='error'>All input field are required to add company</div>";
+                echo "<div class='error'>
+                        <div class='icon-container'>
+                            <span class='material-icons'>close</span>
+                        </div>
+                        <p>All input field are required to add company</p>
+                        <div class='closeContainer'>
+                            <span class='material-icons'>close</span>
+                        </div>
+                      </div>
+                      <script>
+                        let msgErr = document.querySelector('.error');
+                        setTimeout(e => msgErr.remove(), 5000);
+                      </script>";
             } else {
 
                 $sqlFindEmail = "SELECT email FROM company WHERE email = ?";
@@ -4593,7 +4850,19 @@ Class Payroll
                 $countRowFindEmail = $stmtFindEmail->rowCount();
 
                 if($countRowFindEmail > 0){
-                    echo "<div class='error'>Email is already exists!</div>";
+                    echo "<div class='error'>
+                            <div class='icon-container'>
+                                <span class='material-icons'>close</span>
+                            </div>
+                            <p>Email is already exists!</p>
+                            <div class='closeContainer'>
+                                <span class='material-icons'>close</span>
+                            </div>
+                          </div>
+                          <script>
+                            let msgErr = document.querySelector('.error');
+                            setTimeout(e => msgErr.remove(), 5000);
+                          </script>";
                 } else {
                     $sql = "INSERT INTO company(company_name,
                                         cpnumber, 
@@ -4623,7 +4892,6 @@ Class Payroll
                     $countRow = $stmt->rowCount();
 
                     if($countRow > 0){
-                        echo "<div class='success'>New data was added</div>";
 
                         $lengthInput = $_POST['lengthInput2'];
                         
@@ -4640,8 +4908,24 @@ Class Payroll
                                                     $ot]);
                             $countRowPosition = $stmtPosition->rowCount();
                         }
+
+                        $msg = 'New data was added';
+                        echo "<script>window.location.assign('./company.php?message=$msg');</script>";
+
                     } else {
-                        echo "<div class='error'>No data was added</div>";
+                        echo "<div class='error'>
+                                <div class='icon-container'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                                <p>No data was added</p>
+                                <div class='closeContainer'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                              </div>
+                              <script>
+                                let msgErr = document.querySelector('.error');
+                                setTimeout(e => msgErr.remove(), 5000);
+                              </script>";
                     }
                 }
             }
@@ -4766,7 +5050,7 @@ Class Payroll
             $latitude = $user->latitude;
             $boundary_size = $user->boundary_size;
             $shifts = $user->shifts;
-            $shiftDisabled = $shifts == 'Day' ? 'Night' : 'Day';
+            $shiftDisabled = $shifts == 'Shift1' ? 'Shift2' : 'Shift1';
 
             $shift_span = $user->shift_span;
             $shift_spanDisabled = $shift_span == '8' ? '12' : '8';
@@ -4911,7 +5195,19 @@ Class Payroll
                empty($shift_span) ||
                empty($day_start)
             ){
-                echo "<div class='error'>All input fields are required to edit</div>";
+                echo "<div class='error'>
+                        <div class='icon-container'>
+                            <span class='material-icons'>close</span>
+                        </div>
+                        <p>All input fields are required to edit</p>
+                        <div class='closeContainer'>
+                            <span class='material-icons'>close</span>
+                        </div>
+                      </div>
+                      <script>
+                        let msgErr = document.querySelector('.error');
+                        setTimeout(e => msgErr.remove(), 5000);
+                      </script>";
             } else {
                 $sql = "UPDATE company
                         SET company_name = ?,
@@ -4940,8 +5236,6 @@ Class Payroll
                 $countRow = $stmt->rowCount();
 
                 if($countRow > 0){
-                    echo "<div class='success'>Updated Successfully</div>";
-
                     $sqlInform = "SELECT s.company, e.email as e_email 
                                   FROM schedule s
                                   INNER JOIN employee e
@@ -4961,8 +5255,23 @@ Class Payroll
                                                     $boundary_size
                         );
                     }
+
+                    $msg = 'Updated Successfully';
+                    echo "<script>window.location.assign('./company.php?message=$msg');</script>";
                 } else {
-                    echo "<div class='error'>Updating failed</div>";
+                    echo "<div class='error'>
+                            <div class='icon-container'>
+                                <span class='material-icons'>close</span>
+                            </div>
+                            <p>Updating failed</p>
+                            <div class='closeContainer'>
+                                <span class='material-icons'>close</span>
+                            </div>
+                          </div>
+                          <script>
+                            let msgErr = document.querySelector('.error');
+                            setTimeout(e => msgErr.remove(), 5000);
+                          </script>";
                 }
             }
         }
@@ -5003,7 +5312,19 @@ Class Payroll
                empty($price) ||
                empty($ot)
             ){
-                echo "<div class='error'>All input fields are required to add position</div>";
+                echo "<div class='error'>
+                        <div class='icon-container'>
+                            <span class='material-icons'>close</span>
+                        </div>
+                        <p>All input fields are required</p>
+                        <div class='closeContainer'>
+                            <span class='material-icons'>close</span>
+                        </div>
+                      </div>
+                      <script>
+                        let msgErr = document.querySelector('.error');
+                        setTimeout(e => msgErr.remove(), 5000);
+                      </script>";
             } else {
 
                 // when position name exist don't add
@@ -5014,7 +5335,19 @@ Class Payroll
                 $countRowFind = $stmtFind->rowCount();
 
                 if($countRowFind > 0){
-                    echo "<div class='error'>Position Name is already exists!</div>";
+                    echo "<div class='error'>
+                            <div class='icon-container'>
+                                <span class='material-icons'>close</span>
+                            </div>
+                            <p>Position name already exists</p>
+                            <div class='closeContainer'>
+                                <span class='material-icons'>close</span>
+                            </div>
+                          </div>
+                          <script>
+                            let msgErr = document.querySelector('.error');
+                            setTimeout(e => msgErr.remove(), 5000);
+                          </script>";
                 } else {
                     $sql = "INSERT INTO `positions`(company, position_name, price, overtime_rate)
                             VALUES(?, ?, ?, ?)";
@@ -5023,7 +5356,6 @@ Class Payroll
                     $countRow = $stmt->rowCount();
 
                     if($countRow > 0){
-                        echo "<div class='success'>Position added successfully</div>";
 
                         // get all email first
                         $sqlEmail = "SELECT e.email as email
@@ -5037,8 +5369,24 @@ Class Payroll
                             // inform here
                             $this->informEmployeeInCompAddPos($rowEmail->email, $position_name, $price, $ot);
                         }
+
+                        $msg = 'Added Successfully';
+                        echo "<script>window.location.assign('./company.php?message=$msg');</script>";
+
                     } else {
-                        echo "<div class='error'>No position added</div>";
+                        echo "<div class='error'>
+                                <div class='icon-container'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                                <p>No Position Added</p>
+                                <div class='closeContainer'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                              </div>
+                              <script>
+                                let msgErr = document.querySelector('.error');
+                                setTimeout(e => msgErr.remove(), 5000);
+                              </script>";
                     }
                 }
             }
@@ -5110,7 +5458,19 @@ Class Payroll
                empty($price) ||
                empty($overtime_rate)
             ){
-                echo "<div class='error'>All input fields are required to edit</div>";
+                echo "<div class='error'>
+                        <div class='icon-container'>
+                            <span class='material-icons'>close</span>
+                        </div>
+                        <p>All input fields are required</p>
+                        <div class='closeContainer'>
+                            <span class='material-icons'>close</span>
+                        </div>
+                      </div>
+                      <script>
+                        let msgErr = document.querySelector('.error');
+                        setTimeout(e => msgErr.remove(), 5000);
+                      </script>";
             } else {
 
                 // before update get the old data
@@ -5129,7 +5489,6 @@ Class Payroll
                 $countRow = $stmt->rowCount();
 
                 if($countRow > 0){
-                    echo "<div class='success'>Updated Successfully</div>";
 
                     // get all email first
                     $sqlEmail = "SELECT e.email as email
@@ -5149,8 +5508,24 @@ Class Payroll
                                                                            , $position_name2, $price2, $overtime_rate2
                                                           );
                     }
+
+                    $msg = 'Updated Successfully';
+                    echo "<script>window.location.assign('./company.php?message=$msg');</script>";
+
                 } else {
-                    echo "<div class='error'>Updating failed</div>";
+                    echo "<div class='error'>
+                            <div class='icon-container'>
+                                <span class='material-icons'>close</span>
+                            </div>
+                            <p>Update Failed</p>
+                            <div class='closeContainer'>
+                                <span class='material-icons'>close</span>
+                            </div>
+                          </div>
+                          <script>
+                            let msgErr = document.querySelector('.error');
+                            setTimeout(e => msgErr.remove(), 5000);
+                          </script>";
                 }
             }
         }
@@ -5219,7 +5594,19 @@ Class Payroll
                 $countRowFindEmp = $stmtFindEmp->rowCount();
 
                 if($countRowFindEmp > 0){
-                    echo "<div class='error'>Can't delete. There's an employee in that position</div>";
+                    echo "<div class='error'>
+                            <div class='icon-container'>
+                                <span class='material-icons'>close</span>
+                            </div>
+                            <p>Delete Failed. Employee Exists</p>
+                            <div class='closeContainer'>
+                                <span class='material-icons'>close</span>
+                            </div>
+                          </div>
+                          <script>
+                            let msgErr = document.querySelector('.error');
+                            setTimeout(e => msgErr.remove(), 5000);
+                          </script>";
                 } else {
                     $sql = "DELETE FROM `positions` WHERE id = ?";
                     $stmt = $this->con()->prepare($sql);
@@ -5227,9 +5614,22 @@ Class Payroll
                     $countRow = $stmt->rowCount();
         
                     if($countRow > 0){
-                        echo "<div class='success'>Successfully deleted</div>";
+                        $msg = 'Deleted Successfully';
+                        echo "<script>window.location.assign('./company.php?message=$msg');</script>";
                     } else {
-                        echo "<div class='error'>Delete position failed</div>";
+                        echo "<div class='error'>
+                                <div class='icon-container'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                                <p>Delete Failed</p>
+                                <div class='closeContainer'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                              </div>
+                              <script>
+                                let msgErr = document.querySelector('.error');
+                                setTimeout(e => msgErr.remove(), 5000);
+                              </script>";
                     }
                 }
             } 
@@ -5295,13 +5695,38 @@ Class Payroll
                     $countRowComp = $stmtComp->rowCount();
 
                     if($countRowComp > 0){
-                        echo "<div class='success'>Company has been already deleted</div>";
+                        $msg = 'Deleted Successfully';
+                        echo "<script>window.location.assign('./company.php?message=$msg');</script>";
                     } else {
-                        echo "<div class='error'>No company deleted</div>";
+                        echo "<div class='error'>
+                                <div class='icon-container'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                                <p>Delete Failed</p>
+                                <div class='closeContainer'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                              </div>
+                              <script>
+                                let msgErr = document.querySelector('.error');
+                                setTimeout(e => msgErr.remove(), 5000);
+                              </script>";
                     }
                 }
             } else {
-                echo "<div class='error'>No company detected</div>";
+                echo "<div class='error'>
+                        <div class='icon-container'>
+                            <span class='material-icons'>close</span>
+                        </div>
+                        <p>No Company Exists</p>
+                        <div class='closeContainer'>
+                            <span class='material-icons'>close</span>
+                        </div>
+                      </div>
+                      <script>
+                        let msgErr = document.querySelector('.error');
+                        setTimeout(e => msgErr.remove(), 5000);
+                      </script>";
             }
         }
     }
