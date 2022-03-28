@@ -878,7 +878,7 @@ Class Payroll
                                 <form method='post'>
                                     <div>
                                         <label for='fullname'>Fullname</label>
-                                        <input type='text' name='fullname' id='fullname' value='$fullname' autocomplete='off' required/>
+                                        <input type='text' name='fullname' id='fullname' value='$fullname' onkeydown='return /^[a-zA-Z\s]*$/i.test(event.key)' autocomplete='off' required/>
                                     </div>
                                     <div>
                                         <label for='gender'>Gender</label>
@@ -893,7 +893,7 @@ Class Payroll
                                     </div>
                                     <div>
                                         <label for=''>Contact Number</label>
-                                        <input type='text' name='cpnumber' id='cpnumber' value='$cpnumber' autocomplete='off' required/>
+                                        <input type='text' name='cpnumber' id='cpnumber' value='$cpnumber' placeholder='09' onkeypress='validate(event)' autocomplete='off' required/>
                                     </div>
                                     <div>
                                         <label for='address'>Address</label>
@@ -913,6 +913,24 @@ Class Payroll
                             let editModal = document.querySelector('.edit-modal');
                             editModal.style.display = 'none';
                         });
+                        // disable not necessary inputs
+                        function validate(evt) {
+                            var theEvent = evt || window.event;
+
+                            // Handle paste
+                            if (theEvent.type === 'paste') {
+                                key = event.clipboardData.getData('text/plain');
+                            } else {
+                            // Handle key press
+                                var key = theEvent.keyCode || theEvent.which;
+                                key = String.fromCharCode(key);
+                            }
+                            var regex = /[0-9]|\./;
+                            if( !regex.test(key) ) {
+                                theEvent.returnValue = false;
+                                if(theEvent.preventDefault) theEvent.preventDefault();
+                            }
+                        }
                     </script>";
         }
     }
@@ -1189,10 +1207,10 @@ Class Payroll
     public function recentAssignedGuards()
     {
         $sql = "SELECT * FROM employee 
-                WHERE availability = 'unavailable' 
+                WHERE availability = 'Unavailable' 
                 AND date BETWEEN CURRENT_DATE - 15 
                              AND CURRENT_DATE
-                ORDER BY date DESC
+                ORDER BY id DESC
                 LIMIT 3";
         $stmt = $this->con()->query($sql);
         $countRow = $stmt->rowCount();
@@ -1659,7 +1677,7 @@ Class Payroll
 
     // showEmployees.php      td with actions
     public function showAllEmpActions(){
-        $sql = "SELECT * FROM employee WHERE availability = 'Available' AND onLeave = 0";
+        $sql = "SELECT * FROM employee WHERE availability = 'Available' ORDER BY id DESC";
         $stmt = $this->con()->query($sql);
         $countRow = $stmt->rowCount();
 
@@ -1726,7 +1744,9 @@ Class Payroll
                 ON s.empId = e.empId
                 
                 INNER JOIN company c
-                ON s.company = c.company_name";
+                ON s.company = c.company_name
+                
+                ORDER BY id DESC";
         $stmt = $this->con()->query($sql);
         $countRow = $stmt->rowCount();
 
@@ -1970,7 +1990,7 @@ Class Payroll
 
     public function addNewSelectedGuard()
     {
-        $sql = "SELECT * FROM employee WHERE availability = 'Available'";
+        $sql = "SELECT * FROM employee WHERE availability = 'Available' ORDER BY id DESC";
         $stmt = $this->con()->query($sql);
         $countRow = $stmt->rowCount();
 
@@ -2006,7 +2026,7 @@ Class Payroll
     public function dropdownCompanyDetails()
     {        
         // select all company
-        $sql = "SELECT company_name, comp_location FROM company";
+        $sql = "SELECT company_name, comp_location FROM company ORDER BY company_name ASC";
         $stmt = $this->con()->query($sql);
 
         $companyArr = array();
@@ -2848,7 +2868,7 @@ Class Payroll
 
     public function listoffreeguard()
     {
-        $sql = "SELECT * FROM employee WHERE availability = 'Available'";
+        $sql = "SELECT * FROM employee WHERE availability = 'Available' ORDER BY date DESC";
         $stmt = $this->con()->query($sql);
         $countRow = $stmt->rowCount();
 
@@ -3088,17 +3108,13 @@ Class Payroll
                         $stmtSched->execute([$substiEmpId, $companySched, $timeinSched, $timeoutSched, $shiftSched, $shiftSpanSched, $expDateNew]);
                         $countRowSched = $stmtSched->rowCount();
                         if($countRowSched > 0){
-
-                            $onLeave = 1;
                             $leaveEmpId = $userFind->leaveEmpId;
 
-
                             $sqlUpdateAvailability = "UPDATE employee
-                                                      SET availability = ?,
-                                                          onLeave = ?
+                                                      SET availability = ?
                                                       WHERE empId = ?";
                             $stmtUpdateAvailability = $this->con()->prepare($sqlUpdateAvailability);
-                            $stmtUpdateAvailability->execute(['Available', $onLeave, $leaveEmpId]);
+                            $stmtUpdateAvailability->execute(['Leave', $leaveEmpId]);
                             $countRowUpdateAvailability = $stmtUpdateAvailability->rowCount();
 
                             if($countRowUpdateAvailability > 0){
@@ -3322,9 +3338,10 @@ Class Payroll
             
             $sqlCountEmp = "SELECT position, 
                                    COUNT(position) AS positions,
-                                   ROUND(100. * count(*) / sum(count(*)) over (), 0) AS percentage
+                                   ROUND(100. * count(*) / sum(count(*)) over (), 0) AS percentage,
+                                   availability
                             FROM employee
-                            WHERE position != 'NULL'
+                            WHERE position != 'NULL' AND availability = 'Unavailable'
                             GROUP BY position
                             ORDER BY percentage DESC
                             LIMIT 4;
@@ -3375,9 +3392,10 @@ Class Payroll
             
             $sqlCountEmp = "SELECT position, 
                                    COUNT(position) AS positions,
-                                   ROUND(100. * count(*) / sum(count(*)) over (), 0) AS percentage
+                                   ROUND(100. * count(*) / sum(count(*)) over (), 0) AS percentage,
+                                   availability
                             FROM employee
-                            WHERE position != 'NULL'
+                            WHERE position != 'NULL' AND availability = 'Unavailable'
                             GROUP BY position
                             ORDER BY percentage DESC;
                             ";
@@ -3494,7 +3512,7 @@ Class Payroll
 
     public function dashboardNewGuards()
     {
-        $sql = "SELECT * FROM employee WHERE availability = 'Available' AND onLeave = 0 ORDER BY id DESC LIMIT 4";
+        $sql = "SELECT * FROM employee WHERE availability = 'Available' ORDER BY id DESC LIMIT 4";
         $stmt = $this->con()->query($sql);
         $countRow = $stmt->rowCount();
 
@@ -3553,23 +3571,23 @@ Class Payroll
             echo "<form method='post'>
                     <div>
                         <label for='firstname'>Firstname</label>
-                        <input type='text' name='firstname' id='firstname' value='$user->firstname' onkeydown='return /^[a-zA-Z\s]*$/i.test(event.key)' required/>
+                        <input type='text' name='firstname' id='firstname' value='$user->firstname' onkeydown='return /^[a-zA-Z\s]*$/i.test(event.key)' autocomplete='off' required/>
                     </div>
                     <div>
                         <label for='lastname'>Lastname</label>
-                        <input type='text' name='lastname' id='lastname' value='$user->lastname' onkeydown='return /^[a-zA-Z\s]*$/i.test(event.key)' required/>
+                        <input type='text' name='lastname' id='lastname' value='$user->lastname' onkeydown='return /^[a-zA-Z\s]*$/i.test(event.key)' autocomplete='off' required/>
                     </div>
                     <div>
                         <label for='address'>Address</label>
-                        <input type='text' name='address' id='address' value='$user->address' placeholder='Please include the city' required/>
+                        <input type='text' name='address' id='address' value='$user->address' placeholder='Please include the city' autocomplete='off' required/>
                     </div>
                     <div>
                         <label for='email'>Email</label>
-                        <input type='email' name='email' id='email' value='$user->email' required/>
+                        <input type='email' name='email' id='email' value='$user->email' autocomplete='off' required/>
                     </div>
                     <div>
                         <label for='cpnumber'>Contact Number</label>
-                        <input type='text' name='cpnumber' id='cpnumber' value='$user->cpnumber' placeholder='09' onkeypress='validate(event)' required/>
+                        <input type='text' name='cpnumber' id='cpnumber' value='$user->cpnumber' placeholder='09' onkeypress='validate(event)' autocomplete='off' required/>
                     </div>
                     <div>
                         <button type='submit' name='editGuard'>Edit Guard</button>
@@ -4823,7 +4841,7 @@ Class Payroll
                                     </div>
                                     <div>
                                         <label for='cpnumber'>Contact Number</label>
-                                        <input type='text' name='cpnumber' value='$cpnumber' autocomplete='off' required/>
+                                        <input type='text' name='cpnumber' value='$cpnumber' placeholder='09' onkeypress='validate(event)' autocomplete='off' required/>
                                     </div>
                                     <div>
                                         <label for='email'>Email</label>
@@ -5048,15 +5066,15 @@ Class Payroll
                                 <div>
                                     <input type='hidden' value='$user->id' name='position_id' required/>
                                     <label for=''>Position</label>
-                                    <input type='text' name='position_name' value='$user->position_name' autocomplete='off' required/>
+                                    <input type='text' name='position_name' value='$user->position_name' onkeydown='return /^[a-zA-Z\s]*$/i.test(event.key)' autocomplete='off' required/>
                                 </div>
                                 <div>
                                     <label for=''>Rates per hour</label>
-                                    <input type='text' name='price' value='$user->price' placeholder='00.00' autocomplete='off' required/>
+                                    <input type='text' name='price' value='$user->price' placeholder='00.00' onkeypress='validate(event)' autocomplete='off' required/>
                                 </div>
                                 <div>
                                     <label for=''>Overtime Rate</label>
-                                    <input type='text' name='overtime_rate' value='$user->overtime_rate' placeholder='00.00' autocomplete='off' required/>
+                                    <input type='text' name='overtime_rate' value='$user->overtime_rate' placeholder='00.00' onkeypress='validate(event)' autocomplete='off' required/>
                                 </div>
                                 <div>
                                     <button type='submit' name='editposBtn'>Edit</button>

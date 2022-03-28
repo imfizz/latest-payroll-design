@@ -215,7 +215,7 @@ $payroll->addcompany();
                     </div>
                     <div>
                         <label for="cpnumber">Contact Number</label>
-                        <input type="text" name="cpnumber2" autocomplete="off"/>
+                        <input type="text" name="cpnumber2" placeholder='09' onkeypress='validate(event)' autocomplete="off" required/>
                     </div>
                     <div>
                         <label for="email">Email</label>
@@ -264,9 +264,9 @@ $payroll->addcompany();
                         <label for="">Position</label>
                         <input type="number" id="lengthInput-addmodal" name="lengthInput2" style="display:none;" value="0" />
                         <section>
-                            <input type="text" name="position0" value="Officer in Charge" readonly/>
-                            <input type="text" name="price0" placeholder="00.00" autocomplete="off" required/>
-                            <input type="text" name="ot0" placeholder="00.00" autocomplete="off" required/>
+                            <input type="text" name="position0" value="Officer in Charge" onkeydown='return /^[a-zA-Z\s]*$/i.test(event.key)' autocomplete="off" readonly/>
+                            <input type="text" name="price0" placeholder="00.00" onkeypress='validate(event)' autocomplete="off" required/>
+                            <input type="text" name="ot0" placeholder="00.00" onkeypress='validate(event)' autocomplete="off" required/>
                         </section>
                     </div>
                     <div class="addnew-container">
@@ -346,15 +346,15 @@ $payroll->addcompany();
                     <form method="POST">
                         <div>
                             <label for="">Position</label>
-                            <input type="text" name='position_name' autocomplete="off" required/>
+                            <input type="text" name='position_name' onkeydown="return /^[a-zA-Z\s]*$/i.test(event.key)" autocomplete="off" required/>
                         </div>
                         <div>
                             <label for="">Rates per hour</label>
-                            <input type="text" name='price' placeholder='00.00' autocomplete="off" required/>
+                            <input type="text" name='price' placeholder='00.00' placeholder='00.00' onkeypress='validate(event)' autocomplete="off" required/>
                         </div>
                         <div>
                             <label for="">Overtime Rate</label>
-                            <input type="text" name='ot' placeholder='00.00' autocomplete="off" required/>
+                            <input type="text" name='ot' placeholder='00.00' placeholder='00.00' onkeypress='validate(event)' autocomplete="off" required/>
                         </div>
                         <div>
                             <button type='submit' name='addnewpos-btn'>Add Position</button>
@@ -404,12 +404,18 @@ $payroll->addcompany();
             pos.setAttribute('name', `position${inputLength.value}`);
             pos.setAttribute('placeholder', 'position');
             pos.setAttribute('type', 'text');
+            pos.setAttribute('onkeydown', 'return /^[a-zA-Z\s]*$/i.test(event.key)');
+            pos.setAttribute('autocomplete', 'off');
             price.setAttribute('name', `price${inputLength.value}`);
             price.setAttribute('placeholder', '00.00');
             price.setAttribute('type', 'text');
+            price.setAttribute('onkeypress', 'validate(event)');
+            price.setAttribute('autocomplete', 'off');
             ot.setAttribute('name', `ot${inputLength.value}`);
             ot.setAttribute('placeholder', '00.00');
             ot.setAttribute('type', 'text');
+            ot.setAttribute('onkeypress', 'validate(event)');
+            ot.setAttribute('autocomplete', 'off');
             eks.setAttribute('onclick', 'getParentElement(this)');
             eks.setAttribute('class', 'eks material-icons');
             eks.innerText = 'close';
@@ -460,7 +466,6 @@ $payroll->addcompany();
         openModalBtn.onclick = () => {
             let addModal = document.querySelector('.modal-viewcompany');
             addModal.style.display = 'flex';
-
         }
 
         // close add modal
@@ -491,12 +496,18 @@ $payroll->addcompany();
             pos.setAttribute('name', `position${inputLength.value}`);
             pos.setAttribute('placeholder', 'position');
             pos.setAttribute('type', 'text');
+            pos.setAttribute('onkeydown', 'return /^[a-zA-Z\s]*$/i.test(event.key)');
+            pos.setAttribute('autocomplete', 'off');
             price.setAttribute('name', `price${inputLength.value}`);
             price.setAttribute('placeholder', '00.00');
             price.setAttribute('type', 'text');
+            price.setAttribute('onkeypress', 'validate(event)');
+            price.setAttribute('autocomplete', 'off');
             ot.setAttribute('name', `ot${inputLength.value}`);
             ot.setAttribute('placeholder', '00.00');
             ot.setAttribute('type', 'text');
+            ot.setAttribute('onkeypress', 'validate(event)');
+            ot.setAttribute('autocomplete', 'off');
             eks.setAttribute('onclick', 'getParentElement2(this)');
             eks.setAttribute('class', 'eks material-icons');
             eks.innerText = 'close';
@@ -542,6 +553,25 @@ $payroll->addcompany();
             }
 
             myparent.remove();
+        }
+
+        // disable not necessary inputs
+        function validate(evt) {
+            var theEvent = evt || window.event;
+
+            // Handle paste
+            if (theEvent.type === 'paste') {
+                key = event.clipboardData.getData('text/plain');
+            } else {
+            // Handle key press
+                var key = theEvent.keyCode || theEvent.which;
+                key = String.fromCharCode(key);
+            }
+            var regex = /[0-9]|\./;
+            if( !regex.test(key) ) {
+                theEvent.returnValue = false;
+                if(theEvent.preventDefault) theEvent.preventDefault();
+            }
         }
     </script>
     <script src='../scripts/comp-location.js'></script>

@@ -124,23 +124,23 @@ $payroll->selectguards();
                     <form method='POST'>
                         <div>
                             <label for='firstname'>Firstname</label>
-                            <input type='text' name='firstname' id='firstname' required/>
+                            <input type='text' name='firstname' id='firstname' onkeydown='return /^[a-zA-Z\s]*$/i.test(event.key)' autocomplete='off' required/>
                         </div>
                         <div>
                             <label for='lastname'>Lastname</label>
-                            <input type='text' name='lastname' id='lastname' required/>
+                            <input type='text' name='lastname' id='lastname' onkeydown='return /^[a-zA-Z\s]*$/i.test(event.key)' autocomplete='off' required/>
                         </div>
                         <div>
                             <label for='address'>Address</label>
-                            <input type='text' name='address' id='address' required/>
+                            <input type='text' name='address' id='address' placeholder='Please include the city' autocomplete='off' required/>
                         </div>
                         <div>
                             <label for='email'>Email</label>
-                            <input type='email' name='email' id='email' required/>
+                            <input type='email' name='email' id='email' autocomplete='off' required/>
                         </div>
                         <div>
                             <label for='cpnumber'>Contact Number</label>
-                            <input type='text' name='cpnumber' id='cpnumber' required/>
+                            <input type='text' name='cpnumber' id='cpnumber' placeholder='09' onkeypress='validate(event)' autocomplete='off' required/>
                         </div>
                         <div>
                             <button type='submit' name='editemployee'>Edit Guard</button>
@@ -156,6 +156,25 @@ $payroll->selectguards();
                 let editguardModal = document.querySelector('.modal-editguard');
                 editguardModal.style.display = "none";
             });
+
+            // disable not necessary inputs
+            function validate(evt) {
+                var theEvent = evt || window.event;
+
+                // Handle paste
+                if (theEvent.type === 'paste') {
+                    key = event.clipboardData.getData('text/plain');
+                } else {
+                // Handle key press
+                    var key = theEvent.keyCode || theEvent.which;
+                    key = String.fromCharCode(key);
+                }
+                var regex = /[0-9]|\./;
+                if( !regex.test(key) ) {
+                    theEvent.returnValue = false;
+                    if(theEvent.preventDefault) theEvent.preventDefault();
+                }
+            }
         </script>
     <?php } ?>
 

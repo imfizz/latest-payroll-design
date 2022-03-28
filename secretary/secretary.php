@@ -133,11 +133,11 @@ $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
                             
                             <div>
                                 <label for="name">Name</label>
-                                <input type="text" name="fullname" id="fullname" autocomplete="off" required/>
+                                <input type="text" name="fullname" id="fullname" onkeydown='return /^[a-zA-Z\s]*$/i.test(event.key)' autocomplete="off" required/>
                             </div>
                             <div>
                                 <label for="cpnumber">Contact Number</label>
-                                <input type="text" name="cpnumber" autocomplete="off" required/>
+                                <input type="text" name="cpnumber" placeholder='09' onkeypress='validate(event)' autocomplete="off" required/>
                             </div>
                             <div>
                                 <label for="name">Email</label>
@@ -146,8 +146,7 @@ $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
                             <div>
                                 <label for="name">Gender</label>
                                 <select name="gender" id="gender" required>
-                                    <option value=""></option>
-                                    <option value="Male">Male</option>
+                                    <option value="Male" selected>Male</option>
                                     <option value="Female">Female</option>
                                 </select>
                             </div>
@@ -166,5 +165,25 @@ $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
 <?php if(isset($_GET['secId'])){
     $payroll->showSpecificSec($_GET['secId']);
 } ?>
+<script>
+// disable not necessary inputs
+function validate(evt) {
+    var theEvent = evt || window.event;
+
+    // Handle paste
+    if (theEvent.type === 'paste') {
+        key = event.clipboardData.getData('text/plain');
+    } else {
+    // Handle key press
+        var key = theEvent.keyCode || theEvent.which;
+        key = String.fromCharCode(key);
+    }
+    var regex = /[0-9]|\./;
+    if( !regex.test(key) ) {
+        theEvent.returnValue = false;
+        if(theEvent.preventDefault) theEvent.preventDefault();
+    }   
+}
+</script>
 </body>
 </html>

@@ -137,27 +137,27 @@ $payroll->deleteRecentGuard();
                         <div class="form-holder">
                             <div>
                                 <label for="firstname">Firstname</label>
-                                <input type="text" name="firstname" id="firstname" autocomplete="off" required/>
+                                <input type="text" name="firstname" id="firstname" onkeydown='return /^[a-zA-Z\s]*$/i.test(event.key)' autocomplete="off" required/>
                             </div>
                             <div>
                                 <label for="lastname">Lastname</label>
-                                <input type="text" name="lastname" id="lastname" autocomplete="off" required/>
+                                <input type="text" name="lastname" id="lastname" onkeydown='return /^[a-zA-Z\s]*$/i.test(event.key)' autocomplete="off" required/>
                             </div>
                             <div>
                                 <label for="address">Address</label>
-                                <input type="text" name="address" id="address" required/>
+                                <input type="text" name="address" id="address" placeholder="Please include the city" autocomplete="off" required/>
                             </div>
                             <div>
                                 <label for="email">Email</label>
-                                <input type="text" name="email" id="email" required/>
+                                <input type="text" name="email" id="email" autocomplete="off" required/>
                             </div>
                             <div>
                                 <label for="number">Contact Number</label>
-                                <input type="text" name="number" id="number">
+                                <input type="text" name="number" id="number" placeholder='09' onkeypress='validate(event)' autocomplete="off" required/>
                             </div>
                             <div>
                                 <label for="qrcode">Qr Code</label>
-                                <input type="text" name="qrcode" id="qrcode" required/>
+                                <input type="text" name="qrcode" id="qrcode" autocomplete="off" readonly required/>
                                 <div onclick="generatePassword(this)">Generate</div>
                             </div>
                         </div>
@@ -182,27 +182,27 @@ $payroll->deleteRecentGuard();
                     <form method='POST'>
                         <div>
                             <label for='firstname2'>Firstname</label>
-                            <input type='text' name='firstname' id='firstname2' required/>
+                            <input type='text' name='firstname' id='firstname2' onkeydown='return /^[a-zA-Z\s]*$/i.test(event.key)' autocomplete="off" required/>
                         </div>
                         <div>
                             <label for='lastname2'>Lastname</label>
-                            <input type='text' name='lastname' id='lastname2' required/>
+                            <input type='text' name='lastname' id='lastname2' onkeydown='return /^[a-zA-Z\s]*$/i.test(event.key)' autocomplete="off" required/>
                         </div>
                         <div>
                             <label for='address2'>Address</label>
-                            <input type='text' name='address' id='address2' required/>
+                            <input type='text' name='address' id='address2' placeholder='Please include the city' autocomplete="off" required/>
                         </div>
                         <div>
                             <label for='email2'>Email</label>
-                            <input type='email' name='email' id='email2' required/>
+                            <input type='email' name='email' id='email2' autocomplete="off" required/>
                         </div>
                         <div>
                             <label for='cpnumber2'>Contact Number</label>
-                            <input type='text' name='number' id='cpnumber2' required/>
+                            <input type='text' name='number' id='cpnumber2' placeholder='09' onkeypress='validate(event)' autocomplete="off" required/>
                         </div>
                         <div>
                             <label for='qrcode2'>QR Code</label>
-                            <input type='text' name='qrcode' id='qrcode2' required/>
+                            <input type='text' name='qrcode' id='qrcode2' autocomplete="off" readonly required/>
                             <div onclick="generatePassword(this)">Generate</div>
                         </div>
                         <div>
@@ -219,6 +219,25 @@ $payroll->deleteRecentGuard();
                 let addguardModal = document.querySelector('.modal-addguard');
                 addguardModal.style.display = "none";
             });
+
+            // disable not necessary inputs
+            function validate(evt) {
+                var theEvent = evt || window.event;
+
+                // Handle paste
+                if (theEvent.type === 'paste') {
+                    key = event.clipboardData.getData('text/plain');
+                } else {
+                // Handle key press
+                    var key = theEvent.keyCode || theEvent.which;
+                    key = String.fromCharCode(key);
+                }
+                var regex = /[0-9]|\./;
+                if( !regex.test(key) ) {
+                    theEvent.returnValue = false;
+                    if(theEvent.preventDefault) theEvent.preventDefault();
+                }
+            }
         </script>
     <?php } ?>
 
