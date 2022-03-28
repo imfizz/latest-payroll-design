@@ -42,7 +42,7 @@ if(isset($_GET['message'])){
                     <li>Manage Report
                         <ul>
                             <li><a href="./leave/leave.php">Leave</a></li>
-                            <li><a href="./remarks/remarks.html">Remarks</a></li>
+                            <li><a href="./remarks/remarks.php">Remarks</a></li>
                         </ul>
                     </li>
                     <li><a href="./activity/activity.html">Activities</a></li>
