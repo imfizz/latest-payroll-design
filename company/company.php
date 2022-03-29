@@ -143,7 +143,7 @@ if(isset($_GET['message'])){
                         </div>
                         <div>
                             <label for="cpnumber">Contact Number</label>
-                            <input type="text" name="cpnumber" autocomplete="off" placeholder="09" onkeypress='validate(event)' required/>
+                            <input type="text" name="cpnumber" autocomplete="off" maxlength="11" placeholder="09" onkeypress='validate(event)' required/>
                         </div>
                         <div>
                             <label for="email">Email</label>
@@ -192,7 +192,7 @@ if(isset($_GET['message'])){
                             <label for="">Position</label>
                             <input type="number" style="display:none;" id="lengthInput" name="lengthInput" value="0" />
                             <section>
-                                <input type="text" name="position0" value="Officer in Charge" onkeydown='return /^[a-zA-Z\s]*$/i.test(event.key)' autocomplete="off" readonly/>
+                                <input type="text" name="position0" value="Officer in Charge" onkeydown="return /^[a-zA-Z\s]*$/i.test(event.key)" autocomplete="off" readonly/>
                                 <input type="text" name="price0" placeholder="00.00" onkeypress='validate(event)' autocomplete="off"/>
                                 <input type="text" name="ot0" placeholder="00.00" onkeypress='validate(event)' autocomplete="off"/>
                             </section>
@@ -225,7 +225,7 @@ if(isset($_GET['message'])){
                     </div>
                     <div>
                         <label for="cpnumber">Contact Number</label>
-                        <input type="text" name="cpnumber2" placeholder='09' onkeypress='validate(event)' autocomplete="off" required/>
+                        <input type="text" name="cpnumber2" placeholder='09' maxlength="11" onkeypress='validate(event)' autocomplete="off" required/>
                     </div>
                     <div>
                         <label for="email">Email</label>
@@ -414,7 +414,7 @@ if(isset($_GET['message'])){
             pos.setAttribute('name', `position${inputLength.value}`);
             pos.setAttribute('placeholder', 'position');
             pos.setAttribute('type', 'text');
-            pos.setAttribute('onkeydown', 'return /^[a-zA-Z\s]*$/i.test(event.key)');
+            pos.setAttribute('onkeydown', "return /^[a-zA-Z\\s]*$/i.test(event.key)");
             pos.setAttribute('autocomplete', 'off');
             price.setAttribute('name', `price${inputLength.value}`);
             price.setAttribute('placeholder', '00.00');
@@ -506,7 +506,7 @@ if(isset($_GET['message'])){
             pos.setAttribute('name', `position${inputLength.value}`);
             pos.setAttribute('placeholder', 'position');
             pos.setAttribute('type', 'text');
-            pos.setAttribute('onkeydown', 'return /^[a-zA-Z\s]*$/i.test(event.key)');
+            pos.setAttribute('onkeydown', 'return /^[a-zA-Z\\s]*$/i.test(event.key)');
             pos.setAttribute('autocomplete', 'off');
             price.setAttribute('name', `price${inputLength.value}`);
             price.setAttribute('placeholder', '00.00');

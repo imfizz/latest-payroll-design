@@ -144,7 +144,7 @@ if(isset($_GET['message'])){
                             </div>
                             <div>
                                 <label for="cpnumber">Contact Number</label>
-                                <input type="text" name="cpnumber" placeholder='09' onkeypress='validate(event)' autocomplete="off" required/>
+                                <input type="text" name="cpnumber" placeholder='09' maxlength="11" onkeypress='validate(event)' autocomplete="off" required/>
                             </div>
                             <div>
                                 <label for="name">Email</label>

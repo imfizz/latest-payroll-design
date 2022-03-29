@@ -11,6 +11,12 @@ if(isset($_GET['sid'])){
     $day = $expdate[2];
 }
 
+// for success action
+$msg = '';
+if(isset($_GET['message'])){
+    $msg = $_GET['message'];
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -102,6 +108,9 @@ if(isset($_GET['sid'])){
             </div>
         </div>
     </div>
+
+    <!-- for success action -->
+    <input type='hidden' id='msg' value='<?= $msg; ?>' />
 
     <!-- editguard modal exit btn -->
     <div class="modal-viewguard">
@@ -196,5 +205,36 @@ if(isset($_GET['sid'])){
         }
     ?>
     <script src="../scripts/unavailable.js"></script>
+    <script>
+        let msg = document.querySelector('#msg');
+        if(msg.value != ''){
+            let successDiv = document.createElement('div');
+            successDiv.classList.add('success');
+            let iconContainerDiv = document.createElement('div');
+            iconContainerDiv.classList.add('icon-container');
+            let spanIcon = document.createElement('span');
+            spanIcon.classList.add('material-icons');
+            spanIcon.innerText = 'done';
+            let pSuccess = document.createElement('p');
+            pSuccess.innerText = msg.value; // set to $_GET['msg']
+            let closeContainerDiv = document.createElement('div');
+            closeContainerDiv.classList.add('closeContainer');
+            let spanClose = document.createElement('span');
+            spanClose.classList.add('material-icons');
+            spanClose.innerText = 'close';
+
+            // destructure
+            iconContainerDiv.appendChild(spanIcon);
+            closeContainerDiv.appendChild(spanClose);
+
+            successDiv.appendChild(iconContainerDiv);
+            successDiv.appendChild(pSuccess);
+            successDiv.appendChild(closeContainerDiv);
+            document.body.appendChild(successDiv);
+
+            // remove after 5 mins
+            setTimeout(e => successDiv.remove(), 5000);
+        }
+    </script>
 </body>
 </html>

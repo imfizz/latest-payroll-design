@@ -45,7 +45,7 @@ if(isset($_GET['message'])){
                             <li><a href="./remarks/remarks.php">Remarks</a></li>
                         </ul>
                     </li>
-                    <li><a href="./activity/activity.html">Activities</a></li>
+                    <li><a href="./activity/activity.php">Activities</a></li>
                 </ul>
                 <div>
                     <a href="./logout.php">Logout</a>

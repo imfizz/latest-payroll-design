@@ -114,7 +114,7 @@ Class Payroll
                         } else {
                             // if row detected
                             $fullname = $usersAttempt2->firstname." ".$usersAttempt2->lastname;
-                            $action = "login";
+                            $action = "Login";
 
                             // set timezone and get date and time
                             $datetime = $this->getDateTime(); 
@@ -123,11 +123,11 @@ Class Payroll
 
 
                             // add to admin_log
-                            $sqlLog = "INSERT INTO admin_log(name, action, time, date)
-                                       VALUES(?, ?, ?, ?)
+                            $sqlLog = "INSERT INTO admin_log(admin_id, name, action, time, date)
+                                       VALUES(?, ?, ?, ?, ?)
                                       ";
                             $stmtLog = $this->con()->prepare($sqlLog);
-                            $stmtLog->execute([$fullname, $action, $time, $date]);
+                            $stmtLog->execute([$usersAttempt2->id, $fullname, $action, $time, $date]);
                             $countRowLog = $stmtLog->rowCount();
 
                             // if insert is successful
@@ -235,7 +235,7 @@ Class Payroll
 
                             if($users->access != $suspendedAccess){
                                 $fullname = $users->firstname." ".$users->lastname; // create fullname
-                                $action = "login"; 
+                                $action = "Login"; 
                                     
                                 // set timezone and get date and time
                                 $datetime = $this->getDateTime(); 
@@ -243,14 +243,15 @@ Class Payroll
                                 $date = $datetime['date'];
                 
                                 // insert mo sa activity log ni admin
-                                $actLogSql = "INSERT INTO admin_log(`name`, 
+                                $actLogSql = "INSERT INTO admin_log(`admin_id`,
+                                                                    `name`, 
                                                                     `action`,
                                                                     `time`,
                                                                     `date`
                                                                     )
-                                              VALUES(?, ?, ?, ?)";
+                                              VALUES(?, ?, ?, ?, ?)";
                                 $actLogStmt = $this->con()->prepare($actLogSql);
-                                $actLogStmt->execute([$fullname, $action, $time, $date]);
+                                $actLogStmt->execute([$users->id, $fullname, $action, $time, $date]);
                 
                                 // create user details using session
                                 session_start();
@@ -288,7 +289,7 @@ Class Payroll
                                     $stmtUpdateTimer->execute([$varNull, $setAccess, $users->id]);
 
                                     $fullname = $users->firstname." ".$users->lastname; // create fullname
-                                    $action = "login"; 
+                                    $action = "Login"; 
                                         
                                     // set timezone and get date and time
                                     $datetime = $this->getDateTime(); 
@@ -296,14 +297,15 @@ Class Payroll
                                     $date = $datetime['date'];
                     
                                     // insert mo sa activity log ni admin
-                                    $actLogSql = "INSERT INTO admin_log(`name`, 
+                                    $actLogSql = "INSERT INTO admin_log(`admin_id`,
+                                                                        `name`, 
                                                                         `action`,
                                                                         `time`,
                                                                         `date`
                                                                         )
-                                                VALUES(?, ?, ?, ?)";
+                                                VALUES(?, ?, ?, ?, ?)";
                                     $actLogStmt = $this->con()->prepare($actLogSql);
-                                    $actLogStmt->execute([$fullname, $action, $time, $date]);
+                                    $actLogStmt->execute([$users->id, $fullname, $action, $time, $date]);
                     
                                     // create user details using session
                                     session_start();
@@ -881,7 +883,7 @@ Class Payroll
                                     </div>
                                     <div>
                                         <label for=''>Contact Number</label>
-                                        <input type='text' name='cpnumber' id='cpnumber' value='$cpnumber' placeholder='09' onkeypress='validate(event)' autocomplete='off' required/>
+                                        <input type='text' name='cpnumber' id='cpnumber' value='$cpnumber' maxlength='11' placeholder='09' onkeypress='validate(event)' autocomplete='off' required/>
                                     </div>
                                     <div>
                                         <label for='address'>Address</label>
@@ -1874,19 +1876,8 @@ Class Payroll
                         $countRowUpdateComp = $stmtUpdateComp->rowCount();
 
                         if($countRowUpdateComp > 0){
-                            echo "<div class='success'>
-                                    <div class='icon-container'>
-                                        <span class='material-icons'>done</span>
-                                    </div>
-                                    <p>Deleted Successfully</p>
-                                    <div class='closeContainer'>
-                                        <span class='material-icons'>close</span>
-                                    </div>
-                                  </div>
-                                  <script>
-                                    let msgSuc = document.querySelector('.success');
-                                    setTimeout(e =>  msgSuc.remove(), 5000);
-                                  </script>";
+                            $msg = 'Deleted Successfully';
+                            echo "<script>window.location.assign('unavailable.php?message=$msg');</script>";
                         } else {
                             echo "<div class='error'>
                                     <div class='icon-container'>
@@ -2238,19 +2229,6 @@ Class Payroll
                         $countRow = $stmt->rowCount();
 
                         if($countRow > 0){
-                            echo "<div class='success'>
-                                    <div class='icon-container'>
-                                        <span class='material-icons'>done</span>
-                                    </div>
-                                    <p>Successfully Added</p>
-                                    <div class='closeContainer'>
-                                        <span class='material-icons'>close</span>
-                                    </div>
-                                  </div>
-                                  <script>
-                                    let msgSuc = document.querySelector('.success');
-                                    setTimeout(e =>  msgSuc.remove(), 5000);
-                                  </script>";
                             $sqlEmpUpdate = "UPDATE employee
                                              SET position = ?,
                                                  ratesperDay = ?,
@@ -2293,7 +2271,7 @@ Class Payroll
                                 if($countRowHiredGuards > 0){
                                     $this->sendEmailForEmployee($email, $empId, $company, $expiration_date);
                                 }
-
+                                
                                 echo "<script>window.location.assign('employee.php');</script>";
                             }
                         } else {
@@ -3015,7 +2993,7 @@ Class Payroll
                 $datetime = $this->getDateTime();
                 $dateNow = $datetime['date'];
                 
-                if(strtotime($checkData) <= strtotime($dateNow)){
+                if(strtotime($checkData) < strtotime($dateNow)){
                     echo "<div class='error'>
                             <div class='icon-container'>
                                 <span class='material-icons'>close</span>
@@ -4185,7 +4163,7 @@ Class Payroll
                     </div>
                     <div>
                         <label for='cpnumber'>Contact Number</label>
-                        <input type='text' name='cpnumber' id='cpnumber' value='$user->cpnumber' placeholder='09' onkeypress='validate(event)' autocomplete='off' required/>
+                        <input type='text' name='cpnumber' id='cpnumber' value='$user->cpnumber' maxlength='11' placeholder='09' onkeypress='validate(event)' autocomplete='off' required/>
                     </div>
                     <div>
                         <button type='submit' name='editGuard'>Edit Guard</button>
@@ -4815,36 +4793,7 @@ Class Payroll
                         $this->sendEmail($email, $userCre->secret_key);
                     }
 
-                    $sqlAdmin = "UPDATE super_admin
-                                SET firstname = ?,
-                                    lastname = ?,
-                                    address = ?,
-                                    cpnumber = ?,
-                                    username = ?,
-                                    facebook = ?,
-                                    google = ?,
-                                    twitter = ?,
-                                    instagram = ?
-                                WHERE id = ?";
-                    $stmtAdmin = $this->con()->prepare($sqlAdmin);
-                    $stmtAdmin->execute([$firstname, $lastname, $address, $cpnumber, $email, $facebook, $google, $twitter, $instagram, $id]);
-                    $countRowAdmin = $stmtAdmin->rowCount();
-                    if($countRowAdmin > 0){
-                        echo "<div class='success'>
-                                <div class='icon-container'>
-                                    <span class='material-icons'>done</span>
-                                </div>
-                                <p>Updated Successfully</p>
-                                <div class='closeContainer'>
-                                    <span class='material-icons'>close</span>
-                                </div>
-                              </div>
-                              <script>
-                                let msgSuc = document.querySelector('.success');
-                                setTimeout(e =>  msgSuc.remove(), 5000);
-                              </script>";
-                    }
-
+                    // check image file type
                     $status = 'error'; 
                     if(!empty($_FILES["image"]["name"])) {
                         // Get file info 
@@ -4884,6 +4833,55 @@ Class Payroll
                                     setTimeout(e => msgErr.remove(), 5000);
                                   </script>"; 
                         } 
+                    }
+
+
+                    // update admin profile
+                    $sqlAdmin = "UPDATE super_admin
+                                SET firstname = ?,
+                                    lastname = ?,
+                                    address = ?,
+                                    cpnumber = ?,
+                                    username = ?,
+                                    facebook = ?,
+                                    google = ?,
+                                    twitter = ?,
+                                    instagram = ?
+                                WHERE id = ?";
+                    $stmtAdmin = $this->con()->prepare($sqlAdmin);
+                    $stmtAdmin->execute([$firstname, $lastname, $address, $cpnumber, $email, $facebook, $google, $twitter, $instagram, $id]);
+                    $countRowAdmin = $stmtAdmin->rowCount();
+                    if($countRowAdmin > 0){
+
+                        $action = 'Edit Profile';
+                        $adminFullname = $firstname." ".$lastname;
+                        $datetime = $this->getDateTime();
+                        $adminTime = $datetime['time'];
+                        $adminDate = $datetime['date'];
+
+                        $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, time, date) VALUES(?, ?, ?, ?, ?)";
+                        $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                        $stmtAdminLog->execute([$id, $adminFullname, $action, $adminTime, $adminDate]);
+                        $countRowAdminLog = $stmtAdminLog->rowCount();
+
+                        if($countRowAdminLog > 0){
+                            $msg = 'Updated Successfully';
+                            echo "<script>window.location.assign('profile.php?message=$msg');</script>";
+                        } else {
+                            echo "<div class='error'>
+                                    <div class='icon-container'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                    <p>Update Failed</p>
+                                    <div class='closeContainer'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                  </div>
+                                  <script>
+                                    let msgErr = document.querySelector('.error');
+                                    setTimeout(e => msgErr.remove(), 5000);
+                                  </script>";
+                        }
                     }
                 }
             }
@@ -4929,20 +4927,6 @@ Class Payroll
                 $countRowFindUser = $stmtFindUser->rowCount();
 
                 if($countRowFindUser > 0){
-                    echo "<div class='success'>
-                            <div class='icon-container'>
-                                <span class='material-icons'>done</span>
-                            </div>
-                            <p>Updated Successfully</p>
-                            <div class='closeContainer'>
-                                <span class='material-icons'>close</span>
-                            </div>
-                          </div>
-                          <script>
-                            let msgSuc = document.querySelector('.success');
-                            setTimeout(e =>  msgSuc.remove(), 5000);
-                          </script>";
-
                     $currEmail = $userFindUser->username;
 
                     $sql = "UPDATE super_admin
@@ -4957,6 +4941,37 @@ Class Payroll
                     $stmtOrigPass = $this->con()->prepare($sqlOrigPass);
                     $stmtOrigPass->execute([$confirm_password, $currEmail]);
 
+                    $action = 'Change Password';
+                    $adminFullname = $userFindUser->firstname." ".$userFindUser->lastname;
+                    $datetime = $this->getDateTime();
+                    $adminTime = $datetime['time'];
+                    $adminDate = $datetime['date'];
+
+                    $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, time, date) VALUES(?, ?, ?, ?, ?)";
+                    $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                    $stmtAdminLog->execute([$userFindUser->id, $adminFullname, $action, $adminTime, $adminDate]);
+                    $countRowAdminLog = $stmtAdminLog->rowCount();
+                    if($countRowAdminLog > 0){
+                        $msg = 'Updated Successfully';
+                        echo "<script>window.location.assign('passInfo.php?message=$msg');</script>";
+                    } else {
+                        echo "<div class='error'>
+                                <div class='icon-container'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                                <p>Change Failed</p>
+                                <div class='closeContainer'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                              </div>
+                              <script>
+                                let msgErr = document.querySelector('.error');
+                                setTimeout(e => msgErr.remove(), 5000);
+                              </script>";
+                    }
+
+
+                    
                 } else {
                     echo "<div class='error'>
                             <div class='icon-container'>
@@ -5517,7 +5532,7 @@ Class Payroll
                                     </div>
                                     <div>
                                         <label for='cpnumber'>Contact Number</label>
-                                        <input type='text' name='cpnumber' value='$cpnumber' placeholder='09' onkeypress='validate(event)' autocomplete='off' required/>
+                                        <input type='text' name='cpnumber' value='$cpnumber' placeholder='09' maxlength='11' onkeypress='validate(event)' autocomplete='off' required/>
                                     </div>
                                     <div>
                                         <label for='email'>Email</label>

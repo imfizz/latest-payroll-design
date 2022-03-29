@@ -160,7 +160,7 @@ if(isset($_GET['message'])){
                             </div>
                             <div>
                                 <label for="number">Contact Number</label>
-                                <input type="text" name="number" id="number" placeholder='09' onkeypress='validate(event)' autocomplete="off" required/>
+                                <input type="text" name="number" id="number" placeholder='09' maxlength="11" onkeypress='validate(event)' autocomplete="off" required/>
                             </div>
                             <div>
                                 <label for="qrcode">Qr Code</label>
@@ -207,7 +207,7 @@ if(isset($_GET['message'])){
                         </div>
                         <div>
                             <label for='cpnumber2'>Contact Number</label>
-                            <input type='text' name='number' id='cpnumber2' placeholder='09' onkeypress='validate(event)' autocomplete="off" required/>
+                            <input type='text' name='number' id='cpnumber2' placeholder='09' maxlength="11" onkeypress='validate(event)' autocomplete="off" required/>
                         </div>
                         <div>
                             <label for='qrcode2'>QR Code</label>
