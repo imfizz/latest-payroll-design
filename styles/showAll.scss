@@ -1097,6 +1097,14 @@
                     height: 120px;
                 }
 
+                &:hover & > div:first-child {
+                    background-color: darken(#393939, 5%);
+                }
+
+                &:hover & > div:last-child {
+                    background-color: darken(#464646, 5%);
+                }
+
                 & > div:first-child {
                     width: 30%;
                     background: #393939;
@@ -1161,6 +1169,9 @@
                         & > div { 
                             background: #FFB163; 
 
+                            &:hover {
+                                background: darken(#FFB163, 5%);
+                            }
 
                             & > a { 
                                 text-decoration: none;
@@ -1182,6 +1193,10 @@
                     &:nth-child(2){
                         & > div { 
                             background: $front; 
+
+                            &:hover {
+                                background: darken($front, 5%);
+                            }
 
                             & > a { 
                                 text-decoration: none;

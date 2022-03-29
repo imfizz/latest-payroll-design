@@ -2028,6 +2028,10 @@ Class Payroll
                     $stmtUpdateLeave = $this->con()->prepare($sqlUpdateLeave);
                     $stmtUpdateLeave->execute([$empId]);
 
+                    // delete in violation and remarks
+
+                    // delete in inbox
+
                     // remove position, price, type and availability 
                     $sqlUpdateEmp = "UPDATE employee
                                      SET position = ?,
