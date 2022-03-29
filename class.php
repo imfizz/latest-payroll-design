@@ -115,6 +115,7 @@ Class Payroll
                             // if row detected
                             $fullname = $usersAttempt2->firstname." ".$usersAttempt2->lastname;
                             $action = "Login";
+                            $table_name = 'Login';
 
                             // set timezone and get date and time
                             $datetime = $this->getDateTime(); 
@@ -123,11 +124,11 @@ Class Payroll
 
 
                             // add to admin_log
-                            $sqlLog = "INSERT INTO admin_log(admin_id, name, action, time, date)
-                                       VALUES(?, ?, ?, ?, ?)
+                            $sqlLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date)
+                                       VALUES(?, ?, ?, ?, ?, ?)
                                       ";
                             $stmtLog = $this->con()->prepare($sqlLog);
-                            $stmtLog->execute([$usersAttempt2->id, $fullname, $action, $time, $date]);
+                            $stmtLog->execute([$usersAttempt2->id, $fullname, $action, $table_name, $time, $date]);
                             $countRowLog = $stmtLog->rowCount();
 
                             // if insert is successful
@@ -236,7 +237,8 @@ Class Payroll
                             if($users->access != $suspendedAccess){
                                 $fullname = $users->firstname." ".$users->lastname; // create fullname
                                 $action = "Login"; 
-                                    
+                                $table_name = "Login";    
+
                                 // set timezone and get date and time
                                 $datetime = $this->getDateTime(); 
                                 $time = $datetime['time'];
@@ -246,12 +248,13 @@ Class Payroll
                                 $actLogSql = "INSERT INTO admin_log(`admin_id`,
                                                                     `name`, 
                                                                     `action`,
+                                                                    `table_name`,
                                                                     `time`,
                                                                     `date`
                                                                     )
-                                              VALUES(?, ?, ?, ?, ?)";
+                                              VALUES(?, ?, ?, ?, ?, ?)";
                                 $actLogStmt = $this->con()->prepare($actLogSql);
-                                $actLogStmt->execute([$users->id, $fullname, $action, $time, $date]);
+                                $actLogStmt->execute([$users->id, $fullname, $action, $table_name, $time, $date]);
                 
                                 // create user details using session
                                 session_start();
@@ -290,6 +293,7 @@ Class Payroll
 
                                     $fullname = $users->firstname." ".$users->lastname; // create fullname
                                     $action = "Login"; 
+                                    $table_name = "Login"; 
                                         
                                     // set timezone and get date and time
                                     $datetime = $this->getDateTime(); 
@@ -300,12 +304,13 @@ Class Payroll
                                     $actLogSql = "INSERT INTO admin_log(`admin_id`,
                                                                         `name`, 
                                                                         `action`,
+                                                                        `table_name`,
                                                                         `time`,
                                                                         `date`
                                                                         )
-                                                VALUES(?, ?, ?, ?, ?)";
+                                                VALUES(?, ?, ?, ?, ?, ?)";
                                     $actLogStmt = $this->con()->prepare($actLogSql);
-                                    $actLogStmt->execute([$users->id, $fullname, $action, $time, $date]);
+                                    $actLogStmt->execute([$users->id, $fullname, $action, $table_name, $time, $date]);
                     
                                     // create user details using session
                                     session_start();
@@ -2949,7 +2954,7 @@ Class Payroll
         }
     }
 
-    public function approveRequest($id)
+    public function approveRequest($id, $adminFullname, $adminId)
     {
         if(isset($_POST['approveRequest'])){
             $id = $_POST['requestId'];
@@ -3094,8 +3099,36 @@ Class Payroll
                                                             $substiPrice,
                                                             $substiOT
                                                             );
-                                        $msg = 'Approved Successfully';
-                                        echo "<script>window.location.assign('./leave.php?message=$msg')</script>";
+                                        
+                                        $action = "Approve";
+                                        $table_name = "Leave";
+                                        $admindatetime = $this->getDateTime();
+                                        $adminTime = $admindatetime['time'];
+                                        $adminDate = $admindatetime['date'];
+                                    
+                                        $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                                        $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                                        $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+                                    
+                                        $countRowAdminLog = $stmtAdminLog->rowCount();
+                                        if($countRowAdminLog > 0){
+                                            $msg = 'Approved Successfully';
+                                            echo "<script>window.location.assign('./leave.php?message=$msg')</script>";
+                                        } else {
+                                            echo "<div class='error'>
+                                                    <div class='icon-container'>
+                                                        <span class='material-icons'>close</span>
+                                                    </div>
+                                                    <p>Approve Failed</p>
+                                                    <div class='closeContainer'>
+                                                        <span class='material-icons'>close</span>
+                                                    </div>
+                                                  </div>
+                                                  <script>
+                                                    let msgErr = document.querySelector('.error');
+                                                    setTimeout(e => msgErr.remove(), 5000);
+                                                  </script>";
+                                        }
                                     } else {
                                         echo "<div class='error'>
                                                 <div class='icon-container'>
@@ -3137,7 +3170,7 @@ Class Payroll
     }
 
     // for dashboard
-    public function approveRequest2($id)
+    public function approveRequest2($id, $adminFullname, $adminId)
     {
         if(isset($_POST['approveRequest'])){
             $id = $_POST['requestId'];
@@ -3177,124 +3210,173 @@ Class Payroll
 
             if($countRowFind > 0){
 
-                $status = 'approved';
-                $substiEmpId = $_POST['substitute'];
-                $expDateNew = $userFind->leaveEnd;
-
-                $substiPosition = $userFind->position;
-                $substiPrice = $userFind->price;
-                $substiOT = $userFind->ot;
-
-                $availability = 'Unavailable';
-
-                // set timezone and get date and time
+                $checkData = $userFind->leaveStart;
                 $datetime = $this->getDateTime();
-                $date = $datetime['date'];
+                $dateNow = $datetime['date'];
+                
+                if(strtotime($checkData) < strtotime($dateNow)){
+                    echo "<div class='error'>
+                            <div class='icon-container'>
+                                <span class='material-icons'>close</span>
+                            </div>
+                            <p>No longer valid. Out of date.</p>
+                            <div class='closeContainer'>
+                                <span class='material-icons'>close</span>
+                            </div>
+                          </div>
+                          <script>
+                            let msgErr = document.querySelector('.error');
+                            setTimeout(e => msgErr.remove(), 5000);
+                          </script>";
+                } else {
+                    $status = 'approved';
+                    $substiEmpId = $_POST['substitute'];
+                    $expDateNew = $userFind->leaveEnd;
 
-                $sqlSubstiUpdate = "UPDATE employee 
-                                    SET position = ?,
-                                        ratesperDay = ?,
-                                        overtime_rate = ?,
-                                        availability = ?
-                                    WHERE empId = ?";
+                    $substiPosition = $userFind->position;
+                    $substiPrice = $userFind->price;
+                    $substiOT = $userFind->ot;
 
-                $stmtSubstiUpdate = $this->con()->prepare($sqlSubstiUpdate);
-                $stmtSubstiUpdate->execute([$substiPosition, $substiPrice, $substiOT, $availability, $substiEmpId]);
-                $countRowSubstiUpdate = $stmtSubstiUpdate->rowCount();
-                if($countRowSubstiUpdate > 0){
+                    $availability = 'Unavailable';
 
-                    $sql = "UPDATE leave_request
-                            SET substitute_by = ?,
-                                status = ?,
-                                date_admin = ?
-                            WHERE id = ?
-                            ";
-                    $stmt = $this->con()->prepare($sql);
-                    $stmt->execute([$substiEmpId, $status, $date, $id]);
-                    $countRow = $stmt->rowCount();
+                    // set timezone and get date and time
+                    $datetime = $this->getDateTime();
+                    $date = $datetime['date'];
 
-                    if($countRow > 0){
-                        // to add new schedule
-                        $companySched = $userFind->company;
-                        $timeinSched = $userFind->timein;
-                        $timeoutSched = $userFind->timeout;
-                        $shiftSched = $userFind->shift;
-                        $shiftSpanSched = $userFind->shift_span;
+                    $sqlSubstiUpdate = "UPDATE employee 
+                                        SET position = ?,
+                                            ratesperDay = ?,
+                                            overtime_rate = ?,
+                                            availability = ?
+                                        WHERE empId = ?";
 
-                        $sqlSched = "INSERT INTO schedule(empId, company, scheduleTimeIn, scheduleTimeOut, shift, shift_span, expiration_date)
-                                     VALUES(?, ?, ?, ?, ?, ?, ?)
-                                    ";
-                        $stmtSched = $this->con()->prepare($sqlSched);
-                        $stmtSched->execute([$substiEmpId, $companySched, $timeinSched, $timeoutSched, $shiftSched, $shiftSpanSched, $expDateNew]);
-                        $countRowSched = $stmtSched->rowCount();
-                        if($countRowSched > 0){
-                            $leaveEmpId = $userFind->leaveEmpId;
+                    $stmtSubstiUpdate = $this->con()->prepare($sqlSubstiUpdate);
+                    $stmtSubstiUpdate->execute([$substiPosition, $substiPrice, $substiOT, $availability, $substiEmpId]);
+                    $countRowSubstiUpdate = $stmtSubstiUpdate->rowCount();
+                    if($countRowSubstiUpdate > 0){
 
-                            $sqlUpdateAvailability = "UPDATE employee
-                                                      SET availability = ?
-                                                      WHERE empId = ?";
-                            $stmtUpdateAvailability = $this->con()->prepare($sqlUpdateAvailability);
-                            $stmtUpdateAvailability->execute(['Leave', $leaveEmpId]);
-                            $countRowUpdateAvailability = $stmtUpdateAvailability->rowCount();
+                        $sql = "UPDATE leave_request
+                                SET substitute_by = ?,
+                                    status = ?,
+                                    date_admin = ?
+                                WHERE id = ?
+                                ";
+                        $stmt = $this->con()->prepare($sql);
+                        $stmt->execute([$substiEmpId, $status, $date, $id]);
+                        $countRow = $stmt->rowCount();
 
-                            if($countRowUpdateAvailability > 0){
-                                $comp_address = $userFind->c_address;
-                                $leaveStart = $userFind->leaveStart;
+                        if($countRow > 0){
+                            // to add new schedule
+                            $companySched = $userFind->company;
+                            $timeinSched = $userFind->timein;
+                            $timeoutSched = $userFind->timeout;
+                            $shiftSched = $userFind->shift;
+                            $shiftSpanSched = $userFind->shift_span;
 
-                                // get email of substitute guard
-                                $sqlFindSubsti = "SELECT * FROM employee WHERE empId = ?";
-                                $stmtFindSubsti = $this->con()->prepare($sqlFindSubsti);
-                                $stmtFindSubsti->execute([$substiEmpId]);
-                                $userFindSubsti = $stmtFindSubsti->fetch();
-                                $countRowFindSubsti = $stmtFindSubsti->rowCount();
+                            $sqlSched = "INSERT INTO schedule(empId, company, scheduleTimeIn, scheduleTimeOut, shift, shift_span, expiration_date)
+                                        VALUES(?, ?, ?, ?, ?, ?, ?)
+                                        ";
+                            $stmtSched = $this->con()->prepare($sqlSched);
+                            $stmtSched->execute([$substiEmpId, $companySched, $timeinSched, $timeoutSched, $shiftSched, $shiftSpanSched, $expDateNew]);
+                            $countRowSched = $stmtSched->rowCount();
+                            if($countRowSched > 0){
+                                $leaveEmpId = $userFind->leaveEmpId;
 
-                                if($countRowFindSubsti > 0){
-                                    // inform substitute guard
-                                    $this->informSubstitute($userFindSubsti->email, 
-                                                        $companySched, 
-                                                        $comp_address, 
-                                                        $timeinSched,
-                                                        $timeoutSched,
-                                                        $shiftSched,
-                                                        $shiftSpanSched,
-                                                        $leaveStart,
-                                                        $expDateNew,
-                                                        $substiPosition,
-                                                        $substiPrice,
-                                                        $substiOT
-                                                        );
-                                    $msg = 'Approved Successfully';
-                                    echo "<script>window.location.assign('./dashboard.php?message=$msg')</script>";
-                                } else {
-                                    echo "<div class='error'>
-                                            <div class='icon-container'>
-                                                <span class='material-icons'>close</span>
+                                $sqlUpdateAvailability = "UPDATE employee
+                                                          SET availability = ?
+                                                          WHERE empId = ?";
+                                $stmtUpdateAvailability = $this->con()->prepare($sqlUpdateAvailability);
+                                $stmtUpdateAvailability->execute(['Leave', $leaveEmpId]);
+                                $countRowUpdateAvailability = $stmtUpdateAvailability->rowCount();
+
+                                if($countRowUpdateAvailability > 0){
+                                    $comp_address = $userFind->c_address;
+                                    $leaveStart = $userFind->leaveStart;
+
+                                    // get email of substitute guard
+                                    $sqlFindSubsti = "SELECT * FROM employee WHERE empId = ?";
+                                    $stmtFindSubsti = $this->con()->prepare($sqlFindSubsti);
+                                    $stmtFindSubsti->execute([$substiEmpId]);
+                                    $userFindSubsti = $stmtFindSubsti->fetch();
+                                    $countRowFindSubsti = $stmtFindSubsti->rowCount();
+
+                                    if($countRowFindSubsti > 0){
+                                        // inform substitute guard
+                                        $this->informSubstitute($userFindSubsti->email, 
+                                                            $companySched, 
+                                                            $comp_address, 
+                                                            $timeinSched,
+                                                            $timeoutSched,
+                                                            $shiftSched,
+                                                            $shiftSpanSched,
+                                                            $leaveStart,
+                                                            $expDateNew,
+                                                            $substiPosition,
+                                                            $substiPrice,
+                                                            $substiOT
+                                                            );
+
+                                        $action = "Approve";
+                                        $table_name = "Leave";
+                                        $admindatetime = $this->getDateTime();
+                                        $adminTime = $admindatetime['time'];
+                                        $adminDate = $admindatetime['date'];
+                                    
+                                        $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";                    
+                                        
+                                        $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                                        $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+
+                                        $countRowAdminLog = $stmtAdminLog->rowCount();
+                                        if($countRowAdminLog > 0){
+                                            $msg = 'Approved Successfully';
+                                            echo "<script>window.location.assign('./dashboard.php?message=$msg')</script>";
+                                        } else {
+                                            echo "<div class='error'>
+                                                    <div class='icon-container'>
+                                                        <span class='material-icons'>close</span>
+                                                    </div>
+                                                    <p>Approve Failed</p>
+                                                    <div class='closeContainer'>
+                                                        <span class='material-icons'>close</span>
+                                                    </div>
+                                                  </div>
+                                                  <script>
+                                                    let msgErr = document.querySelector('.error');
+                                                    setTimeout(e => msgErr.remove(), 5000);
+                                                  </script>";
+                                        }
+                                    } else {
+                                        echo "<div class='error'>
+                                                <div class='icon-container'>
+                                                    <span class='material-icons'>close</span>
+                                                </div>
+                                                <p>No Available Guard Found</p>
+                                                <div class='closeContainer'>
+                                                    <span class='material-icons'>close</span>
+                                                </div>
                                             </div>
-                                            <p>No Available Guard Found</p>
-                                            <div class='closeContainer'>
-                                                <span class='material-icons'>close</span>
-                                            </div>
-                                          </div>
-                                          <script>
-                                            let msgErr = document.querySelector('.error');
-                                            setTimeout(e => msgErr.remove(), 5000);
-                                          </script>";
+                                            <script>
+                                                let msgErr = document.querySelector('.error');
+                                                setTimeout(e => msgErr.remove(), 5000);
+                                            </script>";
+                                    }
                                 }
+                            } else {
+                                echo "<div class='error'>
+                                        <div class='icon-container'>
+                                            <span class='material-icons'>close</span>
+                                        </div>
+                                        <p>Error Creating Schedule</p>
+                                        <div class='closeContainer'>
+                                            <span class='material-icons'>close</span>
+                                        </div>
+                                    </div>
+                                    <script>
+                                        let msgErr = document.querySelector('.error');
+                                        setTimeout(e => msgErr.remove(), 5000);
+                                    </script>";
                             }
-                        } else {
-                            echo "<div class='error'>
-                                    <div class='icon-container'>
-                                        <span class='material-icons'>close</span>
-                                    </div>
-                                    <p>Error Creating Schedule</p>
-                                    <div class='closeContainer'>
-                                        <span class='material-icons'>close</span>
-                                    </div>
-                                  </div>
-                                  <script>
-                                    let msgErr = document.querySelector('.error');
-                                    setTimeout(e => msgErr.remove(), 5000);
-                                  </script>";
                         }
                     }
                 }
@@ -3302,7 +3384,7 @@ Class Payroll
         }
     }
 
-    public function rejectRequest($id)
+    public function rejectRequest($id, $adminFullname, $adminId)
     {
         if(isset($_POST['rejectRequest'])){
             $id = $_GET['id'];
@@ -3356,8 +3438,35 @@ Class Payroll
 
                     $mail->send();
 
-                    $msg = 'Reject Successfully';
-                    echo "<script>window.location.assign('./leave.php?message=$msg')</script>";
+                    $action = "Reject";
+                    $table_name = "Leave";
+                    $admindatetime = $this->getDateTime();
+                    $adminTime = $admindatetime['time'];
+                    $adminDate = $admindatetime['date'];
+
+                    $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                    $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                    $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+
+                    $countRowAdminLog = $stmtAdminLog->rowCount();
+                    if($countRowAdminLog > 0){
+                        $msg = 'Reject Successfully';
+                        echo "<script>window.location.assign('./leave.php?message=$msg')</script>";
+                    } else {
+                        echo "<div class='error'>
+                                <div class='icon-container'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                                <p>Reject Failed</p>
+                                <div class='closeContainer'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                              </div>
+                              <script>
+                                let msgErr = document.querySelector('.error');
+                                setTimeout(e => msgErr.remove(), 5000);
+                              </script>";
+                    }
                 }
             } else {
                 echo "<div class='error'>
@@ -3378,7 +3487,7 @@ Class Payroll
     }
 
     // for dashboard
-    public function rejectRequest2($id)
+    public function rejectRequest2($id, $adminFullname, $adminId)
     {
         if(isset($_POST['rejectRequest'])){
             $id = $_GET['id'];
@@ -3432,8 +3541,35 @@ Class Payroll
 
                     $mail->send();
 
-                    $msg = 'Reject Successfully';
-                    echo "<script>window.location.assign('./dashboard.php?message=$msg')</script>";
+                    $action = "Reject";
+                    $table_name = "Leave";
+                    $admindatetime = $this->getDateTime();
+                    $adminTime = $admindatetime['time'];
+                    $adminDate = $admindatetime['date'];
+
+                    $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                    $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                    $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+
+                    $countRowAdminLog = $stmtAdminLog->rowCount();
+                    if($countRowAdminLog > 0){
+                        $msg = 'Rejected Successfully';
+                        echo "<script>window.location.assign('./dashboard.php?message=$msg')</script>";
+                    } else {
+                        echo "<div class='error'>
+                                <div class='icon-container'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                                <p>Reject Failed</p>
+                                <div class='closeContainer'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                              </div>
+                              <script>
+                                let msgErr = document.querySelector('.error');
+                                setTimeout(e => msgErr.remove(), 5000);
+                              </script>";
+                    }
                 }
             } else {
                 echo "<div class='error'>
@@ -4173,7 +4309,7 @@ Class Payroll
     }
 
     // new guard edit in modal info
-    public function dashboardEditGuards($id, $existingEmail)
+    public function dashboardEditGuards($id, $existingEmail, $adminFullname, $adminId)
     {
         if(isset($_POST['editGuard'])){
             $firstname = $_POST['firstname'];
@@ -4224,8 +4360,38 @@ Class Payroll
                     $countRow = $stmt->rowCount();
 
                     if($countRow > 0){
-                        $msg = 'Update Successfully';
-                        echo "<script>window.location.assign('./dashboard.php?message=$msg');</script>";
+
+                        $action = "Edit";
+                        $table_name = "Employee";
+                        $datetime = $this->getDateTime();
+                        $adminTime = $datetime['time'];
+                        $adminDate = $datetime['date'];
+
+                        $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                        $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                        $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+
+                        $countRowAdminLog = $stmtAdminLog->rowCount();
+                        if($countRowAdminLog > 0){
+                            $msg = 'Update Successfully';
+                            echo "<script>window.location.assign('./dashboard.php?message=$msg');</script>";
+                        } else {
+                            echo "<div class='error'>
+                                    <div class='icon-container'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                    <p>Update Failed</p>
+                                    <div class='closeContainer'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                  </div>
+                                  <script>
+                                    let msgErr = document.querySelector('.error');
+                                    setTimeout(e => msgErr.remove(), 5000);
+                                  </script>";
+                        }
+
+                        
                     } else {
                         echo "<div class='error'>
                                 <div class='icon-container'>
@@ -4277,22 +4443,6 @@ Class Payroll
 
                         if($countRow > 0){
 
-                            echo "<div class='success'>
-                                    <div class='icon-container'>
-                                        <span class='material-icons'>done</span>
-                                    </div>
-                                    <p>Updated Successfully</p>
-                                    <div class='closeContainer'>
-                                        <span class='material-icons'>close</span>
-                                    </div>
-                                  </div>
-                                  <script>
-                                    let msgSuc = document.querySelector('.success');
-                                    setTimeout(e =>  msgSuc.remove(), 5000);
-
-                                    window.location.assign('./dashboard.php');
-                                  </script>";
-
                             $sqlInform = "SELECT e.*, sd.secret_key as secret_key  
                                         FROM employee e
                                         INNER JOIN secret_diarye sd
@@ -4306,7 +4456,8 @@ Class Payroll
                             if($countRowInform > 0){
                                 // send credentials in new email
                                 $this->sendEmail($userInform->email, $userInform->secret_key);
-                                echo "<script>window.location.assign('./dashboard.php');</script>";
+                                $msg = 'Update Successfully';
+                                echo "<script>window.location.assign('./dashboard.php?message=$msg');</script>";
                             }
                         }
                     }
@@ -4341,7 +4492,7 @@ Class Payroll
         }
     }
 
-    public function dashboardDeleteGuards()
+    public function dashboardDeleteGuards($adminFullname, $adminId)
     {
         if(isset($_POST['deleteEmployee'])){
             $empDeleteId = $_POST['empDeleteId'];
@@ -4367,6 +4518,17 @@ Class Payroll
                 $countRow = $stmt->rowCount();
 
                 if($countRow > 0){
+
+                    $action = "Delete";
+                    $table_name = "Employee";
+                    $datetime = $this->getDateTime();
+                    $adminTime = $datetime['time'];
+                    $adminDate = $datetime['date'];
+
+                    $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                    $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                    $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+
                     $sqlSecret = "DELETE FROM secret_diarye WHERE e_id = ?";
                     $stmtSecret = $this->con()->prepare($sqlSecret);
                     $stmtSecret->execute([$user->email]);
@@ -4379,8 +4541,10 @@ Class Payroll
 
                         $countRowEmp = $stmtEmp->rowCount();
                         if($countRowEmp > 0){
+
                             $msg = 'Deleted Successfully';
                             echo "<script>window.location.assign('./dashboard.php?message=$msg');</script>";
+
                         } else {
                             echo "<div class='error'>
                                     <div class='icon-container'>

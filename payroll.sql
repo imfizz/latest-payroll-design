@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 24, 2022 at 11:57 AM
+-- Generation Time: Mar 29, 2022 at 01:34 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.3.29
 
@@ -29,9 +29,10 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `admin_log` (
   `id` int(11) NOT NULL,
+  `admin_id` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
   `action` varchar(50) DEFAULT NULL,
-  `table_name` varchar(100) DEFAULT NULL,
+  `table_name` varchar(100) NOT NULL,
   `time` varchar(100) DEFAULT NULL,
   `date` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -40,43 +41,10 @@ CREATE TABLE `admin_log` (
 -- Dumping data for table `admin_log`
 --
 
-INSERT INTO `admin_log` (`id`, `name`, `action`, `table_name`, `time`, `date`) VALUES
-(188, 'Perla De Vera', 'login', NULL, '04:32:16pm', '2022/03/17'),
-(189, 'Perla De Vera', 'login', NULL, '11:19:00pm', '2022/03/17'),
-(190, 'Perla De Vera', 'Add Secretary', NULL, '11:34:29pm', '2022/03/17'),
-(191, 'Perla De Vera', 'Add Secretary', NULL, '11:42:58pm', '2022/03/17'),
-(192, 'Perla De Vera', 'Add Secretary', NULL, '11:46:09pm', '2022/03/17'),
-(193, 'Perla De Vera', 'Add Secretary', NULL, '11:47:25pm', '2022/03/17'),
-(194, 'Perla De Vera', 'Add Secretary', NULL, '11:48:51pm', '2022/03/17'),
-(195, 'Perla De Vera', 'Add Secretary', NULL, '11:50:20pm', '2022/03/17'),
-(196, 'Perla De Vera', 'Add Secretary', NULL, '11:51:44pm', '2022/03/17'),
-(197, 'Perla De Vera', 'Add Secretary', NULL, '11:53:41pm', '2022/03/17'),
-(198, 'Perla De Vera', 'Add Secretary', NULL, '11:54:38pm', '2022/03/17'),
-(199, 'Perla De Vera', 'Add Secretary', NULL, '11:55:25pm', '2022/03/17'),
-(200, 'Perla De Vera', 'Add Secretary', NULL, '11:56:10pm', '2022/03/17'),
-(201, 'Perla De Vera', 'Add Secretary', NULL, '11:59:54pm', '2022/03/17'),
-(202, 'Perla De Vera', 'Add Secretary', NULL, '12:11:38am', '2022/03/18'),
-(203, 'Rizza Janes Pachecos', 'login', NULL, '01:41:18am', '2022/03/18'),
-(204, 'Rizza Janes Pachecos', 'login', NULL, '05:24:27pm', '2022/03/18'),
-(205, 'Rizza Janes Pachecos', 'login', NULL, '12:21:28am', '2022/03/19'),
-(206, 'Rizza Janes Pachecos', 'login', NULL, '05:40:57pm', '2022/03/19'),
-(207, 'Rizza Janes Pachecos', 'login', NULL, '12:39:17am', '2022/03/20'),
-(208, 'Rizza Janes Pachecos', 'login', NULL, '02:29:32pm', '2022/03/21'),
-(209, 'Rizza Janes Pachecos', 'login', NULL, '03:26:25pm', '2022/03/21'),
-(210, 'Perla De Vera', 'login', NULL, '03:56:57pm', '2022/03/21'),
-(211, 'Rizza Janes Pachecos', 'login', NULL, '04:01:26pm', '2022/03/21'),
-(212, 'Rizza Janes Pachecos', 'login', NULL, '06:16:14pm', '2022/03/21'),
-(213, 'Rizza Janes Pachecos', 'login', NULL, '08:16:27pm', '2022/03/21'),
-(214, 'Rizza Janes Pachecos', 'login', NULL, '11:18:37pm', '2022/03/21'),
-(215, 'Rizza Janes Pachecos', 'login', NULL, '12:22:28am', '2022/03/22'),
-(216, 'Rizza Janes Pachecos', 'login', NULL, '12:40:05am', '2022/03/22'),
-(217, 'Rizza Janes Pachecos', 'login', NULL, '02:35:31pm', '2022/03/22'),
-(218, 'Rizza Janes Pachecos', 'login', NULL, '03:20:38pm', '2022/03/22'),
-(219, 'Rizza Janes Pachecos', 'Add Secretary', NULL, '03:31:37pm', '2022/03/22'),
-(220, 'Rizza Janes Pachecos', 'Add Secretary', NULL, '03:32:15pm', '2022/03/22'),
-(221, 'Rizza Janes Pachecos', 'login', NULL, '03:09:53pm', '2022/03/23'),
-(222, 'Rizza Janes Pachecos', 'login', NULL, '09:02:34am', '2022/03/24'),
-(223, 'Rizza Janes Pachecos', 'login', NULL, '04:48:08pm', '2022/03/24');
+INSERT INTO `admin_log` (`id`, `admin_id`, `name`, `action`, `table_name`, `time`, `date`) VALUES
+(250, 4, 'Rizza Janes Pachecos', 'Approve', 'Leave', '07:30:01pm', '2022/03/29'),
+(251, 4, 'Rizza Janes Pachecos', 'Reject', 'Leave', '07:31:26pm', '2022/03/29'),
+(252, 4, 'Rizza Janes Pachecos', 'Approve', 'Leave', '07:31:56pm', '2022/03/29');
 
 -- --------------------------------------------------------
 
@@ -126,8 +94,10 @@ CREATE TABLE `company` (
 --
 
 INSERT INTO `company` (`id`, `company_name`, `hired_guards`, `cpnumber`, `email`, `comp_location`, `longitude`, `latitude`, `boundary_size`, `watType`, `shifts`, `shift_span`, `day_start`, `date`) VALUES
-(33, 'Rebisco', '0', '09060766219', 'rebisco@gmail.com', 'Rebisco Sample Address', '121.04928462771016', '14.651458505979022', '0.079km', NULL, 'Day', '12', '07:00 am', '2022/03/19'),
-(38, 'Nissin Seafood Incorporation', '2', '09060766219', 'filacad22@gmail.com', 'Novaliches', '121.03334816121998', '14.724003991342983', '0.161km', NULL, 'Night', '12', '07:00 am', '2022/03/21');
+(33, 'Rebisco', '0', '09060766219', 'rebisco@gmail.com', 'Rebisco Sample Address', '121.04928462771016', '14.651458505979022', '0.079km', NULL, 'Shift1', '12', '07:00 am', '2022/03/19'),
+(38, 'Nissin Seafoods', '-4', '09060766218', 'nissin@gmail.com', 'Novaliches Quezon City', '120.97864799986536', '14.635448318521767', '0.061km', NULL, 'Shift2', '12', '07:00 am', '2022/03/21'),
+(42, 'Sample Company', NULL, '09060766219', 'sample@gmail.com', 'Sample City', '121.04927777084549', '14.651460650325035', '0.06km', NULL, 'Shift2', '8', '07:00 am', '2022/03/28'),
+(45, 'asdasd', NULL, '1234567890123', 'aasd@gmail.com', 'asdada', '121.04923780383831', '14.651213554239959', '0.035km', NULL, 'Shift2', '8', '07:00 am', '2022/03/29');
 
 -- --------------------------------------------------------
 
@@ -145,7 +115,6 @@ CREATE TABLE `employee` (
   `position` varchar(100) DEFAULT NULL,
   `ratesperDay` varchar(11) DEFAULT NULL,
   `overtime_rate` varchar(50) DEFAULT NULL,
-  `watType` varchar(50) DEFAULT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
   `qrcode` varchar(255) DEFAULT NULL,
@@ -160,10 +129,9 @@ CREATE TABLE `employee` (
 -- Dumping data for table `employee`
 --
 
-INSERT INTO `employee` (`id`, `empId`, `firstname`, `lastname`, `cpnumber`, `address`, `position`, `ratesperDay`, `overtime_rate`, `watType`, `email`, `password`, `qrcode`, `access`, `availability`, `timer`, `time`, `date`) VALUES
-(43, '2022-42', 'Francis', 'Ilacad', '09060766219', 'Sample Address ko hehehe', 'Security Guard', '45.00', '44.00', NULL, 'francis.albert.sarcaoga.ilacad@gmail.com', '2bb058e1e06051eb6dd619d730fb2062', 'oHsOwmUH', 'employee', 'Unavailable', NULL, '08:40:57pm', '2022/03/21'),
-(44, '2022-43', 'Francis', 'Marianne', '09060766219', 'Quezon City', 'Security Guard', '45.00', NULL, NULL, 'sicnarfarerreh@gmail.com', '62afe2be7805a77b1fc933b898221824', 'I4STrv3U', 'employee', 'Unavailable', NULL, '11:22:10pm', '2022/03/21'),
-(47, '2022-44', 'Kiko', 'Lopez', '09060766219', 'Kiko Lopez Drive', NULL, NULL, NULL, NULL, 'filacad22@gmail.com', 'eb214672ba3ac7f847652d43b370c96d', 'QpfRZZnN', 'employee', 'Available', NULL, '04:56:28pm', '2022/03/24');
+INSERT INTO `employee` (`id`, `empId`, `firstname`, `lastname`, `cpnumber`, `address`, `position`, `ratesperDay`, `overtime_rate`, `email`, `password`, `qrcode`, `access`, `availability`, `timer`, `time`, `date`) VALUES
+(44, '2022-43', 'Francis', 'Marianne', '09060766219', 'Quezon City', 'Officer in Charge', '50.00', '49.00', 'sicnarfarerreh@gmail.com', '62afe2be7805a77b1fc933b898221824', 'I4STrv3U', 'employee', 'Unavailable', NULL, '11:22:10pm', '2022/03/21'),
+(56, '2022-44', 'Louie', 'Agao', '090607662199', 'Sample Address Quezon City', NULL, NULL, NULL, 'filacad22@gmail.com', 'b30b125b76cd6b0c1ffd1e544d176d3d', 'UTBlpVfl', 'employee', 'Available', NULL, '08:37:36am', '2022/03/25');
 
 -- --------------------------------------------------------
 
@@ -206,8 +174,8 @@ CREATE TABLE `inbox` (
 --
 
 INSERT INTO `inbox` (`id`, `empId`, `subject`, `body`, `filename`, `filenewname`, `date_created`, `status`) VALUES
-('2203221647937965', '2022-42', 'Violation Memorandum', 'Violation: No Overseacup, Name Cloth, Agency Name Cloth, Holster\n\nFine: 400.00\n\n(Insert message here)', NULL, NULL, '2022/03/22 04:32:45 PM', 'Unread'),
-('2203221647938231', '2022-43', 'Violation', 'Violation: Sleeping on post\r\n\r\n(Insert message)', 'Memorandum.docx', '2203221647938231Memorandum.docx', '2022/03/22 04:37:11 PM', 'Unread');
+('2203221647938231', '2022-43', 'Violation', 'Violation: Sleeping on post\r\n\r\n(Insert message)', 'Memorandum.docx', '2203221647938231Memorandum.docx', '2022/03/22 04:37:11 PM', 'Unread'),
+('2903221648542061', '2022-43', 'hehehe', 'Violation: Sleeping on post\r\n\r\nFine: 400.00\r\n\r\n(Insert message herasdasdasdasd)', 'USER-NAMES.docx', '2903221648542061USER-NAMES.docx', '2022/03/29 04:21:01 PM', 'Unread');
 
 -- --------------------------------------------------------
 
@@ -221,7 +189,6 @@ CREATE TABLE `leave_request` (
   `days` int(11) NOT NULL,
   `leave_start` varchar(50) NOT NULL,
   `leave_end` varchar(50) NOT NULL,
-  `type` varchar(50) NOT NULL,
   `typeOfLeave` varchar(50) NOT NULL,
   `reason` varchar(255) NOT NULL,
   `substitute_by` varchar(50) DEFAULT NULL,
@@ -229,13 +196,6 @@ CREATE TABLE `leave_request` (
   `date_created` varchar(50) NOT NULL,
   `date_admin` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `leave_request`
---
-
-INSERT INTO `leave_request` (`id`, `empId`, `days`, `leave_start`, `leave_end`, `type`, `typeOfLeave`, `reason`, `substitute_by`, `status`, `date_created`, `date_admin`) VALUES
-(4, '2022-42', 3, '2022-03-24', '2022-03-27', '', 'Sick Leave', 'Tinatamad', '2022-43', 'approved', '2022-03-22', '2022-02-19');
 
 -- --------------------------------------------------------
 
@@ -258,9 +218,13 @@ CREATE TABLE `positions` (
 INSERT INTO `positions` (`id`, `company`, `position_name`, `price`, `overtime_rate`) VALUES
 (20, 'Rebisco', 'Officer in Charge', '50.00', '49.00'),
 (21, 'Rebisco', 'Security Guard', '40.00', '39.00'),
-(33, 'Nissin Seafood Incorporation', 'Officer in Charge', '50.00', '49.00'),
-(34, 'Nissin Seafood Incorporation', 'Security Guard', '45.00', '44.00'),
-(35, 'Nissin Seafood Incorporation', 'Head Finance', '55.00', '54.00');
+(33, 'Nissin Seafoods', 'Officer in Charge', '50.00', '49.00'),
+(34, 'Nissin Seafoods', 'Security Guard', '50.00', '45.00'),
+(35, 'Nissin Seafoods', 'Head Finance', '55.00', '54.00'),
+(48, 'Sample Company', 'Officer in Charge', '24', '14'),
+(49, 'Sample Company', 'asd', '123', '2'),
+(55, 'Sample Company', 'asdasd asd  asdasda         asdasdadasd asdasdasd asda', '123', '123123'),
+(56, 'asdasd', 'Officer in Charge', '123', '123');
 
 -- --------------------------------------------------------
 
@@ -285,8 +249,7 @@ CREATE TABLE `schedule` (
 --
 
 INSERT INTO `schedule` (`id`, `empId`, `company`, `scheduleTimeIn`, `scheduleTimeOut`, `shift`, `shift_span`, `expiration_date`, `date_assigned`) VALUES
-(144, '2022-42', 'Nissin Seafood Incorporation', NULL, NULL, NULL, NULL, '2024-03-21', '2022-03-22'),
-(147, '2022-43', 'Nissin Seafood Incorporation', NULL, NULL, NULL, NULL, '2022-03-27', '2022-03-22');
+(178, '2022-43', 'Nissin Seafoods', '07:00 am', '07:00 pm', 'Shift2', 12, '2022-04-01', '2022-03-29');
 
 -- --------------------------------------------------------
 
@@ -314,7 +277,8 @@ CREATE TABLE `secretary` (
 
 INSERT INTO `secretary` (`id`, `fullname`, `gender`, `cpnumber`, `address`, `email`, `password`, `timer`, `admin_id`, `access`, `isDeleted`) VALUES
 (27, 'Francis Marianne', 'Female', '09060766219', 'Novaliches, Quezon City', 'filacad22@gmail.com', 'fa2c1145b5ce30dbc18a013396e87d02', NULL, 4, 'secretary', 0),
-(28, 'Francis Ilacad', 'Female', '09060766219', 'Bayan Glori', 'sicnarfarerreh@gmail.com', 'c3991757eb3eded3199c6949fbd7a161', NULL, 4, 'secretary', 1);
+(30, 'Kiko Lopez', 'Male', '09090574121', 'Sample Address', 'sicnarfarerreh@gmail.com', 'e33c4a8d06401a7300e4766b9bb9069a', NULL, 4, 'secretary', 0),
+(31, 'sample name', 'Female', '123123212', 'asdasdaasda', 'ghil.adam@gmail.com', '70f06839387d98a4de277fa4a4336052', NULL, 4, 'secretary', 1);
 
 -- --------------------------------------------------------
 
@@ -336,11 +300,9 @@ CREATE TABLE `secretary_log` (
 
 INSERT INTO `secretary_log` (`id`, `sec_id`, `action`, `time`, `date`) VALUES
 (1, 27, 'Delete deduction', '07:32 PM', '2022-03-21'),
-(3, 28, 'Add deduction', '02:12 PM', '2022-023-15'),
 (4, 27, 'Generate salary', '01:40 PM', '2022-03-07'),
 (5, 27, 'Add cash advance', '05:26 PM', '2022-03-01'),
-(6, 27, 'Delete cash advance', '11:13 PM', '2022-03-05'),
-(7, 28, 'Generate salary', '10:53 PM', '2022-03-11');
+(6, 27, 'Delete cash advance', '11:13 PM', '2022-03-05');
 
 -- --------------------------------------------------------
 
@@ -360,7 +322,7 @@ CREATE TABLE `secret_diary` (
 
 INSERT INTO `secret_diary` (`id`, `sa_id`, `secret_key`) VALUES
 (3, 'deveraperla1@gmail.com', 'inth(r9u'),
-(4, 'filacad22@gmail.com', 'hehe123');
+(4, 'filacad22@gmail.com', 'hehe1234');
 
 -- --------------------------------------------------------
 
@@ -379,9 +341,8 @@ CREATE TABLE `secret_diarye` (
 --
 
 INSERT INTO `secret_diarye` (`id`, `e_id`, `secret_key`) VALUES
-(22, 'francis.albert.sarcaoga.ilacad@gmail.com', 'fh&iq(tb'),
 (23, 'sicnarfarerreh@gmail.com', 'gx_ajrs+'),
-(27, 'filacad22@gmail.com', '9jg5s40)');
+(36, 'filacad22@gmail.com', 'z)$wfi87');
 
 -- --------------------------------------------------------
 
@@ -401,7 +362,8 @@ CREATE TABLE `secret_diarys` (
 
 INSERT INTO `secret_diarys` (`id`, `se_id`, `secret_key`) VALUES
 (18, 'filacad22@gmail.com', 'p59f$h27'),
-(19, 'sicnarfarerreh@gmail.com', 'pyqhtgn8');
+(21, 'sicnarfarerreh@gmail.com', '*m_0$kf1'),
+(22, 'ghil.adam@gmail.com', '7#8cme0p');
 
 -- --------------------------------------------------------
 
@@ -431,7 +393,7 @@ CREATE TABLE `super_admin` (
 
 INSERT INTO `super_admin` (`id`, `firstname`, `lastname`, `address`, `cpnumber`, `username`, `password`, `facebook`, `google`, `twitter`, `instagram`, `timer`, `access`) VALUES
 (3, 'Perla', 'De Vera', '3/F Greenbelt 5, Legaspi Street, Legaspi Village, Makati City, Metro Manila', '09514879521', 'deveraperla1@gmail.com', 'fabbcbc464d7d195db7458f749f414ee', '', NULL, NULL, NULL, NULL, 'administrator'),
-(4, 'Rizza Janes', 'Pachecos', 'Suarezs Avenue, San Nicolas, Pasig City, Metro Manila', '09584125338', 'filacad22@gmail.com', 'ecbb978b6746435e99a1823f652809a4', 'https://www.facebook.com/francisalbert', 'filacad22@gmail.com', 'twitter.com', 'https://', NULL, 'administrator');
+(4, 'Rizza Janes', 'Pachecos', 'Suarezs Avenue, San Nicolas, Pasig City, Metro Manila', '09584125335', 'filacad22@gmail.com', 'ff1733bf97b47c01c06ecd578d64f6aa', 'https://www.facebook.com/francisalbert', 'filacad22@gmail.com', 'twitter.com', 'https://', NULL, 'administrator');
 
 -- --------------------------------------------------------
 
@@ -454,8 +416,8 @@ CREATE TABLE `violationsandremarks` (
 --
 
 INSERT INTO `violationsandremarks` (`id`, `empId`, `violation`, `fine`, `remark`, `date_created`, `paid`) VALUES
-(26, '2022-42', 'No Overseacup, Name Cloth, Agency Name Cloth, Holster', 400, '2203221647937965', '2022/03/22', 'Unpaid'),
-(27, '2022-43', 'Sleeping on post', NULL, '2203221647938231', '2022/03/22', 'Unpaid');
+(27, '2022-43', 'Sleeping on post', NULL, '2203221647938231', '2022/03/22', 'Unpaid'),
+(30, '2022-43', 'Sleeping on post', 400, '2903221648542061', '2022/03/22', 'Unpaid');
 
 --
 -- Indexes for dumped tables
@@ -465,7 +427,8 @@ INSERT INTO `violationsandremarks` (`id`, `empId`, `violation`, `fine`, `remark`
 -- Indexes for table `admin_log`
 --
 ALTER TABLE `admin_log`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `admin_id` (`admin_id`);
 
 --
 -- Indexes for table `admin_profile`
@@ -586,7 +549,7 @@ ALTER TABLE `violationsandremarks`
 -- AUTO_INCREMENT for table `admin_log`
 --
 ALTER TABLE `admin_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=224;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=253;
 
 --
 -- AUTO_INCREMENT for table `admin_profile`
@@ -598,13 +561,13 @@ ALTER TABLE `admin_profile`
 -- AUTO_INCREMENT for table `company`
 --
 ALTER TABLE `company`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `emp_attendance`
@@ -616,25 +579,25 @@ ALTER TABLE `emp_attendance`
 -- AUTO_INCREMENT for table `leave_request`
 --
 ALTER TABLE `leave_request`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `positions`
 --
 ALTER TABLE `positions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT for table `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=149;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=179;
 
 --
 -- AUTO_INCREMENT for table `secretary`
 --
 ALTER TABLE `secretary`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `secretary_log`
@@ -652,13 +615,13 @@ ALTER TABLE `secret_diary`
 -- AUTO_INCREMENT for table `secret_diarye`
 --
 ALTER TABLE `secret_diarye`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `secret_diarys`
 --
 ALTER TABLE `secret_diarys`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `super_admin`
@@ -670,11 +633,17 @@ ALTER TABLE `super_admin`
 -- AUTO_INCREMENT for table `violationsandremarks`
 --
 ALTER TABLE `violationsandremarks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `admin_log`
+--
+ALTER TABLE `admin_log`
+  ADD CONSTRAINT `admin_log_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `super_admin` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Constraints for table `admin_profile`

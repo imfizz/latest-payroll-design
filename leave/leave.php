@@ -287,7 +287,7 @@ if(isset($_GET['message'])){
         </script>
         <?php
         $payroll->viewRequest($_GET['id']);
-        $payroll->approveRequest($_GET['id']);
+        $payroll->approveRequest($_GET['id'], $sessionData['fullname'], $sessionData['id']);
     }
     
     if(isset($_GET['id']) && isset($_GET['act']) && $_GET['act'] == 'reject'){ ?>
@@ -360,7 +360,7 @@ if(isset($_GET['message'])){
         </script>
         <?php 
         $payroll->viewRequest($_GET['id']);
-        $payroll->rejectRequest($_GET['id']);
+        $payroll->rejectRequest($_GET['id'], $sessionData['fullname'], $sessionData['id']);
     }
     ?>
     <script>

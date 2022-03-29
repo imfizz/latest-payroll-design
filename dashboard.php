@@ -273,7 +273,7 @@ if(isset($_GET['message'])){
                 <div class="editguard-content">
                 <?php 
                     $payroll->dashboardEditGuardsModal($_GET['guardId']); // get info
-                    $payroll->dashboardEditGuards($_GET['guardId'], $_GET['email']); // edit info
+                    $payroll->dashboardEditGuards($_GET['guardId'], $_GET['email'], $sessionData['fullname'], $sessionData['id']); // edit info
                 ?>
                 </div>
             </div>
@@ -312,7 +312,7 @@ if(isset($_GET['message'])){
         <div class="modal-deleteguard">
             <?php 
                 $payroll->dashboardDeleteGuardsModal($_GET['guardId']); // get info
-                $payroll->dashboardDeleteGuards(); // delete info
+                $payroll->dashboardDeleteGuards($sessionData['fullname'], $sessionData['id']); // delete info
             ?>
         </div>
         <script>
@@ -397,7 +397,7 @@ if(isset($_GET['message'])){
         </script>
         <?php
         $payroll->viewRequest($_GET['id']); // taga bato ng data sa input fields
-        $payroll->approveRequest2($_GET['id']); // taga submit sa server
+        $payroll->approveRequest2($_GET['id'], $sessionData['fullname'], $sessionData['id']); // taga submit sa server
     }
     
     if(isset($_GET['id']) && isset($_GET['act']) && $_GET['act'] == 'reject'){ ?>
@@ -469,7 +469,7 @@ if(isset($_GET['message'])){
         </script>
         <?php 
         $payroll->viewRequest($_GET['id']);
-        $payroll->rejectRequest2($_GET['id']);
+        $payroll->rejectRequest2($_GET['id'], $sessionData['fullname'], $sessionData['id']);
     }
     ?>
     <script>
