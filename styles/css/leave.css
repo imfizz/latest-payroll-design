@@ -1471,6 +1471,7 @@
 .main-container > .rightbar > .employee-request > .table-container > .table-content > table > tbody > tr > td {
   font-size: 13px;
   font-weight: 400;
+  vertical-align: top;
 }
 
 .main-container > .rightbar > .employee-request > .table-container > .table-content > table > tbody > tr > td > .buttons {
@@ -1621,6 +1622,7 @@
 .main-container > .rightbar > .employee-approve > .table-container > .table-content > table > tbody > tr > td {
   font-size: 13px;
   font-weight: 400;
+  vertical-align: top;
 }
 
 .main-container > .rightbar > .employee-reject {
@@ -1685,6 +1687,7 @@
 .main-container > .rightbar > .employee-reject > .table-container > .table-content > table > tbody > tr > td {
   font-size: 13px;
   font-weight: 400;
+  vertical-align: top;
 }
 
 .modal-approverequest {

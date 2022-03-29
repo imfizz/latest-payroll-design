@@ -3475,6 +3475,398 @@ Class Payroll
         }
     }
 
+    //Code sa WEB VERSION
+    public function viewListViolation() {
+        $sql = "SELECT * FROM violationsandremarks WHERE remark IS NULL";
+        $stmt = $this->con()->prepare($sql);
+        $stmt->execute();
+        $countRow = $stmt->rowCount();
+
+        if($countRow > 0){
+            while ($row = $stmt->fetch()) {
+                echo "<tr>
+                        <td>$row->empId</td>
+                        <td>$row->fine</td>
+                        <td>$row->violation</td>
+                        <td>$row->date_created</td>
+                        <td><a href='?rid=$row->id'><span class='material-icons'>sticky_note_2</span></a></td>
+                    </tr>";
+            }
+        } else {
+            echo "<tr>
+                    <td>No Data Found</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>";
+        }
+
+        
+    }
+
+    public function viewListRemarkedViolation() {
+        $sql = "SELECT 
+                    v.remark,
+                    v.empId,
+                    i.*,
+                    e.firstname,
+                    e.lastname,
+                    i.date_created as date_created
+                FROM violationsandremarks v
+
+                INNER JOIN inbox i
+                ON v.remark = i.id
+
+                INNER JOIN employee e
+                ON v.empId = e.empId
+
+                WHERE v.remark IS NOT NULL
+                ORDER BY date_created DESC";
+        $stmt = $this->con()->prepare($sql);
+        $stmt->execute();
+        $countRow = $stmt->rowCount();
+
+        if($countRow > 0){
+            while ($row = $stmt->fetch()) {
+                echo "<tr>
+                        <td>$row->empId</td>
+                        <td>$row->firstname $row->lastname</td>
+                        <td>$row->subject</td>
+                        <td>$row->date_created</td>
+                        <td><a href='?lrid=$row->id'><span class='material-icons'>visibility</span></a></td>
+                    </tr>";
+            }
+        } else {
+            echo "<tr>
+                    <td style='width: 150px;'>No Data Found</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>";
+        }
+    }
+
+
+    public function viewModalListRemarkedViolation() {
+        if (isset($_GET['lrid'])) {
+            $lrid = $_GET['lrid'];
+            
+            $sqlView = "SELECT
+                            i.*,
+                            e.firstname,
+                            e.lastname
+                        FROM inbox i
+
+                        INNER JOIN employee e
+                        ON i.empId = e.empId
+                        
+                        WHERE i.id = ?";
+            $stmtView = $this->con()->prepare($sqlView);
+            $stmtView->execute([$lrid]);
+
+            $usersView = $stmtView->fetch();
+            $countRowView = $stmtView->rowCount();
+
+            if ($countRowView > 0) {
+
+                echo "<div class='modal-viewremarked'>
+                        <div class='modal-holder'>
+                            <div class='viewremarked-header'>
+                                <h1>View Remarked</h1>
+                                <span id='exit-modal-viewremarked' class='material-icons'>close</span>
+                            </div>
+                            <div class='viewremarked-content'>
+                                <form method='POST'>
+                                    <div>
+                                        <label for='empid'>Employee ID</label>
+                                        <input type='text' id='empid' name='empid' value='$usersView->empId' readonly/>
+                                    </div>
+                                    <div>
+                                        <label for='fullname'>Fullname</label>
+                                        <input type='text' id='fullname' name='fullname' value='$usersView->firstname $usersView->lastname' readonly/>
+                                    </div>
+                                    <div>
+                                        <label for='subject'>Subject</label>
+                                        <input type='text' id='subject' name='subject' value='$usersView->subject' readonly/>
+                                    </div>
+                                    <div>
+                                        <label for='body'>Remark</label>
+                                        <textarea id='body' name='body' maxlength='255' readonly>$usersView->body</textarea>
+                                    </div>
+                                    <div>
+                                        <label for='date'>Date</label>
+                                        <input type='text' name='date' id='date' value='$usersView->date_created' readonly/>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                      </div>
+                      <script>
+                        // addguard modal exit btn
+                        let exitModalViewRemarked = document.querySelector('#exit-modal-viewremarked')
+                        exitModalViewRemarked.addEventListener('click', e => {
+                            let viewremarkedModal = document.querySelector('.modal-viewremarked');
+                            viewremarkedModal.style.display = 'none';
+                        });
+                      </script>";
+            }
+        }
+    }
+
+    public function addModalRemarks() {
+    
+        if (isset($_GET['rid'])) {
+            $rid = $_GET['rid'];
+            
+            $sqlRem = "SELECT v.*,
+                              e.*
+                        FROM violationsandremarks v
+
+                        INNER JOIN employee e
+                        ON v.empId = e.empId
+                        
+                        WHERE v.id = ? AND v.remark IS NULL";
+            $stmtRem = $this->con()->prepare($sqlRem);
+            $stmtRem->execute([$rid]);
+
+            $usersRem = $stmtRem->fetch();
+            $countRowRem = $stmtRem->rowCount();
+
+            if ($countRowRem > 0) {
+
+                if ($usersRem->fine != NULL) {
+                    $autoRemark = "Violation: $usersRem->violation&#013;&#013;Fine: $usersRem->fine.00&#013;&#013;(Insert message here)";
+                } else {
+                    $autoRemark = "Violation: $usersRem->violation&#013;&#013;(Insert message)";
+                }
+
+                echo "<div class='modal-setremarks'>
+                        <div class='modal-holder'>
+                            <div class='setremarks-header'>
+                                <h1>Set Remarks</h1>
+                                <span id='exit-modal-setremarks' class='material-icons'>close</span>
+                            </div>
+                            <div class='setremarks-content'>
+                                <form method='POST' enctype='multipart/form-data'>
+                                    <div>
+                                        <label for='empid'>Employee ID</label>
+                                        <input type='text' id='empid' name='empid' value='$usersRem->empId' readonly/>
+                                    </div>
+                                    <div>
+                                        <label for='fullname'>Fullname</label>
+                                        <input type='text' id='fullname' name='fullname' value='$usersRem->firstname $usersRem->lastname' readonly/>
+                                    </div>
+                                    <div>
+                                        <label for='subject'>Subject</label>
+                                        <input type='text' id='subject' name='subject' placeholder='Enter a subject' required/>
+                                    </div>
+                                    <div>
+                                        <label for='body'>Remark</label>
+                                        <textarea id='body' name='body' maxlength='255' placeholder='Max of 255 characters.' required>$autoRemark</textarea>
+                                    </div>
+                                    <div>
+                                        <label for='file'><span></span> Choose File</label>
+                                        <input type='file' name='file' id='file'>
+                                    </div>
+                                    <div>
+                                        <button type='submit' name='submit'>Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                      </div>
+                      <script>
+                        // addguard modal exit btn
+                        let exitModalSetRemarks = document.querySelector('#exit-modal-setremarks')
+                        exitModalSetRemarks.addEventListener('click', e => {
+                            let setremarksModal = document.querySelector('.modal-setremarks');
+                            setremarksModal.style.display = 'none';
+                        });
+                      </script>";
+            }
+
+            if (isset($_POST['submit'])) {
+                
+                // Declaring Variables
+                date_default_timezone_set('Asia/Manila');
+                $location = "inbox/";
+
+                if ($_FILES['file']['name'] != NULL) {
+                    $file_new_name = date("dmy") . time() . $_FILES["file"]["name"]; // New and unique name of uploaded file
+                    $file_name = $_FILES["file"]["name"]; // Get uploaded file name
+                } else {
+                    $file_new_name = NULL;
+                    $file_name = NULL;
+                }
+
+                
+                $file_temp = $_FILES["file"]["tmp_name"]; // Get uploaded file temp
+                $file_size = $_FILES["file"]["size"]; // Get uploaded file size
+
+                //$_POST Variable
+
+                $empId = $_POST['empid'];
+                $subject = $_POST['subject'];
+                $body = $_POST['body'];
+                $date_created = date("Y/m/d h:i:s A");
+                $status = "Unread";
+                $generateId = date("dmy") . time();
+
+                /*
+                How we can get mb from bytes
+                (mb*1024)*1024
+
+                In my case i'm 10 mb limit
+                (10*1024)*1024
+                */
+
+                $fileExt = explode('.', $file_name);
+                $fileActualExt = strtolower(end($fileExt));
+
+                $allowed = array('docx', 'pdf', NULL);
+
+                if (in_array($fileActualExt, $allowed)) {
+                    if ($file_size > 10485760) { // Check file size 10mb or not
+                        echo "<div class='error'>
+                                <div class='icon-container'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                                <p>File is too big. Maximum size is 10 MB</p>
+                                <div class='closeContainer'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                              </div>
+                              <script>
+                                let msgErr = document.querySelector('.error');
+                                setTimeout(e => msgErr.remove(), 5000);
+                              </script>";
+                    } else {
+                        $sql = "INSERT INTO inbox (id, empId, subject, body, filename, filenewname, date_created, status)
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                        $stmt = $this->con()->prepare($sql);
+                        $stmt->execute([$generateId, $empId, $subject, $body, $file_name, $file_new_name, $date_created, $status]);
+            
+                        $countRow = $stmt->rowCount();
+            
+                        if ($countRow > 0) {
+                            //Update the remark data on the violationsandremarks table
+                            $sqlUpdate = "UPDATE violationsandremarks SET remark = ? WHERE id = ?";
+                            $stmtUpdate = $this->con()->prepare($sqlUpdate);
+                            $stmtUpdate->execute([$generateId, $rid]);
+
+                            //This will move the uploaded file to the specific location
+                            move_uploaded_file($file_temp, $location . $file_new_name);
+                            $msg = 'Submitted Successfully';
+                            echo "<script>window.location.assign('remarks.php?message=$msg')</script>";
+                        }
+                    }
+                } else {
+                    echo "<div class='error'>
+                            <div class='icon-container'>
+                                <span class='material-icons'>close</span>
+                            </div>
+                            <p>Cannot upload this type of file.</p>
+                            <div class='closeContainer'>
+                                <span class='material-icons'>close</span>
+                            </div>
+                          </div>
+                          <script>
+                            let msgErr = document.querySelector('.error');
+                            setTimeout(e => msgErr.remove(), 5000);
+                          </script>";
+                }     
+            }
+        }
+    }
+
+    public function mostViolation()
+    {
+        $sql = "SELECT 
+                        i.empId as iEmpId,
+                        COUNT(i.empId) AS totalEmpId,
+                        e.firstname as firstname,
+                        e.lastname as lastname,
+                        e.position as position
+                FROM inbox i
+                INNER JOIN employee e
+                ON i.empId = e.empId
+                GROUP BY iEmpId
+                ORDER BY totalEmpId DESC
+                LIMIT 1";
+        $stmt = $this->con()->prepare($sql);
+        $stmt->execute();
+        $user = $stmt->fetch();
+        $countRow = $stmt->rowCount();
+
+        if($countRow > 0){
+            $fullname = $user->lastname.", ".$user->firstname;
+            echo "<div class='most-violation-header'>
+                    <h1>Most Violation</h1>
+                  </div>
+                  <div class='most-violation-content'>
+                    <div>
+                        <h2>$fullname</h2>
+                        <p>$user->position</p>
+                    </div>
+                    <div>
+                        <p>Number of Violations</p>
+                        <h1>$user->totalEmpId Penalties</h1>
+                    </div>
+                    <button><a href='remarks.php?mvId=$user->iEmpId'>See All</a></button>
+                  </div>";
+        } else {
+            echo "<div class='most-violation-header'>
+                    <h1>Most Violation</h1>
+                  </div>
+                  <div class='most-violation-content'>
+                    <div>
+                        <h2>No Violators Found</h2>
+                        <p></p>
+                    </div>
+                    <div>
+                        <p>Number of Violations</p>
+                        <h1>0</h1>
+                    </div>
+                    <button style='background-color: #434343 !important;'><a href='#'>No Data</a></button>
+                  </div>";
+        }
+    }
+
+    // list of most violations
+    public function viewMostViolation($id)
+    {
+        $sql = "SELECT 
+                        empId,
+                        subject,
+                        body,
+                        date_created
+                FROM inbox
+                WHERE empId = '$id'
+                ORDER BY id DESC";
+        $stmt = $this->con()->query($sql);
+        $countRow = $stmt->rowCount();
+
+        if($countRow > 0){
+            while($row = $stmt->fetch()){
+                echo "<tr>
+                        <td>$row->empId</td>
+                        <td>$row->subject</td>
+                        <td>$row->body</td>
+                        <td>$row->date_created</td>
+                      </tr>";
+            }
+        } else {
+            echo "<tr>
+                    <td>No Data Found</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>";
+        }
+    }
+
     public function countNewGuardsWelcome($name)
     {
         $user = $name;

@@ -180,7 +180,6 @@ if(isset($_GET['message'])){
     <!-- for success action -->
     <input type='hidden' id='msg' value='<?= $msg; ?>' />
 
-    <!-- add modal di pa tapos, need irequery para sa modal -->
     <?php if(isset($_GET['addEmployee']) && $_GET['addEmployee'] == true){ ?>
         <div class="modal-addguard">
             <div class="modal-holder">

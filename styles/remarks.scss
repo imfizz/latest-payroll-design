@@ -922,13 +922,17 @@
                         border: none;
                         border-radius: 5px;
                         padding: 5px 20px;
-                        color: $front;
-                        font-weight: $semibold;
                         cursor: pointer;
                         margin-top: 5px;
 
                         &:hover {
                             background: darken(#FFA041, 5%);
+                        }
+
+                        & > a {
+                            text-decoration: none;
+                            color: $front;
+                            font-weight: $semibold;
                         }
                     }
                 }
@@ -1166,13 +1170,579 @@
                     padding: 5px 0;
                     margin-top: 15px;
                     background-color: #ffa041;
-                    font-weight: $semibold;
-                    color: $front;
                     cursor: pointer;
 
                     &:hover {
                         background-color: darken(#ffa041, 5%);
                     }
+
+                    & > a {
+                        font-weight: $semibold;
+                        color: $front;
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.pending-violations {
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0; left: 0;
+    background: rgba(0,0,0,.37);
+    @include y-center;
+    // display: none;
+
+    & > .modal-holder {
+        width: 60%;
+        max-height: 80%;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        background: $front;
+        padding: 30px 20px 20px 20px;
+        box-sizing: border-box;
+        border-radius: 5px;
+        overflow-y: hidden;
+
+        & > .pending-violations-header {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+
+            & > h1 {
+                font-weight: $semibold;
+                font-size: 18px;
+            }
+
+            & > #exit-modal-pendingviolations {
+                cursor: pointer;
+            }
+        }
+
+        & > .pending-violations-content {
+            height: 100%;
+            width: 100%;
+            position: relative;
+            overflow-y: scroll;
+
+            &::-webkit-scrollbar {
+                width: 0px;
+            }
+
+            & > table {
+                width: 100%;
+                border-collapse:separate;
+                border-spacing:0 15px;
+
+                & > thead > tr:first-child {
+                    background: $back;
+                }
+
+                & > thead > tr > th {
+                    text-align: left;
+                    font-weight: $semibold;
+                    color: #464646;
+                    font-size: 14px;
+                    padding: 7px 5px;
+                }
+
+                & > tbody > tr:nth-child(odd) {
+                    background-color: #f7f7f7;
+                }
+
+                & > tbody > tr > td {
+                    vertical-align: top;
+                    font-size: 13px;
+                    padding: 7px 5px;
+
+                    & > a {
+                        text-decoration: none;
+                        height: 21px;
+                        width: 21px;
+                        border-radius: 50%;
+                        background-color: $bgi-edit;
+                        @include y-center;
+                        cursor: pointer;
+
+                        &:hover {
+                            background-color: darken($bgi-edit, 5%);
+
+                            & > span {
+                                color: darken($i-edit, 5%);
+                            }
+                        }
+
+                        & > span {
+                            font-size: 16px;
+                            color: $i-edit;
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+}
+
+.modal-setremarks {
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0; left: 0;
+    background: rgba(0,0,0,.37);
+    @include y-center;
+
+    & > .modal-holder {
+        background: white;
+        border-radius: 5px;
+        width: 33%;
+        max-height: 80%;
+        position: relative;
+        padding: 13px 0px;
+        box-sizing: border-box;
+        
+        & > .setremarks-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgb(200, 200, 200);
+            height: 7%;
+            box-sizing: border-box;
+
+            & > h1 {
+                font-size: 20px;
+                font-weight: $medium;
+            }
+
+            & > span {
+                position: absolute;
+                right: 20px;
+                cursor: pointer;
+            }
+        }
+
+        & > .setremarks-content {
+            width: 100%;
+            height: 93%;
+            @include x-center;
+            box-sizing: border-box;
+            overflow-y: scroll;
+
+            /* width */
+            &::-webkit-scrollbar {
+                width: 0px;
+            }
+
+            & > form {
+                padding-top: 20px;
+                height: 100%;
+                min-width: 70%;
+                display: flex;
+                flex-direction: column;
+                box-sizing: border-box;
+
+                & > div {
+                    display: flex;
+                    flex-direction: column;
+                    margin-bottom: 10px;
+                    position: relative;
+
+                    & > label {
+                        font-weight: $semibold;
+                        font-size: 16px;
+                    }
+
+                    & > input {
+                        border: none;
+                        border-bottom: 1px solid #D9D9D9;
+                        margin-top: 5px;
+                        font-size: 14px;
+                        outline: none;
+                        color: #464646;
+                        font-weight: $regular;
+
+                        &:read-only {
+                            color: #b7b7b7 !important;
+                        }
+                    }
+
+                    & > textarea {
+                        resize: none;
+                        box-sizing: border-box;
+                        padding: 12px 10px; 
+                        height: 100px;
+                        border: none;
+                        background: $back;
+                        width: 100%;
+                        outline: none;
+                        margin-top: 10px;
+
+                        /* width */
+                        &::-webkit-scrollbar {
+                            width: 5px;
+                        }
+                        
+                        /* Track */
+                        &::-webkit-scrollbar-track {
+                            background: #f1f1f1; 
+                        }
+                        
+                        /* Handle */
+                        &::-webkit-scrollbar-thumb {
+                            background: rgb(216, 216, 216);
+                            border-radius: 8px;
+                        }
+                        
+                        /* Handle on hover */
+                        &::-webkit-scrollbar-thumb:hover {
+                            background: rgb(170, 170, 170); 
+                        }
+                    }
+
+                    // empid
+                    &:nth-child(1)::before {
+                        content: url('https://api.iconify.design/bx/id-card.svg?color=%239747ff&height=20');
+                        position: absolute;
+                        top: 2px;
+                        left: -38px;
+                        transition: 200ms ease-in-out;
+                    }
+
+                    // fullname
+                    &:nth-child(2)::before {
+                        content: url('https://api.iconify.design/akar-icons/person.svg?color=%239747ff&height=20');
+                        position: absolute;
+                        top: 2px;
+                        left: -38px;
+                        transition: 200ms ease-in-out;
+                    }
+
+                    // subject
+                    &:nth-child(3)::before {
+                        content: url('https://api.iconify.design/charm/circle-warning.svg?color=%239747ff&height=20');
+                        position: absolute;
+                        top: 2px;
+                        left: -38px;
+                        transition: 200ms ease-in-out;
+                    }
+
+                    // remarks
+                    &:nth-child(4)::before {
+                        content: url('https://api.iconify.design/fa6-regular/note-sticky.svg?color=%239747ff&height=20');
+                        position: absolute;
+                        top: 2px;
+                        left: -38px;
+                        transition: 200ms ease-in-out;
+                    }
+
+                    &:nth-child(5){
+                        margin-bottom: 10px;
+
+                        & > label {
+                            margin-top: 5px;
+                            color: #419ff6;
+                            border-radius: 5px;
+                            padding: 6px 10px;
+                            background: #D8ECFF;
+                            width: 35%;
+                            font-size: 12px;
+                            cursor: pointer;
+                            font-weight: $semibold;
+
+                            &:hover {
+                                background: darken(#D8ECFF, 5%);
+                                color: darken(#419ff6, 5%);
+                            }
+
+                            & > span {
+                                position: relative;
+                                margin-right: 30px;
+
+                                &::before {
+                                    content: url('https://api.iconify.design/bx/upload.svg?color=%23419ff6&height=20');
+                                    position: absolute;
+                                    top: -2px; left: 2px;
+                                }
+                            }
+                        }
+
+                        & > input {
+                            display: none;
+                        }
+                    }
+
+                    // button
+                    &:nth-child(6) {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        padding: 10px 0;
+
+                        & > button {
+                            padding: 7px 0;
+                            width: 45%;
+                            border: none;
+                            background: $btn-add;
+                            border-radius: 5px;
+                            color: #fff;
+                            font-weight: $semibold;
+                            cursor: pointer;
+
+                            &:hover {
+                                background-color: darken($btn-add, 5%);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.modal-viewremarked {
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0; left: 0;
+    background: rgba(0,0,0,.37);
+    @include y-center;
+
+    & > .modal-holder {
+        background: white;
+        border-radius: 5px;
+        width: 33%;
+        max-height: 80%;
+        position: relative;
+        padding: 13px 0px;
+        box-sizing: border-box;
+        
+        & > .viewremarked-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgb(200, 200, 200);
+            height: 7%;
+            box-sizing: border-box;
+
+            & > h1 {
+                font-size: 20px;
+                font-weight: $medium;
+            }
+
+            & > span {
+                position: absolute;
+                right: 20px;
+                cursor: pointer;
+            }
+        }
+
+        & > .viewremarked-content {
+            width: 100%;
+            height: 93%;
+            @include x-center;
+            box-sizing: border-box;
+            overflow-y: scroll;
+
+            /* width */
+            &::-webkit-scrollbar {
+                width: 0px;
+            }
+
+            & > form {
+                padding-top: 20px;
+                height: 100%;
+                min-width: 70%;
+                display: flex;
+                flex-direction: column;
+                box-sizing: border-box;
+
+                & > div {
+                    display: flex;
+                    flex-direction: column;
+                    margin-bottom: 10px;
+                    position: relative;
+
+                    & > label {
+                        font-weight: $semibold;
+                        font-size: 16px;
+                    }
+
+                    & > input {
+                        border: none;
+                        border-bottom: 1px solid #D9D9D9;
+                        margin-top: 5px;
+                        font-size: 14px;
+                        outline: none;
+                        color: #464646;
+                        font-weight: $regular;
+                    }
+
+                    & > textarea {
+                        resize: none;
+                        box-sizing: border-box;
+                        padding: 12px 10px; 
+                        height: 100px;
+                        border: none;
+                        background: $back;
+                        width: 100%;
+                        outline: none;
+                        margin-top: 10px;
+
+                        /* width */
+                        &::-webkit-scrollbar {
+                            width: 5px;
+                        }
+                        
+                        /* Track */
+                        &::-webkit-scrollbar-track {
+                            background: #f1f1f1; 
+                        }
+                        
+                        /* Handle */
+                        &::-webkit-scrollbar-thumb {
+                            background: rgb(216, 216, 216);
+                            border-radius: 8px;
+                        }
+                        
+                        /* Handle on hover */
+                        &::-webkit-scrollbar-thumb:hover {
+                            background: rgb(170, 170, 170); 
+                        }
+                    }
+
+                    // empid
+                    &:nth-child(1)::before {
+                        content: url('https://api.iconify.design/bx/id-card.svg?color=%239747ff&height=20');
+                        position: absolute;
+                        top: 2px;
+                        left: -38px;
+                        transition: 200ms ease-in-out;
+                    }
+
+                    // fullname
+                    &:nth-child(2)::before {
+                        content: url('https://api.iconify.design/akar-icons/person.svg?color=%239747ff&height=20');
+                        position: absolute;
+                        top: 2px;
+                        left: -38px;
+                        transition: 200ms ease-in-out;
+                    }
+
+                    // subject
+                    &:nth-child(3)::before {
+                        content: url('https://api.iconify.design/charm/circle-warning.svg?color=%239747ff&height=20');
+                        position: absolute;
+                        top: 2px;
+                        left: -38px;
+                        transition: 200ms ease-in-out;
+                    }
+
+                    // remarks
+                    &:nth-child(4)::before {
+                        content: url('https://api.iconify.design/fa6-regular/note-sticky.svg?color=%239747ff&height=20');
+                        position: absolute;
+                        top: 2px;
+                        left: -38px;
+                        transition: 200ms ease-in-out;
+                    }
+
+                    // date
+                    &:nth-child(5)::before {
+                        content: url('https://api.iconify.design/ic/outline-date-range.svg?color=%239747ff&height=20');
+                        position: absolute;
+                        top: 2px;
+                        left: -38px;
+                        transition: 200ms ease-in-out;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.most-violations {
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0; left: 0;
+    background: rgba(0,0,0,.37);
+    @include y-center;
+    // display: none;
+
+    & > .modal-holder {
+        width: 60%;
+        max-height: 80%;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        background: $front;
+        padding: 30px 20px 20px 20px;
+        box-sizing: border-box;
+        border-radius: 5px;
+        overflow-y: hidden;
+
+        & > .most-violations-header {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+
+            & > h1 {
+                font-weight: $semibold;
+                font-size: 18px;
+            }
+
+            & > #exit-modal-mostviolations {
+                cursor: pointer;
+            }
+        }
+
+        & > .most-violations-content {
+            height: 100%;
+            width: 100%;
+            position: relative;
+            overflow-y: scroll;
+
+            &::-webkit-scrollbar {
+                width: 0px;
+            }
+
+            & > table {
+                width: 100%;
+                border-collapse:separate;
+                border-spacing:0 15px;
+
+                & > thead > tr:first-child {
+                    background: $back;
+                }
+
+                & > thead > tr > th {
+                    text-align: left;
+                    font-weight: $semibold;
+                    color: #464646;
+                    font-size: 14px;
+                    padding: 7px 5px;
+                }
+
+                & > tbody > tr:nth-child(odd) {
+                    background-color: #f7f7f7;
+                }
+
+                & > tbody > tr > td {
+                    vertical-align: top;
+                    font-size: 13px;
+                    padding: 7px 5px;
                 }
             }
         }

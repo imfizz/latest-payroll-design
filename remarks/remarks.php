@@ -66,7 +66,7 @@ if(isset($_GET['message'])){
                     <div class="welcome-box-content">
                         <h2>To punish is to inflict penalty for violating rules or intentional wrongdoing.</h2>
                         <p>They must have followed the regulations.</p>
-                        <button>Add Violation</button>
+                        <button type='button'><a href='remarks.php?pv=true'>Add Violation</a></button>
                     </div>
                 </div>
             </div>
@@ -85,86 +85,24 @@ if(isset($_GET['message'])){
                     <div class="violations-content-content">
                         <table>
                             <colgroup>
-                                <col span="1" style="width:26%"/>
-                                <col span="1" style="width:9%"/>
-                                <col span="1" style="width:42%"/>
-                                <col span="1" style="width:19%"/>
+                                <col span="1" style="width:12%"/>
+                                <col span="1" style="width:25%"/>
+                                <col span="1" style="width:31%"/>
+                                <col span="1" style="width:28%"/>
                                 <col span="1" style="width:19%"/>
                             </colgroup>
 
                             <thead>
                                 <tr>
+                                    <th>ID</th>
                                     <th>Name</th>
-                                    <th>Fine</th>
-                                    <th>Violation</th>
+                                    <th>Subject</th>
                                     <th>Date</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Francis Marianne</td>
-                                    <td>300</td>
-                                    <td>No Belt, No Name Tag, No id</td>
-                                    <td>2022/05/19</td>
-                                    <td>
-                                        <a href='#'><span class='material-icons'>visibility</span> </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Francis Marianne</td>
-                                    <td>300</td>
-                                    <td>No Belt, No Name Tag, No id</td>
-                                    <td>2022/05/19</td>
-                                    <td>
-                                        <a href='#'><span class='material-icons'>visibility</span> </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Francis Marianne</td>
-                                    <td>300</td>
-                                    <td>No Belt, No Name Tag, No id</td>
-                                    <td>2022/05/19</td>
-                                    <td>
-                                        <a href='#'><span class='material-icons'>visibility</span> </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Francis Marianne</td>
-                                    <td>300</td>
-                                    <td>No Belt, No Name Tag, No id</td>
-                                    <td>2022/05/19</td>
-                                    <td>
-                                        <a href='#'><span class='material-icons'>visibility</span> </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Francis Marianne</td>
-                                    <td>300</td>
-                                    <td>No Belt, No Name Tag, No id</td>
-                                    <td>2022/05/19</td>
-                                    <td>
-                                        <a href='#'><span class='material-icons'>visibility</span> </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Francis Marianne</td>
-                                    <td>300</td>
-                                    <td>No Belt, No Name Tag, No id</td>
-                                    <td>2022/05/19</td>
-                                    <td>
-                                        <a href='#'><span class='material-icons'>visibility</span> </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Francis Marianne</td>
-                                    <td>300</td>
-                                    <td>No Belt, No Name Tag, No id</td>
-                                    <td>2022/05/19</td>
-                                    <td>
-                                        <a href='#'><span class='material-icons'>visibility</span> </a>
-                                    </td>
-                                </tr>
+                                <?php $payroll->viewListRemarkedViolation() ?>
                             </tbody>
                         </table>
                     </div>
@@ -183,26 +121,106 @@ if(isset($_GET['message'])){
                 </div>
             </div>
             <div class="most-violation">
-                <div class="most-violation-header">
-                    <h1>Most Violation</h1>
-                </div>
-                <div class="most-violation-content">
-                    <div>
-                        <h2>Yanyan, Francis</h2>
-                        <p>Officer in Charge</p>
-                    </div>
-                    <div>
-                        <p>Recent Violation</p>
-                        <h1>Always Absent</h1>
-                    </div>
-                    <button>See All</button>
-                </div>
+                <?= $payroll->mostViolation(); ?>
             </div>
         </div>
     </div>
 
     <!-- for success action -->
     <input type='hidden' id='msg' value='<?= $msg; ?>' />
+
+    <!-- pending violation -->
+    <?php if(isset($_GET['pv']) && $_GET['pv'] == true){ ?>
+        <div class="pending-violations">
+            <div class="modal-holder">
+                <div class="pending-violations-header">
+                    <h1>Pending Violation</h1>
+                    <span class='material-icons' id='exit-modal-pendingviolations'>close</span>
+                </div>
+                <div class="pending-violations-content">
+                    <table>
+                        <colgroup>
+                            <col span='1' style="width: 11%">
+                            <col span='1' style="width: 11%">
+                            <col span='1' style="width: 44%">
+                            <col span='1' style="width: 12%">
+                            <col span='1' style="width: 5%">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Fine</th>
+                                <th>Violation</th>
+                                <th>Date</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $payroll->viewListViolation() ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <script>
+            let exitModalPendingViolations = document.querySelector("#exit-modal-pendingviolations");
+            exitModalPendingViolations.addEventListener('click', e => {
+                let pendingViolationsModal = document.querySelector('.pending-violations');
+                pendingViolationsModal.style.display = "none";
+            });
+        </script>
+    <?php } ?>
+
+    <!-- when remarks clicked -->
+    <?php if(isset($_GET['rid'])){
+        $payroll->addModalRemarks(); 
+    } ?>
+
+    <!-- list of finished violations -->
+    <?php if(isset($_GET['lrid'])){
+        $payroll->viewModalListRemarkedViolation();
+    } ?>
+
+    <!-- modal for most violation -->
+    <?php if(isset($_GET['mvId'])){ ?>
+        <div class="most-violations">
+            <div class="modal-holder">
+                <div class="most-violations-header">
+                    <h1>All Violations</h1>
+                    <span class='material-icons' id='exit-modal-mostviolations'>close</span>
+                </div>
+                <div class="most-violations-content">
+                    <table>
+                        <colgroup>
+                            <col span='1' style="width: 11%">
+                            <col span='1' style="width: 13%">
+                            <col span='1' style="width: 46%">
+                            <col span='1' style="width: 12%">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Subject</th>
+                                <th>Violation</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $payroll->viewMostViolation($_GET['mvId']) ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <script>
+            let exitModalMostViolations = document.querySelector("#exit-modal-mostviolations");
+            exitModalMostViolations.addEventListener('click', e => {
+                let mostViolationsModal = document.querySelector('.most-violations');
+                mostViolationsModal.style.display = "none";
+            });
+        </script>
+    <?php } ?>
+
     <script>
         let msg = document.querySelector('#msg');
         if(msg.value != ''){
