@@ -2,7 +2,7 @@
 require_once('../class.php');
 $sessionData = $payroll->getSessionData();
 $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
-$payroll->addcompany();
+$payroll->addcompany($sessionData['fullname'], $sessionData['id']);
 
 // for success action
 $msg = '';
@@ -30,11 +30,11 @@ if(isset($_GET['message'])){
 <body>
     <?php 
         // for entire company info
-        $payroll->editcompanymodalinfo(); 
-        $payroll->deleteCompanyFinal();
+        $payroll->editcompanymodalinfo($sessionData['fullname'], $sessionData['id']); 
+        $payroll->deleteCompanyFinal($sessionData['fullname'], $sessionData['id']);
         // for position only 
-        $payroll->editSpecificPosition();
-        $payroll->deleteSpecificPosition();
+        $payroll->editSpecificPosition($sessionData['fullname'], $sessionData['id']);
+        $payroll->deleteSpecificPosition($sessionData['fullname'], $sessionData['id']);
     ?>
     <div class='main-container'>
         <div class="leftbar">
@@ -73,7 +73,7 @@ if(isset($_GET['message'])){
                 <div class="welcome-box">
                     <h2><?= $sessionData['fullname']; ?></h2>
                     <!-- <p>Let's keep things organized and maintainable</p> -->
-                    <p>You’ve already added 9 companies to your website. To begin building a new company, click the button below to get started</p>
+                    <p>On this page, you can begin to manage the process of creating a new company that will allow employees to work for.</p>
                 </div>
                 <div class="welcome-svg">
                     <object data="../styles/SVG_modified/company.svg" type="image/svg+xml"></object>
@@ -380,7 +380,7 @@ if(isset($_GET['message'])){
                 addnewpos.style.display = 'none';
             }
         </script>
-    <?php $payroll->addnewpos($_GET['company']); // action: add
+    <?php $payroll->addnewpos($_GET['company'], $sessionData['fullname'], $sessionData['id']); // action: add
     } ?>
 
     <!-- when user wants to edit specific position -->

@@ -63,8 +63,8 @@ $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
                     <form action="qr.php" method="GET">
                         <img src="./qrcode.png" id='mainImg' alt="">
                         <input type="text" name='myqr' value='<?= $_GET['myqr'] ?>' readonly/>
-                        <input type="text" value='<?= $_GET['fullname'] ?>' readonly/>
-                        <input type="text" value='<?= $_GET['availability'] ?>' readonly/>
+                        <input type="text" name='fullname' value='<?= $_GET['fullname'] ?>' readonly/>
+                        <input type="text" name='availability' value='<?= $_GET['availability'] ?>' readonly/>
                         <button type="submit">Print</button>
                         <a onclick="javascript:window.history.back();">Cancel</a>
                     </form>

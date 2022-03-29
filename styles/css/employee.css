@@ -1419,7 +1419,7 @@
 }
 
 .main-container > .centerbar > .employee-record > .employee-header > form > div {
-  width: 100px;
+  width: 160px;
   position: relative;
 }
 
@@ -1429,7 +1429,7 @@
   text-indent: 10px;
   border: 2px solid #cecece;
   border-radius: 5px;
-  font-size: 11px;
+  font-size: 12px;
   outline: none;
 }
 

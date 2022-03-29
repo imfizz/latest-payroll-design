@@ -2,7 +2,7 @@
 require_once('../class.php');
 $sessionData = $payroll->getSessionData();
 $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
-$payroll->setUnavailableGuards();
+$payroll->setUnavailableGuards($sessionData['fullname'], $sessionData['id']);
 ?>
 <!DOCTYPE html>
 <html lang="en">

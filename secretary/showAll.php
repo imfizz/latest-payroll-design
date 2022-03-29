@@ -145,12 +145,12 @@ if(isset($_GET['message'])){
 
     <?php if(isset($_GET['secId']) && isset($_GET['email'])){
         $payroll->editModalShow($_GET['secId']);
-        $payroll->editSecretary($_GET['secId'], $_GET['email']);
+        $payroll->editSecretary($_GET['secId'], $_GET['email'], $sessionData['fullname'], $sessionData['id']);
     } ?>
 
     <?php if(isset($_GET['secIdDelete'])){
         $payroll->deleteModalShowIt($_GET['secIdDelete']);
-        $payroll->deleteSecretary();
+        $payroll->deleteSecretary($sessionData['fullname'], $sessionData['id']);
     } ?>
 
     <script>

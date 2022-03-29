@@ -567,17 +567,35 @@ Class Payroll
                         // send user credentials
                         $this->sendEmail($email, $realPassword);
 
-                        $action = "Add Secretary";
-
-                        $sqlAdminLog = "INSERT INTO admin_log(name, action, time, date)
-                                        VALUES(?, ?, ?, ?)";
+                        $action = "Add";
+                        $table_name = "Secretary";
+                        $admindatetime = $this->getDateTime();
+                        $adminTime = $admindatetime['time'];
+                        $adminDate = $admindatetime['date'];
+                                                            
+                        $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
                         $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
-                        $stmtAdminLog->execute([$fullnameAdmin, $action, $time, $date]);
+                        $stmtAdminLog->execute([$id, $fullnameAdmin, $action, $table_name, $adminTime, $adminDate]);
+                                                            
                         $countRowAdminLog = $stmtAdminLog->rowCount();
-
-                        $msg = 'New Data was Added';
-                        echo "<script>window.location.assign('./secretary.php?message=$msg');</script>";
-
+                        if($countRowAdminLog > 0){
+                            $msg = 'New Data was Added';
+                            echo "<script>window.location.assign('./secretary.php?message=$msg');</script>";
+                        } else {
+                        echo "<div class='error'>
+                                    <div class='icon-container'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                    <p>No data was added</p>
+                                    <div class='closeContainer'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                </div>
+                                <script>
+                                    let msgErr = document.querySelector('.error');
+                                    setTimeout(e => msgErr.remove(), 5000);
+                                </script>";
+                        }
                     } else {
                         echo "<div class='error'>
                                 <div class='icon-container'>
@@ -931,7 +949,7 @@ Class Payroll
     }
 
 
-    public function editSecretary($id, $urlEmail)
+    public function editSecretary($id, $urlEmail, $adminFullname, $adminId)
     {
         if(isset($_POST['updateSec'])){
             $fullname = $_POST['fullname'];
@@ -1008,9 +1026,36 @@ Class Payroll
 
                             if($countRow2 > 0){
                                 $this->sendEmail($users2->email, $users2->secret_key);
-                                $msg = 'Update Successfully';
-                                echo "<script>window.location.assign('./showAll.php?message=$msg');</script>";
 
+                                $action = "Edit";
+                                $table_name = "Secretary";
+                                $admindatetime = $this->getDateTime();
+                                $adminTime = $admindatetime['time'];
+                                $adminDate = $admindatetime['date'];
+                                                                    
+                                $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                                $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                                $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+                                                                    
+                                $countRowAdminLog = $stmtAdminLog->rowCount();
+                                if($countRowAdminLog > 0){
+                                    $msg = 'Update Successfully';
+                                    echo "<script>window.location.assign('./showAll.php?message=$msg');</script>";
+                                } else {
+                                echo "<div class='error'>
+                                            <div class='icon-container'>
+                                                <span class='material-icons'>close</span>
+                                            </div>
+                                            <p>Update Failed</p>
+                                            <div class='closeContainer'>
+                                                <span class='material-icons'>close</span>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            let msgErr = document.querySelector('.error');
+                                            setTimeout(e => msgErr.remove(), 5000);
+                                        </script>";
+                                }
                             } else {
                                 echo "<div class='error'>
                                         <div class='icon-container'>
@@ -1057,8 +1102,36 @@ Class Payroll
                     $countRow = $stmt->rowCount();
 
                     if($countRow > 0){
-                        $msg = 'Update Successfully';
-                        echo "<script>window.location.assign('./showAll.php?message=$msg');</script>";
+
+                        $action = "Edit";
+                        $table_name = "Secretary";
+                        $admindatetime = $this->getDateTime();
+                        $adminTime = $admindatetime['time'];
+                        $adminDate = $admindatetime['date'];
+                                                            
+                        $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                        $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                        $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+                                                            
+                        $countRowAdminLog = $stmtAdminLog->rowCount();
+                        if($countRowAdminLog > 0){
+                            $msg = 'Update Successfully';
+                            echo "<script>window.location.assign('./showAll.php?message=$msg');</script>";
+                        } else {
+                        echo "<div class='error'>
+                                    <div class='icon-container'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                    <p>Update Failed</p>
+                                    <div class='closeContainer'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                </div>
+                                <script>
+                                    let msgErr = document.querySelector('.error');
+                                    setTimeout(e => msgErr.remove(), 5000);
+                                </script>";
+                        }
                     } else {
                         echo "<div class='error'>
                                 <div class='icon-container'>
@@ -1116,7 +1189,7 @@ Class Payroll
         }
     }
 
-    public function deleteSecretary()
+    public function deleteSecretary($adminFullname, $adminId)
     {
         if(isset($_POST['deleteSec'])){
             $id = $_POST['id'];
@@ -1142,9 +1215,36 @@ Class Payroll
                 $countRow = $stmt->rowCount();
 
                 if($countRow > 0){
-                    $msg = 'Deleted Successfully';
-                    echo "<script>window.location.assign('./showAll.php?message=$msg');</script>";
 
+                    $action = "Delete";
+                    $table_name = "Secretary";
+                    $admindatetime = $this->getDateTime();
+                    $adminTime = $admindatetime['time'];
+                    $adminDate = $admindatetime['date'];
+                                                        
+                    $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                    $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                    $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+                                                        
+                    $countRowAdminLog = $stmtAdminLog->rowCount();
+                    if($countRowAdminLog > 0){
+                        $msg = 'Deleted Successfully';
+                        echo "<script>window.location.assign('./showAll.php?message=$msg');</script>";
+                    } else {
+                    echo "<div class='error'>
+                                <div class='icon-container'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                                <p>Delete Failed</p>
+                                <div class='closeContainer'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                            </div>
+                            <script>
+                                let msgErr = document.querySelector('.error');
+                                setTimeout(e => msgErr.remove(), 5000);
+                            </script>";
+                    }
                 } else {
                     echo "<div class='error'>
                             <div class='icon-container'>
@@ -1234,7 +1334,7 @@ Class Payroll
         }
     }
     
-    public function deleteRecentGuard()
+    public function deleteRecentGuard($adminFullname, $adminId)
     {
         if(isset($_POST['deleteRecord'])){
             $empId = $_POST['empId'];
@@ -1312,8 +1412,35 @@ Class Payroll
                     $stmtEmp = $this->con()->prepare($sqlEmp);
                     $stmtEmp->execute([$makeItNull, $makeItNull, $makeItNull, $availability, $empId]);
 
-                    $msg = 'Deleted Successfully';
-                    echo "<script>window.location.assign('./employee.php?message=$msg');</script>";
+                    $action = "Delete";
+                    $table_name = "Unavailable Employee";
+                    $admindatetime = $this->getDateTime();
+                    $adminTime = $admindatetime['time'];
+                    $adminDate = $admindatetime['date'];
+                                                        
+                    $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                    $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                    $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+                                                        
+                    $countRowAdminLog = $stmtAdminLog->rowCount();
+                    if($countRowAdminLog > 0){
+                        $msg = 'Deleted Successfully';
+                        echo "<script>window.location.assign('./employee.php?message=$msg');</script>";
+                    } else {
+                    echo "<div class='error'>
+                            <div class='icon-container'>
+                                <span class='material-icons'>close</span>
+                            </div>
+                            <p>Delete Failed</p>
+                            <div class='closeContainer'>
+                                <span class='material-icons'>close</span>
+                            </div>
+                          </div>
+                          <script>
+                            let msgErr = document.querySelector('.error');
+                            setTimeout(e => msgErr.remove(), 5000);
+                          </script>";
+                    }
                 }
             }
         }
@@ -1322,7 +1449,7 @@ Class Payroll
 
 
 
-    public function addEmployee(){
+    public function addEmployee($adminFullname, $adminId){
         
         if(isset($_POST['addemployee'])){
 
@@ -1412,9 +1539,6 @@ Class Payroll
                     $countRow = $stmt->rowCount();
 
                     if($countRow > 0){
-                        
-                        $msg = 'New Data Added';
-                        echo "<script>window.location.assign('./employee.php?message=$msg');</script>";
 
                         // gagamitin pang login sa employee dashboard
                         $sqlSecretKeyEmployee = "INSERT INTO secret_diarye(e_id, secret_key)
@@ -1424,7 +1548,35 @@ Class Payroll
                         // send user credentials
                         $this->sendEmail($email, $realPassword);
 
-                        echo "<script>window.location.assign('./employee.php');</script>";
+                        $action = "Add";
+                        $table_name = "Available Employee";
+                        $admindatetime = $this->getDateTime();
+                        $adminTime = $admindatetime['time'];
+                        $adminDate = $admindatetime['date'];
+                                                            
+                        $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                        $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                        $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+                                                            
+                        $countRowAdminLog = $stmtAdminLog->rowCount();
+                        if($countRowAdminLog > 0){
+                            $msg = 'New Data Added';
+                            echo "<script>window.location.assign('./employee.php?message=$msg');</script>";
+                        } else {
+                        echo "<div class='error'>
+                                <div class='icon-container'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                                <p>Add Failed</p>
+                                <div class='closeContainer'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                              </div>
+                              <script>
+                                let msgErr = document.querySelector('.error');
+                                setTimeout(e => msgErr.remove(), 5000);
+                              </script>";
+                        }
                     } else {
                         echo "<div class='error'>
                                 <div class='icon-container'>
@@ -1541,9 +1693,36 @@ Class Payroll
                         $stmtSecretKeyEmployee->execute([$email, $realPassword]);
                         // send user credentials
                         $this->sendEmail($email, $realPassword);
-                        $msg = 'New Data Added';
-                        echo "<script>window.location.assign('./employee.php?message=$msg');</script>";
 
+                        $action = "Add";
+                        $table_name = "Available Employee";
+                        $admindatetime = $this->getDateTime();
+                        $adminTime = $admindatetime['time'];
+                        $adminDate = $admindatetime['date'];
+                                                            
+                        $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                        $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                        $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+                                                            
+                        $countRowAdminLog = $stmtAdminLog->rowCount();
+                        if($countRowAdminLog > 0){
+                            $msg = 'New Data Added';
+                            echo "<script>window.location.assign('./employee.php?message=$msg');</script>";
+                        } else {
+                        echo "<div class='error'>
+                                <div class='icon-container'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                                <p>Add Failed</p>
+                                <div class='closeContainer'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                              </div>
+                              <script>
+                                let msgErr = document.querySelector('.error');
+                                setTimeout(e => msgErr.remove(), 5000);
+                              </script>";
+                        }
                     } else {
                         echo "<div class='error'>
                                 <div class='icon-container'>
@@ -1812,7 +1991,7 @@ Class Payroll
         }
     }
 
-    public function deleteUnavailableGuards()
+    public function deleteUnavailableGuards($adminFullname, $adminId)
     {
         if(isset($_POST['deleteUnavailable'])){
             $id = $_GET['sidDelete'];
@@ -1881,8 +2060,36 @@ Class Payroll
                         $countRowUpdateComp = $stmtUpdateComp->rowCount();
 
                         if($countRowUpdateComp > 0){
-                            $msg = 'Deleted Successfully';
-                            echo "<script>window.location.assign('unavailable.php?message=$msg');</script>";
+
+                            $action = "Delete";
+                            $table_name = "Unavailable Employee";
+                            $admindatetime = $this->getDateTime();
+                            $adminTime = $admindatetime['time'];
+                            $adminDate = $admindatetime['date'];
+                                                                
+                            $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                            $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                            $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+                                                                
+                            $countRowAdminLog = $stmtAdminLog->rowCount();
+                            if($countRowAdminLog > 0){
+                                $msg = 'Deleted Successfully';
+                                echo "<script>window.location.assign('unavailable.php?message=$msg');</script>";
+                            } else {
+                            echo "<div class='error'>
+                                    <div class='icon-container'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                    <p>Delete Failed</p>
+                                    <div class='closeContainer'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                  </div>
+                                  <script>
+                                    let msgErr = document.querySelector('.error');
+                                    setTimeout(e => msgErr.remove(), 5000);
+                                  </script>";
+                            }
                         } else {
                             echo "<div class='error'>
                                     <div class='icon-container'>
@@ -2156,7 +2363,7 @@ Class Payroll
 
 
     // unavailable guards
-    public function setUnavailableGuards()
+    public function setUnavailableGuards($adminFullname, $adminId)
     {
         if(isset($_POST['assignguards']))
         {
@@ -2275,6 +2482,16 @@ Class Payroll
 
                                 if($countRowHiredGuards > 0){
                                     $this->sendEmailForEmployee($email, $empId, $company, $expiration_date);
+
+                                    $action = "Assign";
+                                    $table_name = "Available Employee";
+                                    $admindatetime = $this->getDateTime();
+                                    $adminTime = $admindatetime['time'];
+                                    $adminDate = $admindatetime['date'];
+                                                                        
+                                    $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                                    $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                                    $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
                                 }
                                 
                                 echo "<script>window.location.assign('employee.php');</script>";
@@ -2343,8 +2560,18 @@ Class Payroll
 
                                 if($countRowHiredGuards > 0){
                                     $this->sendEmailForEmployee($email, $empId, $company, $expiration_date);
-                                }
 
+                                    $action = "Assign";
+                                    $table_name = "Available Employee";
+                                    $admindatetime = $this->getDateTime();
+                                    $adminTime = $admindatetime['time'];
+                                    $adminDate = $admindatetime['date'];
+                                                                        
+                                    $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                                    $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                                    $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+
+                                }
                                 echo "<script>window.location.assign('employee.php');</script>";
                             }
                         }
@@ -2359,7 +2586,7 @@ Class Payroll
 
 
 
-    public function updateEmployee($id, $urlEmail)
+    public function updateEmployee($id, $urlEmail, $adminFullname, $adminId)
     {
         if(isset($_POST['editemployee'])){
 
@@ -2438,8 +2665,36 @@ Class Payroll
 
                             if($countRow2 > 0){
                                 $this->sendEmail($users2->email, $users2->secret_key);
-                                $msg = 'Updated Successfully';
-                                echo "<script>window.location.assign('./showEmployees.php?message=$msg');</script>";
+
+                                $action = "Edit";
+                                $table_name = "Available Employee";
+                                $admindatetime = $this->getDateTime();
+                                $adminTime = $admindatetime['time'];
+                                $adminDate = $admindatetime['date'];
+                                                                    
+                                $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                                $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                                $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+                                                                    
+                                $countRowAdminLog = $stmtAdminLog->rowCount();
+                                if($countRowAdminLog > 0){
+                                    $msg = 'Updated Successfully';
+                                    echo "<script>window.location.assign('./showEmployees.php?message=$msg');</script>";
+                                } else {
+                                echo "<div class='error'>
+                                        <div class='icon-container'>
+                                            <span class='material-icons'>close</span>
+                                        </div>
+                                        <p>Update Failed</p>
+                                        <div class='closeContainer'>
+                                            <span class='material-icons'>close</span>
+                                        </div>
+                                      </div>
+                                      <script>
+                                        let msgErr = document.querySelector('.error');
+                                        setTimeout(e => msgErr.remove(), 5000);
+                                      </script>";
+                                }
                             }
                         } else {
                             echo "<div class='error'>
@@ -2472,8 +2727,36 @@ Class Payroll
                     $countRow = $stmt->rowCount();
 
                     if($countRow > 0){
-                        $msg = 'Updated Successfully';
-                        echo "<script>window.location.assign('./showEmployees.php?message=$msg');</script>";
+                        
+                        $action = "Edit";
+                        $table_name = "Available Employee";
+                        $admindatetime = $this->getDateTime();
+                        $adminTime = $admindatetime['time'];
+                        $adminDate = $admindatetime['date'];
+                                                            
+                        $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                        $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                        $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+                                                            
+                        $countRowAdminLog = $stmtAdminLog->rowCount();
+                        if($countRowAdminLog > 0){
+                            $msg = 'Updated Successfully';
+                            echo "<script>window.location.assign('./showEmployees.php?message=$msg');</script>";
+                        } else {
+                        echo "<div class='error'>
+                                <div class='icon-container'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                                <p>Update Failed</p>
+                                <div class='closeContainer'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                              </div>
+                              <script>
+                                let msgErr = document.querySelector('.error');
+                                setTimeout(e => msgErr.remove(), 5000);
+                              </script>";
+                        }
                     } else {
                         echo "<div class='error'>
                                 <div class='icon-container'>
@@ -2495,7 +2778,7 @@ Class Payroll
     }
 
 
-    public function deleteEmployee($id){
+    public function deleteEmployee($id, $adminFullname, $adminId){
         if(isset($_POST['deleteEmployee'])){
 
             $sqlFind = "SELECT * FROM employee WHERE id = ?";
@@ -2518,8 +2801,36 @@ Class Payroll
                     $stmtEmployee->execute([$id]);
                     $countRowEmployee = $stmtEmployee->rowCount();
                     if($countRowEmployee > 0){
-                        $msg = 'Deleted Successfully';
-                        echo "<script>window.location.assign('./showEmployees.php?message=$msg');</script>";
+
+                        $action = "Delete";
+                        $table_name = "Available Employee";
+                        $admindatetime = $this->getDateTime();
+                        $adminTime = $admindatetime['time'];
+                        $adminDate = $admindatetime['date'];
+                                                            
+                        $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                        $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                        $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+                                                            
+                        $countRowAdminLog = $stmtAdminLog->rowCount();
+                        if($countRowAdminLog > 0){
+                            $msg = 'Deleted Successfully';
+                            echo "<script>window.location.assign('./showEmployees.php?message=$msg');</script>";
+                        } else {
+                        echo "<div class='error'>
+                                <div class='icon-container'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                                <p>Delete Failed</p>
+                                <div class='closeContainer'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                              </div>
+                              <script>
+                                let msgErr = document.querySelector('.error');
+                                setTimeout(e => msgErr.remove(), 5000);
+                              </script>";
+                        }
                     } else {
                         echo "<div class='error'>
                                 <div class='icon-container'>
@@ -3729,7 +4040,7 @@ Class Payroll
         }
     }
 
-    public function addModalRemarks() {
+    public function addModalRemarks($adminFullname, $adminId) {
     
         if (isset($_GET['rid'])) {
             $rid = $_GET['rid'];
@@ -3872,8 +4183,36 @@ Class Payroll
 
                             //This will move the uploaded file to the specific location
                             move_uploaded_file($file_temp, $location . $file_new_name);
-                            $msg = 'Submitted Successfully';
-                            echo "<script>window.location.assign('remarks.php?message=$msg')</script>";
+
+                            $action = "Add";
+                            $table_name = "Remarks";
+                            $admindatetime = $this->getDateTime();
+                            $adminTime = $admindatetime['time'];
+                            $adminDate = $admindatetime['date'];
+                                                                
+                            $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                            $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                            $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+                                                                
+                            $countRowAdminLog = $stmtAdminLog->rowCount();
+                            if($countRowAdminLog > 0){
+                                $msg = 'Submitted Successfully';
+                                echo "<script>window.location.assign('remarks.php?message=$msg')</script>";
+                            } else {
+                            echo "<div class='error'>
+                                        <div class='icon-container'>
+                                            <span class='material-icons'>close</span>
+                                        </div>
+                                        <p>Submit Failed</p>
+                                        <div class='closeContainer'>
+                                            <span class='material-icons'>close</span>
+                                        </div>
+                                    </div>
+                                    <script>
+                                        let msgErr = document.querySelector('.error');
+                                        setTimeout(e => msgErr.remove(), 5000);
+                                    </script>";
+                            }
                         }
                     }
                 } else {
@@ -4362,7 +4701,7 @@ Class Payroll
                     if($countRow > 0){
 
                         $action = "Edit";
-                        $table_name = "Employee";
+                        $table_name = "Available Employee";
                         $datetime = $this->getDateTime();
                         $adminTime = $datetime['time'];
                         $adminDate = $datetime['date'];
@@ -4456,8 +4795,36 @@ Class Payroll
                             if($countRowInform > 0){
                                 // send credentials in new email
                                 $this->sendEmail($userInform->email, $userInform->secret_key);
-                                $msg = 'Update Successfully';
-                                echo "<script>window.location.assign('./dashboard.php?message=$msg');</script>";
+
+                                $action = "Edit";
+                                $table_name = "Available Employee";
+                                $datetime = $this->getDateTime();
+                                $adminTime = $datetime['time'];
+                                $adminDate = $datetime['date'];
+
+                                $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                                $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                                $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+
+                                $countRowAdminLog = $stmtAdminLog->rowCount();
+                                if($countRowAdminLog > 0){
+                                    $msg = 'Update Successfully';
+                                    echo "<script>window.location.assign('./dashboard.php?message=$msg');</script>";
+                                } else {
+                                    echo "<div class='error'>
+                                            <div class='icon-container'>
+                                                <span class='material-icons'>close</span>
+                                            </div>
+                                            <p>Update Failed</p>
+                                            <div class='closeContainer'>
+                                                <span class='material-icons'>close</span>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            let msgErr = document.querySelector('.error');
+                                            setTimeout(e => msgErr.remove(), 5000);
+                                        </script>";
+                                }
                             }
                         }
                     }
@@ -4520,7 +4887,7 @@ Class Payroll
                 if($countRow > 0){
 
                     $action = "Delete";
-                    $table_name = "Employee";
+                    $table_name = "Available Employee";
                     $datetime = $this->getDateTime();
                     $adminTime = $datetime['time'];
                     $adminDate = $datetime['date'];
@@ -5238,7 +5605,7 @@ Class Payroll
         }
     }
 
-    public function addcompany()
+    public function addcompany($adminFullname, $adminId)
     {
         if(isset($_POST['addcompany'])){
             $company_name = $_POST['company_name'];
@@ -5349,9 +5716,35 @@ Class Payroll
                             $countRowPosition = $stmtPosition->rowCount();
                         }
 
-                        $msg = 'New data was added';
-                        echo "<script>window.location.assign('./company.php?message=$msg');</script>";
-
+                        $action = "Add";
+                        $table_name = "Company";
+                        $admindatetime = $this->getDateTime();
+                        $adminTime = $admindatetime['time'];
+                        $adminDate = $admindatetime['date'];
+                                                            
+                        $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                        $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                        $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+                                                            
+                        $countRowAdminLog = $stmtAdminLog->rowCount();
+                        if($countRowAdminLog > 0){
+                            $msg = 'New data was added';
+                            echo "<script>window.location.assign('./company.php?message=$msg');</script>";
+                        } else {
+                        echo "<div class='error'>
+                                <div class='icon-container'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                                <p>No data was added</p>
+                                <div class='closeContainer'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                              </div>
+                              <script>
+                                let msgErr = document.querySelector('.error');
+                                setTimeout(e => msgErr.remove(), 5000);
+                              </script>";
+                        }
                     } else {
                         echo "<div class='error'>
                                 <div class='icon-container'>
@@ -5480,9 +5873,35 @@ Class Payroll
                             $countRowPosition = $stmtPosition->rowCount();
                         }
 
-                        $msg = 'New data was added';
-                        echo "<script>window.location.assign('./company.php?message=$msg');</script>";
-
+                        $action = "Add";
+                        $table_name = "Company";
+                        $admindatetime = $this->getDateTime();
+                        $adminTime = $admindatetime['time'];
+                        $adminDate = $admindatetime['date'];
+                                                            
+                        $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                        $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                        $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+                                                            
+                        $countRowAdminLog = $stmtAdminLog->rowCount();
+                        if($countRowAdminLog > 0){
+                            $msg = 'New data was added';
+                            echo "<script>window.location.assign('./company.php?message=$msg');</script>";
+                        } else {
+                        echo "<div class='error'>
+                                <div class='icon-container'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                                <p>No data was added</p>
+                                <div class='closeContainer'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                              </div>
+                              <script>
+                                let msgErr = document.querySelector('.error');
+                                setTimeout(e => msgErr.remove(), 5000);
+                              </script>";
+                        }
                     } else {
                         echo "<div class='error'>
                                 <div class='icon-container'>
@@ -5738,7 +6157,7 @@ Class Payroll
     }
 
     // Action for Editing Company Info
-    public function editcompanymodalinfo()
+    public function editcompanymodalinfo($adminFullname, $adminId)
     {  
         if(isset($_POST['editCompanyInfo']))
         {
@@ -5827,8 +6246,35 @@ Class Payroll
                         );
                     }
 
-                    $msg = 'Updated Successfully';
-                    echo "<script>window.location.assign('./company.php?message=$msg');</script>";
+                    $action = "Edit";
+                    $table_name = "Company";
+                    $admindatetime = $this->getDateTime();
+                    $adminTime = $admindatetime['time'];
+                    $adminDate = $admindatetime['date'];
+                                                        
+                    $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                    $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                    $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+                                                        
+                    $countRowAdminLog = $stmtAdminLog->rowCount();
+                    if($countRowAdminLog > 0){
+                        $msg = 'Updated Successfully';
+                        echo "<script>window.location.assign('./company.php?message=$msg');</script>";
+                    } else {
+                    echo "<div class='error'>
+                                <div class='icon-container'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                                <p>Update Failed</p>
+                                <div class='closeContainer'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                            </div>
+                            <script>
+                                let msgErr = document.querySelector('.error');
+                                setTimeout(e => msgErr.remove(), 5000);
+                            </script>";
+                    }
                 } else {
                     echo "<div class='error'>
                             <div class='icon-container'>
@@ -5872,7 +6318,7 @@ Class Payroll
     }
 
     // Action For Adding of New Position
-    public function addnewpos($company)
+    public function addnewpos($company, $adminFullname, $adminId)
     {
         if(isset($_POST['addnewpos-btn'])){
             $position_name = $_POST['position_name'];
@@ -5941,9 +6387,35 @@ Class Payroll
                             $this->informEmployeeInCompAddPos($rowEmail->email, $position_name, $price, $ot);
                         }
 
-                        $msg = 'Added Successfully';
-                        echo "<script>window.location.assign('./company.php?message=$msg');</script>";
-
+                        $action = "Add";
+                        $table_name = "Company Position";
+                        $admindatetime = $this->getDateTime();
+                        $adminTime = $admindatetime['time'];
+                        $adminDate = $admindatetime['date'];
+                                                            
+                        $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                        $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                        $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+                                                            
+                        $countRowAdminLog = $stmtAdminLog->rowCount();
+                        if($countRowAdminLog > 0){
+                            $msg = 'Added Successfully';
+                            echo "<script>window.location.assign('./company.php?message=$msg');</script>";
+                        } else {
+                        echo "<div class='error'>
+                                    <div class='icon-container'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                    <p>Add Failed</p>
+                                    <div class='closeContainer'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                </div>
+                                <script>
+                                    let msgErr = document.querySelector('.error');
+                                    setTimeout(e => msgErr.remove(), 5000);
+                                </script>";
+                        }
                     } else {
                         echo "<div class='error'>
                                 <div class='icon-container'>
@@ -6016,7 +6488,7 @@ Class Payroll
     }
 
     // Action for Editing Specific Position
-    public function editSpecificPosition()
+    public function editSpecificPosition($adminFullname, $adminId)
     {
         if(isset($_POST['editposBtn'])){
             $positionId = $_POST['position_id'];
@@ -6080,9 +6552,35 @@ Class Payroll
                                                           );
                     }
 
-                    $msg = 'Updated Successfully';
-                    echo "<script>window.location.assign('./company.php?message=$msg');</script>";
-
+                    $action = "Edit";
+                    $table_name = "Company Position";
+                    $admindatetime = $this->getDateTime();
+                    $adminTime = $admindatetime['time'];
+                    $adminDate = $admindatetime['date'];
+                                                        
+                    $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                    $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                    $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+                                                        
+                    $countRowAdminLog = $stmtAdminLog->rowCount();
+                    if($countRowAdminLog > 0){
+                        $msg = 'Updated Successfully';
+                        echo "<script>window.location.assign('./company.php?message=$msg');</script>";
+                    } else {
+                    echo "<div class='error'>
+                                <div class='icon-container'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                                <p>Update Failed</p>
+                                <div class='closeContainer'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                            </div>
+                            <script>
+                                let msgErr = document.querySelector('.error');
+                                setTimeout(e => msgErr.remove(), 5000);
+                            </script>";
+                    }
                 } else {
                     echo "<div class='error'>
                             <div class='icon-container'>
@@ -6141,7 +6639,7 @@ Class Payroll
     }
 
     // Action for Deleting Specific Position
-    public function deleteSpecificPosition()
+    public function deleteSpecificPosition($adminFullname, $adminId)
     {
         if(isset($_POST['deletePos'])){
             $posId = $_POST['posId'];
@@ -6185,8 +6683,36 @@ Class Payroll
                     $countRow = $stmt->rowCount();
         
                     if($countRow > 0){
-                        $msg = 'Deleted Successfully';
-                        echo "<script>window.location.assign('./company.php?message=$msg');</script>";
+
+                        $action = "Delete";
+                        $table_name = "Company Position";
+                        $admindatetime = $this->getDateTime();
+                        $adminTime = $admindatetime['time'];
+                        $adminDate = $admindatetime['date'];
+                                                            
+                        $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                        $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                        $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+                                                            
+                        $countRowAdminLog = $stmtAdminLog->rowCount();
+                        if($countRowAdminLog > 0){
+                            $msg = 'Deleted Successfully';
+                            echo "<script>window.location.assign('./company.php?message=$msg');</script>";
+                        } else {
+                        echo "<div class='error'>
+                                    <div class='icon-container'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                    <p>Delete Failed</p>
+                                    <div class='closeContainer'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                </div>
+                                <script>
+                                    let msgErr = document.querySelector('.error');
+                                    setTimeout(e => msgErr.remove(), 5000);
+                                </script>";
+                        }
                     } else {
                         echo "<div class='error'>
                                 <div class='icon-container'>
@@ -6238,7 +6764,7 @@ Class Payroll
     }
 
     // Action for Deleting the Company Info
-    public function deleteCompanyFinal()
+    public function deleteCompanyFinal($adminFullname, $adminId)
     {
         if(isset($_POST['deletecompany'])){
             $companyId = $_POST['companyId'];
@@ -6266,8 +6792,36 @@ Class Payroll
                     $countRowComp = $stmtComp->rowCount();
 
                     if($countRowComp > 0){
-                        $msg = 'Deleted Successfully';
-                        echo "<script>window.location.assign('./company.php?message=$msg');</script>";
+
+                        $action = "Delete";
+                        $table_name = "Company";
+                        $admindatetime = $this->getDateTime();
+                        $adminTime = $admindatetime['time'];
+                        $adminDate = $admindatetime['date'];
+                                                            
+                        $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                        $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                        $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+                                                            
+                        $countRowAdminLog = $stmtAdminLog->rowCount();
+                        if($countRowAdminLog > 0){
+                            $msg = 'Deleted Successfully';
+                            echo "<script>window.location.assign('./company.php?message=$msg');</script>";
+                        } else {
+                        echo "<div class='error'>
+                                    <div class='icon-container'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                    <p>Delete Failed</p>
+                                    <div class='closeContainer'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                </div>
+                                <script>
+                                    let msgErr = document.querySelector('.error');
+                                    setTimeout(e => msgErr.remove(), 5000);
+                                </script>";
+                        }
                     } else {
                         echo "<div class='error'>
                                 <div class='icon-container'>
@@ -6470,6 +7024,186 @@ Class Payroll
             $mail->Body = $body;                        // textarea
 
             $mail->send();
+        }
+    }
+
+    // activity logs
+    public function employeeLogs()
+    {
+        $sql = "SELECT * 
+                FROM admin_log 
+                WHERE table_name = 'Available Employee' || 
+                    table_name = 'Unavailable Employee' || 
+                    table_name = 'Available Employee QR' ||
+                    table_name = 'Unavailable Employee QR'";
+        $stmt = $this->con()->query($sql);
+        $countRow = $stmt->rowCount();
+
+        if($countRow > 0){
+            while($row = $stmt->fetch()){
+                echo "<tr>
+                        <td>$row->name</td>
+                        <td>$row->action</td>
+                        <td>$row->table_name</td>
+                        <td>$row->time</td>
+                        <td>$row->date</td>
+                     </tr>";
+            }
+        } else {
+            echo "<tr>
+                    <td>No Data Found</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>";
+        }
+    }
+
+    public function companyLogs()
+    {
+        $sql = "SELECT * 
+                FROM admin_log 
+                WHERE table_name = 'Company' || 
+                      table_name = 'Company Position'";
+        $stmt = $this->con()->query($sql);
+        $countRow = $stmt->rowCount();
+
+        if($countRow > 0){
+            while($row = $stmt->fetch()){
+                echo "<tr>
+                        <td>$row->name</td>
+                        <td>$row->action</td>
+                        <td>$row->table_name</td>
+                        <td>$row->time</td>
+                        <td>$row->date</td>
+                     </tr>";
+            }
+        } else {
+            echo "<tr>
+                    <td>No Data Found</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>";
+        }
+    }
+
+    public function secretaryLogs2()
+    {
+        $sql = "SELECT * 
+                FROM admin_log 
+                WHERE table_name = 'Secretary'";
+        $stmt = $this->con()->query($sql);
+        $countRow = $stmt->rowCount();
+
+        if($countRow > 0){
+            while($row = $stmt->fetch()){
+                echo "<tr>
+                        <td>$row->name</td>
+                        <td>$row->action</td>
+                        <td>$row->table_name</td>
+                        <td>$row->time</td>
+                        <td>$row->date</td>
+                     </tr>";
+            }
+        } else {
+            echo "<tr>
+                    <td>No Data Found</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>";
+        }
+    }
+
+    public function leaveLogs()
+    {
+        $sql = "SELECT * 
+                FROM admin_log 
+                WHERE table_name = 'Leave'";
+        $stmt = $this->con()->query($sql);
+        $countRow = $stmt->rowCount();
+
+        if($countRow > 0){
+            while($row = $stmt->fetch()){
+                echo "<tr>
+                        <td>$row->name</td>
+                        <td>$row->action</td>
+                        <td>$row->table_name</td>
+                        <td>$row->time</td>
+                        <td>$row->date</td>
+                     </tr>";
+            }
+        } else {
+            echo "<tr>
+                    <td>No Data Found</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>";
+        }
+    }
+
+    public function remarksLogs()
+    {
+        $sql = "SELECT * 
+                FROM admin_log 
+                WHERE table_name = 'Remarks'";
+        $stmt = $this->con()->query($sql);
+        $countRow = $stmt->rowCount();
+
+        if($countRow > 0){
+            while($row = $stmt->fetch()){
+                echo "<tr>
+                        <td>$row->name</td>
+                        <td>$row->action</td>
+                        <td>$row->table_name</td>
+                        <td>$row->time</td>
+                        <td>$row->date</td>
+                     </tr>";
+            }
+        } else {
+            echo "<tr>
+                    <td>No Data Found</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>";
+        }
+    }
+
+    public function adminLogs()
+    {
+        $sql = "SELECT * 
+                FROM admin_log 
+                WHERE table_name = 'Login' || 
+                      table_name = 'Profile'";
+        $stmt = $this->con()->query($sql);
+        $countRow = $stmt->rowCount();
+
+        if($countRow > 0){
+            while($row = $stmt->fetch()){
+                echo "<tr>
+                        <td>$row->name</td>
+                        <td>$row->action</td>
+                        <td>$row->table_name</td>
+                        <td>$row->time</td>
+                        <td>$row->date</td>
+                     </tr>";
+            }
+        } else {
+            echo "<tr>
+                    <td>No Data Found</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>";
         }
     }
 }

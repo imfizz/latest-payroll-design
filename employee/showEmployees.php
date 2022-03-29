@@ -10,11 +10,11 @@ if(isset($_GET['message'])){
 }
 
 if(isset($_GET['id']) && isset($_GET['email'])){
-    $payroll->updateEmployee($_GET['id'], $_GET['email']);
+    $payroll->updateEmployee($_GET['id'], $_GET['email'], $sessionData['fullname'], $sessionData['id']);
 }
 
 if(isset($_GET['id'])){
-    $payroll->deleteEmployee($_GET['id']);
+    $payroll->deleteEmployee($_GET['id'], $sessionData['fullname'], $sessionData['id']);
 }
 
 $payroll->selectguards();

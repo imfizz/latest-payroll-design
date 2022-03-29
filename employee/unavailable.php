@@ -2,7 +2,7 @@
 require_once('../class.php');
 $sessionData = $payroll->getSessionData();
 $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
-$payroll->deleteUnavailableGuards();
+$payroll->deleteUnavailableGuards($sessionData['fullname'], $sessionData['id']);
 
 if(isset($_GET['sid'])){
     $expdate = $payroll->getDuration($_GET['sid']);

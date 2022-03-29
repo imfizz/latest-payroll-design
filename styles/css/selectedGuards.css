@@ -1375,8 +1375,8 @@
   color: white;
   font-weight: 600;
   padding: 7px 20px;
-  -webkit-transform: translate(0px, -25px);
-          transform: translate(0px, -25px);
+  -webkit-transform: translate(-19px, 6px);
+          transform: translate(-19px, 6px);
   font-size: 12px;
   cursor: pointer;
 }

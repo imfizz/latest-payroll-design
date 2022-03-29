@@ -2,7 +2,7 @@
 require_once('../class.php');
 $sessionData = $payroll->getSessionData();
 $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
-$payroll->deleteRecentGuard();
+$payroll->deleteRecentGuard($sessionData['fullname'], $sessionData['id']);
 
 // for success action
 $msg = '';
@@ -24,7 +24,7 @@ if(isset($_GET['message'])){
     <link rel="stylesheet" href="../styles/mincss/employee.min.css">
 </head>
 <body>
-    <?php $payroll->addEmployee(); ?>
+    <?php $payroll->addEmployee($sessionData['fullname'], $sessionData['id']); ?>
     <div class="main-container">
         <div class="leftbar">
             <div class="logo-container">

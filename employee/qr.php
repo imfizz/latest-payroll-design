@@ -4,6 +4,38 @@ require_once('../class.php');
 $sessionData = $payroll->getSessionData();
 $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
 
+if(isset($_GET['availability']) && $_GET['availability'] == 'Available' ){
+    $adminFullname = $sessionData['fullname'];
+    $adminId = $sessionData['id'];
+    $action = "Print";
+    $table_name = "Available Employee QR";
+    $admindatetime = $payroll->getDateTime();
+    $adminTime = $admindatetime['time'];
+    $adminDate = $admindatetime['date'];
+                                        
+    $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+    $stmtAdminLog = $payroll->con()->prepare($sqlAdminLog);
+    $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+                                        
+    $countRowAdminLog = $stmtAdminLog->rowCount();
+}
+
+if(isset($_GET['availability']) && $_GET['availability'] == 'Unavailable' ){
+    $adminFullname = $sessionData['fullname'];
+    $adminId = $sessionData['id'];
+    $action = "Print";
+    $table_name = "Unavailable Employee QR";
+    $admindatetime = $payroll->getDateTime();
+    $adminTime = $admindatetime['time'];
+    $adminDate = $admindatetime['date'];
+                                        
+    $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+    $stmtAdminLog = $payroll->con()->prepare($sqlAdminLog);
+    $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+                                        
+    $countRowAdminLog = $stmtAdminLog->rowCount();
+}
+
 use Endroid\QrCode\Color\Color;
 use Endroid\QrCode\Encoding\Encoding;
 use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelLow;

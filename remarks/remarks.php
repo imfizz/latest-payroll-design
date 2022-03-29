@@ -1,5 +1,4 @@
 <?php
-
 require_once('../class.php');
 $sessionData = $payroll->getSessionData();
 $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
@@ -173,7 +172,7 @@ if(isset($_GET['message'])){
 
     <!-- when remarks clicked -->
     <?php if(isset($_GET['rid'])){
-        $payroll->addModalRemarks(); 
+        $payroll->addModalRemarks($sessionData['fullname'], $sessionData['id']); 
     } ?>
 
     <!-- list of finished violations -->
