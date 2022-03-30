@@ -4424,7 +4424,7 @@ Class Payroll
                         </div>
                         <div>
                             <p>$posName</p>
-                            <p>Secondary info</p>
+                            <p>Position</p>
                         </div>
                         <div>
                             <div class='outstanding'>

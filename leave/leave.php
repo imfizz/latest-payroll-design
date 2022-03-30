@@ -84,8 +84,8 @@ if(isset($_GET['message'])){
                         <object data="../styles/SVG_modified/leave.svg" type="image/svg+xml"></object>
                     </div>
                     <div class="welcome-headline">
-                        <h1>Hello Francis!</h1>
-                        <p>You approved 3 request leave. It is a lot. Keep up the good work. Let's go 😘</p>
+                        <h1>Hello <?= $sessionData['fullname']; ?>!</h1>
+                        <p>Manage pending request by your employees. You'll see the list request below.</p>
                     </div>
                 </div>
             </div>
