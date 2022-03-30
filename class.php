@@ -5243,7 +5243,7 @@ Class Payroll
         }
     }
 
-    public function editAdminProfile($id)
+    public function editAdminProfile($id, $adminFullname, $adminId)
     {
         if(isset($_POST["saveChanges"])){ 
 
@@ -5424,7 +5424,7 @@ Class Payroll
     }
 
 
-    public function adminChangePassword($id)
+    public function adminChangePassword($id, $adminFullname, $adminId)
     {
         if(isset($_POST['saveChanges'])){
             $email = $_POST['email'];
