@@ -10,6 +10,12 @@ if(isset($_GET['message'])){
     $msg = $_GET['message'];
 }
 
+// for error action
+$msg2 = '';
+if(isset($_GET['message2'])){
+    $msg2 = $_GET['message2'];
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -83,7 +89,7 @@ if(isset($_GET['message'])){
             <div class="employee-record">
                 <div class="employee-header">
                     <h2>Employee Records</h2>
-                    <form method="POST">
+                    <form method="GET" action='employee.php'>
                         <div>
                             <input type="text" name="search" id="search" placeholder="Search" autocomplete="off"/>
                         </div>
@@ -109,7 +115,13 @@ if(isset($_GET['message'])){
                             </tr>
                         </thead>
                         <tbody>
-                            <?= $payroll->showAllEmp(); ?>
+                            <?php
+                                if(isset($_GET['search'])){
+                                    $payroll->showAllEmpSearch($_GET['search']);
+                                } else {
+                                    $payroll->showAllEmp();
+                                }
+                            ?>
                         </tbody>
                     </table>
                 </div>
@@ -178,7 +190,8 @@ if(isset($_GET['message'])){
     </div>
 
     <!-- for success action -->
-    <input type='hidden' id='msg' value='<?= $msg; ?>' />
+    <input type='hidden' id='msg' value='<?= $msg; ?>' /> <!-- success -->
+    <input type='hidden' id='msg2' value='<?= $msg2; ?>' /> <!-- error -->
 
     <?php if(isset($_GET['addEmployee']) && $_GET['addEmployee'] == true){ ?>
         <div class="modal-addguard">
@@ -268,6 +281,26 @@ if(isset($_GET['message'])){
 
     <script src="../scripts/employee.js"></script>
     <script>
+
+        // disable not necessary inputs
+        function validate(evt) {
+            var theEvent = evt || window.event;
+
+            // Handle paste
+            if (theEvent.type === 'paste') {
+                key = event.clipboardData.getData('text/plain');
+            } else {
+            // Handle key press
+                var key = theEvent.keyCode || theEvent.which;
+                key = String.fromCharCode(key);
+            }
+            var regex = /[0-9]|\./;
+            if( !regex.test(key) ) {
+                theEvent.returnValue = false;
+                if(theEvent.preventDefault) theEvent.preventDefault();
+            }
+        }
+
         let msg = document.querySelector('#msg');
         if(msg.value != ''){
             let successDiv = document.createElement('div');
@@ -296,6 +329,37 @@ if(isset($_GET['message'])){
 
             // remove after 5 mins
             setTimeout(e => successDiv.remove(), 5000);
+        }
+
+        // error
+        let msg2 = document.querySelector('#msg2');
+        if(msg2.value != ''){
+            let errorDiv = document.createElement('div');
+            errorDiv.classList.add('error');
+            let iconContainerDiv = document.createElement('div');
+            iconContainerDiv.classList.add('icon-container');
+            let spanIcon = document.createElement('span');
+            spanIcon.classList.add('material-icons');
+            spanIcon.innerText = 'done';
+            let pError = document.createElement('p');
+            pError.innerText = msg2.value; // set to $_GET['msg2']
+            let closeContainerDiv = document.createElement('div');
+            closeContainerDiv.classList.add('closeContainer');
+            let spanClose = document.createElement('span');
+            spanClose.classList.add('material-icons');
+            spanClose.innerText = 'close';
+
+            // destructure
+            iconContainerDiv.appendChild(spanIcon);
+            closeContainerDiv.appendChild(spanClose);
+
+            errorDiv.appendChild(iconContainerDiv);
+            errorDiv.appendChild(pError);
+            errorDiv.appendChild(closeContainerDiv);
+            document.body.appendChild(errorDiv);
+
+            // remove after 5 mins
+            setTimeout(e => errorDiv.remove(), 5000);
         }
     </script>
 </body>

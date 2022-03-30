@@ -63,10 +63,10 @@ $payroll->setUnavailableGuards($sessionData['fullname'], $sessionData['id']);
             <div class="select-info">
                 <div class="select-header">
                     <h1>Select Company</h1>
-                    <form method="POST">
-                        <input type="text" id="search" name="search" placeholder="Search.." autocomplete="off" required/>
+                    <!-- <form method="GET">
+                        <input type="text" id="search" name="search" placeholder="Search.." autocomplete="off"/>
                         <button type="submit" name="searchbtn"></button>
-                    </form>
+                    </form> -->
                 </div>
                 <div class="select-content">
                     <form method="POST">
@@ -197,10 +197,10 @@ $payroll->setUnavailableGuards($sessionData['fullname'], $sessionData['id']);
         <div class="modal-holder">
             <div class="table-header">
                 <h1>Add New Guard</h1>
-                <form method="POST">
-                    <input type="text" id="addnew-search" placeholder="Search.." autocomplete="off"/>
+                <!-- <form method="POST">
+                    <input type="text" id="addnew-search" name="addnew-search" placeholder="Search.." autocomplete="off"/>
                     <button type="submit" name="addnew-btn"></button>
-                </form>
+                </form> -->
             </div>
             <div class="table-content">
                 <div class="table-holder">

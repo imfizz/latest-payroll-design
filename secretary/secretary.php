@@ -9,6 +9,12 @@ if(isset($_GET['message'])){
     $msg = $_GET['message'];
 }
 
+// for error action
+$msg2 = '';
+if(isset($_GET['message2'])){
+    $msg2 = $_GET['message2'];
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -170,7 +176,8 @@ if(isset($_GET['message'])){
     </div>
 
     <!-- for success action -->
-    <input type='hidden' id='msg' value='<?= $msg; ?>' />
+    <input type='hidden' id='msg' value='<?= $msg; ?>' /> <!-- success-->
+    <input type='hidden' id='msg2' value='<?= $msg2; ?>' /> <!-- error -->
 
     <?php if(isset($_GET['secId'])){
         $payroll->showSpecificSec($_GET['secId']);
@@ -196,6 +203,7 @@ if(isset($_GET['message'])){
         }   
     }
 
+    // success action
     let msg = document.querySelector('#msg');
     if(msg.value != ''){
         let successDiv = document.createElement('div');
@@ -225,6 +233,37 @@ if(isset($_GET['message'])){
         // remove after 5 mins
         setTimeout(e => successDiv.remove(), 5000);
     }
+
+    // error action
+    let msg2 = document.querySelector('#msg2');
+        if(msg2.value != ''){
+            let errorDiv = document.createElement('div');
+            errorDiv.classList.add('error');
+            let iconContainerDiv = document.createElement('div');
+            iconContainerDiv.classList.add('icon-container');
+            let spanIcon = document.createElement('span');
+            spanIcon.classList.add('material-icons');
+            spanIcon.innerText = 'done';
+            let pError = document.createElement('p');
+            pError.innerText = msg2.value; // set to $_GET['msg2']
+            let closeContainerDiv = document.createElement('div');
+            closeContainerDiv.classList.add('closeContainer');
+            let spanClose = document.createElement('span');
+            spanClose.classList.add('material-icons');
+            spanClose.innerText = 'close';
+
+            // destructure
+            iconContainerDiv.appendChild(spanIcon);
+            closeContainerDiv.appendChild(spanClose);
+
+            errorDiv.appendChild(iconContainerDiv);
+            errorDiv.appendChild(pError);
+            errorDiv.appendChild(closeContainerDiv);
+            document.body.appendChild(errorDiv);
+
+            // remove after 5 mins
+            setTimeout(e => errorDiv.remove(), 5000);
+        }
     </script>
 </body>
 </html>

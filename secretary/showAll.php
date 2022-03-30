@@ -63,9 +63,9 @@ if(isset($_GET['message'])){
                 <div class="table-content">
                     <div class="table-content-header">
                         <h1>List of Secretary</h1>
-                        <form method="POST">
-                            <input type="search" id="search" name="search" placeholder="Search" autocomplete="off"/>
-                            <button type="submit" name="search"></button>
+                        <form method="GET">
+                            <input type="text" id="search" name="search" placeholder="Search" autocomplete="off"/>
+                            <button type="submit" name="searchSec"></button>
                         </form>
                     </div>
                     <div class="table-content-form">
@@ -86,7 +86,13 @@ if(isset($_GET['message'])){
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $payroll->showAllSecretary(); ?>
+                                <?php 
+                                    if(isset($_GET['search'])){
+                                        $payroll->showAllSecretarySearch($_GET['search']);
+                                    } else {
+                                        $payroll->showAllSecretary();
+                                    }
+                                 ?>
                             </tbody>
                         </table>
                     </div>
