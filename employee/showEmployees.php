@@ -79,8 +79,8 @@ $payroll->selectguards();
             <div class="table-info">
                 <div class="table-header">
                     <h1>Available Guards</h1>
-                    <form method="POST">
-                        <input type="text" id="search" name="search" placeholder="Search.." autocomplete="off" required/>
+                    <form method="GET">
+                        <input type="text" id="search" name="search" placeholder="Search.." autocomplete="off"/>
                         <button type="submit" name="searchbtn"></button>
                     </form>
                 </div>
@@ -105,7 +105,13 @@ $payroll->selectguards();
                             </tr>
                         </thead>
                         <tbody>
-                            <?= $payroll->showAllEmpActions(); ?>
+                            <?php 
+                                if(isset($_GET['search'])){
+                                    $payroll->showAllEmpActionsSearch($_GET['search']);
+                                } else { 
+                                    $payroll->showAllEmpActions();
+                                } 
+                            ?>
                         </tbody>
                     </table>
                 </div>

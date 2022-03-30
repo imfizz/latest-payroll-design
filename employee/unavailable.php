@@ -77,8 +77,8 @@ if(isset($_GET['message'])){
             <div class="table-info">
                 <div class="table-header">
                     <h1>Unavailable Guards</h1>
-                    <form method="POST">
-                        <input type="text" id="search" name="search" placeholder="Search.." autocomplete="off" required/>
+                    <form method="GET">
+                        <input type="text" id="search" name="search" placeholder="Search.." autocomplete="off"/>
                         <button type="submit" name="searchbtn"></button>
                     </form>
                 </div>
@@ -101,7 +101,13 @@ if(isset($_GET['message'])){
                             </tr>
                         </thead>
                         <tbody>
-                            <?= $payroll->showAllUnavailableEmpActions(); ?>
+                            <?php
+                                if(isset($_GET['search'])){
+                                    $payroll->showAllUnavailableEmpActionsSearch($_GET['search']);
+                                } else {
+                                    $payroll->showAllUnavailableEmpActions();
+                                }
+                              ?>
                         </tbody>
                     </table>
                 </div>

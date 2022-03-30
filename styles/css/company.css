@@ -123,6 +123,7 @@
   opacity: 0;
   -webkit-animation: popup 4.5s ease-in-out forwards;
           animation: popup 4.5s ease-in-out forwards;
+  z-index: 99;
 }
 
 .error > .icon-container {

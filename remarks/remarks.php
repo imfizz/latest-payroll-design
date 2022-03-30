@@ -65,7 +65,7 @@ if(isset($_GET['message'])){
                     <div class="welcome-box-content">
                         <h2>To punish is to inflict penalty for violating rules or intentional wrongdoing.</h2>
                         <p>They must have followed the regulations.</p>
-                        <button type='button'><a href='remarks.php?pv=true'>Add Violation</a></button>
+                        <button type='button'><a href='remarks.php?pv=true'>View Violations</a></button>
                     </div>
                 </div>
             </div>
@@ -76,7 +76,7 @@ if(isset($_GET['message'])){
                 <div class="remarked-violations-content">
                     <div class="violations-content-header">
                         <h1>Remarked Violations</h1>
-                        <form method="POST">
+                        <form method="GET">
                             <input type="search" name="search" placeholder="Search" autocomplete="off" id="search">
                             <button type="submit" name="searchBtn"></button>
                         </form>
@@ -101,7 +101,13 @@ if(isset($_GET['message'])){
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $payroll->viewListRemarkedViolation() ?>
+                                <?php 
+                                    if(isset($_GET['search'])){
+                                        $payroll->viewListRemarkedViolationSearch($_GET['search']);
+                                    } else {
+                                        $payroll->viewListRemarkedViolation();
+                                    }  
+                                ?>
                             </tbody>
                         </table>
                     </div>

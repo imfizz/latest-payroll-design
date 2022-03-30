@@ -2,7 +2,7 @@
 require_once('../class.php');
 $sessionData = $payroll->getSessionData();
 $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
-$payroll->adminChangePassword($sessionData['id']);
+$payroll->adminChangePassword($sessionData['id'], $sessionData['fullname'], $sessionData['id']);
 
 // for success action
 $msg = '';

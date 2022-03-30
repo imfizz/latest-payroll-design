@@ -80,6 +80,7 @@
     box-sizing: border-box;
     opacity: 0;
     animation: popup 4.5s ease-in-out forwards;
+    z-index: 99;
 
 
     & > .icon-container {
@@ -123,7 +124,7 @@
         cursor: pointer;
 
         &:hover {
-            background-color: lighten(#34D889, 5%);
+            background-color: lighten(#FF8080, 5%);
         }
 
         & > span {

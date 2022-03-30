@@ -123,6 +123,7 @@
   opacity: 0;
   -webkit-animation: popup 4.5s ease-in-out forwards;
           animation: popup 4.5s ease-in-out forwards;
+  z-index: 99;
 }
 
 .error > .icon-container {
@@ -184,7 +185,7 @@
 }
 
 .error > .closeContainer:hover {
-  background-color: #49dc95;
+  background-color: #ff9a9a;
 }
 
 .error > .closeContainer > span {
