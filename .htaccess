@@ -1,2 +1,6 @@
-ErrorDocument 404 https://www.jtdv.tech/notfound.html
+ErrorDocument 400 https://www.jtdv.tech/badrequest.html
 ErrorDocument 401 https://www.jtdv.tech/authorizationrequired.html
+ErrorDocument 403 https://www.jtdv.tech/pageforbidden.html
+ErrorDocument 404 https://www.jtdv.tech/notfound.html
+ErrorDocument 500 https://www.jtdv.tech/serverdown.html
+

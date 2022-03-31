@@ -464,7 +464,7 @@ Class Payroll
             } elseif($access == 'secretary'){
                 echo 'Welcome '.$fullname.' ('.$access.')';
             } else {
-                header("Location: ".$level."login.php?message=$message");
+                header("Location: ".$level."authorizationrequired.html");
             }
         } else {
             if($access == 'administrator'){
@@ -473,7 +473,7 @@ Class Payroll
                 // red
                 echo 'Welcome '.$fullname.' ('.$access.')';
             } else {
-                header("Location: login.php?message=$message");
+                header("Location: authorizationrequired.html");
             }
         }
     }
@@ -4386,7 +4386,7 @@ Class Payroll
                 
                 // Declaring Variables
                 date_default_timezone_set('Asia/Manila');
-                $location = "inbox/";
+                $location = "../inbox/";
 
                 if ($_FILES['file']['name'] != NULL) {
                     $file_new_name = date("dmy") . time() . $_FILES["file"]["name"]; // New and unique name of uploaded file
