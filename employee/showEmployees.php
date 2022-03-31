@@ -78,7 +78,7 @@ $payroll->selectguards();
             </div>
             <div class="table-info">
                 <div class="table-header">
-                    <h1>Available Guards</h1>
+                    <h1>Available Employees</h1>
                     <form method="GET">
                         <input type="text" id="search" name="search" placeholder="Search.." autocomplete="off"/>
                         <button type="submit" name="searchbtn"></button>
@@ -118,7 +118,7 @@ $payroll->selectguards();
                 <div class="table-button">
                     <form method="POST">
                         <input type='hidden' name='ids' id='ids'/>
-                        <button type="submit" name="selectguards">Select Guards</button>
+                        <button type="submit" name="selectguards">Select Employees</button>
                     </form>
                 </div>
             </div>
@@ -132,7 +132,7 @@ $payroll->selectguards();
         <div class="modal-editguard">
             <div class="modal-holder">
                 <div class="editguard-header">
-                    <h1>Edit Guard Details</h1>
+                    <h1>Edit Employee</h1>
                     <span id="exit-modal-editguard" class="material-icons">close</span>
                 </div>
                 <div class="editguard-content">

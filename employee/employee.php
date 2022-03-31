@@ -68,14 +68,14 @@ if(isset($_GET['message2'])){
                 <div class="available">
                     <object data="../styles/SVG_modified/available.svg" type="image/svg+xml"></object>
                     <div class="svg-info">
-                        <h1>Available Guards</h1>
+                        <h1>Available Employees</h1>
                         <button><a href="./showEmployees.php">View All</a></button>
                     </div>
                 </div>
                 <div class="unavailable">
                     <object data="../styles/SVG_modified/unavailable.svg" type="image/svg+xml"></object>
                     <div class="svg-info">
-                        <h1>Unavailable Guards</h1>
+                        <h1>Unavailable Employees</h1>
                         <button><a href="./unavailable.php">View All</a></button>
                     </div>
                 </div>
@@ -140,7 +140,7 @@ if(isset($_GET['message2'])){
             </div>
             <div class="assignedguards-container">
                 <div class="assignedguards-header">
-                    <h1>Recent Assigned Guards</h1>
+                    <h1>Recent Assigned Employees</h1>
                 </div>
                 <div class="assignedguards-content">
                     <?= $payroll->recentAssignedGuards(); ?>
@@ -156,7 +156,7 @@ if(isset($_GET['message2'])){
                         <div class="form-holder">
                             <div>
                                 <label for="firstname">Firstname</label>
-                                <input type="text" name="firstname" id="firstname" onkeydown='return /^[a-zA-Z\s]*$/i.test(event.key)' autocomplete="off" required/>
+                                <input type="text" name="firstname" id="firstname" onkeydown='return /^[a-zA-Z\s]*$/i.test(event.key)' autofocus autocomplete="off" required/>
                             </div>
                             <div>
                                 <label for="lastname">Lastname</label>
@@ -228,7 +228,7 @@ if(isset($_GET['message2'])){
                             <div onclick="generatePassword(this)">Generate</div>
                         </div>
                         <div>
-                            <button type='submit' name='addemployeemodal'>Add Employee</button>
+                            <button type='submit' name='addemployeemodal' class='btn_primary2'>Add Employee</button>
                         </div>
                     </form>
                 </div>
@@ -360,6 +360,90 @@ if(isset($_GET['message2'])){
 
             // remove after 5 mins
             setTimeout(e => errorDiv.remove(), 5000);
+        }
+
+
+        // check if contact number equal to 11
+        let btnPrimary = document.querySelector('.btn_primary');
+        let mobilePrimary = document.querySelector('#number');
+        let minLength = 11;
+
+        btnPrimary.addEventListener('click', validateMobile);
+
+        function validateMobile(event) {
+            if (mobilePrimary.value.length < minLength) {
+                event.preventDefault();
+
+                // create error message box
+                let errorDiv = document.createElement('div');
+                errorDiv.classList.add('error');
+                let iconContainerDiv = document.createElement('div');
+                iconContainerDiv.classList.add('icon-container');
+                let spanIcon = document.createElement('span');
+                spanIcon.classList.add('material-icons');
+                spanIcon.innerText = 'done';
+                let pError = document.createElement('p');
+                pError.innerText = 'Contact Number must be ' + minLength + ' digits.'; 
+                let closeContainerDiv = document.createElement('div');
+                closeContainerDiv.classList.add('closeContainer');
+                let spanClose = document.createElement('span');
+                spanClose.classList.add('material-icons');
+                spanClose.innerText = 'close';
+
+                // destructure
+                iconContainerDiv.appendChild(spanIcon);
+                closeContainerDiv.appendChild(spanClose);
+
+                errorDiv.appendChild(iconContainerDiv);
+                errorDiv.appendChild(pError);
+                errorDiv.appendChild(closeContainerDiv);
+                document.body.appendChild(errorDiv);
+
+                // remove after 5 mins
+                setTimeout(e => errorDiv.remove(), 5000);
+            }
+        }
+
+
+
+        // check if contact number equal to 11 in MODAL
+        let btnPrimary2 = document.querySelector('.btn_primary2');
+        let mobilePrimary2 = document.querySelector('#cpnumber2');
+        let minLength2 = 11;
+        btnPrimary2.addEventListener('click', validateMobileModal);
+
+        function validateMobileModal(event) {
+            if (mobilePrimary2.value.length < minLength2) {
+                event.preventDefault();
+
+                // create error message box
+                let errorDiv = document.createElement('div');
+                errorDiv.classList.add('error');
+                let iconContainerDiv = document.createElement('div');
+                iconContainerDiv.classList.add('icon-container');
+                let spanIcon = document.createElement('span');
+                spanIcon.classList.add('material-icons');
+                spanIcon.innerText = 'done';
+                let pError = document.createElement('p');
+                pError.innerText = 'Contact Number must be ' + minLength2 + ' digits.'; 
+                let closeContainerDiv = document.createElement('div');
+                closeContainerDiv.classList.add('closeContainer');
+                let spanClose = document.createElement('span');
+                spanClose.classList.add('material-icons');
+                spanClose.innerText = 'close';
+
+                // destructure
+                iconContainerDiv.appendChild(spanIcon);
+                closeContainerDiv.appendChild(spanClose);
+
+                errorDiv.appendChild(iconContainerDiv);
+                errorDiv.appendChild(pError);
+                errorDiv.appendChild(closeContainerDiv);
+                document.body.appendChild(errorDiv);
+
+                // remove after 5 mins
+                setTimeout(e => errorDiv.remove(), 5000);
+            }
         }
     </script>
 </body>

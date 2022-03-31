@@ -146,11 +146,11 @@ if(isset($_GET['message2'])){
                             
                             <div>
                                 <label for="name">Name</label>
-                                <input type="text" name="fullname" id="fullname" onkeydown='return /^[a-zA-Z\s]*$/i.test(event.key)' autocomplete="off" required/>
+                                <input type="text" name="fullname" id="fullname" autofocus onkeydown='return /^[a-zA-Z\s]*$/i.test(event.key)' autocomplete="off" required/>
                             </div>
                             <div>
                                 <label for="cpnumber">Contact Number</label>
-                                <input type="text" name="cpnumber" placeholder='09' maxlength="11" onkeypress='validate(event)' autocomplete="off" required/>
+                                <input type="text" name="cpnumber" id='cpnumber' placeholder='09' maxlength="11" onkeypress='validate(event)' autocomplete="off" required/>
                             </div>
                             <div>
                                 <label for="name">Email</label>
@@ -167,7 +167,7 @@ if(isset($_GET['message2'])){
                                 <label for="address">Address</label>
                                 <input type="text" name="address" id="address" autocomplete="off" required/>
                             </div>
-                            <button type="submit" name="addsecretary">Add</button>
+                            <button type="submit" name="addsecretary" class='btn_primary'>Add</button>
                         </form>
                     </div>
                 </div>
@@ -263,6 +263,46 @@ if(isset($_GET['message2'])){
 
             // remove after 5 mins
             setTimeout(e => errorDiv.remove(), 5000);
+        }
+
+        // check if contact number equal to 11
+        let btnPrimary = document.querySelector('.btn_primary');
+        let mobilePrimary = document.querySelector('#cpnumber');
+        let minLength = 11;
+        btnPrimary.addEventListener('click', validateMobile);
+
+        function validateMobile(event) {
+            if (mobilePrimary.value.length < minLength) {
+                event.preventDefault();
+
+                // create error message box
+                let errorDiv = document.createElement('div');
+                errorDiv.classList.add('error');
+                let iconContainerDiv = document.createElement('div');
+                iconContainerDiv.classList.add('icon-container');
+                let spanIcon = document.createElement('span');
+                spanIcon.classList.add('material-icons');
+                spanIcon.innerText = 'done';
+                let pError = document.createElement('p');
+                pError.innerText = 'Contact Number must be ' + minLength + ' digits.'; 
+                let closeContainerDiv = document.createElement('div');
+                closeContainerDiv.classList.add('closeContainer');
+                let spanClose = document.createElement('span');
+                spanClose.classList.add('material-icons');
+                spanClose.innerText = 'close';
+
+                // destructure
+                iconContainerDiv.appendChild(spanIcon);
+                closeContainerDiv.appendChild(spanClose);
+
+                errorDiv.appendChild(iconContainerDiv);
+                errorDiv.appendChild(pError);
+                errorDiv.appendChild(closeContainerDiv);
+                document.body.appendChild(errorDiv);
+
+                // remove after 5 mins
+                setTimeout(e => errorDiv.remove(), 5000);
+            }
         }
     </script>
 </body>

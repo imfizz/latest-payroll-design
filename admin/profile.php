@@ -179,7 +179,7 @@ if(isset($_GET['message'])){
                             <input type="text" name="instagram" id="instagram" placeholder='Paste the link' autocomplete="off"/>
                         </div>
 
-                        <button type='submit' name='saveChanges'>Save Changes</button>
+                        <button type='submit' name='saveChanges' class='btn_primary'>Save Changes</button>
                     </form>
                 </div>
             </div>
@@ -257,6 +257,48 @@ if(isset($_GET['message'])){
 
         // remove after 5 mins
         setTimeout(e => successDiv.remove(), 5000);
+    }
+
+
+    // check if contact number equal to 11
+    let btnPrimary = document.querySelector('.btn_primary');
+    let mobilePrimary = document.querySelector('#cpnumber');
+    let minLength = 11;
+
+    btnPrimary.addEventListener('click', validateMobile);
+
+    function validateMobile(event) {
+        if (mobilePrimary.value.length < minLength) {
+            event.preventDefault();
+
+            // create error message box
+            let errorDiv = document.createElement('div');
+            errorDiv.classList.add('error');
+            let iconContainerDiv = document.createElement('div');
+            iconContainerDiv.classList.add('icon-container');
+            let spanIcon = document.createElement('span');
+            spanIcon.classList.add('material-icons');
+            spanIcon.innerText = 'done';
+            let pError = document.createElement('p');
+            pError.innerText = 'Contact Number must be ' + minLength + ' digits.'; 
+            let closeContainerDiv = document.createElement('div');
+            closeContainerDiv.classList.add('closeContainer');
+            let spanClose = document.createElement('span');
+            spanClose.classList.add('material-icons');
+            spanClose.innerText = 'close';
+
+            // destructure
+            iconContainerDiv.appendChild(spanIcon);
+            closeContainerDiv.appendChild(spanClose);
+
+            errorDiv.appendChild(iconContainerDiv);
+            errorDiv.appendChild(pError);
+            errorDiv.appendChild(closeContainerDiv);
+            document.body.appendChild(errorDiv);
+
+            // remove after 5 mins
+            setTimeout(e => errorDiv.remove(), 5000);
+        }
     }
 </script>
 </body>

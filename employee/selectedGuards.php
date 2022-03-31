@@ -183,7 +183,7 @@ $payroll->setUnavailableGuards($sessionData['fullname'], $sessionData['id']);
                             </table>
                             <div class="addmore-emp">
                                 <span class="material-icons">add</span>
-                                <h3>Add New Guard</h3>
+                                <h3>Add New Employee</h3>
                             </div>
                         </div>
                     </form>
@@ -196,7 +196,7 @@ $payroll->setUnavailableGuards($sessionData['fullname'], $sessionData['id']);
     <div class="addmore-modal">
         <div class="modal-holder">
             <div class="table-header">
-                <h1>Add New Guard</h1>
+                <h1>Add New Employee</h1>
                 <!-- <form method="POST">
                     <input type="text" id="addnew-search" name="addnew-search" placeholder="Search.." autocomplete="off"/>
                     <button type="submit" name="addnew-btn"></button>

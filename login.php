@@ -62,7 +62,7 @@ if(isset($_GET['errormessage'])){
                 <div class="input-container1">
                     <label for="username">Username</label>
                     <div class="icon1">
-                        <input type="email" id="username" name="username" placeholder="Enter username" autocomplete="off" required/>
+                        <input type="email" id="username" name="username" placeholder="Enter username" autofocus autocomplete="off" required/>
                     </div>
                 </div>
 

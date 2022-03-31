@@ -76,7 +76,7 @@ if(isset($_GET['message'])){
             </div>
             <div class="table-info">
                 <div class="table-header">
-                    <h1>Unavailable Guards</h1>
+                    <h1>Unavailable Employees</h1>
                     <form method="GET">
                         <input type="text" id="search" name="search" placeholder="Search.." autocomplete="off"/>
                         <button type="submit" name="searchbtn"></button>
@@ -122,7 +122,7 @@ if(isset($_GET['message'])){
     <div class="modal-viewguard">
         <div class="modal-holder">
             <div class="viewguard-header">
-                <h1>Guard Details</h1>
+                <h1>View Employee</h1>
                 <span id="exit-modal-viewguard" class="material-icons">close</span>
             </div>
             <div class="viewguard-content">

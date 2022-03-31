@@ -110,7 +110,7 @@ if(isset($_GET['message2'])){
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Hired Guards</th>
+                                    <th>Employee</th>
                                     <th>Email</th>
                                     <th>Date</th>
                                     <th></th>
@@ -155,7 +155,7 @@ if(isset($_GET['message2'])){
                         </div>
                         <div>
                             <label for="cpnumber">Contact Number</label>
-                            <input type="text" name="cpnumber" autocomplete="off" maxlength="11" placeholder="09" onkeypress='validate(event)' required/>
+                            <input type="text" name="cpnumber" id='cpnumber' autocomplete="off" maxlength="11" placeholder="09" onkeypress='validate(event)' required/>
                         </div>
                         <div>
                             <label for="email">Email</label>
@@ -212,7 +212,7 @@ if(isset($_GET['message2'])){
                         <div class="addnew-container">
                             <button type="button" id="addnew">+ Add new</button>
                         </div>
-                        <button type="submit" name="addcompany">Add Company</button><br/>
+                        <button type="submit" name="addcompany" class='btn_primary'>Add Company</button><br/>
                     </form>
                 </div>
             </div>
@@ -233,19 +233,19 @@ if(isset($_GET['message2'])){
             <div class="viewcompany-content">
                 <form id="myForm" method="post">
                     <div>
-                        <label for="company_name">Company</label>
+                        <label for="company_name2">Company</label>
                         <input type="text" name="company_name2" autocomplete="off" required/>
                     </div>
                     <div>
-                        <label for="cpnumber">Contact Number</label>
-                        <input type="text" name="cpnumber2" placeholder='09' maxlength="11" onkeypress='validate(event)' autocomplete="off" required/>
+                        <label for="cpnumber2">Contact Number</label>
+                        <input type="text" name="cpnumber2" id='cpnumber2' placeholder='09' maxlength="11" onkeypress='validate(event)' autocomplete="off" required/>
                     </div>
                     <div>
-                        <label for="email">Email</label>
+                        <label for="email2">Email</label>
                         <input type="email" name="email2" autocomplete="off" required/>
                     </div>
                     <div>
-                        <label for="">Trace Location</label>
+                        <label>Trace Location</label>
                         <div id="map-addmodal" class="trace-addmodal"></div>
                     </div>
                     <div>
@@ -255,7 +255,7 @@ if(isset($_GET['message2'])){
                         <input type="hidden" id="latitude-addmodal" name="latitude2" placeholder="Latitude" required/>
                     </div>
                     <div>
-                        <label for="">Set Boundary</label>
+                        <label>Set Boundary</label>
                         <div id="map_b-addmodal"></div>
                         <input type="hidden" name="boundary_size2" placeholder="Boundary size" class="map_b_size-addmodal" required/>
                     </div>
@@ -296,7 +296,7 @@ if(isset($_GET['message2'])){
                         <button type="button" id="addnew-addmodal">+ Add new</button>
                     </div>
                     <div>
-                        <button type="submit" name="addcompany2">Add Company</button>
+                        <button type="submit" name="addcompany2" class='btn_primary2'>Add Company</button>
                     </div>
                 </form>
             </div>
@@ -658,6 +658,89 @@ if(isset($_GET['message2'])){
             // remove after 5 mins
             setTimeout(e => errorDiv.remove(), 5000);
         }
+
+        // check if contact number equal to 11
+        let btnPrimary = document.querySelector('.btn_primary');
+        let mobilePrimary = document.querySelector('#cpnumber');
+        let minLength = 11;
+        btnPrimary.addEventListener('click', validateMobile);
+
+        function validateMobile(event) {
+            if (mobilePrimary.value.length < minLength) {
+                event.preventDefault();
+
+                // create error message box
+                let errorDiv = document.createElement('div');
+                errorDiv.classList.add('error');
+                let iconContainerDiv = document.createElement('div');
+                iconContainerDiv.classList.add('icon-container');
+                let spanIcon = document.createElement('span');
+                spanIcon.classList.add('material-icons');
+                spanIcon.innerText = 'done';
+                let pError = document.createElement('p');
+                pError.innerText = 'Contact Number must be ' + minLength + ' digits.'; 
+                let closeContainerDiv = document.createElement('div');
+                closeContainerDiv.classList.add('closeContainer');
+                let spanClose = document.createElement('span');
+                spanClose.classList.add('material-icons');
+                spanClose.innerText = 'close';
+
+                // destructure
+                iconContainerDiv.appendChild(spanIcon);
+                closeContainerDiv.appendChild(spanClose);
+
+                errorDiv.appendChild(iconContainerDiv);
+                errorDiv.appendChild(pError);
+                errorDiv.appendChild(closeContainerDiv);
+                document.body.appendChild(errorDiv);
+
+                // remove after 5 mins
+                setTimeout(e => errorDiv.remove(), 5000);
+            }
+        }
+
+
+        // check if contact number equal to 11 ADD MODAL
+        let btnPrimary2 = document.querySelector('.btn_primary2');
+        let mobilePrimary2 = document.querySelector('#cpnumber2');
+        let minLength2 = 11;
+        btnPrimary2.addEventListener('click', validateMobileModal);
+
+        function validateMobileModal(event) {
+            if (mobilePrimary2.value.length < minLength2) {
+                event.preventDefault();
+
+                // create error message box
+                let errorDiv = document.createElement('div');
+                errorDiv.classList.add('error');
+                let iconContainerDiv = document.createElement('div');
+                iconContainerDiv.classList.add('icon-container');
+                let spanIcon = document.createElement('span');
+                spanIcon.classList.add('material-icons');
+                spanIcon.innerText = 'done';
+                let pError = document.createElement('p');
+                pError.innerText = 'Contact Number must be ' + minLength2 + ' digits.'; 
+                let closeContainerDiv = document.createElement('div');
+                closeContainerDiv.classList.add('closeContainer');
+                let spanClose = document.createElement('span');
+                spanClose.classList.add('material-icons');
+                spanClose.innerText = 'close';
+
+                // destructure
+                iconContainerDiv.appendChild(spanIcon);
+                closeContainerDiv.appendChild(spanClose);
+
+                errorDiv.appendChild(iconContainerDiv);
+                errorDiv.appendChild(pError);
+                errorDiv.appendChild(closeContainerDiv);
+                document.body.appendChild(errorDiv);
+
+                // remove after 5 mins
+                setTimeout(e => errorDiv.remove(), 5000);
+            }
+        }
+
+
     </script>
     <script src='../scripts/comp-location.js'></script>
 </body>

@@ -91,7 +91,7 @@ if(isset($_GET['message'])){
                             <tr>
                                 <th>Company</th>
                                 <th>Location</th>
-                                <th>Guards</th>
+                                <th>Employee</th>
                                 <th>Date</th>
                             </tr>
                         </thead>
@@ -144,7 +144,7 @@ if(isset($_GET['message'])){
         <div class="modal-review">
             <div class="table-container">
                 <div class="table-header">
-                    <h1>Newly Assigned Guards</h1>
+                    <h1>Newly Assigned Employees</h1>
                     <span id="exit-modal-review" class="material-icons">close</span>
                 </div>
                 <div class="table-content">
@@ -199,7 +199,7 @@ if(isset($_GET['message'])){
                         </colgroup>
                         <thead>
                             <tr>
-                                <th>Guards</th>
+                                <th>Employees</th>
                                 <th>Position</th>
                                 <th>Percentage</th>
                             </tr>
@@ -241,7 +241,7 @@ if(isset($_GET['message'])){
                             <tr>
                                 <th>Company</th>
                                 <th>Location</th>
-                                <th>Guards</th>
+                                <th>Employees</th>
                                 <th>Date</th>
                             </tr>
                         </thead>
@@ -267,7 +267,7 @@ if(isset($_GET['message'])){
         <div class="modal-editguard">
             <div class="modal-holder">
                 <div class="editguard-header">
-                    <h1>Edit Guard Details</h1>
+                    <h1>Edit Employee</h1>
                     <span id="exit-modal-editguard" class="material-icons">close</span>
                 </div>
                 <div class="editguard-content">
@@ -302,6 +302,47 @@ if(isset($_GET['message'])){
                 if( !regex.test(key) ) {
                     theEvent.returnValue = false;
                     if(theEvent.preventDefault) theEvent.preventDefault();
+                }
+            }
+
+            // check if contact number equal to 11
+            let btnPrimary = document.querySelector('.btn_primary');
+            let mobilePrimary = document.querySelector('#cpnumber');
+            let minLength = 11;
+
+            btnPrimary.addEventListener('click', validateMobile);
+
+            function validateMobile(event) {
+                if (mobilePrimary.value.length < minLength) {
+                    event.preventDefault();
+
+                    // create error message box
+                    let errorDiv = document.createElement('div');
+                    errorDiv.classList.add('error');
+                    let iconContainerDiv = document.createElement('div');
+                    iconContainerDiv.classList.add('icon-container');
+                    let spanIcon = document.createElement('span');
+                    spanIcon.classList.add('material-icons');
+                    spanIcon.innerText = 'done';
+                    let pError = document.createElement('p');
+                    pError.innerText = 'Contact Number must be ' + minLength + ' digits.'; 
+                    let closeContainerDiv = document.createElement('div');
+                    closeContainerDiv.classList.add('closeContainer');
+                    let spanClose = document.createElement('span');
+                    spanClose.classList.add('material-icons');
+                    spanClose.innerText = 'close';
+
+                    // destructure
+                    iconContainerDiv.appendChild(spanIcon);
+                    closeContainerDiv.appendChild(spanClose);
+
+                    errorDiv.appendChild(iconContainerDiv);
+                    errorDiv.appendChild(pError);
+                    errorDiv.appendChild(closeContainerDiv);
+                    document.body.appendChild(errorDiv);
+
+                    // remove after 5 mins
+                    setTimeout(e => errorDiv.remove(), 5000);
                 }
             }
         </script>
