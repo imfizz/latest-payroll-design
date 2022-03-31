@@ -3,6 +3,7 @@ require_once('../class.php');
 $sessionData = $payroll->getSessionData();
 $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
 $payroll->deleteUnavailableGuards($sessionData['fullname'], $sessionData['id']);
+$payroll->maintenance();
 
 if(isset($_GET['sid'])){
     $expdate = $payroll->getDuration($_GET['sid']);
@@ -167,8 +168,12 @@ if(isset($_GET['message'])){
                         <input type="text" name="position" id='position' disabled/>
                     </div>
                     <div>
-                        <label for="price">Contract Price</label>
+                        <label for="price">Rate per hour</label>
                         <input type="text" name="price" id='price' disabled/>
+                    </div>
+                    <div>
+                        <label for="ot">Overtime Rate</label>
+                        <input type="text" name="ot" id='ot' disabled/>
                     </div>
                     <div>
                         <label for="empAddress">Employee Address</label>

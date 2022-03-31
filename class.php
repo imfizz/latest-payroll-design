@@ -55,6 +55,23 @@ Class Payroll
         return $_SESSION['datetime'];
     }  
 
+    // server maintenance
+    public function maintenance(){
+        $isMaintenance = 1;
+        $maintenanceModule = 'Head Manager';
+        $sql = "SELECT * FROM maintenance WHERE status = ? AND module = ?";
+        $stmt = $this->con()->prepare($sql);
+        $stmt->execute([$isMaintenance, $maintenanceModule]);
+        $user = $stmt->fetch();
+        $countRow = $stmt->rowCount();
+
+        if($countRow > 0){
+            header('Location: https://www.jtdv.tech/maintenance.html');
+        } else {
+            return null;
+        }
+    }
+
     public function login()
     {
         // set 5 attempts
@@ -2128,6 +2145,7 @@ Class Payroll
                           e.lastname AS lastname,
                           e.position AS position,
                           e.ratesperDay AS price,
+                          e.overtime_rate AS ot,
                           e.address AS address,
                           e.email AS email,
                           e.cpnumber as cpnumber,
@@ -2164,6 +2182,7 @@ Class Payroll
                          let day = document.querySelector('#day').value = '$day';
                          let position = document.querySelector('#position').value = '$user->position';
                          let price = document.querySelector('#price').value = '$user->price';
+                         let ot = document.querySelector('#ot').value = '$user->ot';
                          let empAddress = document.querySelector('#empAddress').value = '$user->address';
                          let email = document.querySelector('#email').value = '$user->email';
                          let cpnumber = document.querySelector('#cpnumber').value = '$user->cpnumber';
@@ -2521,6 +2540,296 @@ Class Payroll
         $empOt = $userEmployee->overtime_rate;
 
         if($empPosition == 'Officer in Charge'){
+            $sqlCompany = "SELECT * FROM company WHERE company_name = ?";
+            $stmtCompany = $this->con()->prepare($sqlCompany);
+            $stmtCompany->execute([$company]);
+            $userCompany = $stmtCompany->fetch();
+            $countRowCompany = $stmtCompany->rowCount();
+
+            if($countRowCompany > 0){
+                $empLocation = $userCompany->comp_location;
+                $empShiftSpan = $userCompany->shift_span;
+
+                $empShift = $userCompany->shifts;
+                $empDayStart = "";
+                $empDayEnd = "";
+
+                if($empShift == 'night'){
+                    $empDayStart = date("h:i a", strtotime($userCompany->day_start." +".$userCompany->shift_span." hours"));
+                    $empDayEnd = date("h:i a", strtotime($empDayStart." +".$userCompany->shift_span." hours"));
+                } else {
+                    $empDayStart = date("h:i a", strtotime($userCompany->day_start));
+                    $empDayEnd = date("h:i a", strtotime($userCompany->day_start." +".$userCompany->shift_span." hours"));
+                }
+
+                $name = 'JTDV Incorporation';
+                $body = "Congratulations! You have been assigned to $company. The company located at $empLocation. <br/>
+                         Shift type: $empShift <br/>
+                         Your schedule: $empDayStart - $empDayEnd <br/>
+                         Position: $empPosition <br/>
+                         Rate per hour: $empPrice <br/>
+                         Overtime Rate: $empOt <br/>
+                         Contract: $expdate
+                        ";
+
+                if(!empty($email)){
+
+                    $mail = new PHPMailer();
+
+                    // smtp settings
+                    $mail->isSMTP();
+                    $mail->Host = "smtp.gmail.com";
+                    $mail->SMTPAuth = true;
+                    $mail->Username = $this->e_username;  // gmail address
+                    $mail->Password = $this->e_password;  // gmail password
+
+                    $mail->Port = 465;
+                    $mail->SMTPSecure = "ssl";
+
+                    // email settings
+                    $mail->isHTML(true);
+                    $mail->setFrom($email, $name);              // Katabi ng user image
+                    $mail->addAddress($email);                  // gmail address ng pagsesendan
+                    $mail->Subject = ("$email");                // headline
+                    $mail->Body = $body;                        // textarea
+
+                    $mail->send();
+
+                }
+            } 
+        } elseif($empPosition == 'Head Finance'){
+            $sqlCompany = "SELECT * FROM company WHERE company_name = ?";
+            $stmtCompany = $this->con()->prepare($sqlCompany);
+            $stmtCompany->execute([$company]);
+            $userCompany = $stmtCompany->fetch();
+            $countRowCompany = $stmtCompany->rowCount();
+
+            if($countRowCompany > 0){
+                $empLocation = $userCompany->comp_location;
+                $empShiftSpan = $userCompany->shift_span;
+
+                $empShift = $userCompany->shifts;
+                $empDayStart = "";
+                $empDayEnd = "";
+
+                if($empShift == 'night'){
+                    $empDayStart = date("h:i a", strtotime($userCompany->day_start." +".$userCompany->shift_span." hours"));
+                    $empDayEnd = date("h:i a", strtotime($empDayStart." +".$userCompany->shift_span." hours"));
+                } else {
+                    $empDayStart = date("h:i a", strtotime($userCompany->day_start));
+                    $empDayEnd = date("h:i a", strtotime($userCompany->day_start." +".$userCompany->shift_span." hours"));
+                }
+
+                $name = 'JTDV Incorporation';
+                $body = "Congratulations! You have been assigned to $company. The company located at $empLocation. <br/>
+                         Shift type: $empShift <br/>
+                         Your schedule: $empDayStart - $empDayEnd <br/>
+                         Position: $empPosition <br/>
+                         Rate per hour: $empPrice <br/>
+                         Overtime Rate: $empOt <br/>
+                         Contract: $expdate
+                        ";
+
+                if(!empty($email)){
+
+                    $mail = new PHPMailer();
+
+                    // smtp settings
+                    $mail->isSMTP();
+                    $mail->Host = "smtp.gmail.com";
+                    $mail->SMTPAuth = true;
+                    $mail->Username = $this->e_username;  // gmail address
+                    $mail->Password = $this->e_password;  // gmail password
+
+                    $mail->Port = 465;
+                    $mail->SMTPSecure = "ssl";
+
+                    // email settings
+                    $mail->isHTML(true);
+                    $mail->setFrom($email, $name);              // Katabi ng user image
+                    $mail->addAddress($email);                  // gmail address ng pagsesendan
+                    $mail->Subject = ("$email");                // headline
+                    $mail->Body = $body;                        // textarea
+
+                    $mail->send();
+
+                }
+            } 
+        } elseif($empPosition == 'Office Clerk'){
+            $sqlCompany = "SELECT * FROM company WHERE company_name = ?";
+            $stmtCompany = $this->con()->prepare($sqlCompany);
+            $stmtCompany->execute([$company]);
+            $userCompany = $stmtCompany->fetch();
+            $countRowCompany = $stmtCompany->rowCount();
+
+            if($countRowCompany > 0){
+                $empLocation = $userCompany->comp_location;
+                $empShiftSpan = $userCompany->shift_span;
+
+                $empShift = $userCompany->shifts;
+                $empDayStart = "";
+                $empDayEnd = "";
+
+                if($empShift == 'night'){
+                    $empDayStart = date("h:i a", strtotime($userCompany->day_start." +".$userCompany->shift_span." hours"));
+                    $empDayEnd = date("h:i a", strtotime($empDayStart." +".$userCompany->shift_span." hours"));
+                } else {
+                    $empDayStart = date("h:i a", strtotime($userCompany->day_start));
+                    $empDayEnd = date("h:i a", strtotime($userCompany->day_start." +".$userCompany->shift_span." hours"));
+                }
+
+                $name = 'JTDV Incorporation';
+                $body = "Congratulations! You have been assigned to $company. The company located at $empLocation. <br/>
+                         Shift type: $empShift <br/>
+                         Your schedule: $empDayStart - $empDayEnd <br/>
+                         Position: $empPosition <br/>
+                         Rate per hour: $empPrice <br/>
+                         Overtime Rate: $empOt <br/>
+                         Contract: $expdate
+                        ";
+
+                if(!empty($email)){
+
+                    $mail = new PHPMailer();
+
+                    // smtp settings
+                    $mail->isSMTP();
+                    $mail->Host = "smtp.gmail.com";
+                    $mail->SMTPAuth = true;
+                    $mail->Username = $this->e_username;  // gmail address
+                    $mail->Password = $this->e_password;  // gmail password
+
+                    $mail->Port = 465;
+                    $mail->SMTPSecure = "ssl";
+
+                    // email settings
+                    $mail->isHTML(true);
+                    $mail->setFrom($email, $name);              // Katabi ng user image
+                    $mail->addAddress($email);                  // gmail address ng pagsesendan
+                    $mail->Subject = ("$email");                // headline
+                    $mail->Body = $body;                        // textarea
+
+                    $mail->send();
+
+                }
+            } 
+        } elseif($empPosition == 'Inspector'){
+            $sqlCompany = "SELECT * FROM company WHERE company_name = ?";
+            $stmtCompany = $this->con()->prepare($sqlCompany);
+            $stmtCompany->execute([$company]);
+            $userCompany = $stmtCompany->fetch();
+            $countRowCompany = $stmtCompany->rowCount();
+
+            if($countRowCompany > 0){
+                $empLocation = $userCompany->comp_location;
+                $empShiftSpan = $userCompany->shift_span;
+
+                $empShift = $userCompany->shifts;
+                $empDayStart = "";
+                $empDayEnd = "";
+
+                if($empShift == 'night'){
+                    $empDayStart = date("h:i a", strtotime($userCompany->day_start." +".$userCompany->shift_span." hours"));
+                    $empDayEnd = date("h:i a", strtotime($empDayStart." +".$userCompany->shift_span." hours"));
+                } else {
+                    $empDayStart = date("h:i a", strtotime($userCompany->day_start));
+                    $empDayEnd = date("h:i a", strtotime($userCompany->day_start." +".$userCompany->shift_span." hours"));
+                }
+
+                $name = 'JTDV Incorporation';
+                $body = "Congratulations! You have been assigned to $company. The company located at $empLocation. <br/>
+                         Shift type: $empShift <br/>
+                         Your schedule: $empDayStart - $empDayEnd <br/>
+                         Position: $empPosition <br/>
+                         Rate per hour: $empPrice <br/>
+                         Overtime Rate: $empOt <br/>
+                         Contract: $expdate
+                        ";
+
+                if(!empty($email)){
+
+                    $mail = new PHPMailer();
+
+                    // smtp settings
+                    $mail->isSMTP();
+                    $mail->Host = "smtp.gmail.com";
+                    $mail->SMTPAuth = true;
+                    $mail->Username = $this->e_username;  // gmail address
+                    $mail->Password = $this->e_password;  // gmail password
+
+                    $mail->Port = 465;
+                    $mail->SMTPSecure = "ssl";
+
+                    // email settings
+                    $mail->isHTML(true);
+                    $mail->setFrom($email, $name);              // Katabi ng user image
+                    $mail->addAddress($email);                  // gmail address ng pagsesendan
+                    $mail->Subject = ("$email");                // headline
+                    $mail->Body = $body;                        // textarea
+
+                    $mail->send();
+
+                }
+            } 
+        } elseif($empPosition == 'Operation Manager'){
+            $sqlCompany = "SELECT * FROM company WHERE company_name = ?";
+            $stmtCompany = $this->con()->prepare($sqlCompany);
+            $stmtCompany->execute([$company]);
+            $userCompany = $stmtCompany->fetch();
+            $countRowCompany = $stmtCompany->rowCount();
+
+            if($countRowCompany > 0){
+                $empLocation = $userCompany->comp_location;
+                $empShiftSpan = $userCompany->shift_span;
+
+                $empShift = $userCompany->shifts;
+                $empDayStart = "";
+                $empDayEnd = "";
+
+                if($empShift == 'night'){
+                    $empDayStart = date("h:i a", strtotime($userCompany->day_start." +".$userCompany->shift_span." hours"));
+                    $empDayEnd = date("h:i a", strtotime($empDayStart." +".$userCompany->shift_span." hours"));
+                } else {
+                    $empDayStart = date("h:i a", strtotime($userCompany->day_start));
+                    $empDayEnd = date("h:i a", strtotime($userCompany->day_start." +".$userCompany->shift_span." hours"));
+                }
+
+                $name = 'JTDV Incorporation';
+                $body = "Congratulations! You have been assigned to $company. The company located at $empLocation. <br/>
+                         Shift type: $empShift <br/>
+                         Your schedule: $empDayStart - $empDayEnd <br/>
+                         Position: $empPosition <br/>
+                         Rate per hour: $empPrice <br/>
+                         Overtime Rate: $empOt <br/>
+                         Contract: $expdate
+                        ";
+
+                if(!empty($email)){
+
+                    $mail = new PHPMailer();
+
+                    // smtp settings
+                    $mail->isSMTP();
+                    $mail->Host = "smtp.gmail.com";
+                    $mail->SMTPAuth = true;
+                    $mail->Username = $this->e_username;  // gmail address
+                    $mail->Password = $this->e_password;  // gmail password
+
+                    $mail->Port = 465;
+                    $mail->SMTPSecure = "ssl";
+
+                    // email settings
+                    $mail->isHTML(true);
+                    $mail->setFrom($email, $name);              // Katabi ng user image
+                    $mail->addAddress($email);                  // gmail address ng pagsesendan
+                    $mail->Subject = ("$email");                // headline
+                    $mail->Body = $body;                        // textarea
+
+                    $mail->send();
+
+                }
+            } 
+        } elseif($empPosition == 'Collector'){
             $sqlCompany = "SELECT * FROM company WHERE company_name = ?";
             $stmtCompany = $this->con()->prepare($sqlCompany);
             $stmtCompany->execute([$company]);

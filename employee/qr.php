@@ -3,6 +3,7 @@
 require_once('../class.php');
 $sessionData = $payroll->getSessionData();
 $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
+$payroll->maintenance();
 
 if(isset($_GET['availability']) && $_GET['availability'] == 'Available' ){
     $adminFullname = $sessionData['fullname'];

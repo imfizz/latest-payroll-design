@@ -1687,7 +1687,7 @@
 }
 
 .modal-viewguard > .modal-holder > .viewguard-content > form > div:nth-child(8)::before {
-  content: url("https://api.iconify.design/akar-icons/location.svg?color=%239747ff&height=20");
+  content: url("https://api.iconify.design/heroicons-outline/currency-dollar.svg?color=%239747ff&height=20");
   position: absolute;
   top: 2px;
   left: -38px;
@@ -1696,7 +1696,7 @@
 }
 
 .modal-viewguard > .modal-holder > .viewguard-content > form > div:nth-child(9)::before {
-  content: url("https://api.iconify.design/eva/email-outline.svg?color=%239747ff&height=20");
+  content: url("https://api.iconify.design/akar-icons/location.svg?color=%239747ff&height=20");
   position: absolute;
   top: 2px;
   left: -38px;
@@ -1705,6 +1705,15 @@
 }
 
 .modal-viewguard > .modal-holder > .viewguard-content > form > div:nth-child(10)::before {
+  content: url("https://api.iconify.design/eva/email-outline.svg?color=%239747ff&height=20");
+  position: absolute;
+  top: 2px;
+  left: -38px;
+  -webkit-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
+}
+
+.modal-viewguard > .modal-holder > .viewguard-content > form > div:nth-child(11)::before {
   content: url("https://api.iconify.design/feather/phone-call.svg?color=%239747ff&height=20");
   position: absolute;
   top: 2px;

@@ -3,6 +3,8 @@ require_once('../class.php');
 $sessionData = $payroll->getSessionData();
 $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
 $payroll->editAdminProfile($sessionData['id'], $sessionData['fullname'], $sessionData['id']);
+$payroll->maintenance();
+
 
 // for success action
 $msg = '';

@@ -1,6 +1,7 @@
 <?php
 require_once('class.php');
 $payroll->login();
+$payroll->maintenance();
 
 // if not allowed to login get the message
 if(isset($_GET['message'])){

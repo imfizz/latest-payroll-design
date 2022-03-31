@@ -3,6 +3,7 @@ require_once('../class.php');
 $sessionData = $payroll->getSessionData();
 $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
 $payroll->addcompany($sessionData['fullname'], $sessionData['id']);
+$payroll->maintenance();
 
 // for success action
 $msg = '';
@@ -250,7 +251,7 @@ if(isset($_GET['message2'])){
                     </div>
                     <div>
                         <label for="location_name">Address</label>
-                        <input type="text" id="location_name" name="comp_location2" required/>
+                        <input type="text" id="location_name" name="comp_location2" autocomplete="off" required/>
                         <input type="hidden" id="longitude-addmodal" name="longitude2" placeholder="Longitude" required/>
                         <input type="hidden" id="latitude-addmodal" name="latitude2" placeholder="Latitude" required/>
                     </div>

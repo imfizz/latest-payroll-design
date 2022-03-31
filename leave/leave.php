@@ -3,6 +3,7 @@ require_once('../class.php');
 $sessionData = $payroll->getSessionData();
 $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
 $payroll->removeRecentFunction();
+$payroll->maintenance();
 
 // for success action
 $msg = '';

@@ -2,6 +2,7 @@
 require_once('class.php');
 $sessionData = $payroll->getSessionData();
 $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 1);
+$payroll->maintenance();
 
 // for success action
 $msg = '';

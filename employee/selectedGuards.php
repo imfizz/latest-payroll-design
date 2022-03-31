@@ -3,6 +3,8 @@ require_once('../class.php');
 $sessionData = $payroll->getSessionData();
 $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
 $payroll->setUnavailableGuards($sessionData['fullname'], $sessionData['id']);
+$payroll->maintenance();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
