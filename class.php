@@ -537,13 +537,23 @@ Class Payroll
             } else {
                 
                 // check if secretary fullname and email already exists
-                $sqlFindAcc = "SELECT * FROM secretary WHERE fullname = ? AND email = ?";
+                $sqlFindAccNot = "SELECT * FROM secretary WHERE fullname = ? AND email = ? AND isDeleted = 0";
+                $stmtFindAccNot = $this->con()->prepare($sqlFindAccNot);
+                $stmtFindAccNot->execute([$fullname, $email]);
+                $userFindAccNot = $stmtFindAccNot->fetch();
+                $countRowFindAccNot = $stmtFindAccNot->rowCount();
+
+                // check if secretary fullname and email already exists
+                $sqlFindAcc = "SELECT * FROM secretary WHERE fullname = ? AND email = ? AND isDeleted = 1";
                 $stmtFindAcc = $this->con()->prepare($sqlFindAcc);
                 $stmtFindAcc->execute([$fullname, $email]);
                 $userFindAcc = $stmtFindAcc->fetch();
                 $countRowFindAcc = $stmtFindAcc->rowCount();
 
-                if($countRowFindAcc > 0){
+                if($countRowFindAccNot > 0){ 
+                    $msg = "Account Already Exists.";
+                    echo "<script>window.location.assign('secretary.php?message2=$msg');</script>";
+                } elseif($countRowFindAcc > 0){
                     $msg = "Account Already Exists. Request Restoration.";
                     echo "<script>window.location.assign('secretary.php?message2=$msg');</script>";
                 } elseif($this->checkSecEmailExist($email)){
@@ -1572,13 +1582,32 @@ Class Payroll
                       </script>";
             } else {
 
-                    $sqlFindAcc = "SELECT * FROM employee WHERE firstname = ? AND lastname = ? AND email = ?";
+                    // for not deleted account
+                    $sqlFindAccNot = "SELECT * FROM employee 
+                                   WHERE firstname = ? 
+                                   AND lastname = ? 
+                                   AND email = ?
+                                   AND isDeleted = 0";
+                    $stmtFindAccNot = $this->con()->prepare($sqlFindAccNot);
+                    $stmtFindAccNot->execute([$firstname, $lastname, $email]);
+                    $userFindAccNot = $stmtFindAccNot->fetch();
+                    $countRowFindAccNot = $stmtFindAccNot->rowCount();
+
+                    // for deleted account
+                    $sqlFindAcc = "SELECT * FROM employee 
+                                   WHERE firstname = ? 
+                                   AND lastname = ? 
+                                   AND email = ?
+                                   AND isDeleted = 1";
                     $stmtFindAcc = $this->con()->prepare($sqlFindAcc);
                     $stmtFindAcc->execute([$firstname, $lastname, $email]);
                     $userFindAcc = $stmtFindAcc->fetch();
                     $countRowFindAcc = $stmtFindAcc->rowCount();
 
-                    if($countRowFindAcc > 0){
+                    if($countRowFindAccNot > 0){
+                        $msg = 'Account Already Exists.';
+                        echo "<script>window.location.assign('employee.php?message2=$msg');</script>";
+                    } elseif($countRowFindAcc > 0){
                         $msg = 'Account Already Exists. Request Restoration.';
                         echo "<script>window.location.assign('employee.php?message2=$msg');</script>";
                     } elseif($this->checkEmpEmailExist($email)){
@@ -1695,13 +1724,43 @@ Class Payroll
                       </script>";
             } else {
 
-                $sqlFindAcc = "SELECT * FROM employee WHERE firstname = ? AND lastname = ? AND email = ?";
+                    // for not deleted account
+                    $sqlFindAccNot = "SELECT * FROM employee 
+                                   WHERE firstname = ? 
+                                   AND lastname = ? 
+                                   AND email = ?
+                                   AND isDeleted = 0";
+                    $stmtFindAccNot = $this->con()->prepare($sqlFindAccNot);
+                    $stmtFindAccNot->execute([$firstname, $lastname, $email]);
+                    $userFindAccNot = $stmtFindAccNot->fetch();
+                    $countRowFindAccNot = $stmtFindAccNot->rowCount();
+
+                    // for deleted account
+                    $sqlFindAcc = "SELECT * FROM employee 
+                                   WHERE firstname = ? 
+                                   AND lastname = ? 
+                                   AND email = ?
+                                   AND isDeleted = 1";
                     $stmtFindAcc = $this->con()->prepare($sqlFindAcc);
                     $stmtFindAcc->execute([$firstname, $lastname, $email]);
                     $userFindAcc = $stmtFindAcc->fetch();
                     $countRowFindAcc = $stmtFindAcc->rowCount();
 
-                    if($countRowFindAcc > 0){
+                    if($countRowFindAccNot > 0){
+                        echo "<div class='error'>
+                                <div class='icon-container'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                                <p>Account Already Exists</p>
+                                <div class='closeContainer'>
+                                    <span class='material-icons'>close</span>
+                                </div>
+                              </div>
+                              <script>
+                                let msgErr = document.querySelector('.error');
+                                setTimeout(e => msgErr.remove(), 5000);
+                              </script>";
+                    } elseif($countRowFindAcc > 0){
                         echo "<div class='error'>
                                 <div class='icon-container'>
                                     <span class='material-icons'>close</span>
@@ -5714,6 +5773,106 @@ Class Payroll
         }
     }
 
+    public function adminFeedback($id)
+    {
+        $sql = "SELECT * FROM super_admin WHERE id = ?";
+        $stmt = $this->con()->prepare($sql);
+        $stmt->execute([$id]);
+        $user = $stmt->fetch();
+        $rowCount = $stmt->rowCount();
+
+        if($rowCount > 0){
+            $fullname = $user->firstname." ".$user->lastname;
+
+            $facebook = $user->facebook;
+            $google = $user->google;
+            $twitter = $user->twitter;
+            $instagram = $user->instagram;
+
+            if($facebook == 'https://'){
+                $facebook = '';
+            }
+
+            if($google == 'https://'){
+                $google = '';
+            }
+
+            if($twitter == 'https://'){
+                $twitter = '';
+            }
+
+            if($instagram == 'https://'){
+                $instagram = '';
+            }
+
+            echo "<script>
+
+                      // before modal
+                      let userNameContainer = document.querySelector('.user-name');
+                      let userH1 = userNameContainer.querySelector('h1');
+                      let userP = userNameContainer.querySelector('p');
+                      userH1.innerText = '$fullname';
+                      userP.innerText = '$user->access';
+                      
+                      let aboutMeContainer = document.querySelector('.about-me-container');
+                      let aboutP = aboutMeContainer.querySelector('p');
+                      aboutP.innerText = '$user->address';
+
+                      let mobEmailContainer = document.querySelector('.mob-email-container');
+                      let mobEmailData = mobEmailContainer.querySelectorAll('p');
+
+                      mobEmailData[0].innerText = '$user->cpnumber';
+                      mobEmailData[1].innerText = '$user->username';
+
+                      // create social media icons container
+                      let socialMediaContainer = document.querySelector('.socialmedia-container');
+                      let facebookText = '$facebook';
+                      let googleText = '$google';
+                      let twitterText = '$twitter';
+                      let instagramText = '$instagram';
+
+
+                      if(facebookText){
+                        let newA = document.createElement('a');
+                        newA.setAttribute('class', 'facebook-icon');
+                        newA.setAttribute('href', facebookText);
+                        socialMediaContainer.appendChild(newA);
+                      }
+
+                      if(googleText){
+                        let newA = document.createElement('a');
+                        newA.setAttribute('class', 'google-icon');
+                        newA.setAttribute('title', googleText);
+                        socialMediaContainer.appendChild(newA);
+                      }
+
+                      if(twitterText){
+                        let newA = document.createElement('a');
+                        newA.setAttribute('class', 'twitter-icon');
+                        newA.setAttribute('href', twitterText);
+                        socialMediaContainer.appendChild(newA);
+                      }
+
+                      if(instagramText){
+                        let newA = document.createElement('a');
+                        newA.setAttribute('class', 'instagram-icon');
+                        newA.setAttribute('href', instagramText);
+                        socialMediaContainer.appendChild(newA);
+                      }
+                      
+                      let facebookInput = document.querySelector('#facebook');
+                      let googleInput = document.querySelector('#google');
+                      let twitterInput = document.querySelector('#twitter');
+                      let instagramInput = document.querySelector('#instagram');
+
+                      facebookInput.value = facebookText;
+                      googleInput.value = googleText;
+                      twitterInput.value = twitterText;
+                      instagramInput.value = instagramText;
+                  </script>";
+        }
+    }
+
     public function adminChange($id)
     {
         $sql = "SELECT * FROM super_admin WHERE id = ?";
@@ -6132,6 +6291,50 @@ Class Payroll
         }
     }
 
+    // feedback
+    public function sendFeedback($fullname)
+    {
+        if(isset($_POST['sendFeedbackbtn'])){
+            $position = "Administrator";
+            $category = $_POST['category'];
+            $comment = $_POST['comment'];
+            $datetime = $this->getDateTime();
+            $date = $datetime['date'];
+
+            if(empty($category) ||
+               empty($comment) ||
+               empty($fullname)
+            ){
+                echo "Input fields are required!";
+            } else {
+                
+                $sql = "INSERT INTO feedback(fullname, position, category, comment, date_created)
+                        VALUES(?, ?, ?, ?, ?)";
+                $stmt = $this->con()->prepare($sql);
+                $stmt->execute([$fullname, $position, $category, $comment, $date]);
+                $countRow = $stmt->rowCount();
+
+                if($countRow > 0){
+                    $msg = "Sent Successfully";
+                    echo "<script>window.location.assign('./feedback.php?message=$msg');</script>";
+                } else {
+                    echo "<div class='error'>
+                            <div class='icon-container'>
+                                <span class='material-icons'>close</span>
+                            </div>
+                            <p>Send Failed</p>
+                            <div class='closeContainer'>
+                                <span class='material-icons'>close</span>
+                            </div>
+                          </div>";
+                }
+            }
+
+        }
+    }
+
+
+
     // for new company
     // for newly added company
     public function newlyaddedcompany()
@@ -6315,14 +6518,24 @@ Class Payroll
                 $userFindEmail = $stmtFindEmail->fetch();
                 $countRowFindEmail = $stmtFindEmail->rowCount();
 
-                // check if company name and email already exists
-                $sqlFindAcc = "SELECT * FROM company WHERE company_name = ?";
+                // check if company name already exists and not deleted
+                $sqlFindAccNot = "SELECT * FROM company WHERE company_name = ? AND email = ? AND isDeleted = 0";
+                $stmtFindAccNot = $this->con()->prepare($sqlFindAccNot);
+                $stmtFindAccNot->execute([$company_name]);
+                $userFindAccNot = $stmtFindAccNot->fetch();
+                $countRowFindAccNot = $stmtFindAccNot->rowCount();
+
+                // check if company name already exists and deleted
+                $sqlFindAcc = "SELECT * FROM company WHERE company_name = ? AND email = ? AND isDeleted = 1";
                 $stmtFindAcc = $this->con()->prepare($sqlFindAcc);
                 $stmtFindAcc->execute([$company_name]);
                 $userFindAcc = $stmtFindAcc->fetch();
                 $countRowFindAcc = $stmtFindAcc->rowCount();
 
-                if($countRowFindAcc > 0){
+                if($countRowFindAccNot > 0){
+                    $msg = "Company Already Exist!";
+                    echo "<script>window.location.assign('company.php?message2=$msg');</script>";
+                } elseif($countRowFindAcc > 0){
                     $msg = "Company Already Exist! Request Restoration";
                     echo "<script>window.location.assign('company.php?message2=$msg');</script>";
                 } elseif($countRowFindEmail > 0){
@@ -6451,14 +6664,24 @@ Class Payroll
                 $userFindEmail = $stmtFindEmail->fetch();
                 $countRowFindEmail = $stmtFindEmail->rowCount();
 
-                // check if company name and email already exists
-                $sqlFindAcc = "SELECT * FROM company WHERE company_name = ? AND email = ?";
+                // check if company name already exists
+                $sqlFindAccNot = "SELECT * FROM company WHERE company_name = ? AND email = ? AND isDeleted = 0";
+                $stmtFindAccNot = $this->con()->prepare($sqlFindAccNot);
+                $stmtFindAccNot->execute([$company_name, $email]);
+                $userFindAccNot = $stmtFindAccNot->fetch();
+                $countRowFindAccNot = $stmtFindAccNot->rowCount();
+
+                // check if company name already exists
+                $sqlFindAcc = "SELECT * FROM company WHERE company_name = ? AND email = ? AND isDeleted = 1";
                 $stmtFindAcc = $this->con()->prepare($sqlFindAcc);
                 $stmtFindAcc->execute([$company_name, $email]);
                 $userFindAcc = $stmtFindAcc->fetch();
                 $countRowFindAcc = $stmtFindAcc->rowCount();
 
-                if($countRowFindAcc > 0){
+                if($countRowFindAccNot > 0){
+                    $msg = "Company Already Exist!";
+                    echo "<script>window.location.assign('company.php?message2=$msg');</script>";
+                } elseif($countRowFindAcc > 0){
                     $msg = "Company Already Exist! Request Restoration";
                     echo "<script>window.location.assign('company.php?message2=$msg');</script>";
                 } elseif($countRowFindEmail > 0){
@@ -6955,7 +7178,9 @@ Class Payroll
     {
         $sql = "SELECT * FROM `positions` WHERE company = '$company'";
         $stmt = $this->con()->query($sql);
+        $countRow = $stmt->rowCount();
         while($row = $stmt->fetch()){
+
             echo "<tr>
                     <td>$row->id</td>
                     <td>$row->position_name</td>
@@ -7113,7 +7338,7 @@ Class Payroll
                                 <div>
                                     <input type='hidden' value='$user->id' name='position_id' required/>
                                     <label for=''>Position</label>
-                                    <input type='text' name='position_name' value='$user->position_name' onkeydown='return /^[a-zA-Z\s]*$/i.test(event.key)' autocomplete='off' required/>
+                                    <input type='text' name='position_name' id='detectOIC' value='$user->position_name' onkeydown='return /^[a-zA-Z\s]*$/i.test(event.key)' autocomplete='off' required/>
                                 </div>
                                 <div>
                                     <label for=''>Rates per hour</label>
@@ -7136,6 +7361,11 @@ Class Payroll
                     editposModalClose.onclick = () => {
                         let editposModal = document.querySelector('.editpos-modal');
                         editposModal.style.display = 'none';
+                    }
+
+                    let detectOIC = document.querySelector('#detectOIC');
+                    if(detectOIC.value == 'Officer in Charge'){
+                        detectOIC.readOnly = true;
                     }
                   </script>";
         } else {

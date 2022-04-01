@@ -926,7 +926,7 @@
                         }
                     }
 
-                    & > div:first-child {
+                    & > div:nth-child(1) {
 
                         &:hover {
 
@@ -946,7 +946,17 @@
                         }
                     }
 
-                    & > div:last-child {
+                    & > div:nth-child(2) {
+
+                        &:hover {
+
+                            & > a { color: #000; }
+                        }
+
+                        & > a { color: #B7B7B7 !important; }
+                    }
+
+                    & > div:nth-child(3) {
 
                         &:hover {
 

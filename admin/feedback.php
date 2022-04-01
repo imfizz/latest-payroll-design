@@ -2,7 +2,7 @@
 require_once('../class.php');
 $sessionData = $payroll->getSessionData();
 $payroll->verifyUserAccess($sessionData['access'], $sessionData['fullname'], 2);
-$payroll->adminChangePassword($sessionData['id'], $sessionData['fullname'], $sessionData['id']);
+$payroll->sendFeedback($sessionData['fullname']);
 $payroll->maintenance();
 
 
@@ -19,11 +19,11 @@ if(isset($_GET['message'])){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Change Password</title>
+    <title>Send Feedback</title>
     <link rel="icon" href="../styles/img/icon.png">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="../styles/mincss/passInfo.min.css">
+    <link rel="stylesheet" href="../styles/mincss/feedback.min.css">
 </head>
 <body>
     <div class="main-container">
@@ -87,7 +87,7 @@ if(isset($_GET['message'])){
                                     </div>
                                 </div>
                                 <div>
-                                    <button type="button" id="toggleForm">Change</button>
+                                    <button type="button" id="toggleForm">Send Feedback</button>
                                 </div>
                             </div>
                             <div class="about-me-container">
@@ -127,29 +127,25 @@ if(isset($_GET['message'])){
             </div>
             <div class="editing-content" id="iAmForm">
                 <div class="editing-content-header">
-                    <h1>Change Password</h1>
+                    <h1>Send Feedback</h1>
                 </div>
                 <div class="editing-content-content">
                     <form method="POST">
 
                         <div>
-                            <label for="username">Email</label>
-                            <input type="email" name="email" id="username" autocomplete="off" readonly required/>
+                            <label for="category">Category</label>
+                            <select name="category" id="category" required>
+                                <option value="">Select Category</option>
+                                <option value="Suggestion">Suggestion</option>
+                                <option value="Report Bug">Report Bug</option>
+                            </select>
                         </div>
                         <div>
-                            <label for="current_password">Current Password</label>
-                            <input type="password" name="current_password" id="current_password" autofocus autocomplete="off" required/>
-                        </div>
-                        <div>
-                            <label for="new_password">New Password</label>
-                            <input type="password" name="new_password" id="new_password" onChange="onChange()" autocomplete="off" required/>
-                        </div>
-                        <div>
-                            <label for="confirm_password">Confirm Password</label>
-                            <input type="password" name="confirm_password" id="confirm_password" onChange="onChange()" autocomplete="off" required/>
+                            <label for="comment">Comment</label>
+                            <textarea name="comment" id="comment" cols="30" rows="10" required></textarea>
                         </div>
 
-                        <button type='submit' name='saveChanges'>Save Changes</button>
+                        <button type='submit' name='sendFeedbackbtn'>Send Feedback</button>
                     </form>
                 </div>
             </div>
@@ -159,7 +155,7 @@ if(isset($_GET['message'])){
     <!-- for success action -->
     <input type='hidden' id='msg' value='<?= $msg; ?>' />
 
-    <?= $payroll->adminChange($sessionData['id']); ?>
+    <?= $payroll->adminFeedback($sessionData['id']); ?>
     <script>
         let loadFile = function(event) {
             let image = document.getElementById('output');
@@ -173,21 +169,10 @@ if(isset($_GET['message'])){
             myForm.classList.toggle('form-active');
             toggleForm.classList.toggle('btn-active');
             
-            if(toggleForm.innerText == 'Change'){
+            if(toggleForm.innerText == 'Send Feedback'){
                 toggleForm.innerText = 'Cancel';
             } else {
-                toggleForm.innerText = 'Change';
-            }
-        }
-
-        function onChange() {
-            const password = document.querySelector('#new_password');
-            const confirm = document.querySelector('#confirm_password');
-
-            if (confirm.value === password.value) {
-                confirm.setCustomValidity('');
-            } else {
-                confirm.setCustomValidity('Passwords do not match');
+                toggleForm.innerText = 'Send Feedback';
             }
         }
 

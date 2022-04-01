@@ -70,6 +70,9 @@ if(isset($_GET['message'])){
                             <a href="./profile.php">Admin Profile</a>
                         </div>
                         <div>
+                            <a href="./feedback.php">Feedback</a>
+                        </div>
+                        <div>
                             <a href="./passInfo.php">Change Password</a>
                         </div>
                     </div>
