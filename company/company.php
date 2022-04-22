@@ -89,6 +89,20 @@ if(isset($_GET['message2'])){
             <div class="newlyadded-info">
                 <div class="newlyadded-header">
                     <h2>Newly Added</h2>
+                    <div class='color-coding'>
+                        <div class='recent-container'>
+                            <div title='Recent'></div>
+                            <span>Recent</span>
+                        </div>
+                        <div class='late-container'>
+                            <div title='Late'></div>
+                            <span>Late</span>
+                        </div>
+                        <div class='old-container'>
+                            <div title='Old'></div>
+                            <span>Old</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="newlyadded-cards">
                     <?php $payroll->newlyaddedcompany(); ?>

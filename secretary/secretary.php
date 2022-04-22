@@ -122,11 +122,11 @@ if(isset($_GET['message2'])){
                 <div class="sidenav-content">
                     <div>
                         <span></span>
-                        <a href="../employee/showEmployees.php">Available Guard</a>
+                        <a href="../employee/showEmployees.php">Available Employee</a>
                     </div>
                     <div>
                         <span></span>
-                        <a href="../employee/unavailable.php">Unavailable Guard</a>
+                        <a href="../employee/unavailable.php">Unavailable Employee</a>
                     </div>
                     <div>
                         <span></span>

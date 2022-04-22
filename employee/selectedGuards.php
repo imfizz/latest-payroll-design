@@ -156,7 +156,7 @@ $payroll->maintenance();
                                 </div>
                             </div>
                             <br/>
-                            <button type="submit" name="assignguards">Assign Guards</button>
+                            <button type="submit" name="assignguards">Assign Employees</button>
                         </div>
                 
                         <div class="right">

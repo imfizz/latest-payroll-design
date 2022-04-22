@@ -183,27 +183,19 @@ Class Payroll
                 $userId = $usersTimer->id;
                 $userAccess = $usersTimer->access;
                 $accessSuspended = "suspended";
-                
+
+                $datetimeGet = $this->getDateTime();
+                $finalData = $datetimeGet['date']." ".date('h:i:sa', strtotime('+6 hours'));
 
                 // update column timer set value to DATENOW - 6HRS
                 
-                $updateTimerSql = "UPDATE `super_admin` 
-                                   SET `timer` = NOW() + INTERVAL 6 HOUR, 
-                                       `access` = '$accessSuspended'
-                                   WHERE `id` = $userId;
-                
-                                   SET GLOBAL event_scheduler='ON';
-                                   CREATE EVENT one_time_event
-                                   ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 6 HOUR
-                                   ON COMPLETION NOT PRESERVE
-                                   DO
-                                      UPDATE `super_admin` 
-                                      SET `timer` = NULL, 
-                                          `access` = '$userAccess' 
-                                      WHERE `id` = $userId;
+                $updateTimerSql = "UPDATE super_admin 
+                                   SET timer = ?, 
+                                       access = ?
+                                   WHERE id = ?;
                                   ";
                 $updateTimerStmt = $this->con()->prepare($updateTimerSql);
-                $updateTimerStmt->execute();
+                $updateTimerStmt->execute([$finalData, $accessSuspended, $userId]);
                 $updateCountRow = $updateTimerStmt->rowCount();
 
                 // checking if the column was updated already
@@ -234,7 +226,7 @@ Class Payroll
                 } else {
                     // check if email is exist using a function
                     $checkEmailArray = $this->checkEmailExist($username); // returns an array(true, cho@gmail.com)
-                    $passwordArray = $checkEmailArray[1]; // password ni cho
+                    $passwordArray = $checkEmailArray[1]; // password ni cho na naka md5
 
                     // kapag ang unang array ay nag true
                     if($checkEmailArray[0]){
@@ -481,7 +473,7 @@ Class Payroll
             } elseif($access == 'secretary'){
                 echo 'Welcome '.$fullname.' ('.$access.')';
             } else {
-                header("Location: ".$level."login.php?message=$message");
+                header("Location: ".$level."login.php?message2=$message");
             }
         } else {
             if($access == 'administrator'){
@@ -490,7 +482,7 @@ Class Payroll
                 // red
                 echo 'Welcome '.$fullname.' ('.$access.')';
             } else {
-                header("Location: login.php?message=$message");
+                header("Location: login.php?message2=$message");
             }
         }
     }
@@ -2946,6 +2938,64 @@ Class Payroll
 
                 }
             } 
+        } elseif($empPosition == 'Secretary'){
+            $sqlCompany = "SELECT * FROM company WHERE company_name = ?";
+            $stmtCompany = $this->con()->prepare($sqlCompany);
+            $stmtCompany->execute([$company]);
+            $userCompany = $stmtCompany->fetch();
+            $countRowCompany = $stmtCompany->rowCount();
+
+            if($countRowCompany > 0){
+                $empLocation = $userCompany->comp_location;
+                $empShiftSpan = $userCompany->shift_span;
+
+                $empShift = $userCompany->shifts;
+                $empDayStart = "";
+                $empDayEnd = "";
+
+                if($empShift == 'night'){
+                    $empDayStart = date("h:i a", strtotime($userCompany->day_start." +".$userCompany->shift_span." hours"));
+                    $empDayEnd = date("h:i a", strtotime($empDayStart." +".$userCompany->shift_span." hours"));
+                } else {
+                    $empDayStart = date("h:i a", strtotime($userCompany->day_start));
+                    $empDayEnd = date("h:i a", strtotime($userCompany->day_start." +".$userCompany->shift_span." hours"));
+                }
+
+                $name = 'JTDV Incorporation';
+                $body = "Congratulations! You have been assigned to $company. The company located at $empLocation. <br/>
+                         Shift type: $empShift <br/>
+                         Your schedule: $empDayStart - $empDayEnd <br/>
+                         Position: $empPosition <br/>
+                         Rate per hour: $empPrice <br/>
+                         Overtime Rate: $empOt <br/>
+                         Contract: $expdate
+                        ";
+
+                if(!empty($email)){
+
+                    $mail = new PHPMailer();
+
+                    // smtp settings
+                    $mail->isSMTP();
+                    $mail->Host = "smtp.gmail.com";
+                    $mail->SMTPAuth = true;
+                    $mail->Username = $this->e_username;  // gmail address
+                    $mail->Password = $this->e_password;  // gmail password
+
+                    $mail->Port = 465;
+                    $mail->SMTPSecure = "ssl";
+
+                    // email settings
+                    $mail->isHTML(true);
+                    $mail->setFrom($email, $name);              // Katabi ng user image
+                    $mail->addAddress($email);                  // gmail address ng pagsesendan
+                    $mail->Subject = ("$email");                // headline
+                    $mail->Body = $body;                        // textarea
+
+                    $mail->send();
+
+                }
+            } 
         } else {
             // not officer in charge
 
@@ -3040,6 +3090,636 @@ Class Payroll
 
                     if($position == 'Officer in Charge'){
                         
+                        // pag di ka manual meron ka sched
+                        $companyShift = $userCompany->shifts;
+                        $companyShiftSpan = $userCompany->shift_span;
+                        $companyStart = "";
+
+                        if($companyShift == 'night'){
+                                $companyStart = date("h:i a", strtotime($userCompany->day_start." +".$companyShiftSpan." hours"));
+                        } else {
+                            $companyStart = $userCompany->day_start;
+                        }
+
+                        $companyEnd = date("h:i a", strtotime($companyStart." +".$companyShiftSpan." hours"));
+
+                        $sql = "INSERT INTO schedule(empId, 
+                                                     company, 
+                                                     scheduleTimeIn, 
+                                                     scheduleTimeOut, 
+                                                     shift,
+                                                     shift_span,
+                                                     expiration_date
+                                                    )
+                                VALUES(?, ?, ?, ?, ?, ?, ?)";
+                        $stmt = $this->con()->prepare($sql);
+                        $stmt->execute([$empId, 
+                                        $company, 
+                                        $companyStart,
+                                        $companyEnd,
+                                        $companyShift,
+                                        $companyShiftSpan,
+                                        $expiration_date
+                                       ]);
+                        $countRow = $stmt->rowCount();
+
+                        if($countRow > 0){
+                            $sqlEmpUpdate = "UPDATE employee
+                                             SET position = ?,
+                                                 ratesperDay = ?,
+                                                 overtime_rate = ?,
+                                                 availability = ?
+                                             WHERE empId = ?";
+                            $stmtEmpUpdate = $this->con()->prepare($sqlEmpUpdate);
+                            $stmtEmpUpdate->execute([$position, $ratesperDay, $ot, $availability, $empId]);
+                            $countRowEmpUpdate = $stmtEmpUpdate->rowCount();
+
+                            if($countRowEmpUpdate > 0){
+
+                                $sqlHR = "SELECT * FROM company WHERE company_name = ?";
+                                $stmtHR = $this->con()->prepare($sqlHR);
+                                $stmtHR->execute([$company]);
+                                $usersHR = $stmtHR->fetch();
+                                $countRowHR = $stmtHR->rowCount();
+                                $hiredGuards = 0;
+
+                                $intUsersHR = intval($usersHR->hired_guards);
+                                    
+                                if($countRowHR > 0){
+                                    if($intUsersHR == 0 || 
+                                        $intUsersHR == '0' || 
+                                        $intUsersHR == NULL ||
+                                        $intUsersHR == 'NULL' ||
+                                        $intUsersHR == ''
+                                    ){
+                                        $hiredGuards = intval($intUsersHR) + 1;
+                                    } else {
+                                        $hiredGuards = intval($intUsersHR) + 1;
+                                    }
+                                }
+
+                                $sqlHiredGuards = "UPDATE company SET hired_guards = ? WHERE company_name = ?";
+                                $stmtHiredGuards = $this->con()->prepare($sqlHiredGuards);
+                                $stmtHiredGuards->execute([$hiredGuards, $company]);
+                                $countRowHiredGuards = $stmtHiredGuards->rowCount();
+
+                                if($countRowHiredGuards > 0){
+                                    $this->sendEmailForEmployee($email, $empId, $company, $expiration_date);
+
+                                    $action = "Assign";
+                                    $table_name = "Available Employee";
+                                    $admindatetime = $this->getDateTime();
+                                    $adminTime = $admindatetime['time'];
+                                    $adminDate = $admindatetime['date'];
+                                                                        
+                                    $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                                    $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                                    $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+                                }
+                                
+                                echo "<script>window.location.assign('employee.php');</script>";
+                            }
+                        } else {
+                            echo "<div class='error'>
+                                    <div class='icon-container'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                    <p>Submit Failed</p>
+                                    <div class='closeContainer'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                  </div>
+                                  <script>
+                                    let msgErr = document.querySelector('.error');
+                                    setTimeout(e => msgErr.remove(), 5000);
+                                  </script>";
+                        }
+                    } elseif($position == 'Inspector'){
+                        // pag di ka manual meron ka sched
+                        $companyShift = $userCompany->shifts;
+                        $companyShiftSpan = $userCompany->shift_span;
+                        $companyStart = "";
+
+                        if($companyShift == 'night'){
+                                $companyStart = date("h:i a", strtotime($userCompany->day_start." +".$companyShiftSpan." hours"));
+                        } else {
+                            $companyStart = $userCompany->day_start;
+                        }
+
+                        $companyEnd = date("h:i a", strtotime($companyStart." +".$companyShiftSpan." hours"));
+
+                        $sql = "INSERT INTO schedule(empId, 
+                                                     company, 
+                                                     scheduleTimeIn, 
+                                                     scheduleTimeOut, 
+                                                     shift,
+                                                     shift_span,
+                                                     expiration_date
+                                                    )
+                                VALUES(?, ?, ?, ?, ?, ?, ?)";
+                        $stmt = $this->con()->prepare($sql);
+                        $stmt->execute([$empId, 
+                                        $company, 
+                                        $companyStart,
+                                        $companyEnd,
+                                        $companyShift,
+                                        $companyShiftSpan,
+                                        $expiration_date
+                                       ]);
+                        $countRow = $stmt->rowCount();
+
+                        if($countRow > 0){
+                            $sqlEmpUpdate = "UPDATE employee
+                                             SET position = ?,
+                                                 ratesperDay = ?,
+                                                 overtime_rate = ?,
+                                                 availability = ?
+                                             WHERE empId = ?";
+                            $stmtEmpUpdate = $this->con()->prepare($sqlEmpUpdate);
+                            $stmtEmpUpdate->execute([$position, $ratesperDay, $ot, $availability, $empId]);
+                            $countRowEmpUpdate = $stmtEmpUpdate->rowCount();
+
+                            if($countRowEmpUpdate > 0){
+
+                                $sqlHR = "SELECT * FROM company WHERE company_name = ?";
+                                $stmtHR = $this->con()->prepare($sqlHR);
+                                $stmtHR->execute([$company]);
+                                $usersHR = $stmtHR->fetch();
+                                $countRowHR = $stmtHR->rowCount();
+                                $hiredGuards = 0;
+
+                                $intUsersHR = intval($usersHR->hired_guards);
+                                    
+                                if($countRowHR > 0){
+                                    if($intUsersHR == 0 || 
+                                        $intUsersHR == '0' || 
+                                        $intUsersHR == NULL ||
+                                        $intUsersHR == 'NULL' ||
+                                        $intUsersHR == ''
+                                    ){
+                                        $hiredGuards = intval($intUsersHR) + 1;
+                                    } else {
+                                        $hiredGuards = intval($intUsersHR) + 1;
+                                    }
+                                }
+
+                                $sqlHiredGuards = "UPDATE company SET hired_guards = ? WHERE company_name = ?";
+                                $stmtHiredGuards = $this->con()->prepare($sqlHiredGuards);
+                                $stmtHiredGuards->execute([$hiredGuards, $company]);
+                                $countRowHiredGuards = $stmtHiredGuards->rowCount();
+
+                                if($countRowHiredGuards > 0){
+                                    $this->sendEmailForEmployee($email, $empId, $company, $expiration_date);
+
+                                    $action = "Assign";
+                                    $table_name = "Available Employee";
+                                    $admindatetime = $this->getDateTime();
+                                    $adminTime = $admindatetime['time'];
+                                    $adminDate = $admindatetime['date'];
+                                                                        
+                                    $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                                    $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                                    $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+                                }
+                                
+                                echo "<script>window.location.assign('employee.php');</script>";
+                            }
+                        } else {
+                            echo "<div class='error'>
+                                    <div class='icon-container'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                    <p>Submit Failed</p>
+                                    <div class='closeContainer'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                  </div>
+                                  <script>
+                                    let msgErr = document.querySelector('.error');
+                                    setTimeout(e => msgErr.remove(), 5000);
+                                  </script>";
+                        }
+                    } elseif($position == 'Office Clerk'){
+                        // pag di ka manual meron ka sched
+                        $companyShift = $userCompany->shifts;
+                        $companyShiftSpan = $userCompany->shift_span;
+                        $companyStart = "";
+
+                        if($companyShift == 'night'){
+                                $companyStart = date("h:i a", strtotime($userCompany->day_start." +".$companyShiftSpan." hours"));
+                        } else {
+                            $companyStart = $userCompany->day_start;
+                        }
+
+                        $companyEnd = date("h:i a", strtotime($companyStart." +".$companyShiftSpan." hours"));
+
+                        $sql = "INSERT INTO schedule(empId, 
+                                                     company, 
+                                                     scheduleTimeIn, 
+                                                     scheduleTimeOut, 
+                                                     shift,
+                                                     shift_span,
+                                                     expiration_date
+                                                    )
+                                VALUES(?, ?, ?, ?, ?, ?, ?)";
+                        $stmt = $this->con()->prepare($sql);
+                        $stmt->execute([$empId, 
+                                        $company, 
+                                        $companyStart,
+                                        $companyEnd,
+                                        $companyShift,
+                                        $companyShiftSpan,
+                                        $expiration_date
+                                       ]);
+                        $countRow = $stmt->rowCount();
+
+                        if($countRow > 0){
+                            $sqlEmpUpdate = "UPDATE employee
+                                             SET position = ?,
+                                                 ratesperDay = ?,
+                                                 overtime_rate = ?,
+                                                 availability = ?
+                                             WHERE empId = ?";
+                            $stmtEmpUpdate = $this->con()->prepare($sqlEmpUpdate);
+                            $stmtEmpUpdate->execute([$position, $ratesperDay, $ot, $availability, $empId]);
+                            $countRowEmpUpdate = $stmtEmpUpdate->rowCount();
+
+                            if($countRowEmpUpdate > 0){
+
+                                $sqlHR = "SELECT * FROM company WHERE company_name = ?";
+                                $stmtHR = $this->con()->prepare($sqlHR);
+                                $stmtHR->execute([$company]);
+                                $usersHR = $stmtHR->fetch();
+                                $countRowHR = $stmtHR->rowCount();
+                                $hiredGuards = 0;
+
+                                $intUsersHR = intval($usersHR->hired_guards);
+                                    
+                                if($countRowHR > 0){
+                                    if($intUsersHR == 0 || 
+                                        $intUsersHR == '0' || 
+                                        $intUsersHR == NULL ||
+                                        $intUsersHR == 'NULL' ||
+                                        $intUsersHR == ''
+                                    ){
+                                        $hiredGuards = intval($intUsersHR) + 1;
+                                    } else {
+                                        $hiredGuards = intval($intUsersHR) + 1;
+                                    }
+                                }
+
+                                $sqlHiredGuards = "UPDATE company SET hired_guards = ? WHERE company_name = ?";
+                                $stmtHiredGuards = $this->con()->prepare($sqlHiredGuards);
+                                $stmtHiredGuards->execute([$hiredGuards, $company]);
+                                $countRowHiredGuards = $stmtHiredGuards->rowCount();
+
+                                if($countRowHiredGuards > 0){
+                                    $this->sendEmailForEmployee($email, $empId, $company, $expiration_date);
+
+                                    $action = "Assign";
+                                    $table_name = "Available Employee";
+                                    $admindatetime = $this->getDateTime();
+                                    $adminTime = $admindatetime['time'];
+                                    $adminDate = $admindatetime['date'];
+                                                                        
+                                    $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                                    $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                                    $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+                                }
+                                
+                                echo "<script>window.location.assign('employee.php');</script>";
+                            }
+                        } else {
+                            echo "<div class='error'>
+                                    <div class='icon-container'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                    <p>Submit Failed</p>
+                                    <div class='closeContainer'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                  </div>
+                                  <script>
+                                    let msgErr = document.querySelector('.error');
+                                    setTimeout(e => msgErr.remove(), 5000);
+                                  </script>";
+                        }
+                    } elseif($position == 'Head Finance'){
+                        // pag di ka manual meron ka sched
+                        $companyShift = $userCompany->shifts;
+                        $companyShiftSpan = $userCompany->shift_span;
+                        $companyStart = "";
+
+                        if($companyShift == 'night'){
+                                $companyStart = date("h:i a", strtotime($userCompany->day_start." +".$companyShiftSpan." hours"));
+                        } else {
+                            $companyStart = $userCompany->day_start;
+                        }
+
+                        $companyEnd = date("h:i a", strtotime($companyStart." +".$companyShiftSpan." hours"));
+
+                        $sql = "INSERT INTO schedule(empId, 
+                                                     company, 
+                                                     scheduleTimeIn, 
+                                                     scheduleTimeOut, 
+                                                     shift,
+                                                     shift_span,
+                                                     expiration_date
+                                                    )
+                                VALUES(?, ?, ?, ?, ?, ?, ?)";
+                        $stmt = $this->con()->prepare($sql);
+                        $stmt->execute([$empId, 
+                                        $company, 
+                                        $companyStart,
+                                        $companyEnd,
+                                        $companyShift,
+                                        $companyShiftSpan,
+                                        $expiration_date
+                                       ]);
+                        $countRow = $stmt->rowCount();
+
+                        if($countRow > 0){
+                            $sqlEmpUpdate = "UPDATE employee
+                                             SET position = ?,
+                                                 ratesperDay = ?,
+                                                 overtime_rate = ?,
+                                                 availability = ?
+                                             WHERE empId = ?";
+                            $stmtEmpUpdate = $this->con()->prepare($sqlEmpUpdate);
+                            $stmtEmpUpdate->execute([$position, $ratesperDay, $ot, $availability, $empId]);
+                            $countRowEmpUpdate = $stmtEmpUpdate->rowCount();
+
+                            if($countRowEmpUpdate > 0){
+
+                                $sqlHR = "SELECT * FROM company WHERE company_name = ?";
+                                $stmtHR = $this->con()->prepare($sqlHR);
+                                $stmtHR->execute([$company]);
+                                $usersHR = $stmtHR->fetch();
+                                $countRowHR = $stmtHR->rowCount();
+                                $hiredGuards = 0;
+
+                                $intUsersHR = intval($usersHR->hired_guards);
+                                    
+                                if($countRowHR > 0){
+                                    if($intUsersHR == 0 || 
+                                        $intUsersHR == '0' || 
+                                        $intUsersHR == NULL ||
+                                        $intUsersHR == 'NULL' ||
+                                        $intUsersHR == ''
+                                    ){
+                                        $hiredGuards = intval($intUsersHR) + 1;
+                                    } else {
+                                        $hiredGuards = intval($intUsersHR) + 1;
+                                    }
+                                }
+
+                                $sqlHiredGuards = "UPDATE company SET hired_guards = ? WHERE company_name = ?";
+                                $stmtHiredGuards = $this->con()->prepare($sqlHiredGuards);
+                                $stmtHiredGuards->execute([$hiredGuards, $company]);
+                                $countRowHiredGuards = $stmtHiredGuards->rowCount();
+
+                                if($countRowHiredGuards > 0){
+                                    $this->sendEmailForEmployee($email, $empId, $company, $expiration_date);
+
+                                    $action = "Assign";
+                                    $table_name = "Available Employee";
+                                    $admindatetime = $this->getDateTime();
+                                    $adminTime = $admindatetime['time'];
+                                    $adminDate = $admindatetime['date'];
+                                                                        
+                                    $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                                    $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                                    $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+                                }
+                                
+                                echo "<script>window.location.assign('employee.php');</script>";
+                            }
+                        } else {
+                            echo "<div class='error'>
+                                    <div class='icon-container'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                    <p>Submit Failed</p>
+                                    <div class='closeContainer'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                  </div>
+                                  <script>
+                                    let msgErr = document.querySelector('.error');
+                                    setTimeout(e => msgErr.remove(), 5000);
+                                  </script>";
+                        }
+                    } elseif($position == 'Operation Manager'){
+                        // pag di ka manual meron ka sched
+                        $companyShift = $userCompany->shifts;
+                        $companyShiftSpan = $userCompany->shift_span;
+                        $companyStart = "";
+
+                        if($companyShift == 'night'){
+                                $companyStart = date("h:i a", strtotime($userCompany->day_start." +".$companyShiftSpan." hours"));
+                        } else {
+                            $companyStart = $userCompany->day_start;
+                        }
+
+                        $companyEnd = date("h:i a", strtotime($companyStart." +".$companyShiftSpan." hours"));
+
+                        $sql = "INSERT INTO schedule(empId, 
+                                                     company, 
+                                                     scheduleTimeIn, 
+                                                     scheduleTimeOut, 
+                                                     shift,
+                                                     shift_span,
+                                                     expiration_date
+                                                    )
+                                VALUES(?, ?, ?, ?, ?, ?, ?)";
+                        $stmt = $this->con()->prepare($sql);
+                        $stmt->execute([$empId, 
+                                        $company, 
+                                        $companyStart,
+                                        $companyEnd,
+                                        $companyShift,
+                                        $companyShiftSpan,
+                                        $expiration_date
+                                       ]);
+                        $countRow = $stmt->rowCount();
+
+                        if($countRow > 0){
+                            $sqlEmpUpdate = "UPDATE employee
+                                             SET position = ?,
+                                                 ratesperDay = ?,
+                                                 overtime_rate = ?,
+                                                 availability = ?
+                                             WHERE empId = ?";
+                            $stmtEmpUpdate = $this->con()->prepare($sqlEmpUpdate);
+                            $stmtEmpUpdate->execute([$position, $ratesperDay, $ot, $availability, $empId]);
+                            $countRowEmpUpdate = $stmtEmpUpdate->rowCount();
+
+                            if($countRowEmpUpdate > 0){
+
+                                $sqlHR = "SELECT * FROM company WHERE company_name = ?";
+                                $stmtHR = $this->con()->prepare($sqlHR);
+                                $stmtHR->execute([$company]);
+                                $usersHR = $stmtHR->fetch();
+                                $countRowHR = $stmtHR->rowCount();
+                                $hiredGuards = 0;
+
+                                $intUsersHR = intval($usersHR->hired_guards);
+                                    
+                                if($countRowHR > 0){
+                                    if($intUsersHR == 0 || 
+                                        $intUsersHR == '0' || 
+                                        $intUsersHR == NULL ||
+                                        $intUsersHR == 'NULL' ||
+                                        $intUsersHR == ''
+                                    ){
+                                        $hiredGuards = intval($intUsersHR) + 1;
+                                    } else {
+                                        $hiredGuards = intval($intUsersHR) + 1;
+                                    }
+                                }
+
+                                $sqlHiredGuards = "UPDATE company SET hired_guards = ? WHERE company_name = ?";
+                                $stmtHiredGuards = $this->con()->prepare($sqlHiredGuards);
+                                $stmtHiredGuards->execute([$hiredGuards, $company]);
+                                $countRowHiredGuards = $stmtHiredGuards->rowCount();
+
+                                if($countRowHiredGuards > 0){
+                                    $this->sendEmailForEmployee($email, $empId, $company, $expiration_date);
+
+                                    $action = "Assign";
+                                    $table_name = "Available Employee";
+                                    $admindatetime = $this->getDateTime();
+                                    $adminTime = $admindatetime['time'];
+                                    $adminDate = $admindatetime['date'];
+                                                                        
+                                    $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                                    $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                                    $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+                                }
+                                
+                                echo "<script>window.location.assign('employee.php');</script>";
+                            }
+                        } else {
+                            echo "<div class='error'>
+                                    <div class='icon-container'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                    <p>Submit Failed</p>
+                                    <div class='closeContainer'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                  </div>
+                                  <script>
+                                    let msgErr = document.querySelector('.error');
+                                    setTimeout(e => msgErr.remove(), 5000);
+                                  </script>";
+                        }
+                    } elseif($position == 'Collector'){
+                        // pag di ka manual meron ka sched
+                        $companyShift = $userCompany->shifts;
+                        $companyShiftSpan = $userCompany->shift_span;
+                        $companyStart = "";
+
+                        if($companyShift == 'night'){
+                                $companyStart = date("h:i a", strtotime($userCompany->day_start." +".$companyShiftSpan." hours"));
+                        } else {
+                            $companyStart = $userCompany->day_start;
+                        }
+
+                        $companyEnd = date("h:i a", strtotime($companyStart." +".$companyShiftSpan." hours"));
+
+                        $sql = "INSERT INTO schedule(empId, 
+                                                     company, 
+                                                     scheduleTimeIn, 
+                                                     scheduleTimeOut, 
+                                                     shift,
+                                                     shift_span,
+                                                     expiration_date
+                                                    )
+                                VALUES(?, ?, ?, ?, ?, ?, ?)";
+                        $stmt = $this->con()->prepare($sql);
+                        $stmt->execute([$empId, 
+                                        $company, 
+                                        $companyStart,
+                                        $companyEnd,
+                                        $companyShift,
+                                        $companyShiftSpan,
+                                        $expiration_date
+                                       ]);
+                        $countRow = $stmt->rowCount();
+
+                        if($countRow > 0){
+                            $sqlEmpUpdate = "UPDATE employee
+                                             SET position = ?,
+                                                 ratesperDay = ?,
+                                                 overtime_rate = ?,
+                                                 availability = ?
+                                             WHERE empId = ?";
+                            $stmtEmpUpdate = $this->con()->prepare($sqlEmpUpdate);
+                            $stmtEmpUpdate->execute([$position, $ratesperDay, $ot, $availability, $empId]);
+                            $countRowEmpUpdate = $stmtEmpUpdate->rowCount();
+
+                            if($countRowEmpUpdate > 0){
+
+                                $sqlHR = "SELECT * FROM company WHERE company_name = ?";
+                                $stmtHR = $this->con()->prepare($sqlHR);
+                                $stmtHR->execute([$company]);
+                                $usersHR = $stmtHR->fetch();
+                                $countRowHR = $stmtHR->rowCount();
+                                $hiredGuards = 0;
+
+                                $intUsersHR = intval($usersHR->hired_guards);
+                                    
+                                if($countRowHR > 0){
+                                    if($intUsersHR == 0 || 
+                                        $intUsersHR == '0' || 
+                                        $intUsersHR == NULL ||
+                                        $intUsersHR == 'NULL' ||
+                                        $intUsersHR == ''
+                                    ){
+                                        $hiredGuards = intval($intUsersHR) + 1;
+                                    } else {
+                                        $hiredGuards = intval($intUsersHR) + 1;
+                                    }
+                                }
+
+                                $sqlHiredGuards = "UPDATE company SET hired_guards = ? WHERE company_name = ?";
+                                $stmtHiredGuards = $this->con()->prepare($sqlHiredGuards);
+                                $stmtHiredGuards->execute([$hiredGuards, $company]);
+                                $countRowHiredGuards = $stmtHiredGuards->rowCount();
+
+                                if($countRowHiredGuards > 0){
+                                    $this->sendEmailForEmployee($email, $empId, $company, $expiration_date);
+
+                                    $action = "Assign";
+                                    $table_name = "Available Employee";
+                                    $admindatetime = $this->getDateTime();
+                                    $adminTime = $admindatetime['time'];
+                                    $adminDate = $admindatetime['date'];
+                                                                        
+                                    $sqlAdminLog = "INSERT INTO admin_log(admin_id, name, action, table_name, time, date) VALUES(?, ?, ?, ?, ?, ?)";
+                                    $stmtAdminLog = $this->con()->prepare($sqlAdminLog);
+                                    $stmtAdminLog->execute([$adminId, $adminFullname, $action, $table_name, $adminTime, $adminDate]);
+                                }
+                                
+                                echo "<script>window.location.assign('employee.php');</script>";
+                            }
+                        } else {
+                            echo "<div class='error'>
+                                    <div class='icon-container'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                    <p>Submit Failed</p>
+                                    <div class='closeContainer'>
+                                        <span class='material-icons'>close</span>
+                                    </div>
+                                  </div>
+                                  <script>
+                                    let msgErr = document.querySelector('.error');
+                                    setTimeout(e => msgErr.remove(), 5000);
+                                  </script>";
+                        }
+                    } elseif($position == 'Secretary'){
                         // pag di ka manual meron ka sched
                         $companyShift = $userCompany->shifts;
                         $companyShiftSpan = $userCompany->shift_span;
@@ -3541,7 +4221,8 @@ Class Payroll
                 WHERE 
                     status != 'pending' 
                 AND 
-                    date_admin BETWEEN date_sub(curdate(),interval 30 day) AND curdate()";
+                    date_admin BETWEEN date_sub(curdate(),interval 30 day) AND curdate()
+                ORDER BY l.date_admin DESC";
         $stmt = $this->con()->query($sql);
         $countRow = $stmt->rowCount();
 
@@ -4535,7 +5216,8 @@ Class Payroll
                 INNER JOIN employee e
                 ON v.empId = e.empId
                 WHERE v.remark IS NULL
-                AND e.isDeleted = 0";
+                AND e.isDeleted = 0
+                ORDER BY v.id DESC";
         $stmt = $this->con()->prepare($sql);
         $stmt->execute();
         $countRow = $stmt->rowCount();
@@ -5004,8 +5686,7 @@ Class Payroll
 
         $sql = "SELECT * FROM schedule 
                 WHERE date_assigned BETWEEN CURRENT_DATE - 15 
-                                        AND CURRENT_DATE
-                ORDER BY id DESC";
+                                        AND CURRENT_DATE";
         $stmt = $this->con()->prepare($sql);
         $stmt->execute();
         $users = $stmt->fetch();
@@ -5050,7 +5731,8 @@ Class Payroll
                 INNER JOIN company c
                 ON s.company = c.company_name
                 WHERE s.date_assigned BETWEEN CURRENT_DATE - 15
-                                      AND CURRENT_DATE";
+                                      AND CURRENT_DATE
+                ORDER BY s.date_assigned DESC";
         $stmt = $this->con()->query($sql);
         while($row = $stmt->fetch()){
             $fullname = $row->firstname ." ".$row->lastname;
@@ -7919,7 +8601,8 @@ Class Payroll
                 WHERE table_name = 'Available Employee' || 
                     table_name = 'Unavailable Employee' || 
                     table_name = 'Available Employee QR' ||
-                    table_name = 'Unavailable Employee QR'";
+                    table_name = 'Unavailable Employee QR'
+                ORDER BY date DESC";
         $stmt = $this->con()->query($sql);
         $countRow = $stmt->rowCount();
 
@@ -7949,7 +8632,8 @@ Class Payroll
         $sql = "SELECT * 
                 FROM admin_log 
                 WHERE table_name = 'Company' || 
-                      table_name = 'Company Position'";
+                      table_name = 'Company Position'
+                ORDER BY date DESC";
         $stmt = $this->con()->query($sql);
         $countRow = $stmt->rowCount();
 
@@ -7978,7 +8662,8 @@ Class Payroll
     {
         $sql = "SELECT * 
                 FROM admin_log 
-                WHERE table_name = 'Secretary'";
+                WHERE table_name = 'Secretary'
+                ORDER BY date DESC";
         $stmt = $this->con()->query($sql);
         $countRow = $stmt->rowCount();
 
@@ -8007,7 +8692,8 @@ Class Payroll
     {
         $sql = "SELECT * 
                 FROM admin_log 
-                WHERE table_name = 'Leave'";
+                WHERE table_name = 'Leave'
+                ORDER BY date DESC";
         $stmt = $this->con()->query($sql);
         $countRow = $stmt->rowCount();
 
@@ -8036,7 +8722,8 @@ Class Payroll
     {
         $sql = "SELECT * 
                 FROM admin_log 
-                WHERE table_name = 'Remarks'";
+                WHERE table_name = 'Remarks'
+                ORDER BY date DESC";
         $stmt = $this->con()->query($sql);
         $countRow = $stmt->rowCount();
 
@@ -8066,7 +8753,8 @@ Class Payroll
         $sql = "SELECT * 
                 FROM admin_log 
                 WHERE table_name = 'Login' || 
-                      table_name = 'Profile'";
+                      table_name = 'Profile'
+                ORDER BY date DESC";
         $stmt = $this->con()->query($sql);
         $countRow = $stmt->rowCount();
 

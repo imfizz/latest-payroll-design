@@ -121,12 +121,12 @@ if(isset($_GET['message'])){
                         <a href="../employee/unavailable.php"><span></span></a>
                     </div>
                     <div>
-                        <a href="../employee/unavailable.php">Unavailable Guards</a>
+                        <a href="../employee/unavailable.php">Unavailable Employee</a>
                     </div>
                 </div>
                 <div class="bottom">
                     <div>
-                        <p>Available Guard</p>
+                        <p>Available Employee</p>
                         <div>
                             <a href="../employee/showEmployees.php"><span></span></a>
                         </div>
